@@ -1,3 +1,0 @@
-Modification of the progress of the opening and saving process.
-Added the possibility to modify a line (long press).
-Code optimization.

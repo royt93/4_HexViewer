@@ -1,2 +1,0 @@
-* Portuguese (Brazil) translation added, thanks to Bardock88.
-* Code improvement (Sonarcloud).

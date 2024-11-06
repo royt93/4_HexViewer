@@ -1,2 +1,0 @@
-* Update of the Hungarian translation (thanks to @SziaTomi).
-* Italian translation added (thanks to @eUgEntOptIc44).

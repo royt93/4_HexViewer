@@ -1,2 +1,0 @@
-Conversion of the project into an android studio project.
-Code optimization.

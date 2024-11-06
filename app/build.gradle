@@ -91,18 +91,15 @@ tasks.register('checkVersion') {
 }
 assemble.dependsOn checkVersion
 
-/**
- * Checks if a fastlane changelog for the current version is present.
- */
-tasks.register('checkFastlaneChangelog') {
-  int versionCode = android.defaultConfig.versionCode
-  File changelogFile = file("$rootDir/fastlane/metadata/android/en-US/changelogs/${versionCode}.txt")
-  if (!changelogFile.exists())
-    throw new GradleException(
-      "Fastlane changelog missing: expecting file '$changelogFile'"
-    )
-}
-build.dependsOn checkFastlaneChangelog
+//tasks.register('checkFastlaneChangelog') {
+//  int versionCode = android.defaultConfig.versionCode
+//  File changelogFile = file("$rootDir/fastlane/metadata/android/en-US/changelogs/${versionCode}.txt")
+//  if (!changelogFile.exists())
+//    throw new GradleException(
+//      "Fastlane changelog missing: expecting file '$changelogFile'"
+//    )
+//}
+//build.dependsOn checkFastlaneChangelog
 
 /**
  * Generates a versionCode based on the given semVer String.

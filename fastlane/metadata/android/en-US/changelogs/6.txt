@@ -1,2 +1,0 @@
-Modification of the application icon.
-Using the system file manager for file management.
