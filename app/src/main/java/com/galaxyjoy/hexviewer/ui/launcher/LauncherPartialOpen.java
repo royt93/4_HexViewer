@@ -1,4 +1,4 @@
-package com.galaxyjoy.hexviewer.ui.launchers;
+package com.galaxyjoy.hexviewer.ui.launcher;
 
 import android.app.Activity;
 import android.content.Intent;

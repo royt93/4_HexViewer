@@ -34,11 +34,11 @@ import com.galaxyjoy.hexviewer.ui.util.UIHelper;
 import com.galaxyjoy.hexviewer.util.io.FileHelper;
 import com.galaxyjoy.hexviewer.MyApplication;
 import com.galaxyjoy.hexviewer.R;
-import com.galaxyjoy.hexviewer.ui.launchers.LauncherLineUpdate;
-import com.galaxyjoy.hexviewer.ui.launchers.LauncherOpen;
-import com.galaxyjoy.hexviewer.ui.launchers.LauncherPartialOpen;
-import com.galaxyjoy.hexviewer.ui.launchers.LauncherRecentlyOpen;
-import com.galaxyjoy.hexviewer.ui.launchers.LauncherSave;
+import com.galaxyjoy.hexviewer.ui.launcher.LauncherLineUpdate;
+import com.galaxyjoy.hexviewer.ui.launcher.LauncherOpen;
+import com.galaxyjoy.hexviewer.ui.launcher.LauncherPartialOpen;
+import com.galaxyjoy.hexviewer.ui.launcher.LauncherRecentlyOpen;
+import com.galaxyjoy.hexviewer.ui.launcher.LauncherSave;
 import com.galaxyjoy.hexviewer.ui.undoredo.UnDoRedo;
 
 /**
