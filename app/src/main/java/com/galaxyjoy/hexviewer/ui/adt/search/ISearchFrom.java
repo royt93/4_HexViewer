@@ -1,9 +1,9 @@
-package com.galaxyjoy.hexviewer.ui.adapters.config;
+package com.galaxyjoy.hexviewer.ui.adt.search;
 
 /**
  * ******************************************************************************
  * <p><b>Project HexViewer</b><br/>
- * User configuration interface.
+ * Interface used with SearchableListArrayAdapter
  * </p>
  *
  * @author Keidan
@@ -12,12 +12,11 @@ package com.galaxyjoy.hexviewer.ui.adapters.config;
  * </p>
  * ******************************************************************************
  */
-public interface UserConfig {
-  float getFontSize();
-
-  int getRowHeight();
-
-  boolean isRowHeightAuto();
-
-  boolean isDataColumnNotDisplayed();
+public interface ISearchFrom {
+  /**
+   * Test if we aren't from the hex view or the plain view.
+   *
+   * @return boolean
+   */
+  boolean isSearchNotFromHexView();
 }

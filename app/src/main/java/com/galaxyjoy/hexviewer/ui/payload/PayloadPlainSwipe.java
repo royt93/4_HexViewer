@@ -12,12 +12,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import com.galaxyjoy.hexviewer.ui.adapters.PlainTextListArrayAdapter;
+import com.galaxyjoy.hexviewer.ui.adt.PlainTextListArrayAdapter;
 import com.galaxyjoy.hexviewer.R;
 import com.galaxyjoy.hexviewer.models.LineEntry;
 import com.galaxyjoy.hexviewer.ui.activities.MainActivity;
-import com.galaxyjoy.hexviewer.ui.adapters.config.UserConfigLandscape;
-import com.galaxyjoy.hexviewer.ui.adapters.config.UserConfigPortrait;
+import com.galaxyjoy.hexviewer.ui.adt.config.UserConfigLandscape;
+import com.galaxyjoy.hexviewer.ui.adt.config.UserConfigPortrait;
 import com.galaxyjoy.hexviewer.ui.multiChoice.PlainMultiChoiceCallback;
 import com.galaxyjoy.hexviewer.ui.util.UIHelper;
 

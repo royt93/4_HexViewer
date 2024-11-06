@@ -1,4 +1,4 @@
-package com.galaxyjoy.hexviewer.ui.adapters.search;
+package com.galaxyjoy.hexviewer.ui.adt.search;
 
 import java.util.Set;
 

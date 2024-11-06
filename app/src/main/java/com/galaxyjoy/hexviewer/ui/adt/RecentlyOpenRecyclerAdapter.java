@@ -1,4 +1,4 @@
-package com.galaxyjoy.hexviewer.ui.adapters;
+package com.galaxyjoy.hexviewer.ui.adt;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -18,7 +18,7 @@ import java.util.Locale;
 
 import com.galaxyjoy.hexviewer.R;
 import com.galaxyjoy.hexviewer.models.UriData;
-import com.galaxyjoy.hexviewer.ui.adapters.holders.HolderRecently;
+import com.galaxyjoy.hexviewer.ui.adt.holders.HolderRecently;
 import com.galaxyjoy.hexviewer.util.SysHelper;
 
 /**

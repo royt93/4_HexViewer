@@ -4,7 +4,7 @@ import android.util.Log;
 
 import com.galaxyjoy.hexviewer.models.LineEntry;
 import com.galaxyjoy.hexviewer.ui.activities.MainActivity;
-import com.galaxyjoy.hexviewer.ui.adapters.HexTextArrayAdapter;
+import com.galaxyjoy.hexviewer.ui.adt.HexTextArrayAdapter;
 import com.galaxyjoy.hexviewer.ui.undoredo.ICommand;
 import com.galaxyjoy.hexviewer.util.SysHelper;
 

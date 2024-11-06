@@ -1,4 +1,4 @@
-package com.galaxyjoy.hexviewer.ui.adapters.config;
+package com.galaxyjoy.hexviewer.ui.adt.config;
 
 import android.content.Context;
 

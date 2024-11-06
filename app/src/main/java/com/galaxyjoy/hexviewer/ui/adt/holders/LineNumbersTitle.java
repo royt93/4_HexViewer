@@ -1,4 +1,4 @@
-package com.galaxyjoy.hexviewer.ui.adapters.holders;
+package com.galaxyjoy.hexviewer.ui.adt.holders;
 
 import android.widget.TextView;
 

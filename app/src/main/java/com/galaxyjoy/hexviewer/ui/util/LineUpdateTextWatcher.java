@@ -17,7 +17,7 @@ import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.galaxyjoy.hexviewer.ui.adapters.LineUpdateHexArrayAdapter;
+import com.galaxyjoy.hexviewer.ui.adt.LineUpdateHexArrayAdapter;
 import com.galaxyjoy.hexviewer.MyApplication;
 import com.galaxyjoy.hexviewer.R;
 import com.galaxyjoy.hexviewer.models.LineEntry;

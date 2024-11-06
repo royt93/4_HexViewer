@@ -1,4 +1,4 @@
-package com.galaxyjoy.hexviewer.ui.adapters.search;
+package com.galaxyjoy.hexviewer.ui.adt.search;
 
 import android.content.Context;
 import android.util.Log;
@@ -15,7 +15,7 @@ import com.galaxyjoy.hexviewer.MyApplication;
 import com.galaxyjoy.hexviewer.models.LineEntry;
 import com.galaxyjoy.hexviewer.ui.util.UIHelper;
 import com.galaxyjoy.hexviewer.util.SysHelper;
-import com.galaxyjoy.hexviewer.ui.adapters.config.UserConfig;
+import com.galaxyjoy.hexviewer.ui.adt.config.UserConfig;
 
 /**
  * ******************************************************************************

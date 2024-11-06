@@ -1,4 +1,4 @@
-package com.galaxyjoy.hexviewer.ui.adapters;
+package com.galaxyjoy.hexviewer.ui.adt;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -12,7 +12,7 @@ import java.util.List;
 
 import com.galaxyjoy.hexviewer.R;
 import com.galaxyjoy.hexviewer.models.LineEntry;
-import com.galaxyjoy.hexviewer.ui.adapters.config.UserConfig;
+import com.galaxyjoy.hexviewer.ui.adt.config.UserConfig;
 import com.galaxyjoy.hexviewer.util.SysHelper;
 
 /**

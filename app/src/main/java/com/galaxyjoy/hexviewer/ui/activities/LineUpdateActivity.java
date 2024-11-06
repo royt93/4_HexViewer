@@ -28,14 +28,14 @@ import java.util.List;
 import java.util.Locale;
 
 import com.galaxyjoy.hexviewer.models.LineEntry;
-import com.galaxyjoy.hexviewer.ui.adapters.LineUpdateHexArrayAdapter;
+import com.galaxyjoy.hexviewer.ui.adt.LineUpdateHexArrayAdapter;
 import com.galaxyjoy.hexviewer.ui.util.LineUpdateTextWatcher;
 import com.galaxyjoy.hexviewer.ui.util.UIHelper;
 import com.galaxyjoy.hexviewer.util.SysHelper;
 import com.galaxyjoy.hexviewer.util.memory.MemoryMonitor;
 import com.galaxyjoy.hexviewer.MyApplication;
 import com.galaxyjoy.hexviewer.R;
-import com.galaxyjoy.hexviewer.ui.adapters.holders.LineNumbersTitle;
+import com.galaxyjoy.hexviewer.ui.adt.holders.LineNumbersTitle;
 
 /**
  * ******************************************************************************

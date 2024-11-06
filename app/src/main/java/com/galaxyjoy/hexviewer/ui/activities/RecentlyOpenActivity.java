@@ -19,7 +19,7 @@ import java.util.List;
 
 import com.galaxyjoy.hexviewer.models.FileData;
 import com.galaxyjoy.hexviewer.models.UriData;
-import com.galaxyjoy.hexviewer.ui.adapters.RecentlyOpenRecyclerAdapter;
+import com.galaxyjoy.hexviewer.ui.adt.RecentlyOpenRecyclerAdapter;
 import com.galaxyjoy.hexviewer.MyApplication;
 import com.galaxyjoy.hexviewer.R;
 

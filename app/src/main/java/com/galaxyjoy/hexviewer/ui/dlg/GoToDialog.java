@@ -21,7 +21,7 @@ import com.google.android.material.textfield.TextInputLayout;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.regex.Pattern;
 
-import com.galaxyjoy.hexviewer.ui.adapters.SearchableListArrayAdapter;
+import com.galaxyjoy.hexviewer.ui.adt.SearchableListArrayAdapter;
 import com.galaxyjoy.hexviewer.MyApplication;
 import com.galaxyjoy.hexviewer.R;
 import com.galaxyjoy.hexviewer.models.LineEntries;

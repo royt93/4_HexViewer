@@ -10,10 +10,10 @@ import android.widget.TextView;
 import com.galaxyjoy.hexviewer.MyApplication;
 import com.galaxyjoy.hexviewer.R;
 import com.galaxyjoy.hexviewer.ui.activities.MainActivity;
-import com.galaxyjoy.hexviewer.ui.adapters.HexTextArrayAdapter;
-import com.galaxyjoy.hexviewer.ui.adapters.config.UserConfigLandscape;
-import com.galaxyjoy.hexviewer.ui.adapters.config.UserConfigPortrait;
-import com.galaxyjoy.hexviewer.ui.adapters.holders.LineNumbersTitle;
+import com.galaxyjoy.hexviewer.ui.adt.HexTextArrayAdapter;
+import com.galaxyjoy.hexviewer.ui.adt.config.UserConfigLandscape;
+import com.galaxyjoy.hexviewer.ui.adt.config.UserConfigPortrait;
+import com.galaxyjoy.hexviewer.ui.adt.holders.LineNumbersTitle;
 import com.galaxyjoy.hexviewer.ui.multiChoice.HexMultiChoiceCallback;
 
 import java.util.ArrayList;
