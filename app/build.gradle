@@ -41,10 +41,7 @@ android {
     compose true
   }
   // This is important, it will run lint checks but won't abort build
-  lintOptions {
-    abortOnError false
-  }
-  sonarqube {
+    sonarqube {
     properties {
       property "sonar.projectKey", "Keidan_HexViewer"
       property "sonar.organization", "keidan"
@@ -55,6 +52,9 @@ android {
     }
   }
   namespace 'fr.ralala.hexviewer'
+    lint {
+        abortOnError false
+    }
 }
 
 dependencies {
