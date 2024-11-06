@@ -39,16 +39,16 @@ android {
         compose true
     }
     // This is important, it will run lint checks but won't abort build
-    sonarqube {
-        properties {
-            property "sonar.projectKey", "Keidan_HexViewer"
-            property "sonar.organization", "keidan"
-            property "sonar.host.url", "https://sonarcloud.io"
-            property 'sonar.projectName', 'HexViewer'
-            property 'sonar.projectVersion', SONAR_PROJECT_VERSION
-            property 'sonar.coverage.exclusions', "**/**"
-        }
-    }
+//    sonarqube {
+//        properties {
+//            property "sonar.projectKey", "Keidan_HexViewer"
+//            property "sonar.organization", "keidan"
+//            property "sonar.host.url", "https://sonarcloud.io"
+//            property 'sonar.projectName', 'HexViewer'
+//            property 'sonar.projectVersion', SONAR_PROJECT_VERSION
+//            property 'sonar.coverage.exclusions', "**/**"
+//        }
+//    }
     namespace 'fr.ralala.hexviewer'
     lint {
         abortOnError false
