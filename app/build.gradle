@@ -10,7 +10,8 @@ android {
     compileSdk 34
 
     defaultConfig {
-        applicationId "fr.ralala.hexviewer"
+        //fr.ralala.hexviewer
+        applicationId "com.galaxyjoy.hexviewer"
         minSdk 23
         targetSdk 34
         versionCode 20241106
@@ -49,7 +50,7 @@ android {
 //            property 'sonar.coverage.exclusions', "**/**"
 //        }
 //    }
-    namespace 'fr.ralala.hexviewer'
+    namespace 'com.galaxyjoy.hexviewer'
     lint {
         abortOnError false
     }
