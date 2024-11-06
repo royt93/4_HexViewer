@@ -10,7 +10,7 @@ import androidx.preference.PreferenceScreen;
 import com.galaxyjoy.hexviewer.R;
 import com.galaxyjoy.hexviewer.models.SettingsKeys;
 
-public class SettingsFragmentListsPortrait extends AbstractSettingsFragment implements Preference.OnPreferenceClickListener {
+public class FrmSettingsListsPortraitFrm extends FrmAbstractSettings implements Preference.OnPreferenceClickListener {
     protected CheckBoxPreference mHexRowHeightAutoPortrait;
     protected Preference mHexRowHeightPortrait;
     protected Preference mHexFontSizePortrait;
@@ -24,7 +24,7 @@ public class SettingsFragmentListsPortrait extends AbstractSettingsFragment impl
     protected Preference mLineEditRowHeightPortrait;
     protected Preference mLineEditFontSizePortrait;
 
-    public SettingsFragmentListsPortrait(AppCompatActivity owner) {
+    public FrmSettingsListsPortraitFrm(AppCompatActivity owner) {
         super(owner);
     }
 

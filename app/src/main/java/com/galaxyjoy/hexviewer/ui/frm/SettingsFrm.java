@@ -36,7 +36,7 @@ import com.galaxyjoy.hexviewer.ui.activities.LogsActivity;
  * </p>
  * ******************************************************************************
  */
-public class SettingsFragment extends AbstractSettingsFragment implements Preference.OnPreferenceClickListener, Preference.OnPreferenceChangeListener {
+public class SettingsFrm extends FrmAbstractSettings implements Preference.OnPreferenceClickListener, Preference.OnPreferenceChangeListener {
   private static final String GITHUB_URL = "https://github.com/Keidan/HexViewer";
   private static final String GITHUB_LIC_URL = GITHUB_URL + "/blob/master/license.txt";
   protected Preference mSettingsListsPortrait;
@@ -49,7 +49,7 @@ public class SettingsFragment extends AbstractSettingsFragment implements Prefer
   private ListPreference mScreenOrientation;
   private ListPreference mNbBytesPerLine;
 
-  public SettingsFragment(AppCompatActivity owner) {
+  public SettingsFrm(AppCompatActivity owner) {
     super(owner);
   }
 

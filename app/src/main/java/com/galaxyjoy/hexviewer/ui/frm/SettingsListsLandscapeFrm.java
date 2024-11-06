@@ -22,7 +22,7 @@ import com.galaxyjoy.hexviewer.R;
  * </p>
  * ******************************************************************************
  */
-public class SettingsFragmentListsLandscape extends AbstractSettingsFragment implements Preference.OnPreferenceClickListener {
+public class SettingsListsLandscapeFrm extends FrmAbstractSettings implements Preference.OnPreferenceClickListener {
   protected CheckBoxPreference mHexRowHeightAutoLandscape;
   protected Preference mHexRowHeightLandscape;
   protected Preference mHexFontSizeLandscape;
@@ -36,7 +36,7 @@ public class SettingsFragmentListsLandscape extends AbstractSettingsFragment imp
   protected Preference mLineEditRowHeightLandscape;
   protected Preference mLineEditFontSizeLandscape;
 
-  public SettingsFragmentListsLandscape(AppCompatActivity owner) {
+  public SettingsListsLandscapeFrm(AppCompatActivity owner) {
     super(owner);
   }
 

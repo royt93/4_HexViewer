@@ -9,7 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.galaxyjoy.hexviewer.MyApplication;
 import com.galaxyjoy.hexviewer.R;
-import com.galaxyjoy.hexviewer.ui.frm.AbstractSettingsFragment;
+import com.galaxyjoy.hexviewer.ui.frm.FrmAbstractSettings;
 
 /**
  * ******************************************************************************
@@ -42,7 +42,7 @@ public abstract class AbstractSettingsActivity extends AppCompatActivity {
    *
    * @return AbstractSettingsFragment
    */
-  public abstract AbstractSettingsFragment onUserCreate();
+  public abstract FrmAbstractSettings onUserCreate();
 
   /**
    * Called when the activity is created.
@@ -56,7 +56,7 @@ public abstract class AbstractSettingsActivity extends AppCompatActivity {
     setContentView(R.layout.activity_settings);
 
     //If you want to insert data in your settings
-    AbstractSettingsFragment prefs = onUserCreate();
+    FrmAbstractSettings prefs = onUserCreate();
 
     getSupportFragmentManager()
       .beginTransaction()
