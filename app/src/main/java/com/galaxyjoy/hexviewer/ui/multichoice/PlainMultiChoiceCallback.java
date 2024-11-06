@@ -9,7 +9,7 @@ import java.util.List;
 
 import com.galaxyjoy.hexviewer.models.LineEntry;
 import com.galaxyjoy.hexviewer.ui.adapters.PlainTextListArrayAdapter;
-import com.galaxyjoy.hexviewer.utils.SysHelper;
+import com.galaxyjoy.hexviewer.util.SysHelper;
 import com.galaxyjoy.hexviewer.R;
 import com.galaxyjoy.hexviewer.ui.activities.MainActivity;
 

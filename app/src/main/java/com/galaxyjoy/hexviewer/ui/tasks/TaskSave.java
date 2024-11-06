@@ -16,8 +16,8 @@ import com.galaxyjoy.hexviewer.ui.utils.UIHelper;
 import com.galaxyjoy.hexviewer.R;
 import com.galaxyjoy.hexviewer.models.FileData;
 import com.galaxyjoy.hexviewer.models.LineEntry;
-import com.galaxyjoy.hexviewer.utils.SysHelper;
-import com.galaxyjoy.hexviewer.utils.io.RandomAccessFileChannel;
+import com.galaxyjoy.hexviewer.util.SysHelper;
+import com.galaxyjoy.hexviewer.util.io.RandomAccessFileChannel;
 
 /**
  * ******************************************************************************

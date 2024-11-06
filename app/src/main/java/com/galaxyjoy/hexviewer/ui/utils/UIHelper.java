@@ -36,7 +36,7 @@ import com.galaxyjoy.hexviewer.MyApplication;
 import com.galaxyjoy.hexviewer.R;
 import com.galaxyjoy.hexviewer.models.FileData;
 import com.galaxyjoy.hexviewer.ui.adapters.config.UserConfig;
-import com.galaxyjoy.hexviewer.utils.io.FileHelper;
+import com.galaxyjoy.hexviewer.util.io.FileHelper;
 
 /**
  * ******************************************************************************

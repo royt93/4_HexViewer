@@ -19,7 +19,7 @@ import java.util.Locale;
 import com.galaxyjoy.hexviewer.R;
 import com.galaxyjoy.hexviewer.models.UriData;
 import com.galaxyjoy.hexviewer.ui.adapters.holders.HolderRecently;
-import com.galaxyjoy.hexviewer.utils.SysHelper;
+import com.galaxyjoy.hexviewer.util.SysHelper;
 
 /**
  * ******************************************************************************

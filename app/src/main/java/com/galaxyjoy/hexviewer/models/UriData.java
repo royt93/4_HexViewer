@@ -3,7 +3,7 @@ package com.galaxyjoy.hexviewer.models;
 import android.content.Context;
 
 import com.galaxyjoy.hexviewer.R;
-import com.galaxyjoy.hexviewer.utils.SysHelper;
+import com.galaxyjoy.hexviewer.util.SysHelper;
 
 /**
  * ******************************************************************************

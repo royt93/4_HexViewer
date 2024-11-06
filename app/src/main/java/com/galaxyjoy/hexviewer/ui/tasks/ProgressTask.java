@@ -7,7 +7,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AlertDialog;
 
 import com.galaxyjoy.hexviewer.R;
-import com.galaxyjoy.hexviewer.utils.SysHelper;
+import com.galaxyjoy.hexviewer.util.SysHelper;
 
 /**
  * ******************************************************************************

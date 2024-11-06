@@ -1,4 +1,4 @@
-package com.galaxyjoy.hexviewer.utils.io;
+package com.galaxyjoy.hexviewer.util.io;
 
 import android.content.ContentResolver;
 import android.content.Context;
@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.Locale;
 
 import com.galaxyjoy.hexviewer.MyApplication;
-import com.galaxyjoy.hexviewer.utils.SysHelper;
+import com.galaxyjoy.hexviewer.util.SysHelper;
 
 /**
  * ******************************************************************************

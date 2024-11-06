@@ -31,7 +31,7 @@ import com.galaxyjoy.hexviewer.ui.popup.PopupCheckboxHelper;
 import com.galaxyjoy.hexviewer.ui.tasks.TaskOpen;
 import com.galaxyjoy.hexviewer.ui.tasks.TaskSave;
 import com.galaxyjoy.hexviewer.ui.utils.UIHelper;
-import com.galaxyjoy.hexviewer.utils.io.FileHelper;
+import com.galaxyjoy.hexviewer.util.io.FileHelper;
 import com.galaxyjoy.hexviewer.MyApplication;
 import com.galaxyjoy.hexviewer.R;
 import com.galaxyjoy.hexviewer.ui.launchers.LauncherLineUpdate;

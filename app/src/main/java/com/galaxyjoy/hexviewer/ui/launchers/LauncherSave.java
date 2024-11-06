@@ -16,7 +16,7 @@ import com.galaxyjoy.hexviewer.ui.activities.MainActivity;
 import com.galaxyjoy.hexviewer.ui.dialog.SaveDialog;
 import com.galaxyjoy.hexviewer.ui.tasks.TaskSave;
 import com.galaxyjoy.hexviewer.ui.utils.UIHelper;
-import com.galaxyjoy.hexviewer.utils.io.FileHelper;
+import com.galaxyjoy.hexviewer.util.io.FileHelper;
 import com.galaxyjoy.hexviewer.MyApplication;
 import com.galaxyjoy.hexviewer.R;
 

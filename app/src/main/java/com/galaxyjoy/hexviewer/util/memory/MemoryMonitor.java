@@ -1,4 +1,4 @@
-package com.galaxyjoy.hexviewer.utils.memory;
+package com.galaxyjoy.hexviewer.util.memory;
 
 import android.os.Handler;
 import android.os.Looper;

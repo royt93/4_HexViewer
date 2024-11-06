@@ -14,7 +14,7 @@ import com.galaxyjoy.hexviewer.models.FileData;
 import com.galaxyjoy.hexviewer.ui.activities.MainActivity;
 import com.galaxyjoy.hexviewer.ui.tasks.TaskOpen;
 import com.galaxyjoy.hexviewer.ui.utils.UIHelper;
-import com.galaxyjoy.hexviewer.utils.io.FileHelper;
+import com.galaxyjoy.hexviewer.util.io.FileHelper;
 import com.galaxyjoy.hexviewer.MyApplication;
 import com.galaxyjoy.hexviewer.R;
 

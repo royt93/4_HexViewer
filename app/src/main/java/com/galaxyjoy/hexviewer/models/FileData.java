@@ -10,7 +10,7 @@ import androidx.documentfile.provider.DocumentFile;
 import java.util.Locale;
 
 import com.galaxyjoy.hexviewer.MyApplication;
-import com.galaxyjoy.hexviewer.utils.io.FileHelper;
+import com.galaxyjoy.hexviewer.util.io.FileHelper;
 
 /**
  * ******************************************************************************

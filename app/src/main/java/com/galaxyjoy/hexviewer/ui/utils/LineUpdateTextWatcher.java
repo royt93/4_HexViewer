@@ -21,7 +21,7 @@ import com.galaxyjoy.hexviewer.ui.adapters.LineUpdateHexArrayAdapter;
 import com.galaxyjoy.hexviewer.MyApplication;
 import com.galaxyjoy.hexviewer.R;
 import com.galaxyjoy.hexviewer.models.LineEntry;
-import com.galaxyjoy.hexviewer.utils.SysHelper;
+import com.galaxyjoy.hexviewer.util.SysHelper;
 
 /**
  * ******************************************************************************

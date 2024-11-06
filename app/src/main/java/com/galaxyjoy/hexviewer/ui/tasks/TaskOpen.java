@@ -18,11 +18,11 @@ import com.galaxyjoy.hexviewer.MyApplication;
 import com.galaxyjoy.hexviewer.R;
 import com.galaxyjoy.hexviewer.models.FileData;
 import com.galaxyjoy.hexviewer.models.LineEntry;
-import com.galaxyjoy.hexviewer.utils.SysHelper;
-import com.galaxyjoy.hexviewer.utils.io.RandomAccessFileChannel;
-import com.galaxyjoy.hexviewer.utils.memory.MemoryInfo;
-import com.galaxyjoy.hexviewer.utils.memory.MemoryListener;
-import com.galaxyjoy.hexviewer.utils.memory.MemoryMonitor;
+import com.galaxyjoy.hexviewer.util.SysHelper;
+import com.galaxyjoy.hexviewer.util.io.RandomAccessFileChannel;
+import com.galaxyjoy.hexviewer.util.memory.MemoryInfo;
+import com.galaxyjoy.hexviewer.util.memory.MemoryListener;
+import com.galaxyjoy.hexviewer.util.memory.MemoryMonitor;
 
 /**
  * ******************************************************************************
