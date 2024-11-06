@@ -9,7 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.galaxyjoy.hexviewer.MyApplication;
 import com.galaxyjoy.hexviewer.R;
-import com.galaxyjoy.hexviewer.ui.fragments.AbstractSettingsFragment;
+import com.galaxyjoy.hexviewer.ui.frm.AbstractSettingsFragment;
 
 /**
  * ******************************************************************************

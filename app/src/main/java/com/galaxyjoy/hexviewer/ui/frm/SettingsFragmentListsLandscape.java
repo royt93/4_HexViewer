@@ -1,4 +1,4 @@
-package com.galaxyjoy.hexviewer.ui.fragments;
+package com.galaxyjoy.hexviewer.ui.frm;
 
 import android.os.Bundle;
 

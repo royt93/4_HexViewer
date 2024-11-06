@@ -4,8 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.galaxyjoy.hexviewer.ui.fragments.AbstractSettingsFragment;
-import com.galaxyjoy.hexviewer.ui.fragments.SettingsFragment;
+import com.galaxyjoy.hexviewer.ui.frm.AbstractSettingsFragment;
+import com.galaxyjoy.hexviewer.ui.frm.SettingsFragment;
 
 /**
  * ******************************************************************************

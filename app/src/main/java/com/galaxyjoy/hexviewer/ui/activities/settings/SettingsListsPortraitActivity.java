@@ -3,8 +3,8 @@ package com.galaxyjoy.hexviewer.ui.activities.settings;
 import android.content.Context;
 import android.content.Intent;
 
-import com.galaxyjoy.hexviewer.ui.fragments.AbstractSettingsFragment;
-import com.galaxyjoy.hexviewer.ui.fragments.SettingsFragmentListsPortrait;
+import com.galaxyjoy.hexviewer.ui.frm.AbstractSettingsFragment;
+import com.galaxyjoy.hexviewer.ui.frm.SettingsFragmentListsPortrait;
 
 /**
  * ******************************************************************************
