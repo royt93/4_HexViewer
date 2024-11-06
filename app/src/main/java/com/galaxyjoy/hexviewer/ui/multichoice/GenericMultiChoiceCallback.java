@@ -17,7 +17,7 @@ import androidx.annotation.StringRes;
 import androidx.appcompat.app.AlertDialog;
 
 import com.galaxyjoy.hexviewer.ui.adapters.SearchableListArrayAdapter;
-import com.galaxyjoy.hexviewer.ui.utils.UIHelper;
+import com.galaxyjoy.hexviewer.ui.util.UIHelper;
 import com.galaxyjoy.hexviewer.util.SysHelper;
 import com.galaxyjoy.hexviewer.MyApplication;
 import com.galaxyjoy.hexviewer.R;

@@ -19,7 +19,7 @@ import com.galaxyjoy.hexviewer.ui.activities.MainActivity;
 import com.galaxyjoy.hexviewer.ui.adapters.config.UserConfigLandscape;
 import com.galaxyjoy.hexviewer.ui.adapters.config.UserConfigPortrait;
 import com.galaxyjoy.hexviewer.ui.multichoice.PlainMultiChoiceCallback;
-import com.galaxyjoy.hexviewer.ui.utils.UIHelper;
+import com.galaxyjoy.hexviewer.ui.util.UIHelper;
 
 /**
  * ******************************************************************************

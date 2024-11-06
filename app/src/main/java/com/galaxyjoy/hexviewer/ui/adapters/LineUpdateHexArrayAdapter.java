@@ -21,7 +21,7 @@ import com.galaxyjoy.hexviewer.R;
 import com.galaxyjoy.hexviewer.models.ListSettings;
 import com.galaxyjoy.hexviewer.ui.adapters.holders.HolderHex;
 import com.galaxyjoy.hexviewer.ui.adapters.holders.LineNumbersTitle;
-import com.galaxyjoy.hexviewer.ui.utils.UIHelper;
+import com.galaxyjoy.hexviewer.ui.util.UIHelper;
 import com.galaxyjoy.hexviewer.util.SysHelper;
 
 /**
