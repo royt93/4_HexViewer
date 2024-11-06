@@ -17,7 +17,7 @@ import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.galaxyjoy.hexviewer.ui.adt.LineUpdateHexArrayAdapter;
+import com.galaxyjoy.hexviewer.ui.adt.AdtLineUpdateHexArray;
 import com.galaxyjoy.hexviewer.MyApplication;
 import com.galaxyjoy.hexviewer.R;
 import com.galaxyjoy.hexviewer.models.LineEntry;
@@ -25,7 +25,7 @@ import com.galaxyjoy.hexviewer.util.SysHelper;
 
 public class LineUpdateTextWatcher implements TextWatcher {
     private static final Pattern PATTERN_4HEX = Pattern.compile("(\\p{XDigit}{4})");
-    private final LineUpdateHexArrayAdapter mResultAdapter;
+    private final AdtLineUpdateHexArray mResultAdapter;
     private final TextInputLayout mLayout;
     private final MyApplication mApp;
     private String mNewString = "";
@@ -46,7 +46,7 @@ public class LineUpdateTextWatcher implements TextWatcher {
         CharSequence newChange;
     }
 
-    public LineUpdateTextWatcher(LineUpdateHexArrayAdapter resultAdapter,
+    public LineUpdateTextWatcher(AdtLineUpdateHexArray resultAdapter,
                                  TextInputLayout layout,
                                  MyApplication app,
                                  final int shiftOffset,

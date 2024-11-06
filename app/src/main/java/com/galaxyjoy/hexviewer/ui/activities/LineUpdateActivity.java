@@ -28,7 +28,7 @@ import java.util.List;
 import java.util.Locale;
 
 import com.galaxyjoy.hexviewer.models.LineEntry;
-import com.galaxyjoy.hexviewer.ui.adt.LineUpdateHexArrayAdapter;
+import com.galaxyjoy.hexviewer.ui.adt.AdtLineUpdateHexArray;
 import com.galaxyjoy.hexviewer.ui.util.LineUpdateTextWatcher;
 import com.galaxyjoy.hexviewer.ui.util.UIHelper;
 import com.galaxyjoy.hexviewer.util.SysHelper;
@@ -78,8 +78,8 @@ public class LineUpdateActivity extends AppCompatActivity implements View.OnClic
   private ImageView mIvVisibilityResult;
   private LinearLayout mLlSource;
   private LinearLayout mLlResult;
-  private LineUpdateHexArrayAdapter mAdapterSource;
-  private LineUpdateHexArrayAdapter mAdapterResult;
+  private AdtLineUpdateHexArray mAdapterSource;
+  private AdtLineUpdateHexArray mAdapterResult;
   private MemoryMonitor mMemoryMonitor;
 
   /**
@@ -180,8 +180,8 @@ public class LineUpdateActivity extends AppCompatActivity implements View.OnClic
       }
       maxLengthWithPartial = array.length;
     }
-    mAdapterSource = new LineUpdateHexArrayAdapter(this, lvSource, titleSource, list);
-    mAdapterResult = new LineUpdateHexArrayAdapter(this, lvResult, titleResult, new ArrayList<>(list));
+    mAdapterSource = new AdtLineUpdateHexArray(this, lvSource, titleSource, list);
+    mAdapterResult = new AdtLineUpdateHexArray(this, lvResult, titleResult, new ArrayList<>(list));
     mAdapterSource.setStartOffset(mStartOffset);
     mAdapterResult.setStartOffset(mStartOffset);
     lvSource.setAdapter(mAdapterSource);
