@@ -4,7 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.galaxyjoy.hexviewer.ui.frm.FrmAbstractSettings;
-import com.galaxyjoy.hexviewer.ui.frm.SettingsListsLandscapeFrm;
+import com.galaxyjoy.hexviewer.ui.frm.FrmSettingsListsLandscape;
 
 /**
  * ******************************************************************************
@@ -36,7 +36,7 @@ public class SettingsListsLandscapeActivity extends AbstractSettingsActivity {
    * @return AbstractSettingsFragment
    */
   public FrmAbstractSettings onUserCreate() {
-    return new SettingsListsLandscapeFrm(this);
+    return new FrmSettingsListsLandscape(this);
   }
 
 }
