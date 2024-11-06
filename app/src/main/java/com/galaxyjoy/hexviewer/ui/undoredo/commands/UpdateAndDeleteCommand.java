@@ -10,46 +10,40 @@ import com.galaxyjoy.hexviewer.ui.activities.MainActivity;
 import com.galaxyjoy.hexviewer.ui.undoredo.ICommand;
 import com.galaxyjoy.hexviewer.ui.undoredo.UnDoRedo;
 
-/**
- * ******************************************************************************
- * <p><b>Project HexViewer</b><br/>
- * Command used when updating and deleting (2 in one) an entry.
- * </p>
- *
- * @author Keidan
- * <p>
- * License: GPLv3
- * </p>
- * ******************************************************************************
- */
 public class UpdateAndDeleteCommand implements ICommand {
-  private final DeleteCommand mDelete;
-  private final UpdateCommand mUpdate;
+    private final DeleteCommand mDelete;
+    private final UpdateCommand mUpdate;
 
 
-  public UpdateAndDeleteCommand(final UnDoRedo undoRedo, final MainActivity activity,
-                                final int firstPosition,
-                                List<LineEntry> entriesUpdated,
-                                final Map<Integer, LineEntry> entriesDeleted) {
-    mUpdate = new UpdateCommand(undoRedo, activity, firstPosition, entriesUpdated.size(), entriesUpdated);
-    mDelete = new DeleteCommand(activity, entriesDeleted);
-  }
+    public UpdateAndDeleteCommand(final UnDoRedo undoRedo,
+                                  final MainActivity activity,
+                                  final int firstPosition,
+                                  List<LineEntry> entriesUpdated,
+                                  final Map<Integer, LineEntry> entriesDeleted) {
+        mUpdate = new UpdateCommand(undoRedo,
+                activity,
+                firstPosition,
+                entriesUpdated.size(),
+                entriesUpdated);
+        mDelete = new DeleteCommand(activity,
+                entriesDeleted);
+    }
 
-  /**
-   * Execute the command.
-   */
-  public void execute() {
-    Log.i(getClass().getName(), "execute");
-    mDelete.execute();
-    mUpdate.execute();
-  }
+    /**
+     * Execute the command.
+     */
+    public void execute() {
+        Log.i(getClass().getName(), "execute");
+        mDelete.execute();
+        mUpdate.execute();
+    }
 
-  /**
-   * Un-Execute the command.
-   */
-  public void unExecute() {
-    Log.i(getClass().getName(), "unExecute");
-    mUpdate.unExecute();
-    mDelete.unExecute();
-  }
+    /**
+     * Un-Execute the command.
+     */
+    public void unExecute() {
+        Log.i(getClass().getName(), "unExecute");
+        mUpdate.unExecute();
+        mDelete.unExecute();
+    }
 }
