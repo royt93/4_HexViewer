@@ -1,4 +1,4 @@
-package com.galaxyjoy.hexviewer.ui.activities.settings;
+package com.galaxyjoy.hexviewer.ui.act.setting;
 
 import android.content.Context;
 import android.os.Bundle;

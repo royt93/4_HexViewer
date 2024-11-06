@@ -11,7 +11,7 @@ import com.galaxyjoy.hexviewer.models.LineEntry;
 import com.galaxyjoy.hexviewer.ui.adt.AdtPlainTextListArray;
 import com.galaxyjoy.hexviewer.util.SysHelper;
 import com.galaxyjoy.hexviewer.R;
-import com.galaxyjoy.hexviewer.ui.activities.MainActivity;
+import com.galaxyjoy.hexviewer.ui.act.MainActivity;
 
 public class PlainMultiChoiceCallback extends GenericMultiChoiceCallback {
 

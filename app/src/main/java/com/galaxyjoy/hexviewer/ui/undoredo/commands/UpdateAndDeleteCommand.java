@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.galaxyjoy.hexviewer.models.LineEntry;
-import com.galaxyjoy.hexviewer.ui.activities.MainActivity;
+import com.galaxyjoy.hexviewer.ui.act.MainActivity;
 import com.galaxyjoy.hexviewer.ui.undoredo.ICommand;
 import com.galaxyjoy.hexviewer.ui.undoredo.UnDoRedo;
 

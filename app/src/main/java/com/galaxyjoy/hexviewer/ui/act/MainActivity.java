@@ -1,4 +1,4 @@
-package com.galaxyjoy.hexviewer.ui.activities;
+package com.galaxyjoy.hexviewer.ui.act;
 
 import android.app.SearchManager;
 import android.content.Intent;
@@ -21,7 +21,7 @@ import java.io.ByteArrayOutputStream;
 
 import com.galaxyjoy.hexviewer.models.FileData;
 import com.galaxyjoy.hexviewer.models.LineEntry;
-import com.galaxyjoy.hexviewer.ui.activities.settings.SettingsActivity;
+import com.galaxyjoy.hexviewer.ui.act.setting.SettingsActivity;
 import com.galaxyjoy.hexviewer.ui.adt.AdtSearchableListArray;
 import com.galaxyjoy.hexviewer.ui.dlg.GoToDialog;
 import com.galaxyjoy.hexviewer.ui.payload.PayloadHexHelper;

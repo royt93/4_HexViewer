@@ -9,7 +9,7 @@ import android.widget.EditText;
 import androidx.appcompat.app.AlertDialog;
 
 import com.galaxyjoy.hexviewer.R;
-import com.galaxyjoy.hexviewer.ui.activities.MainActivity;
+import com.galaxyjoy.hexviewer.ui.act.MainActivity;
 import com.galaxyjoy.hexviewer.ui.util.UIHelper;
 import com.google.android.material.textfield.TextInputLayout;
 

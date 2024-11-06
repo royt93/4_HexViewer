@@ -1,4 +1,4 @@
-package com.galaxyjoy.hexviewer.ui.activities;
+package com.galaxyjoy.hexviewer.ui.act;
 
 import android.Manifest;
 import android.app.SearchManager;

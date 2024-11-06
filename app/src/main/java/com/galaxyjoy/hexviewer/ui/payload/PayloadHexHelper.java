@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import com.galaxyjoy.hexviewer.MyApplication;
 import com.galaxyjoy.hexviewer.R;
-import com.galaxyjoy.hexviewer.ui.activities.MainActivity;
+import com.galaxyjoy.hexviewer.ui.act.MainActivity;
 import com.galaxyjoy.hexviewer.ui.adt.AdtHexTextArray;
 import com.galaxyjoy.hexviewer.ui.adt.config.UserConfigLandscape;
 import com.galaxyjoy.hexviewer.ui.adt.config.UserConfigPortrait;

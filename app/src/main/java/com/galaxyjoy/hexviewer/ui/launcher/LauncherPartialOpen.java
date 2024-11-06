@@ -10,8 +10,8 @@ import androidx.activity.result.contract.ActivityResultContracts;
 
 import com.galaxyjoy.hexviewer.MyApplication;
 import com.galaxyjoy.hexviewer.models.FileData;
-import com.galaxyjoy.hexviewer.ui.activities.MainActivity;
-import com.galaxyjoy.hexviewer.ui.activities.PartialOpenActivity;
+import com.galaxyjoy.hexviewer.ui.act.MainActivity;
+import com.galaxyjoy.hexviewer.ui.act.PartialOpenActivity;
 import com.galaxyjoy.hexviewer.ui.task.TaskOpen;
 
 public class LauncherPartialOpen {

@@ -12,7 +12,7 @@ import androidx.documentfile.provider.DocumentFile;
 import com.galaxyjoy.hexviewer.MyApplication;
 import com.galaxyjoy.hexviewer.R;
 import com.galaxyjoy.hexviewer.models.FileData;
-import com.galaxyjoy.hexviewer.ui.activities.MainActivity;
+import com.galaxyjoy.hexviewer.ui.act.MainActivity;
 import com.galaxyjoy.hexviewer.ui.dlg.SaveDialog;
 import com.galaxyjoy.hexviewer.ui.task.TaskSave;
 import com.galaxyjoy.hexviewer.ui.util.UIHelper;

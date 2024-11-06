@@ -7,7 +7,7 @@ import androidx.core.content.ContextCompat;
 
 import com.galaxyjoy.hexviewer.R;
 import com.galaxyjoy.hexviewer.models.LineEntry;
-import com.galaxyjoy.hexviewer.ui.activities.MainActivity;
+import com.galaxyjoy.hexviewer.ui.act.MainActivity;
 import com.galaxyjoy.hexviewer.ui.undoredo.commands.DeleteCommand;
 import com.galaxyjoy.hexviewer.ui.undoredo.commands.UpdateAndDeleteCommand;
 import com.galaxyjoy.hexviewer.ui.undoredo.commands.UpdateCommand;

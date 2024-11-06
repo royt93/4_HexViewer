@@ -18,10 +18,10 @@ import androidx.preference.PreferenceScreen;
 import com.galaxyjoy.hexviewer.BuildConfig;
 import com.galaxyjoy.hexviewer.R;
 import com.galaxyjoy.hexviewer.models.SettingsKeys;
-import com.galaxyjoy.hexviewer.ui.activities.LogsActivity;
-import com.galaxyjoy.hexviewer.ui.activities.settings.SettingsActivity;
-import com.galaxyjoy.hexviewer.ui.activities.settings.SettingsListsLandscapeActivity;
-import com.galaxyjoy.hexviewer.ui.activities.settings.SettingsListsPortraitActivity;
+import com.galaxyjoy.hexviewer.ui.act.LogsActivity;
+import com.galaxyjoy.hexviewer.ui.act.setting.SettingsActivity;
+import com.galaxyjoy.hexviewer.ui.act.setting.SettingsListsLandscapeActivity;
+import com.galaxyjoy.hexviewer.ui.act.setting.SettingsListsPortraitActivity;
 import com.galaxyjoy.hexviewer.ui.util.UIHelper;
 
 public class FrmSettings extends FrmAbstractSettings implements Preference.OnPreferenceClickListener, Preference.OnPreferenceChangeListener {

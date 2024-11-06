@@ -27,7 +27,7 @@
         tools:targetApi="s">
 
         <activity
-            android:name=".ui.activities.MainActivity"
+            android:name=".ui.act.MainActivity"
             android:configChanges="locale|orientation|screenSize"
             android:exported="true"
             android:icon="@mipmap/ic_launcher_round"
@@ -56,72 +56,72 @@
         </activity>
 
         <activity
-            android:name=".ui.activities.LineUpdateActivity"
+            android:name=".ui.act.LineUpdateActivity"
             android:configChanges="locale|orientation|screenSize"
             android:launchMode="singleTask">
 
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ui.activities.MainActivity" />
+                android:value=".ui.act.MainActivity" />
         </activity>
 
         <activity
-            android:name=".ui.activities.RecentlyOpenActivity"
+            android:name=".ui.act.RecentlyOpenActivity"
             android:configChanges="locale|orientation|screenSize"
             android:launchMode="singleTask">
 
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ui.activities.MainActivity" />
+                android:value=".ui.act.MainActivity" />
         </activity>
 
         <activity
-            android:name=".ui.activities.PartialOpenActivity"
+            android:name=".ui.act.PartialOpenActivity"
             android:configChanges="locale|orientation|screenSize"
             android:launchMode="singleTask">
 
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ui.activities.MainActivity" />
+                android:value=".ui.act.MainActivity" />
         </activity>
 
         <activity
-            android:name=".ui.activities.settings.SettingsActivity"
+            android:name=".ui.act.setting.SettingsActivity"
             android:configChanges="locale|orientation|screenSize"
             android:launchMode="singleTask">
 
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ui.activities.MainActivity" />
+                android:value=".ui.act.MainActivity" />
         </activity>
 
         <activity
-            android:name=".ui.activities.settings.SettingsListsPortraitActivity"
+            android:name=".ui.act.setting.SettingsListsPortraitActivity"
             android:configChanges="locale|orientation|screenSize"
             android:launchMode="singleTask">
 
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ui.activities.settings.SettingsActivity" />
+                android:value=".ui.act.setting.SettingsActivity" />
         </activity>
 
         <activity
-            android:name=".ui.activities.settings.SettingsListsLandscapeActivity"
+            android:name=".ui.act.setting.SettingsListsLandscapeActivity"
             android:configChanges="locale|orientation|screenSize"
             android:launchMode="singleTask">
 
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ui.activities.settings.SettingsActivity" />
+                android:value=".ui.act.setting.SettingsActivity" />
         </activity>
 
         <activity
-            android:name=".ui.activities.LogsActivity"
+            android:name=".ui.act.LogsActivity"
             android:configChanges="locale|orientation|screenSize"
             android:launchMode="singleTask">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ui.activities.settings.SettingsActivity" />
+                android:value=".ui.act.setting.SettingsActivity" />
         </activity>
     </application>
 </manifest>
