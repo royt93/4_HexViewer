@@ -6,7 +6,7 @@ plugins {
 final SONAR_PROJECT_VERSION = '1.55'
 
 android {
-    namespace 'com.example.myapplication'
+//    namespace 'com.example.myapplication'
     compileSdk 34
 
     defaultConfig {
@@ -106,8 +106,8 @@ dependencies {
  * @param semVer e.g. 1.27
  * @return e.g. 127 (-> 1 27)
  */
-private static int generateVersionCode(String semVer) {
-    return semVer.split('\\.')
-            .collect { Integer.parseInt(it) }
-            .inject { sum, value -> sum * 100 + value }
-}
+//private static int generateVersionCode(String semVer) {
+//    return semVer.split('\\.')
+//            .collect { Integer.parseInt(it) }
+//            .inject { sum, value -> sum * 100 + value }
+//}
