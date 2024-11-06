@@ -5,7 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.galaxyjoy.hexviewer.ui.frm.FrmAbstractSettings;
-import com.galaxyjoy.hexviewer.ui.frm.SettingsFrm;
+import com.galaxyjoy.hexviewer.ui.frm.FrmSettings;
 
 /**
  * ******************************************************************************
@@ -54,7 +54,7 @@ public class SettingsActivity extends AbstractSettingsActivity {
     }
 
     //If you want to insert data in your settings
-    return new SettingsFrm(this);
+    return new FrmSettings(this);
   }
 
   /**
