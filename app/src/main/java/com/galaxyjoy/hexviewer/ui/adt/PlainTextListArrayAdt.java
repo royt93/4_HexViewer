@@ -27,13 +27,13 @@ import com.galaxyjoy.hexviewer.util.SysHelper;
  * </p>
  * ******************************************************************************
  */
-public class PlainTextListArrayAdapter extends SearchableListArrayAdapter {
+public class PlainTextListArrayAdt extends AdtSearchableListArray {
   private static final int ID = R.layout.listview_simple_row;
 
-  public PlainTextListArrayAdapter(final Context context,
-                                   final List<LineEntry> objects,
-                                   UserConfig userConfigPortrait,
-                                   UserConfig userConfigLandscape) {
+  public PlainTextListArrayAdt(final Context context,
+                               final List<LineEntry> objects,
+                               UserConfig userConfigPortrait,
+                               UserConfig userConfigLandscape) {
     super(context, ID, objects, userConfigPortrait, userConfigLandscape);
   }
 

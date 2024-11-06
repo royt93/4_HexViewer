@@ -36,16 +36,16 @@ import com.galaxyjoy.hexviewer.util.SysHelper;
  * </p>
  * ******************************************************************************
  */
-public class HexTextArrayAdapter extends SearchableListArrayAdapter {
+public class HexTextArrayAdt extends AdtSearchableListArray {
   private static final int ID = R.layout.listview_hex_row;
   private final MyApplication mApp;
   private final LineNumbersTitle mTitle;
   private long mStartOffset;
 
-  public HexTextArrayAdapter(final Context activity, final List<LineEntry> objects,
-                             LineNumbersTitle title,
-                             UserConfig userConfigPortrait,
-                             UserConfig userConfigLandscape) {
+  public HexTextArrayAdt(final Context activity, final List<LineEntry> objects,
+                         LineNumbersTitle title,
+                         UserConfig userConfigPortrait,
+                         UserConfig userConfigLandscape) {
     super(activity, ID, objects, userConfigPortrait, userConfigLandscape);
     mStartOffset = 0;
     mTitle = title;

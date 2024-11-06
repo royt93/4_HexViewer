@@ -22,7 +22,7 @@ import java.io.ByteArrayOutputStream;
 import com.galaxyjoy.hexviewer.models.FileData;
 import com.galaxyjoy.hexviewer.models.LineEntry;
 import com.galaxyjoy.hexviewer.ui.activities.settings.SettingsActivity;
-import com.galaxyjoy.hexviewer.ui.adt.SearchableListArrayAdapter;
+import com.galaxyjoy.hexviewer.ui.adt.AdtSearchableListArray;
 import com.galaxyjoy.hexviewer.ui.dlg.GoToDialog;
 import com.galaxyjoy.hexviewer.ui.payload.PayloadHexHelper;
 import com.galaxyjoy.hexviewer.ui.payload.PayloadPlainSwipe;
@@ -228,7 +228,7 @@ public class MainActivity extends AbstractBaseMainActivity implements AdapterVie
   @Override
   public void doSearch(String queryStr) {
     mSearchQuery = queryStr;
-    final SearchableListArrayAdapter laa = ((mPayloadPlainSwipe.isVisible()) ?
+    final AdtSearchableListArray laa = ((mPayloadPlainSwipe.isVisible()) ?
       mPayloadPlainSwipe.getAdapter() : mPayloadHexHelper.getAdapter());
     laa.getFilter().filter(queryStr);
   }

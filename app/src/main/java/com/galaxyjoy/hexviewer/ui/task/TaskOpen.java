@@ -9,7 +9,7 @@ import com.galaxyjoy.hexviewer.MyApplication;
 import com.galaxyjoy.hexviewer.R;
 import com.galaxyjoy.hexviewer.models.FileData;
 import com.galaxyjoy.hexviewer.models.LineEntry;
-import com.galaxyjoy.hexviewer.ui.adt.HexTextArrayAdapter;
+import com.galaxyjoy.hexviewer.ui.adt.HexTextArrayAdt;
 import com.galaxyjoy.hexviewer.ui.util.UIHelper;
 import com.galaxyjoy.hexviewer.util.SysHelper;
 import com.galaxyjoy.hexviewer.util.io.RandomAccessFileChannel;
@@ -27,7 +27,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 public class TaskOpen extends ProgressTask<ContentResolver, FileData, TaskOpen.Result> implements MemoryListener {
     private final Context mContext;
     private static final int MAX_LENGTH = SysHelper.MAX_BY_ROW_16 * 20000;
-    private final HexTextArrayAdapter mAdapter;
+    private final HexTextArrayAdt mAdapter;
     private final OpenResultListener mListener;
     private RandomAccessFileChannel mRandomAccessFileChannel = null;
     private final boolean mAddRecent;
@@ -48,7 +48,7 @@ public class TaskOpen extends ProgressTask<ContentResolver, FileData, TaskOpen.R
     }
 
     public TaskOpen(final Activity activity,
-                    final HexTextArrayAdapter adapter,
+                    final HexTextArrayAdt adapter,
                     final OpenResultListener listener,
                     final String oldToString,
                     final boolean addRecent) {

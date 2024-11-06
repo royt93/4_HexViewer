@@ -4,7 +4,7 @@ import android.util.Log;
 
 import com.galaxyjoy.hexviewer.models.LineEntry;
 import com.galaxyjoy.hexviewer.ui.activities.MainActivity;
-import com.galaxyjoy.hexviewer.ui.adt.HexTextArrayAdapter;
+import com.galaxyjoy.hexviewer.ui.adt.HexTextArrayAdt;
 import com.galaxyjoy.hexviewer.ui.undoredo.ICommand;
 import com.galaxyjoy.hexviewer.ui.undoredo.UnDoRedo;
 
@@ -37,7 +37,7 @@ public class UpdateCommand implements ICommand {
      * Execute the command.
      */
     public void execute() {
-        HexTextArrayAdapter adapter = mActivity.getPayloadHex().getAdapter();
+        HexTextArrayAdt adapter = mActivity.getPayloadHex().getAdapter();
         String query = mActivity.getSearchQuery();
         if (!query.isEmpty())
             adapter.manualFilterUpdate(""); /* reset filter */
@@ -73,7 +73,7 @@ public class UpdateCommand implements ICommand {
      * @param adapter The adapter.
      * @param size    The number of elements
      */
-    private void addElements(HexTextArrayAdapter adapter, int size) {
+    private void addElements(HexTextArrayAdt adapter, int size) {
         int index = mPrevLines.size() - 1;
         if (index == -1) {
             for (int i = 0; i < size; i++) {
@@ -94,7 +94,7 @@ public class UpdateCommand implements ICommand {
      * @param listIndex  The index in the list to add.
      * @param valueIndex The index of the value (LineEntry::setIndex).
      */
-    private void addValue(HexTextArrayAdapter adapter,
+    private void addValue(HexTextArrayAdt adapter,
                           int listIndex,
                           int valueIndex) {
         LineEntry value = mList.get(listIndex);
@@ -111,7 +111,7 @@ public class UpdateCommand implements ICommand {
      * Un-Execute the command.
      */
     public void unExecute() {
-        HexTextArrayAdapter adapter = mActivity.getPayloadHex().getAdapter();
+        HexTextArrayAdt adapter = mActivity.getPayloadHex().getAdapter();
         String query = mActivity.getSearchQuery();
         if (!query.isEmpty())
             adapter.manualFilterUpdate(""); /* reset filter */
@@ -152,7 +152,7 @@ public class UpdateCommand implements ICommand {
      *
      * @param adapter HexTextArrayAdapter
      */
-    private void restoreExistingElements(HexTextArrayAdapter adapter) {
+    private void restoreExistingElements(HexTextArrayAdt adapter) {
         for (int i = 0; i < mRefNbLines; i++) {
             final LineEntry le = adapter.getItem(mFirstPosition + i);
             final LineEntry oldVal = new LineEntry(mPrevLines.get(i));
@@ -171,7 +171,7 @@ public class UpdateCommand implements ICommand {
      *
      * @param adapter HexTextArrayAdapter
      */
-    private void updateExistingElements(HexTextArrayAdapter adapter) {
+    private void updateExistingElements(HexTextArrayAdt adapter) {
         for (int i = 0; i < mRefNbLines; i++) {
             final LineEntry le = adapter.getItem(mFirstPosition + i);
             mPrevLines.add(new LineEntry(le));

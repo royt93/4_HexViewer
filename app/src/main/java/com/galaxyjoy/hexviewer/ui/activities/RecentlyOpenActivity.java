@@ -19,7 +19,7 @@ import java.util.List;
 
 import com.galaxyjoy.hexviewer.models.FileData;
 import com.galaxyjoy.hexviewer.models.UriData;
-import com.galaxyjoy.hexviewer.ui.adt.RecentlyOpenRecyclerAdapter;
+import com.galaxyjoy.hexviewer.ui.adt.AdtRecentlyOpenRecycler;
 import com.galaxyjoy.hexviewer.MyApplication;
 import com.galaxyjoy.hexviewer.R;
 
@@ -35,7 +35,7 @@ import com.galaxyjoy.hexviewer.R;
  * </p>
  * ******************************************************************************
  */
-public class RecentlyOpenActivity extends AppCompatActivity implements RecentlyOpenRecyclerAdapter.OnEventListener {
+public class RecentlyOpenActivity extends AppCompatActivity implements AdtRecentlyOpenRecycler.OnEventListener {
   private MyApplication mApp = null;
   public static final String RESULT_START_OFFSET = "startOffset";
   public static final String RESULT_END_OFFSET = "endOffset";
@@ -92,7 +92,7 @@ public class RecentlyOpenActivity extends AppCompatActivity implements RecentlyO
     for (int i = max - 1; i >= 0; i--) {
       list.add(new UriData(this, ++index, m, li.get(i)));
     }
-    RecentlyOpenRecyclerAdapter adapter = new RecentlyOpenRecyclerAdapter(this, list, this);
+    AdtRecentlyOpenRecycler adapter = new AdtRecentlyOpenRecycler(this, list, this);
     recyclerView.setAdapter(adapter);
     recyclerView.setLayoutManager(new LinearLayoutManager(this));
     ItemTouchHelper itemTouchHelper = new ItemTouchHelper(adapter.getSwipeToDeleteCallback());

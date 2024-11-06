@@ -8,7 +8,7 @@ import android.widget.ListView;
 import com.galaxyjoy.hexviewer.R;
 import com.galaxyjoy.hexviewer.models.LineEntry;
 import com.galaxyjoy.hexviewer.ui.activities.MainActivity;
-import com.galaxyjoy.hexviewer.ui.adt.HexTextArrayAdapter;
+import com.galaxyjoy.hexviewer.ui.adt.HexTextArrayAdt;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
@@ -21,7 +21,7 @@ public class HexMultiChoiceCallback extends GenericMultiChoiceCallback {
     @SuppressLint("InflateParams")
     public HexMultiChoiceCallback(MainActivity mainActivity,
                                   final ListView listView,
-                                  final HexTextArrayAdapter adapter) {
+                                  final HexTextArrayAdt adapter) {
         super(mainActivity, listView, adapter);
     }
 
@@ -106,7 +106,7 @@ public class HexMultiChoiceCallback extends GenericMultiChoiceCallback {
         }
         mActivity.getLauncherLineUpdate().startActivity(byteArrayOutputStream.toByteArray(),
                 selected.get(0), selected.size(),
-                mActivity.getFileData().getShiftOffset(), ((HexTextArrayAdapter) mAdapter).getCurrentLine(selected.get(0)));
+                mActivity.getFileData().getShiftOffset(), ((HexTextArrayAdt) mAdapter).getCurrentLine(selected.get(0)));
         closeActionMode(mode, true);
         return true;
     }

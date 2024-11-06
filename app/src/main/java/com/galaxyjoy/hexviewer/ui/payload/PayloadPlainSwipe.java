@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import com.galaxyjoy.hexviewer.ui.adt.PlainTextListArrayAdapter;
+import com.galaxyjoy.hexviewer.ui.adt.PlainTextListArrayAdt;
 import com.galaxyjoy.hexviewer.R;
 import com.galaxyjoy.hexviewer.models.LineEntry;
 import com.galaxyjoy.hexviewer.ui.activities.MainActivity;
@@ -24,7 +24,7 @@ import com.galaxyjoy.hexviewer.ui.util.UIHelper;
 public class PayloadPlainSwipe {
     private MainActivity mActivity;
     private ListView mPayloadPlain = null;
-    private PlainTextListArrayAdapter mAdapterPlain = null;
+    private PlainTextListArrayAdt mAdapterPlain = null;
     private SwipeRefreshLayout mPayloadPlainSwipeRefreshLayout;
     private final AtomicBoolean mCancelPayloadPlainSwipeRefresh = new AtomicBoolean(false);
     private UserConfigPortrait mUserConfigPortrait;
@@ -50,7 +50,7 @@ public class PayloadPlainSwipe {
 
         mUserConfigPortrait = new UserConfigPortrait(activity, false);
         mUserConfigLandscape = new UserConfigLandscape(activity, false);
-        mAdapterPlain = new PlainTextListArrayAdapter(activity,
+        mAdapterPlain = new PlainTextListArrayAdt(activity,
                 new ArrayList<>(),
                 mUserConfigPortrait,
                 mUserConfigLandscape);
@@ -73,7 +73,7 @@ public class PayloadPlainSwipe {
      *
      * @return SearchableListArrayAdapter
      */
-    public PlainTextListArrayAdapter getAdapter() {
+    public PlainTextListArrayAdt getAdapter() {
         return mAdapterPlain;
     }
 

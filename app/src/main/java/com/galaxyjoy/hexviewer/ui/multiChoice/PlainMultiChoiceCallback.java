@@ -8,14 +8,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.galaxyjoy.hexviewer.models.LineEntry;
-import com.galaxyjoy.hexviewer.ui.adt.PlainTextListArrayAdapter;
+import com.galaxyjoy.hexviewer.ui.adt.PlainTextListArrayAdt;
 import com.galaxyjoy.hexviewer.util.SysHelper;
 import com.galaxyjoy.hexviewer.R;
 import com.galaxyjoy.hexviewer.ui.activities.MainActivity;
 
 public class PlainMultiChoiceCallback extends GenericMultiChoiceCallback {
 
-    public PlainMultiChoiceCallback(MainActivity mainActivity, final ListView listView, final PlainTextListArrayAdapter adapter) {
+    public PlainMultiChoiceCallback(MainActivity mainActivity, final ListView listView, final PlainTextListArrayAdt adapter) {
         super(mainActivity, listView, adapter);
     }
 

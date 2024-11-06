@@ -21,7 +21,7 @@ import com.google.android.material.textfield.TextInputLayout;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.regex.Pattern;
 
-import com.galaxyjoy.hexviewer.ui.adt.SearchableListArrayAdapter;
+import com.galaxyjoy.hexviewer.ui.adt.AdtSearchableListArray;
 import com.galaxyjoy.hexviewer.MyApplication;
 import com.galaxyjoy.hexviewer.R;
 import com.galaxyjoy.hexviewer.models.LineEntries;
@@ -113,7 +113,7 @@ public class GoToDialog implements View.OnClickListener {
     private boolean processPosition(final String text) {
         ListView lv = (mMode == Mode.ADDRESS || mMode == Mode.LINE_HEX) ?
                 mActivity.getPayloadHex().getListView() : mActivity.getPayloadPlain().getListView();
-        SearchableListArrayAdapter adapter = ((SearchableListArrayAdapter) lv.getAdapter());
+        AdtSearchableListArray adapter = ((AdtSearchableListArray) lv.getAdapter());
         int position;
         if (mMode == Mode.ADDRESS) {
             if (validatePosition(text, adapter.getEntries().getItemsCount() - 1))
@@ -169,7 +169,7 @@ public class GoToDialog implements View.OnClickListener {
      * @param count   Nb of elements.
      * @return The position.
      */
-    private int evaluatePosition(SearchableListArrayAdapter adapter, int count) {
+    private int evaluatePosition(AdtSearchableListArray adapter, int count) {
         LineEntries entries = adapter.getEntries();
         int position;
         if (count <= 500) {
