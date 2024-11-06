@@ -23,7 +23,7 @@ import com.galaxyjoy.hexviewer.models.FileData;
 import com.galaxyjoy.hexviewer.models.LineEntry;
 import com.galaxyjoy.hexviewer.ui.activities.settings.SettingsActivity;
 import com.galaxyjoy.hexviewer.ui.adapters.SearchableListArrayAdapter;
-import com.galaxyjoy.hexviewer.ui.dialog.GoToDialog;
+import com.galaxyjoy.hexviewer.ui.dlg.GoToDialog;
 import com.galaxyjoy.hexviewer.ui.payload.PayloadHexHelper;
 import com.galaxyjoy.hexviewer.ui.payload.PayloadPlainSwipe;
 import com.galaxyjoy.hexviewer.ui.popup.MainPopupWindow;
