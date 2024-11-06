@@ -11,7 +11,7 @@ import java.util.Locale;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import com.galaxyjoy.hexviewer.ApplicationCtx;
+import com.galaxyjoy.hexviewer.MyApplication;
 import com.galaxyjoy.hexviewer.models.LineEntry;
 import com.galaxyjoy.hexviewer.ui.utils.UIHelper;
 import com.galaxyjoy.hexviewer.utils.SysHelper;
@@ -34,14 +34,14 @@ public class SearchableFilterFactory {
   private final UserConfig mUserConfigPortrait;
   private final UserConfig mUserConfigLandscape;
   private final ISearchFrom mSearchFromHewView;
-  private final ApplicationCtx mApp;
+  private final MyApplication mApp;
 
   public SearchableFilterFactory(final Context context,
                                  ISearchFrom searchFromHewView,
                                  UserConfig userConfigPortrait,
                                  UserConfig userConfigLandscape) {
     mContext = context;
-    mApp = (ApplicationCtx) context.getApplicationContext();
+    mApp = (MyApplication) context.getApplicationContext();
     mSearchFromHewView = searchFromHewView;
     mUserConfigLandscape = userConfigLandscape;
     mUserConfigPortrait = userConfigPortrait;

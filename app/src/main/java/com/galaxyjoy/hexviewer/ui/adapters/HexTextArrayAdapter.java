@@ -15,7 +15,7 @@ import androidx.core.content.ContextCompat;
 
 import java.util.List;
 
-import com.galaxyjoy.hexviewer.ApplicationCtx;
+import com.galaxyjoy.hexviewer.MyApplication;
 import com.galaxyjoy.hexviewer.R;
 import com.galaxyjoy.hexviewer.models.LineEntry;
 import com.galaxyjoy.hexviewer.ui.adapters.config.UserConfig;
@@ -38,7 +38,7 @@ import com.galaxyjoy.hexviewer.utils.SysHelper;
  */
 public class HexTextArrayAdapter extends SearchableListArrayAdapter {
   private static final int ID = R.layout.listview_hex_row;
-  private final ApplicationCtx mApp;
+  private final MyApplication mApp;
   private final LineNumbersTitle mTitle;
   private long mStartOffset;
 
@@ -49,7 +49,7 @@ public class HexTextArrayAdapter extends SearchableListArrayAdapter {
     super(activity, ID, objects, userConfigPortrait, userConfigLandscape);
     mStartOffset = 0;
     mTitle = title;
-    mApp = (ApplicationCtx) activity.getApplicationContext();
+    mApp = (MyApplication) activity.getApplicationContext();
   }
 
   public void setStartOffset(final long startOffset) {

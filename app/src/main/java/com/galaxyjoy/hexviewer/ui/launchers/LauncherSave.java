@@ -17,7 +17,7 @@ import com.galaxyjoy.hexviewer.ui.dialog.SaveDialog;
 import com.galaxyjoy.hexviewer.ui.tasks.TaskSave;
 import com.galaxyjoy.hexviewer.ui.utils.UIHelper;
 import com.galaxyjoy.hexviewer.utils.io.FileHelper;
-import com.galaxyjoy.hexviewer.ApplicationCtx;
+import com.galaxyjoy.hexviewer.MyApplication;
 import com.galaxyjoy.hexviewer.R;
 
 /**
@@ -66,7 +66,7 @@ public class LauncherSave {
             processFileSaveWithDialog(data.getData());
           } else {
             Log.e(getClass().getSimpleName(), "Null data!!!");
-            ApplicationCtx.addLog(mActivity, "Save", "Null intent data!");
+            MyApplication.addLog(mActivity, "Save", "Null intent data!");
           }
         }
       });
@@ -134,7 +134,7 @@ public class LauncherSave {
       } else {
         FileData fd = new FileData(mActivity, dFile.getUri(), false);
         mActivity.setFileData(fd);
-        ApplicationCtx.addLog(mActivity, "Save",
+        MyApplication.addLog(mActivity, "Save",
           String.format(Locale.US, "Save file: '%s'", mActivity.getFileData()));
         new TaskSave(mActivity, mActivity).execute(new TaskSave.Request(mActivity.getFileData(),
           mActivity.getPayloadHex().getAdapter().getEntries().getItems(), null));

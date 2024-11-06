@@ -32,7 +32,7 @@ import com.galaxyjoy.hexviewer.ui.tasks.TaskOpen;
 import com.galaxyjoy.hexviewer.ui.tasks.TaskSave;
 import com.galaxyjoy.hexviewer.ui.utils.UIHelper;
 import com.galaxyjoy.hexviewer.utils.io.FileHelper;
-import com.galaxyjoy.hexviewer.ApplicationCtx;
+import com.galaxyjoy.hexviewer.MyApplication;
 import com.galaxyjoy.hexviewer.R;
 import com.galaxyjoy.hexviewer.ui.launchers.LauncherLineUpdate;
 import com.galaxyjoy.hexviewer.ui.launchers.LauncherOpen;
@@ -79,8 +79,8 @@ public class MainActivity extends AbstractBaseMainActivity implements AdapterVie
   protected void onCreate(final Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
-    ApplicationCtx.addLog(this, "Main", "Application started with language: '" +
-      ((ApplicationCtx) getApplicationContext()).getApplicationLanguage(this) + "'");
+    MyApplication.addLog(this, "Main", "Application started with language: '" +
+      ((MyApplication) getApplicationContext()).getApplicationLanguage(this) + "'");
 
     mApp.setConfiguration(getResources().getConfiguration());
     mUnDoRedo = new UnDoRedo(this);
@@ -127,7 +127,7 @@ public class MainActivity extends AbstractBaseMainActivity implements AdapterVie
       mPopup.dismiss();
     mApp.applyApplicationLanguage(this);
     /* refresh */
-    findViewById(R.id.buttonRecentlyOpen).setEnabled(!((ApplicationCtx) getApplicationContext()).getRecentlyOpened().list().isEmpty());
+    findViewById(R.id.buttonRecentlyOpen).setEnabled(!((MyApplication) getApplicationContext()).getRecentlyOpened().list().isEmpty());
     onOpenResult(!FileData.isEmpty(mFileData), false);
     if (mPayloadHexHelper.isVisible())
       mPayloadHexHelper.refreshAdapter();

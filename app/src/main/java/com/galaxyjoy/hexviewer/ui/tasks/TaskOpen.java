@@ -14,7 +14,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import com.galaxyjoy.hexviewer.ui.adapters.HexTextArrayAdapter;
 import com.galaxyjoy.hexviewer.ui.utils.UIHelper;
-import com.galaxyjoy.hexviewer.ApplicationCtx;
+import com.galaxyjoy.hexviewer.MyApplication;
 import com.galaxyjoy.hexviewer.R;
 import com.galaxyjoy.hexviewer.models.FileData;
 import com.galaxyjoy.hexviewer.models.LineEntry;
@@ -47,7 +47,7 @@ public class TaskOpen extends ProgressTask<ContentResolver, FileData, TaskOpen.R
   private final MemoryMonitor mMemoryMonitor;
   private final AtomicBoolean mLowMemory = new AtomicBoolean(false);
   private final String mOldToString;
-  private final ApplicationCtx mApp;
+  private final MyApplication mApp;
 
   public static class Result {
     private List<LineEntry> listHex = null;
@@ -63,7 +63,7 @@ public class TaskOpen extends ProgressTask<ContentResolver, FileData, TaskOpen.R
                   final HexTextArrayAdapter adapter,
                   final OpenResultListener listener, final String oldToString, final boolean addRecent) {
     super(activity, true);
-    mApp = (ApplicationCtx) activity.getApplicationContext();
+    mApp = (MyApplication) activity.getApplicationContext();
     mMemoryMonitor = new MemoryMonitor(mApp.getMemoryThreshold(), 2000);
     mContext = activity;
     mContentResolver = activity.getContentResolver();
@@ -110,7 +110,7 @@ public class TaskOpen extends ProgressTask<ContentResolver, FileData, TaskOpen.R
     }
     if (!mLowMemory.get()) {
       MemoryInfo mi = mMemoryMonitor.getLastMemoryInfo();
-      ApplicationCtx.addLog(mContext, "Open",
+      MyApplication.addLog(mContext, "Open",
         String.format(Locale.US, "Memory status, used: %s (%.02f%%), free: %s, max: %s",
           Formatter.formatFileSize(mContext, mi.getUsedMemory()), mi.getPercentUsed(),
           Formatter.formatFileSize(mContext, mi.getTotalFreeMemory()),
@@ -238,7 +238,7 @@ public class TaskOpen extends ProgressTask<ContentResolver, FileData, TaskOpen.R
   }
 
   public void onLowAppMemory(boolean disabled, MemoryInfo mi) {
-    ApplicationCtx.addLog(mContext, "Open",
+    MyApplication.addLog(mContext, "Open",
       String.format(Locale.US, "Low memory %s, used: %s (%.02f%%), free: %s, max: %s",
         disabled ? "disabled" : "detected",
         Formatter.formatFileSize(mContext, mi.getUsedMemory()), mi.getPercentUsed(),

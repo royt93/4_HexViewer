@@ -17,7 +17,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import com.galaxyjoy.hexviewer.ApplicationCtx;
+import com.galaxyjoy.hexviewer.MyApplication;
 import com.galaxyjoy.hexviewer.models.LineEntries;
 import com.galaxyjoy.hexviewer.models.LineEntry;
 import com.galaxyjoy.hexviewer.ui.adapters.config.UserConfig;
@@ -209,7 +209,7 @@ public abstract class SearchableListArrayAdapter extends ArrayAdapter<LineEntry>
    * @param tv TextView
    */
   protected void applyUserConfig(final TextView tv) {
-    Configuration cfg = ((ApplicationCtx) getContext().getApplicationContext()).getConfiguration();
+    Configuration cfg = ((MyApplication) getContext().getApplicationContext()).getConfiguration();
     if (mUserConfigLandscape != null && cfg.orientation == Configuration.ORIENTATION_LANDSCAPE) {
       tv.setTextSize(mUserConfigLandscape.getFontSize());
       ViewGroup.LayoutParams lp = tv.getLayoutParams();

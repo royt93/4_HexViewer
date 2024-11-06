@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import com.galaxyjoy.hexviewer.ApplicationCtx;
+import com.galaxyjoy.hexviewer.MyApplication;
 
 /**
  * ******************************************************************************
@@ -26,9 +26,9 @@ import com.galaxyjoy.hexviewer.ApplicationCtx;
 public class RecentlyOpened {
   protected static final String SEQUENTIAL_MASK = "$^#*";
   private List<FileData> mList;
-  private final ApplicationCtx mApp;
+  private final MyApplication mApp;
 
-  public RecentlyOpened(ApplicationCtx app) {
+  public RecentlyOpened(MyApplication app) {
     mApp = app;
     if (!migrate())
       mList = load();

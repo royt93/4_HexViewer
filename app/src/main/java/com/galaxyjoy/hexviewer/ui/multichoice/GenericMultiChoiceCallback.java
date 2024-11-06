@@ -19,7 +19,7 @@ import androidx.appcompat.app.AlertDialog;
 import com.galaxyjoy.hexviewer.ui.adapters.SearchableListArrayAdapter;
 import com.galaxyjoy.hexviewer.ui.utils.UIHelper;
 import com.galaxyjoy.hexviewer.utils.SysHelper;
-import com.galaxyjoy.hexviewer.ApplicationCtx;
+import com.galaxyjoy.hexviewer.MyApplication;
 import com.galaxyjoy.hexviewer.R;
 import com.galaxyjoy.hexviewer.ui.activities.MainActivity;
 
@@ -246,7 +246,7 @@ public abstract class GenericMultiChoiceCallback implements AbsListView.MultiCho
       ClipData clip = ClipData.newPlainText(mActivity.getString(R.string.app_name), sb);
       mClipboard.setPrimaryClip(clip);
     } catch (Exception exception) {
-      ApplicationCtx.addLog(mActivity, logTitle,
+      MyApplication.addLog(mActivity, logTitle,
         "E: TransactionTooLargeException size: " + sb.toString().length());
       displayError(R.string.error_too_many_text_copied);
       return false;

@@ -19,7 +19,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-import com.galaxyjoy.hexviewer.ApplicationCtx;
+import com.galaxyjoy.hexviewer.MyApplication;
 import com.galaxyjoy.hexviewer.BuildConfig;
 import com.galaxyjoy.hexviewer.R;
 
@@ -39,7 +39,7 @@ public class LogsActivity extends AppCompatActivity {
   private CircularFifoQueue<String> mCfq = null;
   private String mContent = null;
   private ListView mLogs = null;
-  private ApplicationCtx mApp = null;
+  private MyApplication mApp = null;
 
   /**
    * Starts an activity.
@@ -58,7 +58,7 @@ public class LogsActivity extends AppCompatActivity {
   public void onCreate(final Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_logs);
-    mApp = (ApplicationCtx) getApplicationContext();
+    mApp = (MyApplication) getApplicationContext();
 
     ActionBar actionBar = getSupportActionBar();
     if (actionBar != null) {

@@ -18,7 +18,7 @@ import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import com.galaxyjoy.hexviewer.models.LineEntry;
-import com.galaxyjoy.hexviewer.ApplicationCtx;
+import com.galaxyjoy.hexviewer.MyApplication;
 import com.galaxyjoy.hexviewer.R;
 
 /**
@@ -69,7 +69,7 @@ public class SysHelper {
    * @return boolean
    */
   public static boolean isRTL(final Context context) {
-    Configuration cfg = ((ApplicationCtx) context.getApplicationContext()).getConfiguration();
+    Configuration cfg = ((MyApplication) context.getApplicationContext()).getConfiguration();
     return cfg.getLayoutDirection() == View.LAYOUT_DIRECTION_RTL;
   }
 

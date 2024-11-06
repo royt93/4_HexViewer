@@ -11,7 +11,7 @@ import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
-import com.galaxyjoy.hexviewer.ApplicationCtx;
+import com.galaxyjoy.hexviewer.MyApplication;
 import com.galaxyjoy.hexviewer.R;
 import com.galaxyjoy.hexviewer.ui.undoredo.UnDoRedo;
 import com.galaxyjoy.hexviewer.utils.SysHelper;
@@ -37,14 +37,14 @@ public class MainPopupWindow {
   private final TextView mRecentlyOpen;
   private final PopupCheckboxHelper mPlainText;
   private final PopupCheckboxHelper mLineNumbers;
-  private final ApplicationCtx mApp;
+  private final MyApplication mApp;
 
   public interface ClickListener {
     void onClick(int id);
   }
 
   public MainPopupWindow(final Context ctx, UnDoRedo undoRedo, ClickListener clickListener) {
-    mApp = (ApplicationCtx) ctx.getApplicationContext();
+    mApp = (MyApplication) ctx.getApplicationContext();
 
     LayoutInflater inflater = (LayoutInflater) ctx.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     @SuppressLint("InflateParams") View popupView = inflater.inflate(R.layout.main_popup, null);

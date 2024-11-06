@@ -19,7 +19,7 @@ import com.galaxyjoy.hexviewer.ui.activities.LineUpdateActivity;
 import com.galaxyjoy.hexviewer.ui.activities.MainActivity;
 import com.galaxyjoy.hexviewer.ui.adapters.HexTextArrayAdapter;
 import com.galaxyjoy.hexviewer.utils.SysHelper;
-import com.galaxyjoy.hexviewer.ApplicationCtx;
+import com.galaxyjoy.hexviewer.MyApplication;
 
 /**
  * ******************************************************************************
@@ -35,12 +35,12 @@ import com.galaxyjoy.hexviewer.ApplicationCtx;
  */
 public class LauncherLineUpdate {
   private final MainActivity mActivity;
-  private final ApplicationCtx mApp;
+  private final MyApplication mApp;
   private ActivityResultLauncher<Intent> activityResultLauncherLineUpdate;
 
   public LauncherLineUpdate(MainActivity activity) {
     mActivity = activity;
-    mApp = (ApplicationCtx) mActivity.getApplicationContext();
+    mApp = (MyApplication) mActivity.getApplicationContext();
     register();
   }
 
@@ -124,7 +124,7 @@ public class LauncherLineUpdate {
             processIntentData(data);
           } else {
             Log.e(getClass().getSimpleName(), "Null data!!!");
-            ApplicationCtx.addLog(mActivity, "LineUpdate", "Null intent data!");
+            MyApplication.addLog(mActivity, "LineUpdate", "Null intent data!");
           }
         }
       });

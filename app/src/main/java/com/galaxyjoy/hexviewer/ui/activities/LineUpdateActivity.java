@@ -33,7 +33,7 @@ import com.galaxyjoy.hexviewer.ui.utils.LineUpdateTextWatcher;
 import com.galaxyjoy.hexviewer.ui.utils.UIHelper;
 import com.galaxyjoy.hexviewer.utils.SysHelper;
 import com.galaxyjoy.hexviewer.utils.memory.MemoryMonitor;
-import com.galaxyjoy.hexviewer.ApplicationCtx;
+import com.galaxyjoy.hexviewer.MyApplication;
 import com.galaxyjoy.hexviewer.R;
 import com.galaxyjoy.hexviewer.ui.adapters.holders.LineNumbersTitle;
 
@@ -62,7 +62,7 @@ public class LineUpdateActivity extends AppCompatActivity implements View.OnClic
   public static final String RESULT_NEW_STRING = "RESULT_NEW_STRING";
   public static final String RESULT_POSITION = "RESULT_POSITION";
   public static final String RESULT_NB_LINES = "RESULT_NB_LINES";
-  private ApplicationCtx mApp = null;
+  private MyApplication mApp = null;
   private TextInputEditText mEtInputHex;
   private TextInputLayout mTilInputHex;
   private int mPosition = -1;
@@ -91,7 +91,7 @@ public class LineUpdateActivity extends AppCompatActivity implements View.OnClic
    */
   @Override
   protected void attachBaseContext(Context base) {
-    super.attachBaseContext(((ApplicationCtx) base.getApplicationContext()).onAttach(base));
+    super.attachBaseContext(((MyApplication) base.getApplicationContext()).onAttach(base));
   }
 
   /**
@@ -104,7 +104,7 @@ public class LineUpdateActivity extends AppCompatActivity implements View.OnClic
     super.onCreate(savedInstanceState);
 
     setContentView(R.layout.activity_line_update);
-    mApp = (ApplicationCtx) getApplicationContext();
+    mApp = (MyApplication) getApplicationContext();
     mMemoryMonitor = new MemoryMonitor(mApp.getMemoryThreshold(), 2000);
     ListView lvSource = findViewById(R.id.lvSource);
     ListView lvResult = findViewById(R.id.lvResult);

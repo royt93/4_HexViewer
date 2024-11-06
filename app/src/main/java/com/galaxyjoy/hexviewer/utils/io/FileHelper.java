@@ -18,7 +18,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 
-import com.galaxyjoy.hexviewer.ApplicationCtx;
+import com.galaxyjoy.hexviewer.MyApplication;
 import com.galaxyjoy.hexviewer.utils.SysHelper;
 
 /**
@@ -81,7 +81,7 @@ public class FileHelper {
   public static boolean takeUriPermissions(final Context c, final Uri uri, boolean fromDir) {
     if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.Q)
       return true;
-    ApplicationCtx.addLog(c, FILE_HELPER_TAG,
+    MyApplication.addLog(c, FILE_HELPER_TAG,
       String.format(Locale.US, "take Uri permissions file '%s', fromDir: %b",
         uri, fromDir));
     boolean success = false;
@@ -94,7 +94,7 @@ public class FileHelper {
       success = true;
     } catch (Exception e) {
       Log.e(SysHelper.class.getSimpleName(), EXCEPTION_TAG + e.getMessage(), e);
-      ApplicationCtx.addLog(c, FILE_HELPER_TAG,
+      MyApplication.addLog(c, FILE_HELPER_TAG,
         String.format(Locale.US, "Exception: '%s'", e.getMessage()));
     }
     return success;
@@ -104,12 +104,12 @@ public class FileHelper {
     Uri dir = getParentUri(c, uri);
     if (!hasUriPermission(c, dir, false))
       try {
-        ApplicationCtx.addLog(c, FILE_HELPER_TAG,
+        MyApplication.addLog(c, FILE_HELPER_TAG,
           String.format(Locale.US, "take Uri permissions dir '%s'", uri));
         c.getContentResolver().takePersistableUriPermission(dir, Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
       } catch (Exception e) {
         Log.e(SysHelper.class.getSimpleName(), EXCEPTION_TAG + e.getMessage(), e);
-        ApplicationCtx.addLog(c, FILE_HELPER_TAG,
+        MyApplication.addLog(c, FILE_HELPER_TAG,
           String.format(Locale.US, "Dir Exception: '%s'", e.getMessage()));
       }
   }
@@ -139,7 +139,7 @@ public class FileHelper {
         }
       } catch (Exception e) {
         Log.e(SysHelper.class.getSimpleName(), EXCEPTION_TAG + e.getMessage(), e);
-        ApplicationCtx.addLog(c, FILE_HELPER_TAG,
+        MyApplication.addLog(c, FILE_HELPER_TAG,
           String.format(Locale.US, "Release Uri permissions exception: '%s'", e.getMessage()));
       }
   }
@@ -163,7 +163,7 @@ public class FileHelper {
         break;
       }
     }
-    ApplicationCtx.addLog(c, FILE_HELPER_TAG,
+    MyApplication.addLog(c, FILE_HELPER_TAG,
       String.format(Locale.US, "hasUriPermission: %b", found));
     return found;
   }
@@ -179,7 +179,7 @@ public class FileHelper {
   public static boolean isFileExists(Context ctx, final ContentResolver cr, final Uri uri) {
     ParcelFileDescriptor pfd;
     boolean exists = false;
-    ApplicationCtx.addLog(ctx, FILE_HELPER_TAG,
+    MyApplication.addLog(ctx, FILE_HELPER_TAG,
       String.format(Locale.US, "File exists for uri: '%s'", uri));
     try {
       pfd = cr.openFileDescriptor(uri, "r");
@@ -187,10 +187,10 @@ public class FileHelper {
       exists = true;
     } catch (Exception e) {
       Log.e(SysHelper.class.getSimpleName(), EXCEPTION_TAG + e.getMessage(), e);
-      ApplicationCtx.addLog(ctx, FILE_HELPER_TAG,
+      MyApplication.addLog(ctx, FILE_HELPER_TAG,
         String.format(Locale.US, "File exists exception: '%s'", e.getMessage()));
     }
-    ApplicationCtx.addLog(ctx, FILE_HELPER_TAG,
+    MyApplication.addLog(ctx, FILE_HELPER_TAG,
       String.format(Locale.US, "File exists: %b", exists));
     return exists;
   }
@@ -205,7 +205,7 @@ public class FileHelper {
    */
   public static long getFileSize(Context ctx, ContentResolver cr, Uri uri) {
     ParcelFileDescriptor pfd = null;
-    ApplicationCtx.addLog(ctx, FILE_HELPER_TAG,
+    MyApplication.addLog(ctx, FILE_HELPER_TAG,
       String.format(Locale.US, "Get file size for uri: '%s'", uri));
     long size;
     try {
@@ -215,7 +215,7 @@ public class FileHelper {
       size = sz;
     } catch (Exception e) {
       Log.e(SysHelper.class.getSimpleName(), EXCEPTION_TAG + e.getMessage()/*, e*/);
-      ApplicationCtx.addLog(ctx, FILE_HELPER_TAG,
+      MyApplication.addLog(ctx, FILE_HELPER_TAG,
         String.format(Locale.US, "Get file size exception0: '%s'", e.getMessage()));
       size = e instanceof FileNotFoundException ? -1 : -2;
     } finally {
@@ -224,11 +224,11 @@ public class FileHelper {
           pfd.close();
         } catch (IOException e) {
           Log.e(SysHelper.class.getSimpleName(), EXCEPTION_TAG + e.getMessage()/*, e*/);
-          ApplicationCtx.addLog(ctx, FILE_HELPER_TAG,
+          MyApplication.addLog(ctx, FILE_HELPER_TAG,
             String.format(Locale.US, "Get file size exception1: '%s'", e.getMessage()));
         }
     }
-    ApplicationCtx.addLog(ctx, FILE_HELPER_TAG,
+    MyApplication.addLog(ctx, FILE_HELPER_TAG,
       String.format(Locale.US, "Get file size: '%d'", size));
     return size;
   }
@@ -242,24 +242,24 @@ public class FileHelper {
    */
   public static String getFileName(final Context ctx, final Uri uri) {
     String result = null;
-    ApplicationCtx.addLog(ctx, FILE_HELPER_TAG,
+    MyApplication.addLog(ctx, FILE_HELPER_TAG,
       String.format(Locale.US, "Get filename for uri: '%s'", uri));
     if (uri.getScheme().equals("content")) {
-      ApplicationCtx.addLog(ctx, FILE_HELPER_TAG, "Uri scheme equals to content");
+      MyApplication.addLog(ctx, FILE_HELPER_TAG, "Uri scheme equals to content");
       try (Cursor cursor = ctx.getContentResolver().query(uri, null, null, null, null)) {
         if (cursor != null && cursor.moveToFirst()) {
           int index = cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME);
-          ApplicationCtx.addLog(ctx, FILE_HELPER_TAG,
+          MyApplication.addLog(ctx, FILE_HELPER_TAG,
             String.format(Locale.US, "Filename DISPLAY_NAME cursor index: '%d'", index));
           if (index >= 0) {
             result = cursor.getString(index);
-            ApplicationCtx.addLog(ctx, FILE_HELPER_TAG,
+            MyApplication.addLog(ctx, FILE_HELPER_TAG,
               String.format(Locale.US, "Filename DISPLAY_NAME cursor value: '%s'", result));
           }
         }
       } catch (Exception e) {
         Log.e(FileHelper.class.getSimpleName(), EXCEPTION_TAG + e.getMessage()/*, e*/);
-        ApplicationCtx.addLog(ctx, FILE_HELPER_TAG,
+        MyApplication.addLog(ctx, FILE_HELPER_TAG,
           String.format(Locale.US, "Get file name exception: '%s'", e.getMessage()));
       }
     }
@@ -270,7 +270,7 @@ public class FileHelper {
     if (result == null) {
       result = extractName(uri.getPath());
     }
-    ApplicationCtx.addLog(ctx, FILE_HELPER_TAG,
+    MyApplication.addLog(ctx, FILE_HELPER_TAG,
       String.format(Locale.US, "Filename result: '%s'", result));
     return result;
   }
@@ -311,7 +311,7 @@ public class FileHelper {
     int bucketId = uri.toString().indexOf(BUCKET_ID);
     if (bucketId != -1) {
       String bid = uri.toString().substring(bucketId + BUCKET_ID.length());
-      ApplicationCtx.addLog(ctx, FILE_HELPER_TAG, "Bucket id mode: " + bid);
+      MyApplication.addLog(ctx, FILE_HELPER_TAG, "Bucket id mode: " + bid);
       final String[] projectionBucket = {
         MediaStore.MediaColumns.BUCKET_ID,
         MediaStore.MediaColumns.DATA};
@@ -325,7 +325,7 @@ public class FileHelper {
           do {
             String data = cursor.getString(dataColumn);
             String id = cursor.getString(idColumn);
-            ApplicationCtx.addLog(ctx, FILE_HELPER_TAG,
+            MyApplication.addLog(ctx, FILE_HELPER_TAG,
               String.format(Locale.US, "Bucket data '%s' id: %s", data, id));
             if (id.equals(bid)) {
               result = data;
@@ -349,37 +349,37 @@ public class FileHelper {
     final String encoded = uri.getEncodedPath();
     final int filenameLen = (filename == null ? 0 : filename.length());
     final int length = encoded.length() - filenameLen;
-    ApplicationCtx.addLog(ctx, FILE_HELPER_TAG,
+    MyApplication.addLog(ctx, FILE_HELPER_TAG,
       String.format(Locale.US, "Search for parent uri: '%s'", uri));
     String path;
     if (length > 0 && length < encoded.length()) {
       String parent = encoded.substring(0, encoded.length() - filenameLen);
-      ApplicationCtx.addLog(ctx, FILE_HELPER_TAG,
+      MyApplication.addLog(ctx, FILE_HELPER_TAG,
         String.format(Locale.US, "Parent raw: '%s'", parent));
       if (parent.endsWith("%2F")) {
         parent = parent.substring(0, parent.length() - 3);
-        ApplicationCtx.addLog(ctx, FILE_HELPER_TAG,
+        MyApplication.addLog(ctx, FILE_HELPER_TAG,
           String.format(Locale.US, "Parent after fix: '%s'", parent));
       }
       final String documentPrimary = "/document/primary%3A";
-      ApplicationCtx.addLog(ctx, FILE_HELPER_TAG,
+      MyApplication.addLog(ctx, FILE_HELPER_TAG,
         String.format(Locale.US, "Document primary: '%s'", documentPrimary));
       if (parent.startsWith(documentPrimary)) {
         path = "/tree/primary%3A" + parent.substring(documentPrimary.length());
-        ApplicationCtx.addLog(ctx, FILE_HELPER_TAG,
+        MyApplication.addLog(ctx, FILE_HELPER_TAG,
           String.format(Locale.US, "Document primary fixed: '%s'", path));
       } else {
         path = parent;
-        ApplicationCtx.addLog(ctx, FILE_HELPER_TAG,
+        MyApplication.addLog(ctx, FILE_HELPER_TAG,
           String.format(Locale.US, "Parent without document primary '%s'", path));
       }
     } else {
       path = encoded;
-      ApplicationCtx.addLog(ctx, FILE_HELPER_TAG,
+      MyApplication.addLog(ctx, FILE_HELPER_TAG,
         String.format(Locale.US, "Path encoded: '%s'", path));
     }
     Uri u = Uri.parse(uri.getScheme() + "://" + uri.getHost() + path);
-    ApplicationCtx.addLog(ctx, FILE_HELPER_TAG,
+    MyApplication.addLog(ctx, FILE_HELPER_TAG,
       String.format(Locale.US, "Final parent uri: '%s'", u));
     return u;
   }

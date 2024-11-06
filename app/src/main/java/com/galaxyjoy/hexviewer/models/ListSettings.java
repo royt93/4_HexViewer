@@ -4,7 +4,7 @@ import android.content.SharedPreferences;
 
 import androidx.annotation.StringRes;
 
-import com.galaxyjoy.hexviewer.ApplicationCtx;
+import com.galaxyjoy.hexviewer.MyApplication;
 
 /**
  * ******************************************************************************
@@ -27,9 +27,9 @@ public class ListSettings {
   private boolean mDefaultDisplayDataColumn = true;
   private boolean mDefaultRowHeightAuto = true;
   private String mDefaultFontSize = "16";
-  private final ApplicationCtx mApp;
+  private final MyApplication mApp;
 
-  public ListSettings(final ApplicationCtx app,
+  public ListSettings(final MyApplication app,
                       final String keyDisplayDataColumn,
                       final String keyRowHeight, String keyRowHeightAuto, String keyFontSize
   ) {

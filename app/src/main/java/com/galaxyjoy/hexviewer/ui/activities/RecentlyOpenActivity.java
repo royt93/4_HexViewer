@@ -20,7 +20,7 @@ import java.util.List;
 import com.galaxyjoy.hexviewer.models.FileData;
 import com.galaxyjoy.hexviewer.models.UriData;
 import com.galaxyjoy.hexviewer.ui.adapters.RecentlyOpenRecyclerAdapter;
-import com.galaxyjoy.hexviewer.ApplicationCtx;
+import com.galaxyjoy.hexviewer.MyApplication;
 import com.galaxyjoy.hexviewer.R;
 
 /**
@@ -36,7 +36,7 @@ import com.galaxyjoy.hexviewer.R;
  * ******************************************************************************
  */
 public class RecentlyOpenActivity extends AppCompatActivity implements RecentlyOpenRecyclerAdapter.OnEventListener {
-  private ApplicationCtx mApp = null;
+  private MyApplication mApp = null;
   public static final String RESULT_START_OFFSET = "startOffset";
   public static final String RESULT_END_OFFSET = "endOffset";
   public static final String RESULT_OLD_TO_STRING = "oldToString";
@@ -61,7 +61,7 @@ public class RecentlyOpenActivity extends AppCompatActivity implements RecentlyO
    */
   @Override
   protected void attachBaseContext(Context base) {
-    super.attachBaseContext(((ApplicationCtx) base.getApplicationContext()).onAttach(base));
+    super.attachBaseContext(((MyApplication) base.getApplicationContext()).onAttach(base));
   }
 
   /**
@@ -74,7 +74,7 @@ public class RecentlyOpenActivity extends AppCompatActivity implements RecentlyO
     super.onCreate(savedInstanceState);
 
     setContentView(R.layout.activity_recently_open);
-    mApp = (ApplicationCtx) getApplicationContext();
+    mApp = (MyApplication) getApplicationContext();
 
     ActionBar actionBar = getSupportActionBar();
     if (actionBar != null) {

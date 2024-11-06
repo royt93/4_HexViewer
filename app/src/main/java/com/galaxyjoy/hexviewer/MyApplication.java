@@ -26,7 +26,7 @@ import java.util.Queue;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-public class ApplicationCtx extends Application {
+public class MyApplication extends Application {
     private static final int CIRCULAR_BUFFER_DEPTH = 2000;
     private Queue<String> mLogs = null;
     private final Lock mLock = new ReentrantLock();
@@ -163,11 +163,11 @@ public class ApplicationCtx extends Application {
     }
 
     public static void addLog(final Context c, final String tag, final String msg) {
-        ApplicationCtx ctx;
-        if (c instanceof ApplicationCtx)
-            ctx = (ApplicationCtx) c;
+        MyApplication ctx;
+        if (c instanceof MyApplication)
+            ctx = (MyApplication) c;
         else
-            ctx = (ApplicationCtx) c.getApplicationContext();
+            ctx = (MyApplication) c.getApplicationContext();
         ctx.mLock.lock();
         String head = new SimpleDateFormat("yyyyMMdd [hhmmssa]:\n",
                 Locale.US).format(new Date());

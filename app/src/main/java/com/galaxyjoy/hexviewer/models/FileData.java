@@ -9,7 +9,7 @@ import androidx.documentfile.provider.DocumentFile;
 
 import java.util.Locale;
 
-import com.galaxyjoy.hexviewer.ApplicationCtx;
+import com.galaxyjoy.hexviewer.MyApplication;
 import com.galaxyjoy.hexviewer.utils.io.FileHelper;
 
 /**
@@ -79,7 +79,7 @@ public class FileData {
         mIsNotFound = false;
       }
     }
-    ApplicationCtx.addLog(ctx, "FileData", String.format(Locale.US,
+    MyApplication.addLog(ctx, "FileData", String.format(Locale.US,
       "%s size: %d, r_size: %d, s_off: %d, e_off: %d, shift: %d, fromIntent: %b, notFound: %b, accessError: %b",
       mName, mSize, mRealSize, mStartOffset, mEndOffset, mShiftOffset, mOpenFromAppIntent, mIsNotFound, mIsAccessError));
   }

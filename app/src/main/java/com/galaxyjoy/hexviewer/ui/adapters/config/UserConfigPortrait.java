@@ -2,7 +2,7 @@ package com.galaxyjoy.hexviewer.ui.adapters.config;
 
 import android.content.Context;
 
-import com.galaxyjoy.hexviewer.ApplicationCtx;
+import com.galaxyjoy.hexviewer.MyApplication;
 
 /**
  * ******************************************************************************
@@ -17,12 +17,12 @@ import com.galaxyjoy.hexviewer.ApplicationCtx;
  * ******************************************************************************
  */
 public class UserConfigPortrait implements UserConfig {
-  private final ApplicationCtx mApp;
+  private final MyApplication mApp;
   private final boolean mIsHexList;
 
   public UserConfigPortrait(final Context ctx, boolean isHexList) {
     mIsHexList = isHexList;
-    mApp = (ApplicationCtx) ctx.getApplicationContext();
+    mApp = (MyApplication) ctx.getApplicationContext();
   }
 
   @Override

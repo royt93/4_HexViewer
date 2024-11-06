@@ -32,7 +32,7 @@ import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputLayout;
 
-import com.galaxyjoy.hexviewer.ApplicationCtx;
+import com.galaxyjoy.hexviewer.MyApplication;
 import com.galaxyjoy.hexviewer.R;
 import com.galaxyjoy.hexviewer.models.FileData;
 import com.galaxyjoy.hexviewer.ui.adapters.config.UserConfig;
@@ -148,7 +148,7 @@ public class UIHelper {
     TextView tv = new TextView(context);
     tv.setText(text);
     tv.setTypeface(monospace);
-    ApplicationCtx app = (ApplicationCtx) context.getApplicationContext();
+    MyApplication app = (MyApplication) context.getApplicationContext();
     Configuration cfg = app.getConfiguration();
     if (landscape != null && cfg.orientation == Configuration.ORIENTATION_LANDSCAPE) {
       fontSize = landscape.getFontSize();

@@ -21,7 +21,7 @@ import androidx.core.content.ContextCompat;
 
 import com.galaxyjoy.hexviewer.ui.utils.UIHelper;
 import com.galaxyjoy.hexviewer.utils.SysHelper;
-import com.galaxyjoy.hexviewer.ApplicationCtx;
+import com.galaxyjoy.hexviewer.MyApplication;
 import com.galaxyjoy.hexviewer.R;
 
 /**
@@ -41,7 +41,7 @@ public abstract class AbstractBaseMainActivity extends AppCompatActivity {
   private long mLastBackPressed = -1;
   private SearchView mSearchView = null;
   private AlertDialog mOrphanDialog = null;
-  protected ApplicationCtx mApp = null;
+  protected MyApplication mApp = null;
 
   /**
    * Set the base context for this ContextWrapper.
@@ -52,7 +52,7 @@ public abstract class AbstractBaseMainActivity extends AppCompatActivity {
    */
   @Override
   protected void attachBaseContext(Context base) {
-    super.attachBaseContext(((ApplicationCtx) base.getApplicationContext()).onAttach(base));
+    super.attachBaseContext(((MyApplication) base.getApplicationContext()).onAttach(base));
   }
 
   /**
@@ -63,7 +63,7 @@ public abstract class AbstractBaseMainActivity extends AppCompatActivity {
   @Override
   protected void onCreate(final Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    mApp = (ApplicationCtx) getApplicationContext();
+    mApp = (MyApplication) getApplicationContext();
 
     /* sanity check */
     String[] languages = getResources().getStringArray(R.array.languages_values);

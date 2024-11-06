@@ -15,7 +15,7 @@ import com.galaxyjoy.hexviewer.ui.activities.MainActivity;
 import com.galaxyjoy.hexviewer.ui.tasks.TaskOpen;
 import com.galaxyjoy.hexviewer.ui.utils.UIHelper;
 import com.galaxyjoy.hexviewer.utils.io.FileHelper;
-import com.galaxyjoy.hexviewer.ApplicationCtx;
+import com.galaxyjoy.hexviewer.MyApplication;
 import com.galaxyjoy.hexviewer.R;
 
 /**
@@ -33,12 +33,12 @@ import com.galaxyjoy.hexviewer.R;
 public class LauncherOpen {
   private final MainActivity mActivity;
   private final LinearLayout mMainLayout;
-  private final ApplicationCtx mApp;
+  private final MyApplication mApp;
   private ActivityResultLauncher<Intent> activityResultLauncherOpen;
 
   public LauncherOpen(MainActivity activity, LinearLayout mainLayout) {
     mActivity = activity;
-    mApp = (ApplicationCtx) activity.getApplicationContext();
+    mApp = (MyApplication) activity.getApplicationContext();
     mMainLayout = mainLayout;
     register();
   }
@@ -92,7 +92,7 @@ public class LauncherOpen {
       mActivity.setFileData(fd);
       Runnable r = () -> {
         mActivity.getUnDoRedo().clear();
-        ApplicationCtx.addLog(mActivity, "Open",
+        MyApplication.addLog(mActivity, "Open",
           String.format(Locale.US, "Open file: '%s'", mActivity.getFileData()));
         new TaskOpen(mActivity, mActivity.getPayloadHex().getAdapter(), mActivity, oldToString, addRecent).execute(mActivity.getFileData());
       };

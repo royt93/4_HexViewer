@@ -12,7 +12,7 @@
         tools:ignore="ScopedStorage" />
 
     <application
-        android:name=".ApplicationCtx"
+        android:name=".MyApplication"
         android:allowBackup="false"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"

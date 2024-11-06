@@ -18,7 +18,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import com.galaxyjoy.hexviewer.ui.adapters.LineUpdateHexArrayAdapter;
-import com.galaxyjoy.hexviewer.ApplicationCtx;
+import com.galaxyjoy.hexviewer.MyApplication;
 import com.galaxyjoy.hexviewer.R;
 import com.galaxyjoy.hexviewer.models.LineEntry;
 import com.galaxyjoy.hexviewer.utils.SysHelper;
@@ -39,7 +39,7 @@ public class LineUpdateTextWatcher implements TextWatcher {
   private static final Pattern PATTERN_4HEX = Pattern.compile("(\\p{XDigit}{4})");
   private final LineUpdateHexArrayAdapter mResultAdapter;
   private final TextInputLayout mLayout;
-  private final ApplicationCtx mApp;
+  private final MyApplication mApp;
   private String mNewString = "";
   private String mOldString = "";
   private boolean mAfterSpace = false;
@@ -60,7 +60,7 @@ public class LineUpdateTextWatcher implements TextWatcher {
 
   public LineUpdateTextWatcher(LineUpdateHexArrayAdapter resultAdapter,
                                TextInputLayout layout,
-                               ApplicationCtx app,
+                               MyApplication app,
                                final int shiftOffset,
                                final int maxLengthWithPartial,
                                final boolean sequential) {

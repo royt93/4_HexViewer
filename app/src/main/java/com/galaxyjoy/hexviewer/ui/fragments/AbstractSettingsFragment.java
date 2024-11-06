@@ -16,7 +16,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.PreferenceFragmentCompat;
 
 import com.galaxyjoy.hexviewer.ui.utils.UIHelper;
-import com.galaxyjoy.hexviewer.ApplicationCtx;
+import com.galaxyjoy.hexviewer.MyApplication;
 import com.galaxyjoy.hexviewer.R;
 
 /**
@@ -41,11 +41,11 @@ public abstract class AbstractSettingsFragment extends PreferenceFragmentCompat 
   protected static final int MIN_PLAIN_FONT_SIZE = 1;
   protected static final int MAX_PLAIN_FONT_SIZE = 100;
   protected final AppCompatActivity mActivity;
-  protected final ApplicationCtx mApp;
+  protected final MyApplication mApp;
 
   protected AbstractSettingsFragment(AppCompatActivity owner) {
     mActivity = owner;
-    mApp = (ApplicationCtx)owner.getApplicationContext();
+    mApp = (MyApplication)owner.getApplicationContext();
   }
 
   /* ----------------------------- */

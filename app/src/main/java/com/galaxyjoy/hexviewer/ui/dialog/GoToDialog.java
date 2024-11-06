@@ -22,7 +22,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.regex.Pattern;
 
 import com.galaxyjoy.hexviewer.ui.adapters.SearchableListArrayAdapter;
-import com.galaxyjoy.hexviewer.ApplicationCtx;
+import com.galaxyjoy.hexviewer.MyApplication;
 import com.galaxyjoy.hexviewer.R;
 import com.galaxyjoy.hexviewer.models.LineEntries;
 import com.galaxyjoy.hexviewer.ui.activities.MainActivity;
@@ -54,7 +54,7 @@ public class GoToDialog implements View.OnClickListener {
   private int mPosition = 0;
   private Mode mMode;
   private String mTitle;
-  private final ApplicationCtx mApp;
+  private final MyApplication mApp;
 
   public enum Mode {
     ADDRESS,
@@ -64,7 +64,7 @@ public class GoToDialog implements View.OnClickListener {
 
   public GoToDialog(MainActivity activity) {
     mActivity = activity;
-    mApp = (ApplicationCtx) activity.getApplicationContext();
+    mApp = (MyApplication) activity.getApplicationContext();
   }
 
   /**

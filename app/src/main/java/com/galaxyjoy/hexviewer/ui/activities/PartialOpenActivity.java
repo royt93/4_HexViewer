@@ -40,7 +40,7 @@ import java.util.regex.Pattern;
 import com.galaxyjoy.hexviewer.models.FileData;
 import com.galaxyjoy.hexviewer.ui.utils.UIHelper;
 import com.galaxyjoy.hexviewer.utils.SysHelper;
-import com.galaxyjoy.hexviewer.ApplicationCtx;
+import com.galaxyjoy.hexviewer.MyApplication;
 import com.galaxyjoy.hexviewer.R;
 
 /**
@@ -117,7 +117,7 @@ public class PartialOpenActivity extends AppCompatActivity implements AdapterVie
     intent.putExtra(ACTIVITY_EXTRA_START_OFFSET, fd.getStartOffset());
     intent.putExtra(ACTIVITY_EXTRA_END_OFFSET, fd.getEndOffset());
 
-    ApplicationCtx.addLog(c, "PartialOpen",
+    MyApplication.addLog(c, "PartialOpen",
       String.format(Locale.US, "Open file '%s', sequential: %b, rsize: %d, size: %d, start: %d, end: %d",
         fd.getName(), fd.isSequential(), fd.getRealSize(), fd.getSize(), fd.getStartOffset(), fd.getEndOffset()));
     activityResultLauncher.launch(intent);
@@ -132,7 +132,7 @@ public class PartialOpenActivity extends AppCompatActivity implements AdapterVie
    */
   @Override
   protected void attachBaseContext(Context base) {
-    super.attachBaseContext(((ApplicationCtx) base.getApplicationContext()).onAttach(base));
+    super.attachBaseContext(((MyApplication) base.getApplicationContext()).onAttach(base));
   }
 
   /**
@@ -246,7 +246,7 @@ public class PartialOpenActivity extends AppCompatActivity implements AdapterVie
   @Override
   public void onConfigurationChanged(@NonNull Configuration newConfig) {
     super.onConfigurationChanged(newConfig);
-    ((ApplicationCtx) getApplicationContext()).setConfiguration(newConfig);
+    ((MyApplication) getApplicationContext()).setConfiguration(newConfig);
   }
 
   /**
@@ -279,7 +279,7 @@ public class PartialOpenActivity extends AppCompatActivity implements AdapterVie
       Intent i = new Intent();
       long start = getValue(Objects.requireNonNull(mTietStart.getText()).toString(), null);
       long end = getValue(Objects.requireNonNull(mTietEnd.getText()).toString(), null);
-      if (((ApplicationCtx) getApplicationContext()).isPartialOpenButWholeFileIsOpened() && start == 0L && end == mRealSize)
+      if (((MyApplication) getApplicationContext()).isPartialOpenButWholeFileIsOpened() && start == 0L && end == mRealSize)
         end = 0L;
       i.putExtra(RESULT_START_OFFSET, start);
       i.putExtra(RESULT_END_OFFSET, end);

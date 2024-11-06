@@ -16,7 +16,7 @@ import androidx.core.content.ContextCompat;
 
 import java.util.List;
 
-import com.galaxyjoy.hexviewer.ApplicationCtx;
+import com.galaxyjoy.hexviewer.MyApplication;
 import com.galaxyjoy.hexviewer.R;
 import com.galaxyjoy.hexviewer.models.ListSettings;
 import com.galaxyjoy.hexviewer.ui.adapters.holders.HolderHex;
@@ -44,7 +44,7 @@ public class LineUpdateHexArrayAdapter extends ArrayAdapter<String> {
   private long mStartOffset;
   private int mMaxLength;
   private int mPreviousSize = -1;
-  private final ApplicationCtx mApp;
+  private final MyApplication mApp;
 
   public LineUpdateHexArrayAdapter(final Context context,
                                    ListView listView,
@@ -55,7 +55,7 @@ public class LineUpdateHexArrayAdapter extends ArrayAdapter<String> {
     mListView = listView;
     mEntryList = objects;
     mTitle = title;
-    mApp = (ApplicationCtx) context.getApplicationContext();
+    mApp = (MyApplication) context.getApplicationContext();
   }
 
   public void setStartOffset(final long startOffset) {

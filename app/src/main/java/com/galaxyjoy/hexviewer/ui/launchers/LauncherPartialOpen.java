@@ -12,7 +12,7 @@ import com.galaxyjoy.hexviewer.models.FileData;
 import com.galaxyjoy.hexviewer.ui.activities.MainActivity;
 import com.galaxyjoy.hexviewer.ui.activities.PartialOpenActivity;
 import com.galaxyjoy.hexviewer.ui.tasks.TaskOpen;
-import com.galaxyjoy.hexviewer.ApplicationCtx;
+import com.galaxyjoy.hexviewer.MyApplication;
 
 /**
  * ******************************************************************************
@@ -32,11 +32,11 @@ public class LauncherPartialOpen {
   private boolean mAddRecent;
   private String mOldToString;
   private ActivityResultLauncher<Intent> activityResultLauncherOpen;
-  private final ApplicationCtx mApp;
+  private final MyApplication mApp;
 
   public LauncherPartialOpen(MainActivity activity) {
     mActivity = activity;
-    mApp = (ApplicationCtx) activity.getApplicationContext();
+    mApp = (MyApplication) activity.getApplicationContext();
     register();
   }
 
@@ -78,7 +78,7 @@ public class LauncherPartialOpen {
             new TaskOpen(mActivity, mActivity.getPayloadHex().getAdapter(), mActivity, mOldToString, mAddRecent).execute(mActivity.getFileData());
           } else {
             Log.e(getClass().getSimpleName(), "LauncherPartialOpen -> Invalid data object!!!");
-            ApplicationCtx.addLog(mActivity, "PartialOpen", "Null intent data!");
+            MyApplication.addLog(mActivity, "PartialOpen", "Null intent data!");
             cancel.run();
           }
         } else {

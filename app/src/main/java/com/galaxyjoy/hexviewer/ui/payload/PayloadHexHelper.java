@@ -10,7 +10,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import com.galaxyjoy.hexviewer.ui.adapters.HexTextArrayAdapter;
-import com.galaxyjoy.hexviewer.ApplicationCtx;
+import com.galaxyjoy.hexviewer.MyApplication;
 import com.galaxyjoy.hexviewer.R;
 import com.galaxyjoy.hexviewer.ui.activities.MainActivity;
 import com.galaxyjoy.hexviewer.ui.adapters.config.UserConfigLandscape;
@@ -38,7 +38,7 @@ public class PayloadHexHelper {
   private LinearLayout mTitle = null;
   private TextView mTitleLineNumbers = null;
   private TextView mTitleContent = null;
-  private ApplicationCtx mApp = null;
+  private MyApplication mApp = null;
 
   /**
    * Called when the activity is created.
@@ -47,7 +47,7 @@ public class PayloadHexHelper {
    */
   public void onCreate(final MainActivity activity) {
     mActivity = activity;
-    mApp = (ApplicationCtx) activity.getApplicationContext();
+    mApp = (MyApplication) activity.getApplicationContext();
     mPayloadViewContainer = activity.findViewById(R.id.payloadViewContainer);
     mTitle = activity.findViewById(R.id.title);
     mTitleLineNumbers = activity.findViewById(R.id.titleLineNumbers);

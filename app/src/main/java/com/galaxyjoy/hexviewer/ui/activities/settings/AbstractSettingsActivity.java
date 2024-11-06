@@ -7,7 +7,7 @@ import android.view.MenuItem;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.galaxyjoy.hexviewer.ApplicationCtx;
+import com.galaxyjoy.hexviewer.MyApplication;
 import com.galaxyjoy.hexviewer.R;
 import com.galaxyjoy.hexviewer.ui.fragments.AbstractSettingsFragment;
 
@@ -34,7 +34,7 @@ public abstract class AbstractSettingsActivity extends AppCompatActivity {
    */
   @Override
   protected void attachBaseContext(Context base) {
-    super.attachBaseContext(((ApplicationCtx) base.getApplicationContext()).onAttach(base));
+    super.attachBaseContext(((MyApplication) base.getApplicationContext()).onAttach(base));
   }
 
   /**
