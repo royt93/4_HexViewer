@@ -17,7 +17,7 @@ import java.util.Map;
 import com.galaxyjoy.hexviewer.models.LineEntry;
 import com.galaxyjoy.hexviewer.ui.activities.LineUpdateActivity;
 import com.galaxyjoy.hexviewer.ui.activities.MainActivity;
-import com.galaxyjoy.hexviewer.ui.adt.HexTextArrayAdt;
+import com.galaxyjoy.hexviewer.ui.adt.AdtHexTextArray;
 import com.galaxyjoy.hexviewer.util.SysHelper;
 import com.galaxyjoy.hexviewer.MyApplication;
 
@@ -96,7 +96,7 @@ public class LauncherLineUpdate {
                                  final int position,
                                  final int nbLines) {
         SysHelper.formatBuffer(li, buf, buf.length, null, nbBytesPerLine);
-        HexTextArrayAdt adapter = mActivity.getPayloadHex().getAdapter();
+        AdtHexTextArray adapter = mActivity.getPayloadHex().getAdapter();
         if (li.isEmpty()) {
             Map<Integer, LineEntry> map = new HashMap<>();
             for (int i = position; i < position + nbLines; i++) {

@@ -4,7 +4,7 @@ import android.util.Log;
 
 import com.galaxyjoy.hexviewer.models.LineEntry;
 import com.galaxyjoy.hexviewer.ui.activities.MainActivity;
-import com.galaxyjoy.hexviewer.ui.adt.HexTextArrayAdt;
+import com.galaxyjoy.hexviewer.ui.adt.AdtHexTextArray;
 import com.galaxyjoy.hexviewer.ui.undoredo.ICommand;
 import com.galaxyjoy.hexviewer.util.SysHelper;
 
@@ -26,7 +26,7 @@ public class DeleteCommand implements ICommand {
      */
     public void execute() {
         Log.i(getClass().getName(), "execute");
-        HexTextArrayAdt adapter = mActivity.getPayloadHex().getAdapter();
+        AdtHexTextArray adapter = mActivity.getPayloadHex().getAdapter();
         String query = mActivity.getSearchQuery();
         if (!query.isEmpty())
             adapter.manualFilterUpdate(""); /* reset filter */
@@ -48,7 +48,7 @@ public class DeleteCommand implements ICommand {
      */
     public void unExecute() {
         Log.i(getClass().getName(), "unExecute");
-        HexTextArrayAdt adapter = mActivity.getPayloadHex().getAdapter();
+        AdtHexTextArray adapter = mActivity.getPayloadHex().getAdapter();
         String query = mActivity.getSearchQuery();
         if (!query.isEmpty())
             adapter.manualFilterUpdate(""); /* reset filter */

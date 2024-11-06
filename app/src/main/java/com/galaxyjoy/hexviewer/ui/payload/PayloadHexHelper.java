@@ -10,7 +10,7 @@ import android.widget.TextView;
 import com.galaxyjoy.hexviewer.MyApplication;
 import com.galaxyjoy.hexviewer.R;
 import com.galaxyjoy.hexviewer.ui.activities.MainActivity;
-import com.galaxyjoy.hexviewer.ui.adt.HexTextArrayAdt;
+import com.galaxyjoy.hexviewer.ui.adt.AdtHexTextArray;
 import com.galaxyjoy.hexviewer.ui.adt.config.UserConfigLandscape;
 import com.galaxyjoy.hexviewer.ui.adt.config.UserConfigPortrait;
 import com.galaxyjoy.hexviewer.ui.adt.holders.LineNumbersTitle;
@@ -21,7 +21,7 @@ import java.util.ArrayList;
 public class PayloadHexHelper {
     private MainActivity mActivity;
     private ListView mPayloadHex = null;
-    private HexTextArrayAdt mAdapterHex = null;
+    private AdtHexTextArray mAdapterHex = null;
     private RelativeLayout mPayloadViewContainer = null;
     private LinearLayout mTitle = null;
     private TextView mTitleLineNumbers = null;
@@ -52,7 +52,7 @@ public class PayloadHexHelper {
         title.setTitleContent(mTitleContent);
         title.setTitleLineNumbers(mTitleLineNumbers);
 
-        mAdapterHex = new HexTextArrayAdt(activity,
+        mAdapterHex = new AdtHexTextArray(activity,
                 new ArrayList<>(),
                 title,
                 new UserConfigPortrait(activity, true),
@@ -97,7 +97,7 @@ public class PayloadHexHelper {
      *
      * @return HexTextArrayAdapter
      */
-    public HexTextArrayAdt getAdapter() {
+    public AdtHexTextArray getAdapter() {
         return mAdapterHex;
     }
 
