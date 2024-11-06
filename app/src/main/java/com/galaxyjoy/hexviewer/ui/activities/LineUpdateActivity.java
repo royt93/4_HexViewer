@@ -35,7 +35,7 @@ import com.galaxyjoy.hexviewer.util.SysHelper;
 import com.galaxyjoy.hexviewer.util.memory.MemoryMonitor;
 import com.galaxyjoy.hexviewer.MyApplication;
 import com.galaxyjoy.hexviewer.R;
-import com.galaxyjoy.hexviewer.ui.adt.holders.LineNumbersTitle;
+import com.galaxyjoy.hexviewer.ui.adt.holder.LineNumbersTitle;
 
 /**
  * ******************************************************************************

@@ -17,8 +17,8 @@ import com.galaxyjoy.hexviewer.MyApplication;
 import com.galaxyjoy.hexviewer.R;
 import com.galaxyjoy.hexviewer.models.LineEntry;
 import com.galaxyjoy.hexviewer.ui.adt.config.UserConfig;
-import com.galaxyjoy.hexviewer.ui.adt.holders.HolderHex;
-import com.galaxyjoy.hexviewer.ui.adt.holders.LineNumbersTitle;
+import com.galaxyjoy.hexviewer.ui.adt.holder.HolderHex;
+import com.galaxyjoy.hexviewer.ui.adt.holder.LineNumbersTitle;
 import com.galaxyjoy.hexviewer.ui.util.UIHelper;
 import com.galaxyjoy.hexviewer.util.SysHelper;
 

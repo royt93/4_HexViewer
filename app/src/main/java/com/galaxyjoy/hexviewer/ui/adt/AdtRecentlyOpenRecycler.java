@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.galaxyjoy.hexviewer.R;
 import com.galaxyjoy.hexviewer.models.UriData;
-import com.galaxyjoy.hexviewer.ui.adt.holders.HolderRecently;
+import com.galaxyjoy.hexviewer.ui.adt.holder.HolderRecently;
 import com.galaxyjoy.hexviewer.util.SysHelper;
 
 import java.util.List;

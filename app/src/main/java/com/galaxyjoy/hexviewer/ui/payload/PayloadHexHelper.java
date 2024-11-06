@@ -13,7 +13,7 @@ import com.galaxyjoy.hexviewer.ui.activities.MainActivity;
 import com.galaxyjoy.hexviewer.ui.adt.AdtHexTextArray;
 import com.galaxyjoy.hexviewer.ui.adt.config.UserConfigLandscape;
 import com.galaxyjoy.hexviewer.ui.adt.config.UserConfigPortrait;
-import com.galaxyjoy.hexviewer.ui.adt.holders.LineNumbersTitle;
+import com.galaxyjoy.hexviewer.ui.adt.holder.LineNumbersTitle;
 import com.galaxyjoy.hexviewer.ui.multiChoice.HexMultiChoiceCallback;
 
 import java.util.ArrayList;
