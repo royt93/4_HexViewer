@@ -1,4 +1,4 @@
-package com.galaxyjoy.hexviewer.ui.tasks;
+package com.galaxyjoy.hexviewer.ui.task;
 
 import android.os.Handler;
 import android.os.Looper;

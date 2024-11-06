@@ -11,7 +11,7 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import com.galaxyjoy.hexviewer.models.FileData;
 import com.galaxyjoy.hexviewer.ui.activities.MainActivity;
 import com.galaxyjoy.hexviewer.ui.activities.PartialOpenActivity;
-import com.galaxyjoy.hexviewer.ui.tasks.TaskOpen;
+import com.galaxyjoy.hexviewer.ui.task.TaskOpen;
 import com.galaxyjoy.hexviewer.MyApplication;
 
 /**

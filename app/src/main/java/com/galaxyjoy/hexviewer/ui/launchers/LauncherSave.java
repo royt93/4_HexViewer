@@ -14,7 +14,7 @@ import java.util.Locale;
 import com.galaxyjoy.hexviewer.models.FileData;
 import com.galaxyjoy.hexviewer.ui.activities.MainActivity;
 import com.galaxyjoy.hexviewer.ui.dialog.SaveDialog;
-import com.galaxyjoy.hexviewer.ui.tasks.TaskSave;
+import com.galaxyjoy.hexviewer.ui.task.TaskSave;
 import com.galaxyjoy.hexviewer.ui.util.UIHelper;
 import com.galaxyjoy.hexviewer.util.io.FileHelper;
 import com.galaxyjoy.hexviewer.MyApplication;
