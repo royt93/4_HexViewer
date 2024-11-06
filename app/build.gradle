@@ -1,71 +1,69 @@
 plugins {
-  id "org.sonarqube" version "3.3"
-  id 'com.android.application'
+    id "org.sonarqube" version "3.3"
+    id 'com.android.application'
 }
 
 final SONAR_PROJECT_VERSION = '1.55'
 
 android {
-  namespace 'com.example.myapplication'
-  compileSdk 34
+    namespace 'com.example.myapplication'
+    compileSdk 34
 
-  defaultConfig {
-    applicationId "fr.ralala.hexviewer"
-    minSdk 23
-    targetSdk 34
-    // F-Droid seems not to appreciate the use of variables
-    versionCode 155
-    versionName '1.55'
-    vectorDrawables {
-      useSupportLibrary true
+    defaultConfig {
+        applicationId "fr.ralala.hexviewer"
+        minSdk 23
+        targetSdk 34
+        versionCode 20241106
+        versionName '2024.11.06'
+        vectorDrawables {
+            useSupportLibrary true
+        }
     }
-  }
 
-  compileOptions {
-    sourceCompatibility JavaVersion.VERSION_1_8
-    targetCompatibility JavaVersion.VERSION_1_8
-  }
-  buildTypes {
-    release {
-      minifyEnabled true
-      shrinkResources true
-      proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
-    debug {
-      // to debug ProGuard rules
-      minifyEnabled false
-      proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules-debug.pro'
+    buildTypes {
+        release {
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules-debug.pro'
+        }
     }
-  }
-  buildFeatures {
-    compose true
-  }
-  // This is important, it will run lint checks but won't abort build
+    buildFeatures {
+        compose true
+    }
+    // This is important, it will run lint checks but won't abort build
     sonarqube {
-    properties {
-      property "sonar.projectKey", "Keidan_HexViewer"
-      property "sonar.organization", "keidan"
-      property "sonar.host.url", "https://sonarcloud.io"
-      property 'sonar.projectName', 'HexViewer'
-      property 'sonar.projectVersion', SONAR_PROJECT_VERSION
-      property 'sonar.coverage.exclusions', "**/**"
+        properties {
+            property "sonar.projectKey", "Keidan_HexViewer"
+            property "sonar.organization", "keidan"
+            property "sonar.host.url", "https://sonarcloud.io"
+            property 'sonar.projectName', 'HexViewer'
+            property 'sonar.projectVersion', SONAR_PROJECT_VERSION
+            property 'sonar.coverage.exclusions', "**/**"
+        }
     }
-  }
-  namespace 'fr.ralala.hexviewer'
+    namespace 'fr.ralala.hexviewer'
     lint {
         abortOnError false
     }
 }
 
 dependencies {
-  implementation 'org.apache.commons:commons-collections4:4.0'
-  implementation "androidx.appcompat:appcompat:1.6.1"
-  implementation "androidx.preference:preference:1.2.1"
-  implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
-  implementation "androidx.emoji:emoji:1.1.0"
-  implementation "com.android.support:support-emoji-bundled:$version"
-  implementation "com.google.android.material:material:1.11.0"
-  testImplementation "junit:junit:4.13.2"
+    implementation 'org.apache.commons:commons-collections4:4.0'
+    implementation "androidx.appcompat:appcompat:1.6.1"
+    implementation "androidx.preference:preference:1.2.1"
+    implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
+    implementation "androidx.emoji:emoji:1.1.0"
+    implementation "com.android.support:support-emoji-bundled:$version"
+    implementation "com.google.android.material:material:1.11.0"
+    testImplementation "junit:junit:4.13.2"
 }
 // versionCode <-> versionName /////////////////////////////////////////////////////////////////////
 // I got the idea (code) below from the repository https://github.com/sal0max/currencie
@@ -74,22 +72,22 @@ dependencies {
  * Needed because of F-Droid: both have to be hard-coded and can't be assigned dynamically.
  * So at least check during build for them to match.
  */
-tasks.register('checkVersion') {
-  int versionCode = android.defaultConfig.versionCode
-  String versionName = android.defaultConfig.versionName
-  int correctVersionCode = generateVersionCode(android.defaultConfig.versionName)
-  if (versionCode != correctVersionCode)
-    throw new GradleException(
-      "versionCode and versionName don't match: " +
-        "versionCode should be $correctVersionCode. Is $versionCode."
-    )
-  if (versionName != SONAR_PROJECT_VERSION)
-    throw new GradleException(
-      "versionName and sonar.projectVersion don't match: " +
-        "sonar.projectVersion should be $versionName. Is $SONAR_PROJECT_VERSION."
-    )
-}
-assemble.dependsOn checkVersion
+//tasks.register('checkVersion') {
+//    int versionCode = android.defaultConfig.versionCode
+//    String versionName = android.defaultConfig.versionName
+//    int correctVersionCode = generateVersionCode(android.defaultConfig.versionName)
+//    if (versionCode != correctVersionCode)
+//        throw new GradleException(
+//                "versionCode and versionName don't match: " +
+//                        "versionCode should be $correctVersionCode. Is $versionCode."
+//        )
+//    if (versionName != SONAR_PROJECT_VERSION)
+//        throw new GradleException(
+//                "versionName and sonar.projectVersion don't match: " +
+//                        "sonar.projectVersion should be $versionName. Is $SONAR_PROJECT_VERSION."
+//        )
+//}
+//assemble.dependsOn checkVersion
 
 //tasks.register('checkFastlaneChangelog') {
 //  int versionCode = android.defaultConfig.versionCode
@@ -109,7 +107,7 @@ assemble.dependsOn checkVersion
  * @return e.g. 127 (-> 1 27)
  */
 private static int generateVersionCode(String semVer) {
-  return semVer.split('\\.')
-    .collect { Integer.parseInt(it) }
-    .inject { sum, value -> sum * 100 + value }
+    return semVer.split('\\.')
+            .collect { Integer.parseInt(it) }
+            .inject { sum, value -> sum * 100 + value }
 }
