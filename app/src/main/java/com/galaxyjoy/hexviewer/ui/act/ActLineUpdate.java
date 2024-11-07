@@ -89,7 +89,7 @@ public class ActLineUpdate extends AppCompatActivity implements View.OnClickList
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_line_update);
+        setContentView(R.layout.act_line_update);
         mApp = (MyApplication) getApplicationContext();
         setupViews();
     }

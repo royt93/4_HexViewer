@@ -45,7 +45,7 @@ public class ActLogs extends AppCompatActivity {
     @Override
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_logs);
+        setContentView(R.layout.act_logs);
         mApp = (MyApplication) getApplicationContext();
         setupViews();
     }
