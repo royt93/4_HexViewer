@@ -85,11 +85,11 @@ public class ActMain extends ActAbstractBaseMain implements AdapterView.OnItemCl
         mIdleView.setVisibility(View.VISIBLE);
 
         findViewById(R.id.buttonOpenFile).setOnClickListener(v ->
-                onPopupItemClick(R.id.action_open));
+                onPopupItemClick(R.id.actionOpen));
         findViewById(R.id.buttonPartialOpenFile).setOnClickListener(v ->
-                onPopupItemClick(R.id.action_open_sequential));
+                onPopupItemClick(R.id.actionOpenSequential));
         findViewById(R.id.buttonRecentlyOpen).setOnClickListener(v ->
-                onPopupItemClick(R.id.action_recently_open));
+                onPopupItemClick(R.id.actionRecentlyOpen));
         findViewById(R.id.buttonRecentlyOpen).setEnabled(!mApp.getRecentlyOpened().list().isEmpty());
         mPayloadHexHelper = new PayloadHexHelper();
         mPayloadHexHelper.onCreate(this);
@@ -327,23 +327,23 @@ public class ActMain extends ActAbstractBaseMain implements AdapterView.OnItemCl
      * @param id The view id.
      */
     public void onPopupItemClick(int id) {
-        if (id == R.id.action_open || id == R.id.action_open_sequential) {
-            popupActionOpen(id == R.id.action_open_sequential);
-        } else if (id == R.id.action_recently_open) {
+        if (id == R.id.actionOpen || id == R.id.actionOpenSequential) {
+            popupActionOpen(id == R.id.actionOpenSequential);
+        } else if (id == R.id.actionRecentlyOpen) {
             mLauncherRecentlyOpen.startActivity();
-        } else if (id == R.id.action_save) {
+        } else if (id == R.id.actionSave) {
             popupActionSave();
-        } else if (id == R.id.action_save_as) {
+        } else if (id == R.id.actionSaveAs) {
             popupActionSaveAs();
-        } else if (id == R.id.action_close) {
+        } else if (id == R.id.actionClose) {
             popupActionClose();
-        } else if (id == R.id.action_settings) {
+        } else if (id == R.id.actionSettings) {
             ActSettings.startActivity(this, !FileData.isEmpty(mFileData), mUnDoRedo.isChanged());
-        } else if (id == R.id.action_undo) {
+        } else if (id == R.id.actionUndo) {
             mUnDoRedo.undo();
-        } else if (id == R.id.action_redo) {
+        } else if (id == R.id.actionRedo) {
             mUnDoRedo.redo();
-        } else if (id == R.id.action_go_to) {
+        } else if (id == R.id.actionGoTo) {
             popupActionGoTo();
         } else if (mPopup != null) {
             specialPopupActions(id);

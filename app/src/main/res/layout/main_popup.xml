@@ -1,215 +1,230 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-  android:layout_width="match_parent"
-  android:layout_height="match_parent"
-  android:background="@color/windowBackground">
-  <RelativeLayout
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
-    <LinearLayout
-      android:id="@+id/action"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:layout_alignParentStart="true"
-      android:layout_alignParentTop="true"
-      android:orientation="horizontal"
-      android:baselineAligned="false"
-      android:layoutDirection="ltr">
-      <FrameLayout
-        android:id="@+id/containerUndo"
-        android:layout_weight="0.5"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        style="?android:borderlessButtonStyle" >
-        <ImageView
-          android:id="@+id/action_undo"
-          android:layout_gravity="center"
-          android:layout_width="32dp"
-          android:layout_height="32dp"
-          android:text="@null"
-          android:contentDescription="@string/content_description_undo"
-          android:src="@drawable/ic_undo_disabled"/>
-      </FrameLayout>
+    android:layout_height="match_parent"
+    android:background="@color/windowBackground">
 
-      <FrameLayout
-        android:id="@+id/containerRedo"
-        android:layout_weight="0.5"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        style="?android:borderlessButtonStyle" >
-        <ImageView
-          android:id="@+id/action_redo"
-          android:layout_gravity="center"
-          android:layout_width="32dp"
-          android:layout_height="32dp"
-          android:text="@null"
-          android:contentDescription="@string/content_description_redo"
-          android:src="@drawable/ic_redo_disabled"/>
-      </FrameLayout>
-    </LinearLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-    <TextView
-      android:id="@+id/action_open"
-      android:layout_below="@id/action"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:text="@string/action_open_title"
-      android:textSize="@dimen/main_popup_items_textSize"
-      android:background="?attr/selectableItemBackground"
-      android:gravity="center_vertical"
-      android:minHeight="?android:attr/listPreferredItemHeightSmall"
-      android:paddingEnd="?android:attr/listPreferredItemPaddingEnd"
-      android:paddingStart="?android:attr/listPreferredItemPaddingStart"
-      android:textAppearance="?android:attr/textAppearanceListItemSmall"  />
+        <LinearLayout
+            android:id="@+id/action"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:baselineAligned="false"
+            android:layoutDirection="ltr"
+            android:orientation="horizontal">
 
-    <TextView
-      android:id="@+id/action_open_sequential"
-      android:layout_below="@id/action_open"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:text="@string/action_open_sequential_title"
-      android:textSize="@dimen/main_popup_items_textSize"
-      android:background="?attr/selectableItemBackground"
-      android:gravity="center_vertical"
-      android:minHeight="?android:attr/listPreferredItemHeightSmall"
-      android:paddingEnd="?android:attr/listPreferredItemPaddingEnd"
-      android:paddingStart="?android:attr/listPreferredItemPaddingStart"
-      android:textAppearance="?android:attr/textAppearanceListItemSmall"  />
-    <TextView
-      android:id="@+id/action_recently_open"
-      android:layout_below="@id/action_open_sequential"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:text="@string/action_recently_open_title"
-      android:textSize="@dimen/main_popup_items_textSize"
-      android:background="?attr/selectableItemBackground"
-      android:gravity="center_vertical"
-      android:minHeight="?android:attr/listPreferredItemHeightSmall"
-      android:paddingEnd="?android:attr/listPreferredItemPaddingEnd"
-      android:paddingStart="?android:attr/listPreferredItemPaddingStart"
-      android:textAppearance="?android:attr/textAppearanceListItemSmall"  />
+            <FrameLayout
+                android:id="@+id/containerUndo"
+                style="?android:borderlessButtonStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5">
 
-    <LinearLayout
-      android:id="@+id/action_plain_text_container"
-      android:layout_below="@id/action_recently_open"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content">
-    <TextView
-      android:id="@+id/action_plain_text_tv"
-      android:text="@string/action_plain_text_title"
-      android:textSize="@dimen/main_popup_items_textSize"
-      android:layout_weight="0.85"
-      android:layout_width="0dp"
-      android:layout_height="wrap_content"
-      android:gravity="center_vertical"
-      android:minHeight="?android:attr/listPreferredItemHeightSmall"
-      android:paddingEnd="?android:attr/listPreferredItemPaddingEnd"
-      android:paddingStart="?android:attr/listPreferredItemPaddingStart"
-      android:textAppearance="?android:attr/textAppearanceListItemSmall" />
-    <CheckBox
-      android:id="@+id/action_plain_text_cb"
-      android:layout_weight="0.15"
-      android:layout_width="0dp"
-      android:layout_height="wrap_content"
-      android:gravity="center_vertical"
-      android:minHeight="?android:attr/listPreferredItemHeightSmall"
-      android:paddingEnd="?android:attr/listPreferredItemPaddingEnd"
-      android:paddingStart="?android:attr/listPreferredItemPaddingStart"
-      android:textAppearance="?android:attr/textAppearanceListItemSmall"  />
-    </LinearLayout>
-    <LinearLayout
-      android:id="@+id/action_line_numbers_container"
-      android:layout_below="@id/action_plain_text_container"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content">
-      <TextView
-        android:id="@+id/action_line_numbers_tv"
-        android:text="@string/action_line_numbers_title"
-        android:textSize="@dimen/main_popup_items_textSize"
-        android:layout_weight="0.85"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:minHeight="?android:attr/listPreferredItemHeightSmall"
-        android:paddingEnd="?android:attr/listPreferredItemPaddingEnd"
-        android:paddingStart="?android:attr/listPreferredItemPaddingStart"
-        android:textAppearance="?android:attr/textAppearanceListItemSmall" />
-      <CheckBox
-        android:id="@+id/action_line_numbers_cb"
-        android:layout_weight="0.15"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:minHeight="?android:attr/listPreferredItemHeightSmall"
-        android:paddingEnd="?android:attr/listPreferredItemPaddingEnd"
-        android:paddingStart="?android:attr/listPreferredItemPaddingStart"
-        android:textAppearance="?android:attr/textAppearanceListItemSmall"  />
-    </LinearLayout>
-    <TextView
-      android:id="@+id/action_go_to"
-      android:layout_below="@id/action_line_numbers_container"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:text="@string/action_go_to_address"
-      android:textSize="@dimen/main_popup_items_textSize"
-      android:background="?attr/selectableItemBackground"
-      android:gravity="center_vertical"
-      android:minHeight="?android:attr/listPreferredItemHeightSmall"
-      android:paddingEnd="?android:attr/listPreferredItemPaddingEnd"
-      android:paddingStart="?android:attr/listPreferredItemPaddingStart"
-      android:textAppearance="?android:attr/textAppearanceListItemSmall"  />
-    <TextView
-      android:id="@+id/action_save"
-      android:layout_below="@id/action_go_to"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:text="@string/action_save_title"
-      android:textSize="@dimen/main_popup_items_textSize"
-      android:background="?attr/selectableItemBackground"
-      android:gravity="center_vertical"
-      android:minHeight="?android:attr/listPreferredItemHeightSmall"
-      android:paddingEnd="?android:attr/listPreferredItemPaddingEnd"
-      android:paddingStart="?android:attr/listPreferredItemPaddingStart"
-      android:textAppearance="?android:attr/textAppearanceListItemSmall"  />
-    <TextView
-      android:id="@+id/action_save_as"
-      android:layout_below="@id/action_save"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:text="@string/action_save_as_title"
-      android:textSize="@dimen/main_popup_items_textSize"
-      android:background="?attr/selectableItemBackground"
-      android:gravity="center_vertical"
-      android:minHeight="?android:attr/listPreferredItemHeightSmall"
-      android:paddingEnd="?android:attr/listPreferredItemPaddingEnd"
-      android:paddingStart="?android:attr/listPreferredItemPaddingStart"
-      android:textAppearance="?android:attr/textAppearanceListItemSmall"  />
-    <TextView
-      android:id="@+id/action_close"
-      android:layout_below="@id/action_save_as"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:text="@string/action_close_title"
-      android:textSize="@dimen/main_popup_items_textSize"
-      android:background="?attr/selectableItemBackground"
-      android:gravity="center_vertical"
-      android:minHeight="?android:attr/listPreferredItemHeightSmall"
-      android:paddingEnd="?android:attr/listPreferredItemPaddingEnd"
-      android:paddingStart="?android:attr/listPreferredItemPaddingStart"
-      android:textAppearance="?android:attr/textAppearanceListItemSmall"  />
+                <ImageView
+                    android:id="@+id/actionUndo"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_gravity="center"
+                    android:contentDescription="@string/content_description_undo"
+                    android:src="@drawable/ic_undo_disabled"
+                    android:text="@null" />
+            </FrameLayout>
 
-    <TextView
-      android:id="@+id/action_settings"
-      android:layout_below="@id/action_close"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:text="@string/action_settings_title"
-      android:textSize="@dimen/main_popup_items_textSize"
-      android:background="?attr/selectableItemBackground"
-      android:gravity="center_vertical"
-      android:minHeight="?android:attr/listPreferredItemHeightSmall"
-      android:paddingEnd="?android:attr/listPreferredItemPaddingEnd"
-      android:paddingStart="?android:attr/listPreferredItemPaddingStart"
-      android:textAppearance="?android:attr/textAppearanceListItemSmall"  />
-  </RelativeLayout>
+            <FrameLayout
+                android:id="@+id/containerRedo"
+                style="?android:borderlessButtonStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5">
+
+                <ImageView
+                    android:id="@+id/actionRedo"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_gravity="center"
+                    android:contentDescription="@string/content_description_redo"
+                    android:src="@drawable/ic_redo_disabled"
+                    android:text="@null" />
+            </FrameLayout>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/actionOpen"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/action"
+            android:background="?attr/selectableItemBackground"
+            android:gravity="center_vertical"
+            android:minHeight="?android:attr/listPreferredItemHeightSmall"
+            android:paddingStart="?android:attr/listPreferredItemPaddingStart"
+            android:paddingEnd="?android:attr/listPreferredItemPaddingEnd"
+            android:text="@string/action_open_title"
+            android:textAppearance="?android:attr/textAppearanceListItemSmall"
+            android:textSize="@dimen/main_popup_items_textSize" />
+
+        <TextView
+            android:id="@+id/actionOpenSequential"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/actionOpen"
+            android:background="?attr/selectableItemBackground"
+            android:gravity="center_vertical"
+            android:minHeight="?android:attr/listPreferredItemHeightSmall"
+            android:paddingStart="?android:attr/listPreferredItemPaddingStart"
+            android:paddingEnd="?android:attr/listPreferredItemPaddingEnd"
+            android:text="@string/action_open_sequential_title"
+            android:textAppearance="?android:attr/textAppearanceListItemSmall"
+            android:textSize="@dimen/main_popup_items_textSize" />
+
+        <TextView
+            android:id="@+id/actionRecentlyOpen"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/actionOpenSequential"
+            android:background="?attr/selectableItemBackground"
+            android:gravity="center_vertical"
+            android:minHeight="?android:attr/listPreferredItemHeightSmall"
+            android:paddingStart="?android:attr/listPreferredItemPaddingStart"
+            android:paddingEnd="?android:attr/listPreferredItemPaddingEnd"
+            android:text="@string/action_recently_open_title"
+            android:textAppearance="?android:attr/textAppearanceListItemSmall"
+            android:textSize="@dimen/main_popup_items_textSize" />
+
+        <LinearLayout
+            android:id="@+id/actionPlainTextContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/actionRecentlyOpen">
+
+            <TextView
+                android:id="@+id/actionPlainTextTv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.85"
+                android:gravity="center_vertical"
+                android:minHeight="?android:attr/listPreferredItemHeightSmall"
+                android:paddingStart="?android:attr/listPreferredItemPaddingStart"
+                android:paddingEnd="?android:attr/listPreferredItemPaddingEnd"
+                android:text="@string/action_plain_text_title"
+                android:textAppearance="?android:attr/textAppearanceListItemSmall"
+                android:textSize="@dimen/main_popup_items_textSize" />
+
+            <CheckBox
+                android:id="@+id/actionPlainTextCb"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.15"
+                android:gravity="center_vertical"
+                android:minHeight="?android:attr/listPreferredItemHeightSmall"
+                android:paddingStart="?android:attr/listPreferredItemPaddingStart"
+                android:paddingEnd="?android:attr/listPreferredItemPaddingEnd"
+                android:textAppearance="?android:attr/textAppearanceListItemSmall" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/actionLineNumbersContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/actionPlainTextContainer">
+
+            <TextView
+                android:id="@+id/actionLineNumbersTv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.85"
+                android:gravity="center_vertical"
+                android:minHeight="?android:attr/listPreferredItemHeightSmall"
+                android:paddingStart="?android:attr/listPreferredItemPaddingStart"
+                android:paddingEnd="?android:attr/listPreferredItemPaddingEnd"
+                android:text="@string/action_line_numbers_title"
+                android:textAppearance="?android:attr/textAppearanceListItemSmall"
+                android:textSize="@dimen/main_popup_items_textSize" />
+
+            <CheckBox
+                android:id="@+id/actionLineNumbersCb"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.15"
+                android:gravity="center_vertical"
+                android:minHeight="?android:attr/listPreferredItemHeightSmall"
+                android:paddingStart="?android:attr/listPreferredItemPaddingStart"
+                android:paddingEnd="?android:attr/listPreferredItemPaddingEnd"
+                android:textAppearance="?android:attr/textAppearanceListItemSmall" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/actionGoTo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/actionLineNumbersContainer"
+            android:background="?attr/selectableItemBackground"
+            android:gravity="center_vertical"
+            android:minHeight="?android:attr/listPreferredItemHeightSmall"
+            android:paddingStart="?android:attr/listPreferredItemPaddingStart"
+            android:paddingEnd="?android:attr/listPreferredItemPaddingEnd"
+            android:text="@string/action_go_to_address"
+            android:textAppearance="?android:attr/textAppearanceListItemSmall"
+            android:textSize="@dimen/main_popup_items_textSize" />
+
+        <TextView
+            android:id="@+id/actionSave"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/actionGoTo"
+            android:background="?attr/selectableItemBackground"
+            android:gravity="center_vertical"
+            android:minHeight="?android:attr/listPreferredItemHeightSmall"
+            android:paddingStart="?android:attr/listPreferredItemPaddingStart"
+            android:paddingEnd="?android:attr/listPreferredItemPaddingEnd"
+            android:text="@string/action_save_title"
+            android:textAppearance="?android:attr/textAppearanceListItemSmall"
+            android:textSize="@dimen/main_popup_items_textSize" />
+
+        <TextView
+            android:id="@+id/actionSaveAs"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/actionSave"
+            android:background="?attr/selectableItemBackground"
+            android:gravity="center_vertical"
+            android:minHeight="?android:attr/listPreferredItemHeightSmall"
+            android:paddingStart="?android:attr/listPreferredItemPaddingStart"
+            android:paddingEnd="?android:attr/listPreferredItemPaddingEnd"
+            android:text="@string/action_save_as_title"
+            android:textAppearance="?android:attr/textAppearanceListItemSmall"
+            android:textSize="@dimen/main_popup_items_textSize" />
+
+        <TextView
+            android:id="@+id/actionClose"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/actionSaveAs"
+            android:background="?attr/selectableItemBackground"
+            android:gravity="center_vertical"
+            android:minHeight="?android:attr/listPreferredItemHeightSmall"
+            android:paddingStart="?android:attr/listPreferredItemPaddingStart"
+            android:paddingEnd="?android:attr/listPreferredItemPaddingEnd"
+            android:text="@string/action_close_title"
+            android:textAppearance="?android:attr/textAppearanceListItemSmall"
+            android:textSize="@dimen/main_popup_items_textSize" />
+
+        <TextView
+            android:id="@+id/actionSettings"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/actionClose"
+            android:background="?attr/selectableItemBackground"
+            android:gravity="center_vertical"
+            android:minHeight="?android:attr/listPreferredItemHeightSmall"
+            android:paddingStart="?android:attr/listPreferredItemPaddingStart"
+            android:paddingEnd="?android:attr/listPreferredItemPaddingEnd"
+            android:text="@string/action_settings_title"
+            android:textAppearance="?android:attr/textAppearanceListItemSmall"
+            android:textSize="@dimen/main_popup_items_textSize" />
+    </RelativeLayout>
 </ScrollView>

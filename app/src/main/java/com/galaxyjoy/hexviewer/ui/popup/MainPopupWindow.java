@@ -49,32 +49,32 @@ public class MainPopupWindow {
         mPopup.setOutsideTouchable(true);
 
         mPlainText = new PopupCheckboxHelper(popupView,
-                R.id.action_plain_text_container,
-                R.id.action_plain_text_tv,
-                R.id.action_plain_text_cb);
+                R.id.actionPlainTextContainer,
+                R.id.actionPlainTextTv,
+                R.id.actionPlainTextCb);
 
         mLineNumbers = new PopupCheckboxHelper(popupView,
-                R.id.action_line_numbers_container,
-                R.id.action_line_numbers_tv,
-                R.id.action_line_numbers_cb);
-        mSaveAsMenu = popupView.findViewById(R.id.action_save_as);
-        mSaveMenu = popupView.findViewById(R.id.action_save);
-        mCloseMenu = popupView.findViewById(R.id.action_close);
-        mRecentlyOpen = popupView.findViewById(R.id.action_recently_open);
-        ImageView actionRedo = popupView.findViewById(R.id.action_redo);
-        ImageView actionUndo = popupView.findViewById(R.id.action_undo);
+                R.id.actionLineNumbersContainer,
+                R.id.actionLineNumbersTv,
+                R.id.actionLineNumbersCb);
+        mSaveAsMenu = popupView.findViewById(R.id.actionSaveAs);
+        mSaveMenu = popupView.findViewById(R.id.actionSave);
+        mCloseMenu = popupView.findViewById(R.id.actionClose);
+        mRecentlyOpen = popupView.findViewById(R.id.actionRecentlyOpen);
+        ImageView actionRedo = popupView.findViewById(R.id.actionRedo);
+        ImageView actionUndo = popupView.findViewById(R.id.actionUndo);
         FrameLayout containerRedo = popupView.findViewById(R.id.containerRedo);
         FrameLayout containerUndo = popupView.findViewById(R.id.containerUndo);
-        mGoTo = popupView.findViewById(R.id.action_go_to);
+        mGoTo = popupView.findViewById(R.id.actionGoTo);
 
         View.OnClickListener click = v -> {
             mPopup.dismiss();
             if (clickListener != null)
                 clickListener.onClick(v.getId());
         };
-        popupView.findViewById(R.id.action_open).setOnClickListener(click);
-        popupView.findViewById(R.id.action_open_sequential).setOnClickListener(click);
-        popupView.findViewById(R.id.action_settings).setOnClickListener(click);
+        popupView.findViewById(R.id.actionOpen).setOnClickListener(click);
+        popupView.findViewById(R.id.actionOpenSequential).setOnClickListener(click);
+        popupView.findViewById(R.id.actionSettings).setOnClickListener(click);
         mPlainText.setOnClickListener(click);
         mLineNumbers.setOnClickListener(click);
         mSaveAsMenu.setOnClickListener(click);
