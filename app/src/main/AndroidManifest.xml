@@ -106,7 +106,7 @@
         </activity>
 
         <activity
-            android:name=".ui.act.setting.SettingsListsLandscapeAct"
+            android:name=".ui.act.setting.ActSettingsListsLandscape"
             android:configChanges="locale|orientation|screenSize"
             android:launchMode="singleTask">
 

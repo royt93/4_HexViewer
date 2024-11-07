@@ -20,7 +20,7 @@ import com.galaxyjoy.hexviewer.R;
 import com.galaxyjoy.hexviewer.models.SettingsKeys;
 import com.galaxyjoy.hexviewer.ui.act.ActLogs;
 import com.galaxyjoy.hexviewer.ui.act.setting.ActSettings;
-import com.galaxyjoy.hexviewer.ui.act.setting.SettingsListsLandscapeAct;
+import com.galaxyjoy.hexviewer.ui.act.setting.ActSettingsListsLandscape;
 import com.galaxyjoy.hexviewer.ui.act.setting.ActSettingsListsPortraitAct;
 import com.galaxyjoy.hexviewer.ui.util.UIHelper;
 
@@ -135,7 +135,7 @@ public class FrmSettings extends FrmAbstractSettings implements Preference.OnPre
         } else if (preference.equals(mSettingsListsPortrait)) {
             ActSettingsListsPortraitAct.startActivity(mActivity);
         } else if (preference.equals(mSettingsListsLandscape)) {
-            SettingsListsLandscapeAct.startActivity(mActivity);
+            ActSettingsListsLandscape.startActivity(mActivity);
         } else if (preference.equals(mRestoreDefault)) {
             if (((ActSettings) mActivity).isNotChanged()) {
                 restoreDefaultDialog();
