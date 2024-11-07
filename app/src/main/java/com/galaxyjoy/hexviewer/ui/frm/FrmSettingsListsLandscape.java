@@ -40,7 +40,7 @@ public class FrmSettingsListsLandscape extends FrmAbstractSettings implements Pr
      */
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
-        setPreferencesFromResource(R.xml.preferences_lists_landscape, rootKey);
+        setPreferencesFromResource(R.xml.pref_lists_landscape, rootKey);
         setupViews();
     }
 

@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:clearTaskOnLaunch="true"
+    android:key="prefScreen"
+    android:launchMode="singleTask">
+
+    <androidx.preference.PreferenceCategory
+        android:title="@string/settings_category_hex"
+        app:iconSpaceReserved="false">
+        <androidx.preference.CheckBoxPreference
+            android:key="hexDisplayDataLandscape"
+            android:summary="@string/settings_pref_summary_display_data"
+            android:title="@string/settings_pref_title_display_data"
+            app:iconSpaceReserved="false" />
+        <androidx.preference.CheckBoxPreference
+            android:key="hexRowHeightAutoLandscape"
+            android:summary="@string/settings_pref_summary_row_height_auto"
+            android:title="@string/settings_pref_title_row_height_auto"
+            app:iconSpaceReserved="false" />
+        <androidx.preference.Preference
+            android:key="hexRowHeightLandscape"
+            android:summary="@string/settings_pref_summary_row_height"
+            android:title="@string/settings_pref_title_row_height"
+            app:iconSpaceReserved="false" />
+        <androidx.preference.Preference
+            android:key="hexFontSizeLandscape"
+            android:summary="@string/settings_pref_summary_font_size"
+            android:title="@string/settings_pref_title_font_size"
+            app:iconSpaceReserved="false" />
+    </androidx.preference.PreferenceCategory>
+
+    <androidx.preference.PreferenceCategory
+        android:title="@string/settings_category_hex_line_numbers"
+        app:iconSpaceReserved="false">
+        <androidx.preference.CheckBoxPreference
+            android:key="hexDisplayDataLineNumbersLandscape"
+            android:summary="@string/settings_pref_summary_display_data"
+            android:title="@string/settings_pref_title_display_data"
+            app:iconSpaceReserved="false" />
+        <androidx.preference.CheckBoxPreference
+            android:key="hexRowHeightAutoLineNumbersLandscape"
+            android:summary="@string/settings_pref_summary_row_height_auto"
+            android:title="@string/settings_pref_title_row_height_auto"
+            app:iconSpaceReserved="false" />
+        <androidx.preference.Preference
+            android:key="hexRowHeightLineNumbersLandscape"
+            android:summary="@string/settings_pref_summary_row_height"
+            android:title="@string/settings_pref_title_row_height"
+            app:iconSpaceReserved="false" />
+        <androidx.preference.Preference
+            android:key="hexFontSizeLineNumbersLandscape"
+            android:summary="@string/settings_pref_summary_font_size"
+            android:title="@string/settings_pref_title_font_size"
+            app:iconSpaceReserved="false" />
+    </androidx.preference.PreferenceCategory>
+
+    <androidx.preference.PreferenceCategory
+        android:title="@string/settings_category_plain"
+        app:iconSpaceReserved="false">
+        <androidx.preference.CheckBoxPreference
+            android:key="plainRowHeightAutoLandscape"
+            android:summary="@string/settings_pref_summary_row_height_auto"
+            android:title="@string/settings_pref_title_row_height_auto"
+            app:iconSpaceReserved="false" />
+        <androidx.preference.Preference
+            android:key="plainRowHeightLandscape"
+            android:summary="@string/settings_pref_summary_row_height"
+            android:title="@string/settings_pref_title_row_height"
+            app:iconSpaceReserved="false" />
+        <androidx.preference.Preference
+            android:key="plainFontSizeLandscape"
+            android:summary="@string/settings_pref_summary_font_size"
+            android:title="@string/settings_pref_title_font_size"
+            app:iconSpaceReserved="false" />
+    </androidx.preference.PreferenceCategory>
+
+    <androidx.preference.PreferenceCategory
+        android:title="@string/settings_category_line_edit"
+        app:iconSpaceReserved="false">
+        <androidx.preference.CheckBoxPreference
+            android:key="lineEditRowHeightAutoLandscape"
+            android:summary="@string/settings_pref_summary_row_height_auto"
+            android:title="@string/settings_pref_title_row_height_auto"
+            app:iconSpaceReserved="false" />
+        <androidx.preference.Preference
+            android:key="lineEditRowHeightLandscape"
+            android:summary="@string/settings_pref_summary_row_height"
+            android:title="@string/settings_pref_title_row_height"
+            app:iconSpaceReserved="false" />
+        <androidx.preference.Preference
+            android:key="lineEditFontSizeLandscape"
+            android:summary="@string/settings_pref_summary_font_size"
+            android:title="@string/settings_pref_title_font_size"
+            app:iconSpaceReserved="false" />
+    </androidx.preference.PreferenceCategory>
+
+</androidx.preference.PreferenceScreen>

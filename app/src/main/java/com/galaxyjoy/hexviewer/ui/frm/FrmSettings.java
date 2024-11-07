@@ -53,7 +53,7 @@ public class FrmSettings extends FrmAbstractSettings implements Preference.OnPre
      */
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
-        setPreferencesFromResource(R.xml.preferences, rootKey);
+        setPreferencesFromResource(R.xml.pref, rootKey);
         setupViews();
     }
 

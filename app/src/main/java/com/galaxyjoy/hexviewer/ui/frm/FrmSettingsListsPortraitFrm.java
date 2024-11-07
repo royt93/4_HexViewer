@@ -87,7 +87,7 @@ public class FrmSettingsListsPortraitFrm extends FrmAbstractSettings implements 
      */
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
-        setPreferencesFromResource(R.xml.preferences_lists_portrait, rootKey);
+        setPreferencesFromResource(R.xml.pref_lists_portrait, rootKey);
         setupViews();
     }
 
