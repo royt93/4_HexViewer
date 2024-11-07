@@ -18,7 +18,7 @@ import androidx.appcompat.app.AlertDialog;
 
 import com.galaxyjoy.hexviewer.MyApplication;
 import com.galaxyjoy.hexviewer.R;
-import com.galaxyjoy.hexviewer.ui.act.MainActivity;
+import com.galaxyjoy.hexviewer.ui.act.MainAct;
 import com.galaxyjoy.hexviewer.ui.adt.AdtSearchableListArray;
 import com.galaxyjoy.hexviewer.ui.util.UIHelper;
 import com.galaxyjoy.hexviewer.util.SysHelper;
@@ -26,14 +26,14 @@ import com.galaxyjoy.hexviewer.util.SysHelper;
 public abstract class GenericMultiChoiceCallback implements AbsListView.MultiChoiceModeListener {
     private final ListView mListView;
     protected final AdtSearchableListArray mAdapter;
-    protected final MainActivity mActivity;
+    protected final MainAct mActivity;
     private final ClipboardManager mClipboard;
     private int mFirstSelection = -1;
     private final AlertDialog mProgress;
     private MenuItem mMenuItemSelectAll;
 
     @SuppressLint("InflateParams")
-    protected GenericMultiChoiceCallback(MainActivity mainActivity, final ListView listView, final AdtSearchableListArray adapter) {
+    protected GenericMultiChoiceCallback(MainAct mainActivity, final ListView listView, final AdtSearchableListArray adapter) {
         mActivity = mainActivity;
         mListView = listView;
         mAdapter = adapter;

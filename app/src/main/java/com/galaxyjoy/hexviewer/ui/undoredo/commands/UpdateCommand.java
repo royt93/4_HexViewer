@@ -3,7 +3,7 @@ package com.galaxyjoy.hexviewer.ui.undoredo.commands;
 import android.util.Log;
 
 import com.galaxyjoy.hexviewer.models.LineEntry;
-import com.galaxyjoy.hexviewer.ui.act.MainActivity;
+import com.galaxyjoy.hexviewer.ui.act.MainAct;
 import com.galaxyjoy.hexviewer.ui.adt.AdtHexTextArray;
 import com.galaxyjoy.hexviewer.ui.undoredo.ICommand;
 import com.galaxyjoy.hexviewer.ui.undoredo.UnDoRedo;
@@ -13,7 +13,7 @@ import java.util.List;
 
 public class UpdateCommand implements ICommand {
     private final List<LineEntry> mList;
-    private final MainActivity mActivity;
+    private final MainAct mActivity;
     private final int mFirstPosition;
     private final int mRefNbLines;
     private final List<LineEntry> mPrevLines;
@@ -21,7 +21,7 @@ public class UpdateCommand implements ICommand {
 
 
     public UpdateCommand(final UnDoRedo undoRedo,
-                         final MainActivity activity,
+                         final MainAct activity,
                          final int firstPosition,
                          final int refNbLines,
                          List<LineEntry> entries) {

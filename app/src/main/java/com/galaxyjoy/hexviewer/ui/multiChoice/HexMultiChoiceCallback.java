@@ -7,7 +7,7 @@ import android.widget.ListView;
 
 import com.galaxyjoy.hexviewer.R;
 import com.galaxyjoy.hexviewer.models.LineEntry;
-import com.galaxyjoy.hexviewer.ui.act.MainActivity;
+import com.galaxyjoy.hexviewer.ui.act.MainAct;
 import com.galaxyjoy.hexviewer.ui.adt.AdtHexTextArray;
 
 import java.io.ByteArrayOutputStream;
@@ -19,7 +19,7 @@ import java.util.Map;
 public class HexMultiChoiceCallback extends GenericMultiChoiceCallback {
 
     @SuppressLint("InflateParams")
-    public HexMultiChoiceCallback(MainActivity mainActivity,
+    public HexMultiChoiceCallback(MainAct mainActivity,
                                   final ListView listView,
                                   final AdtHexTextArray adapter) {
         super(mainActivity, listView, adapter);

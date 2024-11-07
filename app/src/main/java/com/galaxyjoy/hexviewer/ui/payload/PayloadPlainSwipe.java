@@ -15,14 +15,14 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import com.galaxyjoy.hexviewer.ui.adt.AdtPlainTextListArray;
 import com.galaxyjoy.hexviewer.R;
 import com.galaxyjoy.hexviewer.models.LineEntry;
-import com.galaxyjoy.hexviewer.ui.act.MainActivity;
+import com.galaxyjoy.hexviewer.ui.act.MainAct;
 import com.galaxyjoy.hexviewer.ui.adt.config.UserConfigLandscape;
 import com.galaxyjoy.hexviewer.ui.adt.config.UserConfigPortrait;
 import com.galaxyjoy.hexviewer.ui.multiChoice.PlainMultiChoiceCallback;
 import com.galaxyjoy.hexviewer.ui.util.UIHelper;
 
 public class PayloadPlainSwipe {
-    private MainActivity mActivity;
+    private MainAct mActivity;
     private ListView mPayloadPlain = null;
     private AdtPlainTextListArray mAdapterPlain = null;
     private SwipeRefreshLayout mPayloadPlainSwipeRefreshLayout;
@@ -35,7 +35,7 @@ public class PayloadPlainSwipe {
      *
      * @param activity The owner activity
      */
-    public void onCreate(final MainActivity activity) {
+    public void onCreate(final MainAct activity) {
         mActivity = activity;
         mPayloadPlain = activity.findViewById(R.id.payloadPlain);
         mPayloadPlainSwipeRefreshLayout = activity.findViewById(R.id.payloadPlainSwipeRefreshLayout);

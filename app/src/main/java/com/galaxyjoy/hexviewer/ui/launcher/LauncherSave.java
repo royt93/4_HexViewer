@@ -12,7 +12,7 @@ import androidx.documentfile.provider.DocumentFile;
 import com.galaxyjoy.hexviewer.MyApplication;
 import com.galaxyjoy.hexviewer.R;
 import com.galaxyjoy.hexviewer.models.FileData;
-import com.galaxyjoy.hexviewer.ui.act.MainActivity;
+import com.galaxyjoy.hexviewer.ui.act.MainAct;
 import com.galaxyjoy.hexviewer.ui.dlg.SaveDialog;
 import com.galaxyjoy.hexviewer.ui.task.TaskSave;
 import com.galaxyjoy.hexviewer.ui.util.UIHelper;
@@ -21,11 +21,11 @@ import com.galaxyjoy.hexviewer.util.io.FileHelper;
 import java.util.Locale;
 
 public class LauncherSave {
-    private final MainActivity mActivity;
+    private final MainAct mActivity;
     private ActivityResultLauncher<Intent> activityResultLauncherSave;
     private final SaveDialog mSaveDialog;
 
-    public LauncherSave(MainActivity activity) {
+    public LauncherSave(MainAct activity) {
         mActivity = activity;
         mSaveDialog = new SaveDialog(activity,
                 activity.getString(R.string.action_save_title));

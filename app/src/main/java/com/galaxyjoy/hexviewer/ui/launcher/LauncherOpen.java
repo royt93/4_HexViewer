@@ -11,7 +11,7 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import java.util.Locale;
 
 import com.galaxyjoy.hexviewer.models.FileData;
-import com.galaxyjoy.hexviewer.ui.act.MainActivity;
+import com.galaxyjoy.hexviewer.ui.act.MainAct;
 import com.galaxyjoy.hexviewer.ui.task.TaskOpen;
 import com.galaxyjoy.hexviewer.ui.util.UIHelper;
 import com.galaxyjoy.hexviewer.util.io.FileHelper;
@@ -19,12 +19,12 @@ import com.galaxyjoy.hexviewer.MyApplication;
 import com.galaxyjoy.hexviewer.R;
 
 public class LauncherOpen {
-    private final MainActivity mActivity;
+    private final MainAct mActivity;
     private final LinearLayout mMainLayout;
     private final MyApplication mApp;
     private ActivityResultLauncher<Intent> activityResultLauncherOpen;
 
-    public LauncherOpen(MainActivity activity, LinearLayout mainLayout) {
+    public LauncherOpen(MainAct activity, LinearLayout mainLayout) {
         mActivity = activity;
         mApp = (MyApplication) activity.getApplicationContext();
         mMainLayout = mainLayout;

@@ -7,7 +7,7 @@ import androidx.core.content.ContextCompat;
 
 import com.galaxyjoy.hexviewer.R;
 import com.galaxyjoy.hexviewer.models.LineEntry;
-import com.galaxyjoy.hexviewer.ui.act.MainActivity;
+import com.galaxyjoy.hexviewer.ui.act.MainAct;
 import com.galaxyjoy.hexviewer.ui.undoredo.commands.DeleteCommand;
 import com.galaxyjoy.hexviewer.ui.undoredo.commands.UpdateAndDeleteCommand;
 import com.galaxyjoy.hexviewer.ui.undoredo.commands.UpdateCommand;
@@ -20,13 +20,13 @@ import java.util.Map;
 public class UnDoRedo {
     private static final int CONTROL_UNDO = 0;
     private static final int CONTROL_REDO = 1;
-    private final MainActivity mActivity;
+    private final MainAct mActivity;
     private final Control[] mControls;
     private final Deque<ICommand> mUndo;
     private final Deque<ICommand> mRedo;
     private int mReferenceIndex;
 
-    public UnDoRedo(MainActivity activity) {
+    public UnDoRedo(MainAct activity) {
         mActivity = activity;
         mControls = new Control[2];
         mUndo = new ArrayDeque<>();
@@ -82,7 +82,7 @@ public class UnDoRedo {
      * @param entries       The entries.
      * @return The command.
      */
-    public ICommand insertInUnDoRedoForUpdate(final MainActivity activity,
+    public ICommand insertInUnDoRedoForUpdate(final MainAct activity,
                                               final int firstPosition,
                                               final int refNbLines,
                                               List<LineEntry> entries) {
@@ -109,7 +109,7 @@ public class UnDoRedo {
      * @param entriesDeleted Entries to be deleted.
      * @return The command.
      */
-    public ICommand insertInUnDoRedoForUpdateAndDelete(final MainActivity activity,
+    public ICommand insertInUnDoRedoForUpdateAndDelete(final MainAct activity,
                                                        final int firstPosition,
                                                        List<LineEntry> entriesUpdated,
                                                        final Map<Integer, LineEntry> entriesDeleted) {
@@ -134,7 +134,7 @@ public class UnDoRedo {
      * @param entries  The entries.
      * @return The command.
      */
-    public ICommand insertInUnDoRedoForDelete(final MainActivity activity,
+    public ICommand insertInUnDoRedoForDelete(final MainAct activity,
                                               final Map<Integer, LineEntry> entries) {
         ICommand cmd = new DeleteCommand(activity, entries);
         mUndo.push(cmd);

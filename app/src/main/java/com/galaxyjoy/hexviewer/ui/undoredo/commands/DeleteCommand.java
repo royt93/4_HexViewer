@@ -3,7 +3,7 @@ package com.galaxyjoy.hexviewer.ui.undoredo.commands;
 import android.util.Log;
 
 import com.galaxyjoy.hexviewer.models.LineEntry;
-import com.galaxyjoy.hexviewer.ui.act.MainActivity;
+import com.galaxyjoy.hexviewer.ui.act.MainAct;
 import com.galaxyjoy.hexviewer.ui.adt.AdtHexTextArray;
 import com.galaxyjoy.hexviewer.ui.undoredo.ICommand;
 import com.galaxyjoy.hexviewer.util.SysHelper;
@@ -13,9 +13,9 @@ import java.util.Map;
 
 public class DeleteCommand implements ICommand {
     private final Map<Integer, LineEntry> mList;
-    private final MainActivity mActivity;
+    private final MainAct mActivity;
 
-    public DeleteCommand(final MainActivity activity,
+    public DeleteCommand(final MainAct activity,
                          final Map<Integer, LineEntry> entries) {
         mList = entries;
         mActivity = activity;

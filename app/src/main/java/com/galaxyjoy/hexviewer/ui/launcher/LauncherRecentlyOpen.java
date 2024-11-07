@@ -10,18 +10,18 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import com.galaxyjoy.hexviewer.MyApplication;
 import com.galaxyjoy.hexviewer.R;
 import com.galaxyjoy.hexviewer.models.FileData;
-import com.galaxyjoy.hexviewer.ui.act.MainActivity;
-import com.galaxyjoy.hexviewer.ui.act.RecentlyOpenActivity;
+import com.galaxyjoy.hexviewer.ui.act.MainAct;
+import com.galaxyjoy.hexviewer.ui.act.ActRecentlyOpen;
 import com.galaxyjoy.hexviewer.ui.task.TaskSave;
 import com.galaxyjoy.hexviewer.ui.util.UIHelper;
 import com.galaxyjoy.hexviewer.util.io.FileHelper;
 
 public class LauncherRecentlyOpen {
-    private final MainActivity mActivity;
+    private final MainAct mActivity;
     private final MyApplication mApp;
     private ActivityResultLauncher<Intent> activityResultLauncherRecentlyOpen;
 
-    public LauncherRecentlyOpen(MainActivity activity) {
+    public LauncherRecentlyOpen(MainAct activity) {
         mApp = (MyApplication) activity.getApplicationContext();
         mActivity = activity;
         register();
@@ -31,18 +31,18 @@ public class LauncherRecentlyOpen {
      * Starts the activity.
      */
     public void startActivity() {
-        RecentlyOpenActivity.startActivity(mActivity,
+        ActRecentlyOpen.startActivity(mActivity,
                 activityResultLauncherRecentlyOpen);
     }
 
     private void processIntentData(Intent data) {
         Uri uri = data.getData();
-        long startOffset = data.getLongExtra(RecentlyOpenActivity.RESULT_START_OFFSET, 0L);
-        long endOffset = data.getLongExtra(RecentlyOpenActivity.RESULT_END_OFFSET, 0L);
+        long startOffset = data.getLongExtra(ActRecentlyOpen.RESULT_START_OFFSET, 0L);
+        long endOffset = data.getLongExtra(ActRecentlyOpen.RESULT_END_OFFSET, 0L);
         final FileData fd = new FileData(mActivity, uri, false, startOffset, endOffset);
         final String oldToString;
-        if (data.hasExtra(RecentlyOpenActivity.RESULT_OLD_TO_STRING))
-            oldToString = data.getStringExtra(RecentlyOpenActivity.RESULT_OLD_TO_STRING);
+        if (data.hasExtra(ActRecentlyOpen.RESULT_OLD_TO_STRING))
+            oldToString = data.getStringExtra(ActRecentlyOpen.RESULT_OLD_TO_STRING);
         else
             oldToString = null;
         if (FileHelper.isFileExists(mActivity,

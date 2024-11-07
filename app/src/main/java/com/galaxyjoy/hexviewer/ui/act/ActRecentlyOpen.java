@@ -14,16 +14,16 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import com.galaxyjoy.hexviewer.MyApplication;
+import com.galaxyjoy.hexviewer.R;
 import com.galaxyjoy.hexviewer.models.FileData;
 import com.galaxyjoy.hexviewer.models.UriData;
 import com.galaxyjoy.hexviewer.ui.adt.AdtRecentlyOpenRecycler;
-import com.galaxyjoy.hexviewer.MyApplication;
-import com.galaxyjoy.hexviewer.R;
 
-public class RecentlyOpenActivity extends AppCompatActivity implements AdtRecentlyOpenRecycler.OnEventListener {
+import java.util.ArrayList;
+import java.util.List;
+
+public class ActRecentlyOpen extends AppCompatActivity implements AdtRecentlyOpenRecycler.OnEventListener {
     private MyApplication mApp = null;
     public static final String RESULT_START_OFFSET = "startOffset";
     public static final String RESULT_END_OFFSET = "endOffset";
@@ -35,8 +35,9 @@ public class RecentlyOpenActivity extends AppCompatActivity implements AdtRecent
      * @param c                      Android context.
      * @param activityResultLauncher Activity Result Launcher.
      */
-    public static void startActivity(final Context c, final ActivityResultLauncher<Intent> activityResultLauncher) {
-        Intent intent = new Intent(c, RecentlyOpenActivity.class);
+    public static void startActivity(final Context c,
+                                     final ActivityResultLauncher<Intent> activityResultLauncher) {
+        Intent intent = new Intent(c, ActRecentlyOpen.class);
         activityResultLauncher.launch(intent);
     }
 
@@ -63,7 +64,10 @@ public class RecentlyOpenActivity extends AppCompatActivity implements AdtRecent
 
         setContentView(R.layout.activity_recently_open);
         mApp = (MyApplication) getApplicationContext();
+        setupViews();
+    }
 
+    private void setupViews() {
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayShowHomeEnabled(true);

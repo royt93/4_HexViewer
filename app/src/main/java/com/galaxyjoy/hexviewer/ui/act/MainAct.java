@@ -53,7 +53,7 @@ import com.galaxyjoy.hexviewer.ui.undoredo.UnDoRedo;
  * </p>
  * ******************************************************************************
  */
-public class MainActivity extends AbstractBaseMainActivity implements AdapterView.OnItemClickListener, TaskOpen.OpenResultListener, TaskSave.SaveResultListener {
+public class MainAct extends ActAbstractBaseMain implements AdapterView.OnItemClickListener, TaskOpen.OpenResultListener, TaskSave.SaveResultListener {
   private FileData mFileData = null;
   private ConstraintLayout mIdleView = null;
   private MenuItem mSearchMenu = null;
