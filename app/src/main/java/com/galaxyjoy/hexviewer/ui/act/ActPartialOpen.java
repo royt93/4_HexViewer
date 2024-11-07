@@ -235,7 +235,7 @@ public class ActPartialOpen extends AppCompatActivity implements AdapterView.OnI
     @Override
     public boolean onCreateOptionsMenu(final Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.partial_open, menu);
+        inflater.inflate(R.menu.menu_partial_open, menu);
         return true;
     }
 
@@ -247,11 +247,11 @@ public class ActPartialOpen extends AppCompatActivity implements AdapterView.OnI
      */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home || item.getItemId() == R.id.action_cancel) {
+        if (item.getItemId() == android.R.id.home || item.getItemId() == R.id.menuActionCancel) {
             setResult(RESULT_CANCELED);
             finish();
             return true;
-        } else if (item.getItemId() == R.id.action_done && checkValues()) {
+        } else if (item.getItemId() == R.id.menuActionDone && checkValues()) {
             UIHelper.hideKeyboard(this);
             Intent i = new Intent();
             long start = getValue(Objects.requireNonNull(mTietStart.getText()).toString(), null);

@@ -31,7 +31,7 @@ public class HexMultiChoiceCallback extends GenericMultiChoiceCallback {
      * @return R.menu.main_plain_multi_choice
      */
     public int getMenuId() {
-        return R.menu.main_hex_multi_choice;
+        return R.menu.menu_main_hex_multi_choice;
     }
 
     /**

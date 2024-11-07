@@ -8,7 +8,7 @@
     android:title="@null"
     app:showAsAction="always"/>
   <item
-    android:id="@+id/action_clear"
+    android:id="@+id/menuActionClear"
     android:icon="@drawable/ic_clear_all"
     android:title="@null"
     app:showAsAction="ifRoom"/>

@@ -58,7 +58,7 @@ public abstract class GenericMultiChoiceCallback implements AbsListView.MultiCho
     @Override
     public boolean onCreateActionMode(ActionMode mode, Menu menu) {
         mode.getMenuInflater().inflate(getMenuId(), menu);
-        mMenuItemSelectAll = menu.findItem(R.id.action_select_all);
+        mMenuItemSelectAll = menu.findItem(R.id.menuActionSelectAll);
         return true;
     }
 
@@ -83,7 +83,7 @@ public abstract class GenericMultiChoiceCallback implements AbsListView.MultiCho
      */
     @Override
     public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-        if (item.getItemId() == R.id.action_clear) {
+        if (item.getItemId() == R.id.menuActionClear) {
             if (mActivity.getFileData().isSequential()) {
                 UIHelper.showErrorDialog(mActivity, mActivity.getFileData().getName(),
                         mActivity.getString(R.string.error_open_sequential_add_or_delete_data));
@@ -91,12 +91,12 @@ public abstract class GenericMultiChoiceCallback implements AbsListView.MultiCho
             }
             actionClear(item, mode);
             return true;
-        } else if (item.getItemId() == R.id.action_select_all) {
+        } else if (item.getItemId() == R.id.menuActionSelectAll) {
             actionSelectAll(item);
             return true;
-        } else if (item.getItemId() == R.id.action_edit) {
+        } else if (item.getItemId() == R.id.menuActionEdit) {
             return actionEdit(mode);
-        } else if (item.getItemId() == R.id.action_copy) {
+        } else if (item.getItemId() == R.id.menuActionCopy) {
             return actionCopy(mode);
         }
         return false;

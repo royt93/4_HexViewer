@@ -25,7 +25,7 @@ public class PlainMultiChoiceCallback extends GenericMultiChoiceCallback {
      * @return R.menu.main_plain_multi_choice
      */
     public int getMenuId() {
-        return R.menu.main_plain_multi_choice;
+        return R.menu.menu_main_plain_multi_choice;
     }
 
     /**

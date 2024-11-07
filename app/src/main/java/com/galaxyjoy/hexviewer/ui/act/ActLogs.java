@@ -119,7 +119,7 @@ public class ActLogs extends AppCompatActivity {
         if (item.getItemId() == android.R.id.home) {
             finish();
             return true;
-        } else if (item.getItemId() == R.id.action_clear) {
+        } else if (item.getItemId() == R.id.menuActionClear) {
             mContent = "";
             mCfq.clear();
             mLogs.setAdapter(null);

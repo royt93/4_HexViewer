@@ -1,0 +1,30 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.galaxyjoy.hexviewer.ui.act.ActMain">
+
+    <item
+        android:id="@+id/menuActionCopy"
+        android:icon="@drawable/ic_copy"
+        android:title="@string/menu_copy"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/menuActionEdit"
+        android:icon="@drawable/ic_edit"
+        android:title="@string/menu_edit"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/menuActionClear"
+        android:icon="@drawable/ic_delete"
+        android:title="@string/menu_delete"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/menuActionSelectAll"
+        android:checkable="true"
+        android:icon="@drawable/ic_select_all"
+        android:title="@string/menu_select_all"
+        app:showAsAction="ifRoom" />
+</menu>

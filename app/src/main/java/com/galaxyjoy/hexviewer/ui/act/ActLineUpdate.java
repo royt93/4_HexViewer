@@ -269,7 +269,7 @@ public class ActLineUpdate extends AppCompatActivity implements View.OnClickList
         } else if (item.getItemId() == R.id.action_delete) {
             mEtInputHex.setText("");
             return true;
-        } else if (item.getItemId() == R.id.action_done) {
+        } else if (item.getItemId() == R.id.menuActionDone) {
             final String validate = mEtInputHex.getText() == null ? "" : mEtInputHex.getText().toString().trim().replace(" ", "").toLowerCase(Locale.US);
             if (!SysHelper.isValidHexLine(validate)) {
                 mTilInputHex.setError(" "); /* only for the color */
