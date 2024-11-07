@@ -25,7 +25,7 @@ import com.galaxyjoy.hexviewer.ui.adt.AdtSearchableListArray;
 import com.galaxyjoy.hexviewer.MyApplication;
 import com.galaxyjoy.hexviewer.R;
 import com.galaxyjoy.hexviewer.models.LineEntries;
-import com.galaxyjoy.hexviewer.ui.act.MainAct;
+import com.galaxyjoy.hexviewer.ui.act.ActMain;
 import com.galaxyjoy.hexviewer.ui.util.UIHelper;
 import com.galaxyjoy.hexviewer.util.SysHelper;
 
@@ -38,7 +38,7 @@ public class GoToDialog implements View.OnClickListener {
     private AlertDialog mDialog;
     private EditText mEt;
     private TextInputLayout mLayout;
-    private final MainAct mActivity;
+    private final ActMain mActivity;
     private int mPosition = 0;
     private Mode mMode;
     private String mTitle;
@@ -50,7 +50,7 @@ public class GoToDialog implements View.OnClickListener {
         LINE_PLAIN
     }
 
-    public GoToDialog(MainAct activity) {
+    public GoToDialog(ActMain activity) {
         mActivity = activity;
         mApp = (MyApplication) activity.getApplicationContext();
     }

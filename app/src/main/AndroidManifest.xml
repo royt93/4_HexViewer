@@ -27,7 +27,7 @@
         tools:targetApi="s">
 
         <activity
-            android:name=".ui.act.MainAct"
+            android:name=".ui.act.ActMain"
             android:configChanges="locale|orientation|screenSize"
             android:exported="true"
             android:icon="@mipmap/ic_launcher_round"
@@ -62,7 +62,7 @@
 
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ui.act.MainAct" />
+                android:value=".ui.act.ActMain" />
         </activity>
 
         <activity
@@ -72,7 +72,7 @@
 
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ui.act.MainAct" />
+                android:value=".ui.act.ActMain" />
         </activity>
 
         <activity
@@ -82,7 +82,7 @@
 
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ui.act.MainAct" />
+                android:value=".ui.act.ActMain" />
         </activity>
 
         <activity
@@ -92,7 +92,7 @@
 
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ui.act.MainAct" />
+                android:value=".ui.act.ActMain" />
         </activity>
 
         <activity
@@ -116,7 +116,7 @@
         </activity>
 
         <activity
-            android:name=".ui.act.LogsActivity"
+            android:name=".ui.act.ActLogs"
             android:configChanges="locale|orientation|screenSize"
             android:launchMode="singleTask">
             <meta-data

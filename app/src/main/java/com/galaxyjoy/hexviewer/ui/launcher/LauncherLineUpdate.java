@@ -16,17 +16,17 @@ import java.util.Map;
 
 import com.galaxyjoy.hexviewer.models.LineEntry;
 import com.galaxyjoy.hexviewer.ui.act.ActLineUpdate;
-import com.galaxyjoy.hexviewer.ui.act.MainAct;
+import com.galaxyjoy.hexviewer.ui.act.ActMain;
 import com.galaxyjoy.hexviewer.ui.adt.AdtHexTextArray;
 import com.galaxyjoy.hexviewer.util.SysHelper;
 import com.galaxyjoy.hexviewer.MyApplication;
 
 public class LauncherLineUpdate {
-    private final MainAct mActivity;
+    private final ActMain mActivity;
     private final MyApplication mApp;
     private ActivityResultLauncher<Intent> activityResultLauncherLineUpdate;
 
-    public LauncherLineUpdate(MainAct activity) {
+    public LauncherLineUpdate(ActMain activity) {
         mActivity = activity;
         mApp = (MyApplication) mActivity.getApplicationContext();
         register();

@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.galaxyjoy.hexviewer.models.LineEntry;
-import com.galaxyjoy.hexviewer.ui.act.MainAct;
+import com.galaxyjoy.hexviewer.ui.act.ActMain;
 import com.galaxyjoy.hexviewer.ui.undoredo.ICommand;
 import com.galaxyjoy.hexviewer.ui.undoredo.UnDoRedo;
 
@@ -16,7 +16,7 @@ public class UpdateAndDeleteCommand implements ICommand {
 
 
     public UpdateAndDeleteCommand(final UnDoRedo undoRedo,
-                                  final MainAct activity,
+                                  final ActMain activity,
                                   final int firstPosition,
                                   List<LineEntry> entriesUpdated,
                                   final Map<Integer, LineEntry> entriesDeleted) {

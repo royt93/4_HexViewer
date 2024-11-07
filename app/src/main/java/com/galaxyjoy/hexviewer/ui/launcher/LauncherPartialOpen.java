@@ -10,19 +10,19 @@ import androidx.activity.result.contract.ActivityResultContracts;
 
 import com.galaxyjoy.hexviewer.MyApplication;
 import com.galaxyjoy.hexviewer.models.FileData;
-import com.galaxyjoy.hexviewer.ui.act.MainAct;
+import com.galaxyjoy.hexviewer.ui.act.ActMain;
 import com.galaxyjoy.hexviewer.ui.act.ActPartialOpen;
 import com.galaxyjoy.hexviewer.ui.task.TaskOpen;
 
 public class LauncherPartialOpen {
-    private final MainAct mActivity;
+    private final ActMain mActivity;
     private FileData mPrevious;
     private boolean mAddRecent;
     private String mOldToString;
     private ActivityResultLauncher<Intent> activityResultLauncherOpen;
     private final MyApplication mApp;
 
-    public LauncherPartialOpen(MainAct activity) {
+    public LauncherPartialOpen(ActMain activity) {
         mActivity = activity;
         mApp = (MyApplication) activity.getApplicationContext();
         register();

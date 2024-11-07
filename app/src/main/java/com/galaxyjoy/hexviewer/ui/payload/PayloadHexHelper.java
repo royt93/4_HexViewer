@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import com.galaxyjoy.hexviewer.MyApplication;
 import com.galaxyjoy.hexviewer.R;
-import com.galaxyjoy.hexviewer.ui.act.MainAct;
+import com.galaxyjoy.hexviewer.ui.act.ActMain;
 import com.galaxyjoy.hexviewer.ui.adt.AdtHexTextArray;
 import com.galaxyjoy.hexviewer.ui.adt.config.UserConfigLandscape;
 import com.galaxyjoy.hexviewer.ui.adt.config.UserConfigPortrait;
@@ -19,7 +19,7 @@ import com.galaxyjoy.hexviewer.ui.multiChoice.HexMultiChoiceCallback;
 import java.util.ArrayList;
 
 public class PayloadHexHelper {
-    private MainAct mActivity;
+    private ActMain mActivity;
     private ListView mPayloadHex = null;
     private AdtHexTextArray mAdapterHex = null;
     private RelativeLayout mPayloadViewContainer = null;
@@ -33,7 +33,7 @@ public class PayloadHexHelper {
      *
      * @param activity The owner activity
      */
-    public void onCreate(final MainAct activity) {
+    public void onCreate(final ActMain activity) {
         mActivity = activity;
         mApp = (MyApplication) activity.getApplicationContext();
         mPayloadViewContainer = activity.findViewById(R.id.payloadViewContainer);

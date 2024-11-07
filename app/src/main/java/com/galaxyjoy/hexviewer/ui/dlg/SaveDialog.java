@@ -9,12 +9,12 @@ import android.widget.EditText;
 import androidx.appcompat.app.AlertDialog;
 
 import com.galaxyjoy.hexviewer.R;
-import com.galaxyjoy.hexviewer.ui.act.MainAct;
+import com.galaxyjoy.hexviewer.ui.act.ActMain;
 import com.galaxyjoy.hexviewer.ui.util.UIHelper;
 import com.google.android.material.textfield.TextInputLayout;
 
 public class SaveDialog {
-    private final MainAct mActivity;
+    private final ActMain mActivity;
     private final String mTitle;
 
     public interface DialogPositiveClick {
@@ -23,7 +23,7 @@ public class SaveDialog {
                      TextInputLayout editTextLayout);
     }
 
-    public SaveDialog(MainAct activity,
+    public SaveDialog(ActMain activity,
                       String title) {
         mActivity = activity;
         mTitle = title;

@@ -18,7 +18,7 @@ import androidx.preference.PreferenceScreen;
 import com.galaxyjoy.hexviewer.BuildConfig;
 import com.galaxyjoy.hexviewer.R;
 import com.galaxyjoy.hexviewer.models.SettingsKeys;
-import com.galaxyjoy.hexviewer.ui.act.LogsActivity;
+import com.galaxyjoy.hexviewer.ui.act.ActLogs;
 import com.galaxyjoy.hexviewer.ui.act.setting.SettingsActivity;
 import com.galaxyjoy.hexviewer.ui.act.setting.SettingsListsLandscapeActivity;
 import com.galaxyjoy.hexviewer.ui.act.setting.SettingsListsPortraitActivity;
@@ -143,7 +143,7 @@ public class FrmSettings extends FrmAbstractSettings implements Preference.OnPre
                 UIHelper.showErrorDialog(mActivity, preference.getTitle(), mActivity.getString(R.string.control_language_change));
             }
         } else if (preference.equals(mLogs)) {
-            LogsActivity.startActivity(mActivity);
+            ActLogs.startActivity(mActivity);
         }
         return false;
     }

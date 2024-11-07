@@ -10,18 +10,18 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import com.galaxyjoy.hexviewer.MyApplication;
 import com.galaxyjoy.hexviewer.R;
 import com.galaxyjoy.hexviewer.models.FileData;
-import com.galaxyjoy.hexviewer.ui.act.MainAct;
+import com.galaxyjoy.hexviewer.ui.act.ActMain;
 import com.galaxyjoy.hexviewer.ui.act.ActRecentlyOpen;
 import com.galaxyjoy.hexviewer.ui.task.TaskSave;
 import com.galaxyjoy.hexviewer.ui.util.UIHelper;
 import com.galaxyjoy.hexviewer.util.io.FileHelper;
 
 public class LauncherRecentlyOpen {
-    private final MainAct mActivity;
+    private final ActMain mActivity;
     private final MyApplication mApp;
     private ActivityResultLauncher<Intent> activityResultLauncherRecentlyOpen;
 
-    public LauncherRecentlyOpen(MainAct activity) {
+    public LauncherRecentlyOpen(ActMain activity) {
         mApp = (MyApplication) activity.getApplicationContext();
         mActivity = activity;
         register();
