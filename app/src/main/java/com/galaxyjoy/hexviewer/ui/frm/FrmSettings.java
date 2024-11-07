@@ -188,7 +188,7 @@ public class FrmSettings extends FrmAbstractSettings implements Preference.OnPre
                 .setNegativeButton(android.R.string.cancel, (dialog, whichButton) -> {
                 });
         LayoutInflater factory = LayoutInflater.from(mActivity);
-        builder.setView(factory.inflate(R.layout.content_dialog_restore, null));
+        builder.setView(factory.inflate(R.layout.dlg_content_dialog_restore, null));
         final AlertDialog dialog = builder.create();
         dialog.show();
         final CheckBox cb = dialog.findViewById(R.id.deleteRecent);

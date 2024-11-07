@@ -67,7 +67,7 @@ public class GoToDialog implements View.OnClickListener {
                 .setNegativeButton(android.R.string.cancel, (dialog, whichButton) -> {
                 });
         LayoutInflater factory = LayoutInflater.from(mActivity);
-        builder.setView(factory.inflate(R.layout.content_dialog_go_to, null));
+        builder.setView(factory.inflate(R.layout.dlg_content_dialog_go_to, null));
         mDialog = builder.create();
         if (mDialog.isShowing())
             mDialog.dismiss();

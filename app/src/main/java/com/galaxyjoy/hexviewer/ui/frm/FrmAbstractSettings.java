@@ -82,7 +82,7 @@ public abstract class FrmAbstractSettings extends PreferenceFragmentCompat {
                 .setNegativeButton(android.R.string.cancel, (dialog, whichButton) -> {
                 });
         LayoutInflater factory = LayoutInflater.from(mActivity);
-        builder.setView(factory.inflate(R.layout.content_dialog_pref_input, null));
+        builder.setView(factory.inflate(R.layout.dlg_content_dialog_pref_input, null));
         final AlertDialog dialog = builder.create();
         dialog.show();
         EditText et = dialog.findViewById(R.id.editText);

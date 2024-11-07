@@ -64,7 +64,7 @@ public class UIHelper {
                                                            DialogInterface.OnCancelListener cancel) {
         LayoutInflater layoutInflater = LayoutInflater.from(context);
 //        final ViewGroup nullParent = null;
-        View view = layoutInflater.inflate(R.layout.circular_progress, null);
+        View view = layoutInflater.inflate(R.layout.v_circular_progress, null);
         AlertDialog progress = new AlertDialog.Builder(context).create();
         if (cancel != null) {
             progress.setOnCancelListener(cancel);
