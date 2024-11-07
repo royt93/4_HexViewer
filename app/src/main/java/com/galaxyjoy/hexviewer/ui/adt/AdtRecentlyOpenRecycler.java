@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.Locale;
 
 public class AdtRecentlyOpenRecycler extends RecyclerView.Adapter<HolderRecently> {
-    private static final int ID = R.layout.recyclerview_recently_open;
+    private static final int ID = R.layout.v_recyclerview_recently_open;
     private final List<UriData> mItems;
     private final OnEventListener mListener;
     private final SwipeToDeleteCallback mSwipeToDeleteCallback;
