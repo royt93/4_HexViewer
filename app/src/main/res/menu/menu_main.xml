@@ -1,0 +1,22 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.galaxyjoy.hexviewer.ui.act.ActMain">
+
+    <item
+        android:id="@+id/menuActionSearch"
+        android:icon="@drawable/ic_search"
+        android:title="@string/search_title"
+        app:actionViewClass="android.widget.SearchView"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/menuActionEditEmpty"
+        android:icon="@drawable/ic_edit"
+        android:title="@null"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/menuActionMore"
+        android:icon="@drawable/ic_more"
+        android:title="@null"
+        app:showAsAction="always" />
+</menu>

@@ -250,7 +250,7 @@ public class ActLineUpdate extends AppCompatActivity implements View.OnClickList
     @Override
     public boolean onCreateOptionsMenu(final Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.line_update, menu);
+        inflater.inflate(R.menu.menu_line_update, menu);
         return true;
     }
 
@@ -266,7 +266,7 @@ public class ActLineUpdate extends AppCompatActivity implements View.OnClickList
             setResult(RESULT_CANCELED);
             finish();
             return true;
-        } else if (item.getItemId() == R.id.action_delete) {
+        } else if (item.getItemId() == R.id.menuActionDelete) {
             mEtInputHex.setText("");
             return true;
         } else if (item.getItemId() == R.id.menuActionDone) {

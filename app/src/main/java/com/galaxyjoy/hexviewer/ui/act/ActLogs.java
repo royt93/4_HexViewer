@@ -89,7 +89,7 @@ public class ActLogs extends AppCompatActivity {
      */
     @Override
     public boolean onCreateOptionsMenu(final Menu menu) {
-        getMenuInflater().inflate(R.menu.logs, menu);
+        getMenuInflater().inflate(R.menu.menu_logs, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -125,7 +125,7 @@ public class ActLogs extends AppCompatActivity {
             mLogs.setAdapter(null);
             finish();
             return true;
-        } else if (item.getItemId() == R.id.action_share) {
+        } else if (item.getItemId() == R.id.menuActionShare) {
             /* reload the contents */
             startActivity(Intent.createChooser(getDefaultShareIntent(), null));
             return true;

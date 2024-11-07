@@ -181,11 +181,11 @@ public class ActMain extends ActAbstractBaseMain implements AdapterView.OnItemCl
      */
     @Override
     public boolean onCreateOptionsMenu(final Menu menu) {
-        getMenuInflater().inflate(R.menu.main, menu);
+        getMenuInflater().inflate(R.menu.menu_main, menu);
         MenuCompat.setGroupDividerEnabled(menu, true);
-        mEditEmptyMenu = menu.findItem(R.id.action_edit_empty);
+        mEditEmptyMenu = menu.findItem(R.id.menuActionEditEmpty);
         mEditEmptyMenu.setVisible(!(mFileData == null || mFileData.getRealSize() != 0));
-        mSearchMenu = menu.findItem(R.id.action_search);
+        mSearchMenu = menu.findItem(R.id.menuActionSearch);
         mSearchMenu.setVisible(false);
         setSearchView(mSearchMenu);
         return true;
@@ -372,9 +372,9 @@ public class ActMain extends ActAbstractBaseMain implements AdapterView.OnItemCl
     @Override
     public boolean onOptionsItemSelected(final MenuItem item) {
         final int id = item.getItemId();
-        if (id == R.id.action_more) {
-            mPopup.show(findViewById(R.id.action_more));
-        } else if (id == R.id.action_edit_empty) {
+        if (id == R.id.menuActionMore) {
+            mPopup.show(findViewById(R.id.menuActionMore));
+        } else if (id == R.id.menuActionEditEmpty) {
             mLauncherLineUpdate.startActivity(new ByteArrayOutputStream().toByteArray(), 0, 0,
                     mFileData.getShiftOffset(), 0);
         }
