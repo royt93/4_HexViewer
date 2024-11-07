@@ -25,7 +25,7 @@ import com.galaxyjoy.hexviewer.util.SysHelper;
 import java.util.List;
 
 public class AdtLineUpdateHexArray extends ArrayAdapter<String> {
-    private static final int ID = R.layout.listview_hex_row;
+    private static final int ID = R.layout.v_listview_hex_row;
     private final List<String> mEntryList;
     private final LineNumbersTitle mTitle;
     private final ListView mListView;

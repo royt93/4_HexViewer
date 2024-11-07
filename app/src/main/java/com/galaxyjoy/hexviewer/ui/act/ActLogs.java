@@ -67,7 +67,7 @@ public class ActLogs extends AppCompatActivity {
         mContent = sb.toString();
         mLogs.setAdapter(null);
         mLogs.setAdapter(new ArrayAdapter<>(this,
-                R.layout.listview_simple_row, R.id.label1, lines));
+                R.layout.v_listview_simple_row, R.id.label1, lines));
     }
 
     /**

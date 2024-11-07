@@ -25,7 +25,7 @@ import com.galaxyjoy.hexviewer.util.SysHelper;
 import java.util.List;
 
 public class AdtHexTextArray extends AdtSearchableListArray {
-    private static final int ID = R.layout.listview_hex_row;
+    private static final int ID = R.layout.v_listview_hex_row;
     private final MyApplication mApp;
     private final LineNumbersTitle mTitle;
     private long mStartOffset;

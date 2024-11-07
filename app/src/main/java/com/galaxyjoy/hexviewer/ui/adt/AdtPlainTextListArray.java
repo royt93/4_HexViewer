@@ -16,7 +16,7 @@ import com.galaxyjoy.hexviewer.util.SysHelper;
 import java.util.List;
 
 public class AdtPlainTextListArray extends AdtSearchableListArray {
-    private static final int ID = R.layout.listview_simple_row;
+    private static final int ID = R.layout.v_listview_simple_row;
 
     public AdtPlainTextListArray(final Context context,
                                  final List<LineEntry> objects,
