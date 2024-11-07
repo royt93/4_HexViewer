@@ -126,7 +126,7 @@ public class ActPartialOpen extends AppCompatActivity implements AdapterView.OnI
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_partial_open);
+        setContentView(R.layout.act_partial_open);
         setupViews();
         evaluateSize();
     }

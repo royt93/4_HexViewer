@@ -66,7 +66,7 @@ public class ActMain extends ActAbstractBaseMain implements AdapterView.OnItemCl
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.act_main);
         MyApplication.addLog(this,
                 "Main",
                 "Application started with language: '" +
