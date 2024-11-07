@@ -19,9 +19,9 @@ import com.galaxyjoy.hexviewer.BuildConfig;
 import com.galaxyjoy.hexviewer.R;
 import com.galaxyjoy.hexviewer.models.SettingsKeys;
 import com.galaxyjoy.hexviewer.ui.act.ActLogs;
-import com.galaxyjoy.hexviewer.ui.act.setting.SettingsActivity;
-import com.galaxyjoy.hexviewer.ui.act.setting.SettingsListsLandscapeActivity;
-import com.galaxyjoy.hexviewer.ui.act.setting.SettingsListsPortraitActivity;
+import com.galaxyjoy.hexviewer.ui.act.setting.ActSettings;
+import com.galaxyjoy.hexviewer.ui.act.setting.SettingsListsLandscapeAct;
+import com.galaxyjoy.hexviewer.ui.act.setting.ActSettingsListsPortraitAct;
 import com.galaxyjoy.hexviewer.ui.util.UIHelper;
 
 public class FrmSettings extends FrmAbstractSettings implements Preference.OnPreferenceClickListener, Preference.OnPreferenceChangeListener {
@@ -133,11 +133,11 @@ public class FrmSettings extends FrmAbstractSettings implements Preference.OnPre
             Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(GITHUB_URL));
             startActivity(browserIntent);
         } else if (preference.equals(mSettingsListsPortrait)) {
-            SettingsListsPortraitActivity.startActivity(mActivity);
+            ActSettingsListsPortraitAct.startActivity(mActivity);
         } else if (preference.equals(mSettingsListsLandscape)) {
-            SettingsListsLandscapeActivity.startActivity(mActivity);
+            SettingsListsLandscapeAct.startActivity(mActivity);
         } else if (preference.equals(mRestoreDefault)) {
-            if (((SettingsActivity) mActivity).isNotChanged()) {
+            if (((ActSettings) mActivity).isNotChanged()) {
                 restoreDefaultDialog();
             } else {
                 UIHelper.showErrorDialog(mActivity, preference.getTitle(), mActivity.getString(R.string.control_language_change));
@@ -158,7 +158,7 @@ public class FrmSettings extends FrmAbstractSettings implements Preference.OnPre
     @Override
     public boolean onPreferenceChange(Preference preference, Object newValue) {
         if (preference.equals(mLanguage)) {
-            if (((SettingsActivity) mActivity).isNotChanged()) {
+            if (((ActSettings) mActivity).isNotChanged()) {
                 mApp.setApplicationLanguage("" + newValue);
                 mActivity.finish();
                 return true;
@@ -169,7 +169,7 @@ public class FrmSettings extends FrmAbstractSettings implements Preference.OnPre
             refreshUiAccordingToOrientation("" + newValue);
             return true;
         } else if (preference.equals(mNbBytesPerLine)) {
-            if (!((SettingsActivity) mActivity).isOpen()) {
+            if (!((ActSettings) mActivity).isOpen()) {
                 mApp.setNbBytesPerLine("" + newValue);
                 return true;
             } else {

@@ -21,7 +21,7 @@ import com.galaxyjoy.hexviewer.MyApplication;
 import com.galaxyjoy.hexviewer.R;
 import com.galaxyjoy.hexviewer.models.FileData;
 import com.galaxyjoy.hexviewer.models.LineEntry;
-import com.galaxyjoy.hexviewer.ui.act.setting.SettingsActivity;
+import com.galaxyjoy.hexviewer.ui.act.setting.ActSettings;
 import com.galaxyjoy.hexviewer.ui.adt.AdtSearchableListArray;
 import com.galaxyjoy.hexviewer.ui.dlg.GoToDialog;
 import com.galaxyjoy.hexviewer.ui.launcher.LauncherLineUpdate;
@@ -338,7 +338,7 @@ public class ActMain extends ActAbstractBaseMain implements AdapterView.OnItemCl
         } else if (id == R.id.action_close) {
             popupActionClose();
         } else if (id == R.id.action_settings) {
-            SettingsActivity.startActivity(this, !FileData.isEmpty(mFileData), mUnDoRedo.isChanged());
+            ActSettings.startActivity(this, !FileData.isEmpty(mFileData), mUnDoRedo.isChanged());
         } else if (id == R.id.action_undo) {
             mUnDoRedo.undo();
         } else if (id == R.id.action_redo) {

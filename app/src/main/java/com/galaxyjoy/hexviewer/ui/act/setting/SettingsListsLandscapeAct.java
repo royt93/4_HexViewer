@@ -4,12 +4,12 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.galaxyjoy.hexviewer.ui.frm.FrmAbstractSettings;
-import com.galaxyjoy.hexviewer.ui.frm.FrmSettingsListsPortraitFrm;
+import com.galaxyjoy.hexviewer.ui.frm.FrmSettingsListsLandscape;
 
 /**
  * ******************************************************************************
  * <p><b>Project HexViewer</b><br/>
- * Settings activity for lists in portrait mode.
+ * Settings activity for lists in landscape mode.
  * </p>
  *
  * @author Keidan
@@ -18,7 +18,7 @@ import com.galaxyjoy.hexviewer.ui.frm.FrmSettingsListsPortraitFrm;
  * </p>
  * ******************************************************************************
  */
-public class SettingsListsPortraitActivity extends AbstractSettingsActivity {
+public class SettingsListsLandscapeAct extends ActAbstractSettings {
 
   /**
    * Starts an activity.
@@ -26,7 +26,7 @@ public class SettingsListsPortraitActivity extends AbstractSettingsActivity {
    * @param c Android context.
    */
   public static void startActivity(final Context c) {
-    Intent intent = new Intent(c, SettingsListsPortraitActivity.class);
+    Intent intent = new Intent(c, SettingsListsLandscapeAct.class);
     c.startActivity(intent);
   }
 
@@ -36,7 +36,7 @@ public class SettingsListsPortraitActivity extends AbstractSettingsActivity {
    * @return AbstractSettingsFragment
    */
   public FrmAbstractSettings onUserCreate() {
-    return new FrmSettingsListsPortraitFrm(this);
+    return new FrmSettingsListsLandscape(this);
   }
 
 }
