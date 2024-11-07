@@ -37,7 +37,7 @@ public class MainPopupWindow {
         mApp = (MyApplication) ctx.getApplicationContext();
 
         LayoutInflater inflater = (LayoutInflater) ctx.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        @SuppressLint("InflateParams") View popupView = inflater.inflate(R.layout.main_popup, null);
+        @SuppressLint("InflateParams") View popupView = inflater.inflate(R.layout.dlg_main_popup, null);
         popupView.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
         int width = popupView.getMeasuredWidth();
 
