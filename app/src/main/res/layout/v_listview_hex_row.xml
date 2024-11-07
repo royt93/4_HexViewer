@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:paddingStart="1dp"
-        android:paddingEnd="5dp"
+        android:paddingEnd="8dp"
         android:text="@null"
         android:textSize="@dimen/listview_hex_row_textSize"
         android:typeface="monospace" />

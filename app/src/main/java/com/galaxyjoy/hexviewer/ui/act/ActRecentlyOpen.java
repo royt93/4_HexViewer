@@ -62,7 +62,7 @@ public class ActRecentlyOpen extends AppCompatActivity implements AdtRecentlyOpe
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_recently_open);
+        setContentView(R.layout.act_recently_open);
         mApp = (MyApplication) getApplicationContext();
         setupViews();
     }

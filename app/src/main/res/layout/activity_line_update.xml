@@ -53,7 +53,7 @@
         android:text="@null"
         android:textSize="@dimen/activity_line_update_lv_textSize"
         android:typeface="monospace"
-        android:paddingEnd="5dp"
+        android:paddingEnd="8dp"
         android:paddingStart="2dp"/>
       <TextView
         android:id="@+id/titleContentSource"
@@ -115,7 +115,7 @@
         android:text="@null"
         android:textSize="@dimen/activity_line_update_lv_textSize"
         android:typeface="monospace"
-        android:paddingEnd="5dp"
+        android:paddingEnd="8dp"
         android:paddingStart="2dp"/>
       <TextView
         android:id="@+id/titleContentResult"
@@ -150,7 +150,7 @@
       app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintTop_toTopOf="parent"
       android:layout_width="match_parent"
-      android:layout_height="5dp"/>
+      android:layout_height="8dp"/>
 
     <androidx.appcompat.widget.AppCompatCheckBox
       android:id="@+id/chkSmartInput"

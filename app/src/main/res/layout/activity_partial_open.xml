@@ -1,172 +1,177 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-  xmlns:android="http://schemas.android.com/apk/res/android"
-  xmlns:app="http://schemas.android.com/apk/res-auto"
-  android:layout_width="match_parent"
-  android:layout_height="match_parent">
-  <androidx.constraintlayout.widget.ConstraintLayout
-    android:id="@+id/mainLayout"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:padding="5dp">
-    <androidx.constraintlayout.widget.Guideline
-      android:id="@+id/gl05V"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:orientation="vertical"
-      app:layout_constraintGuide_percent="0.05" />
-    <androidx.constraintlayout.widget.Guideline
-      android:id="@+id/gl95V"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:orientation="vertical"
-      app:layout_constraintGuide_percent="0.95" />
+    android:layout_height="match_parent">
 
-    <TextView
-      android:id="@+id/labelSize"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:text="@string/file_size"
-      app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toTopOf="parent"
-      android:layout_marginStart="5dp"
-      android:layout_marginTop="16dp"
-      style="@style/AppTheme.InputLabel"/>
-
-    <TextView
-      android:id="@+id/textSize"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      app:layout_constraintTop_toTopOf="parent"
-      app:layout_constraintStart_toEndOf="@id/labelSize"
-      android:layout_marginStart="5dp"
-      android:layout_marginEnd="5dp"
-      android:layout_marginTop="16dp"
-      style="@style/AppTheme.InputLabel"/>
-
-    <TextView
-      android:id="@+id/labelSizePart"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:text="@string/size_opening_part"
-      app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toBottomOf="@id/textSize"
-      android:layout_marginStart="5dp"
-      android:layout_marginTop="16dp"
-      style="@style/AppTheme.InputLabel"/>
-
-    <TextView
-      android:id="@+id/textSizePart"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      app:layout_constraintTop_toBottomOf="@id/textSize"
-      app:layout_constraintStart_toEndOf="@id/labelSizePart"
-      android:layout_marginStart="5dp"
-      android:layout_marginEnd="5dp"
-      android:layout_marginTop="16dp"
-      style="@style/AppTheme.InputLabel"/>
-
-    <TextView
-      android:id="@+id/labelUnit"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      app:layout_constraintTop_toBottomOf="@id/textSizePart"
-      app:layout_constraintStart_toStartOf="parent"
-      android:layout_marginStart="5dp"
-      android:layout_marginEnd="5dp"
-      android:layout_marginTop="15dp"
-      android:text="@string/unit"
-      style="@style/AppTheme.InputLabel"/>
-    <androidx.appcompat.widget.AppCompatSpinner
-      android:id="@+id/spUnit"
-      android:layout_marginTop="15dp"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      app:layout_constraintTop_toBottomOf="@id/textSizePart"
-      app:layout_constraintStart_toEndOf="@id/labelUnit" />
-
-    <TextView
-      android:id="@+id/labelInputType"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      app:layout_constraintTop_toBottomOf="@id/labelUnit"
-      app:layout_constraintStart_toStartOf="parent"
-      android:layout_marginStart="5dp"
-      android:layout_marginEnd="5dp"
-      android:layout_marginTop="15dp"
-      android:text="@string/input_type"
-      style="@style/AppTheme.InputLabel"/>
-    <androidx.appcompat.widget.AppCompatSpinner
-      android:id="@+id/spInputType"
-      android:layout_marginTop="15dp"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      app:layout_constraintTop_toBottomOf="@id/labelUnit"
-      app:layout_constraintStart_toEndOf="@id/labelInputType" />
-
-    <TextView
-      android:id="@+id/labelDescription"
-      android:layout_width="0dp"
-      android:layout_height="wrap_content"
-      app:layout_constraintTop_toBottomOf="@id/labelInputType"
-      app:layout_constraintStart_toEndOf="@id/gl05V"
-      app:layout_constraintEnd_toStartOf="@id/gl95V"
-      android:layout_marginStart="5dp"
-      android:layout_marginEnd="5dp"
-      android:layout_marginTop="15dp"
-      android:singleLine="false"
-      android:text="@string/partial_file_opening_description"
-      style="@style/AppTheme.InputLabel"/>
-    <com.google.android.material.textfield.TextInputLayout
-      android:id="@+id/tilStart"
-      android:layout_marginStart="5dp"
-      android:layout_marginEnd="5dp"
-      android:layout_marginTop="15dp"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      app:errorEnabled="true"
-      app:layout_constraintTop_toBottomOf="@id/labelDescription"
-      app:layout_constraintStart_toStartOf="parent">
-
-      <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/tietStart"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/mainLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/start_offset"
-        android:text="@string/zero"
-        android:gravity="start"
-        android:textAlignment="gravity"
-        android:inputType="number"
-        android:typeface="monospace"
-        android:digits=" 0123456789."
-        android:singleLine="true" />
-    </com.google.android.material.textfield.TextInputLayout>
+        android:orientation="vertical"
+        android:padding="8dp">
 
-    <com.google.android.material.textfield.TextInputLayout
-      android:id="@+id/tilEnd"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:layout_marginStart="5dp"
-      android:layout_marginEnd="5dp"
-      android:layout_marginTop="15dp"
-      app:errorEnabled="true"
-      app:layout_constraintTop_toBottomOf="@id/tilStart"
-      app:layout_constraintStart_toStartOf="parent">
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/gl05V"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.05" />
 
-      <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/tietEnd"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="start"
-        android:textAlignment="gravity"
-        android:hint="@string/end_offset"
-        android:text="@string/zero"
-        android:typeface="monospace"
-        android:inputType="number"
-        android:digits=" 0123456789."
-        android:singleLine="true" />
-    </com.google.android.material.textfield.TextInputLayout>
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/gl95V"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.95" />
 
-  </androidx.constraintlayout.widget.ConstraintLayout>
+        <TextView
+            android:id="@+id/labelSize"
+            style="@style/AppTheme.InputLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:text="@string/file_size"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/textSize"
+            style="@style/AppTheme.InputLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintStart_toEndOf="@id/labelSize"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/labelSizePart"
+            style="@style/AppTheme.InputLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:text="@string/size_opening_part"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textSize" />
+
+        <TextView
+            android:id="@+id/textSizePart"
+            style="@style/AppTheme.InputLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintStart_toEndOf="@id/labelSizePart"
+            app:layout_constraintTop_toBottomOf="@id/textSize" />
+
+        <TextView
+            android:id="@+id/labelUnit"
+            style="@style/AppTheme.InputLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="8dp"
+            android:text="@string/unit"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textSizePart" />
+
+        <androidx.appcompat.widget.AppCompatSpinner
+            android:id="@+id/spUnit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:layout_constraintStart_toEndOf="@id/labelUnit"
+            app:layout_constraintTop_toBottomOf="@id/textSizePart" />
+
+        <TextView
+            android:id="@+id/labelInputType"
+            style="@style/AppTheme.InputLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="8dp"
+            android:text="@string/input_type"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/labelUnit" />
+
+        <androidx.appcompat.widget.AppCompatSpinner
+            android:id="@+id/spInputType"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:layout_constraintStart_toEndOf="@id/labelInputType"
+            app:layout_constraintTop_toBottomOf="@id/labelUnit" />
+
+        <TextView
+            android:id="@+id/labelDescription"
+            style="@style/AppTheme.InputLabel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="8dp"
+            android:singleLine="false"
+            android:text="@string/partial_file_opening_description"
+            app:layout_constraintEnd_toStartOf="@id/gl95V"
+            app:layout_constraintStart_toEndOf="@id/gl05V"
+            app:layout_constraintTop_toBottomOf="@id/labelInputType" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilStart"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="8dp"
+            app:errorEnabled="true"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/labelDescription">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/tietStart"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:digits=" 0123456789."
+                android:gravity="start"
+                android:hint="@string/start_offset"
+                android:inputType="number"
+                android:singleLine="true"
+                android:text="@string/zero"
+                android:textAlignment="gravity"
+                android:typeface="monospace" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilEnd"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="8dp"
+            app:errorEnabled="true"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tilStart">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/tietEnd"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:digits=" 0123456789."
+                android:gravity="start"
+                android:hint="@string/end_offset"
+                android:inputType="number"
+                android:singleLine="true"
+                android:text="@string/zero"
+                android:textAlignment="gravity"
+                android:typeface="monospace" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

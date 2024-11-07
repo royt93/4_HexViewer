@@ -41,14 +41,14 @@ public abstract class ActAbstractSettings extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_settings);
+        setContentView(R.layout.act_settings);
 
         //If you want to insert data in your settings
         FrmAbstractSettings prefs = onUserCreate();
 
         getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.settings_container, prefs)
+                .replace(R.id.settingsContainer, prefs)
                 .commit();
 
         ActionBar actionBar = getSupportActionBar();

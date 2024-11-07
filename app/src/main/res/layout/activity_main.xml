@@ -32,7 +32,7 @@
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:orientation="vertical"
-      android:padding="5dp"
+      android:padding="8dp"
       app:layout_constraintBottom_toBottomOf="@+id/guideline95">
 
       <Button
@@ -92,7 +92,7 @@
         android:text="@null"
         android:textSize="@dimen/listview_hex_row_textSize"
         android:typeface="monospace"
-        android:paddingEnd="5dp"
+        android:paddingEnd="8dp"
         android:paddingStart="2dp"/>
       <TextView
         android:id="@+id/titleContent"
