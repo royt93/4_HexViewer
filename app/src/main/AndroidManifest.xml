@@ -56,7 +56,7 @@
         </activity>
 
         <activity
-            android:name=".ui.act.LineUpdateActivity"
+            android:name=".ui.act.ActLineUpdate"
             android:configChanges="locale|orientation|screenSize"
             android:launchMode="singleTask">
 
@@ -76,7 +76,7 @@
         </activity>
 
         <activity
-            android:name=".ui.act.PartialOpenActivity"
+            android:name=".ui.act.ActPartialOpen"
             android:configChanges="locale|orientation|screenSize"
             android:launchMode="singleTask">
 

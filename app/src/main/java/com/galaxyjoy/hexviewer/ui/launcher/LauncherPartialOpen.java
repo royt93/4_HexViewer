@@ -11,7 +11,7 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import com.galaxyjoy.hexviewer.MyApplication;
 import com.galaxyjoy.hexviewer.models.FileData;
 import com.galaxyjoy.hexviewer.ui.act.MainAct;
-import com.galaxyjoy.hexviewer.ui.act.PartialOpenActivity;
+import com.galaxyjoy.hexviewer.ui.act.ActPartialOpen;
 import com.galaxyjoy.hexviewer.ui.task.TaskOpen;
 
 public class LauncherPartialOpen {
@@ -37,7 +37,7 @@ public class LauncherPartialOpen {
         mPrevious = previous;
         mAddRecent = addRecent;
         mOldToString = oldToString;
-        PartialOpenActivity.startActivity(mActivity,
+        ActPartialOpen.startActivity(mActivity,
                 activityResultLauncherOpen,
                 mActivity.getFileData());
     }
@@ -63,8 +63,8 @@ public class LauncherPartialOpen {
                         Intent data = result.getData();
                         if (data != null) {
                             Bundle bundle = data.getExtras();
-                            final long startOffset = bundle.getLong(PartialOpenActivity.RESULT_START_OFFSET);
-                            final long endOffset = bundle.getLong(PartialOpenActivity.RESULT_END_OFFSET);
+                            final long startOffset = bundle.getLong(ActPartialOpen.RESULT_START_OFFSET);
+                            final long endOffset = bundle.getLong(ActPartialOpen.RESULT_END_OFFSET);
                             mActivity.getFileData().setOffsets(startOffset, endOffset, endOffset != 0L);
                             mActivity.getUnDoRedo().clear();
                             new TaskOpen(mActivity, mActivity.getPayloadHex().getAdapter(), mActivity, mOldToString, mAddRecent).execute(mActivity.getFileData());

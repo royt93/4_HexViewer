@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.galaxyjoy.hexviewer.models.LineEntry;
-import com.galaxyjoy.hexviewer.ui.act.LineUpdateActivity;
+import com.galaxyjoy.hexviewer.ui.act.ActLineUpdate;
 import com.galaxyjoy.hexviewer.ui.act.MainAct;
 import com.galaxyjoy.hexviewer.ui.adt.AdtHexTextArray;
 import com.galaxyjoy.hexviewer.util.SysHelper;
@@ -43,24 +43,24 @@ public class LauncherLineUpdate {
                               final int nbLines,
                               final int shiftOffset,
                               final long startRow) {
-        Intent intent = new Intent(mActivity, LineUpdateActivity.class);
-        intent.putExtra(LineUpdateActivity.ACTIVITY_EXTRA_TEXTS, texts);
-        intent.putExtra(LineUpdateActivity.ACTIVITY_EXTRA_POSITION, position);
-        intent.putExtra(LineUpdateActivity.ACTIVITY_EXTRA_NB_LINES, nbLines);
-        intent.putExtra(LineUpdateActivity.ACTIVITY_EXTRA_FILENAME, mActivity.getFileData().getName());
-        intent.putExtra(LineUpdateActivity.ACTIVITY_EXTRA_CHANGE, mActivity.getUnDoRedo().isChanged());
-        intent.putExtra(LineUpdateActivity.ACTIVITY_EXTRA_SEQUENTIAL, mActivity.getFileData().isSequential());
-        intent.putExtra(LineUpdateActivity.ACTIVITY_EXTRA_SHIFT_OFFSET, shiftOffset);
-        intent.putExtra(LineUpdateActivity.ACTIVITY_EXTRA_START_OFFSET, startRow);
+        Intent intent = new Intent(mActivity, ActLineUpdate.class);
+        intent.putExtra(ActLineUpdate.ACTIVITY_EXTRA_TEXTS, texts);
+        intent.putExtra(ActLineUpdate.ACTIVITY_EXTRA_POSITION, position);
+        intent.putExtra(ActLineUpdate.ACTIVITY_EXTRA_NB_LINES, nbLines);
+        intent.putExtra(ActLineUpdate.ACTIVITY_EXTRA_FILENAME, mActivity.getFileData().getName());
+        intent.putExtra(ActLineUpdate.ACTIVITY_EXTRA_CHANGE, mActivity.getUnDoRedo().isChanged());
+        intent.putExtra(ActLineUpdate.ACTIVITY_EXTRA_SEQUENTIAL, mActivity.getFileData().isSequential());
+        intent.putExtra(ActLineUpdate.ACTIVITY_EXTRA_SHIFT_OFFSET, shiftOffset);
+        intent.putExtra(ActLineUpdate.ACTIVITY_EXTRA_START_OFFSET, startRow);
         activityResultLauncherLineUpdate.launch(intent);
     }
 
     private void processIntentData(Intent data) {
         Bundle bundle = data.getExtras();
-        String refString = bundle.getString(LineUpdateActivity.RESULT_REFERENCE_STRING);
-        String newString = bundle.getString(LineUpdateActivity.RESULT_NEW_STRING);
-        int position = bundle.getInt(LineUpdateActivity.RESULT_POSITION);
-        int nbLines = bundle.getInt(LineUpdateActivity.RESULT_NB_LINES);
+        String refString = bundle.getString(ActLineUpdate.RESULT_REFERENCE_STRING);
+        String newString = bundle.getString(ActLineUpdate.RESULT_NEW_STRING);
+        int position = bundle.getInt(ActLineUpdate.RESULT_POSITION);
+        int nbLines = bundle.getInt(ActLineUpdate.RESULT_NB_LINES);
 
         byte[] buf = SysHelper.hexStringToByteArray(newString);
         final byte[] ref = SysHelper.hexStringToByteArray(refString);
