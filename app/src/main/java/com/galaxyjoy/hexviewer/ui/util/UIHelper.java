@@ -49,7 +49,7 @@ public class UIHelper {
         if (window != null) {
             window.setLayout(350, 350);
             View v = window.getDecorView();
-            v.setBackgroundResource(R.drawable.rounded_border);
+            v.setBackgroundResource(R.drawable.shape_rounded_border);
         }
     }
 

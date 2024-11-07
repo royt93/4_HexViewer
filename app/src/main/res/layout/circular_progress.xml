@@ -15,5 +15,5 @@
     android:backgroundTint="@color/colorAccent"
     android:indeterminate="true"
     android:max="100"
-    android:progressDrawable="@drawable/circular_progress_view" />
+    android:progressDrawable="@drawable/ic_circular_progress_view" />
 </RelativeLayout>
