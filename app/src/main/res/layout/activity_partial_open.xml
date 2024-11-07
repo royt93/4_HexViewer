@@ -31,7 +31,7 @@
       app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintTop_toTopOf="parent"
       android:layout_marginStart="5dp"
-      android:layout_marginTop="10dp"
+      android:layout_marginTop="16dp"
       style="@style/AppTheme.InputLabel"/>
 
     <TextView
@@ -42,7 +42,7 @@
       app:layout_constraintStart_toEndOf="@id/labelSize"
       android:layout_marginStart="5dp"
       android:layout_marginEnd="5dp"
-      android:layout_marginTop="10dp"
+      android:layout_marginTop="16dp"
       style="@style/AppTheme.InputLabel"/>
 
     <TextView
@@ -53,7 +53,7 @@
       app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintTop_toBottomOf="@id/textSize"
       android:layout_marginStart="5dp"
-      android:layout_marginTop="10dp"
+      android:layout_marginTop="16dp"
       style="@style/AppTheme.InputLabel"/>
 
     <TextView
@@ -64,7 +64,7 @@
       app:layout_constraintStart_toEndOf="@id/labelSizePart"
       android:layout_marginStart="5dp"
       android:layout_marginEnd="5dp"
-      android:layout_marginTop="10dp"
+      android:layout_marginTop="16dp"
       style="@style/AppTheme.InputLabel"/>
 
     <TextView

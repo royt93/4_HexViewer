@@ -23,9 +23,9 @@
     <dimen name="progress_dialog_layout_marginTop">20dp</dimen>
     <dimen name="progress_dialog_text_layout_marginTop">15dp</dimen>
     <dimen name="progress_dialog_button_layout_marginTop">15dp</dimen>
-    <dimen name="progress_dialog_layout_marginStart">10dp</dimen>
-    <dimen name="progress_dialog_layout_marginEnd">10dp</dimen>
-    <dimen name="progress_dialog_layout_marginBottom">10dp</dimen>
+    <dimen name="progress_dialog_layout_marginStart">16dp</dimen>
+    <dimen name="progress_dialog_layout_marginEnd">16dp</dimen>
+    <dimen name="progress_dialog_layout_marginBottom">16dp</dimen>
 
     <!-- recently_open -->
     <dimen name="recently_open_textSize">16sp</dimen>

@@ -8,7 +8,7 @@
     android:id="@+id/question"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="10dp"
+    android:padding="16dp"
     android:text="@string/dialog_restore_question"
     android:textSize="@dimen/content_dialog_restore_textSize" />
 
@@ -16,7 +16,7 @@
     android:id="@+id/deleteRecent"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="10dp"
+    android:padding="16dp"
     android:text="@string/dialog_restore_recent"
     android:textSize="@dimen/content_dialog_restore_textSize" />
 </LinearLayout>

@@ -47,7 +47,7 @@ public class SaveDialog {
                 .setNegativeButton(android.R.string.cancel, (dialog, whichButton) -> {
                 });
         LayoutInflater factory = LayoutInflater.from(mActivity);
-        builder.setView(factory.inflate(R.layout.content_dialog_save, null));
+        builder.setView(factory.inflate(R.layout.dlg_content_dialog_save, null));
         AlertDialog dialog = builder.create();
         dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN |
                 WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
