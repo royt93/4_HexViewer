@@ -13,8 +13,7 @@
         android:paddingStart="1dp"
         android:paddingEnd="8dp"
         android:text="@null"
-        android:textSize="@dimen/listview_hex_row_textSize"
-         />
+        android:textSize="@dimen/listview_hex_row_textSize" />
 
     <TextView
         android:id="@+id/content"
@@ -22,7 +21,6 @@
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:text="@null"
-        android:textSize="@dimen/listview_hex_row_textSize"
-         />
+        android:textSize="@dimen/listview_hex_row_textSize" />
 
 </LinearLayout>

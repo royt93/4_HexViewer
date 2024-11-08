@@ -7,7 +7,7 @@
     <dimen name="activity_main_payload_plain_swipe_refresh_layout_textSize">12sp</dimen>
 
     <!-- main_popup.xml -->
-    <dimen name="main_popup_items_textSize">14sp</dimen>
+    <dimen name="main_popup_items_textSize">16sp</dimen>
 
     <!-- listview_hex_row.xml -->
     <dimen name="listview_hex_row_textSize">9sp</dimen>
@@ -52,4 +52,5 @@
     <!-- content_dialog_restore -->
     <dimen name="content_dialog_restore_textSize">18sp</dimen>
     <dimen name="_16sp">16sp</dimen>
+    <dimen name="_32sp">32sp</dimen>
 </resources>
