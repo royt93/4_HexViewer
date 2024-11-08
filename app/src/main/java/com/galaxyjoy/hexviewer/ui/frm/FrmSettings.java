@@ -130,8 +130,9 @@ public class FrmSettings extends FrmAbstractSettings implements Preference.OnPre
             Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(GITHUB_LIC_URL));
             startActivity(browserIntent);
         } else if (preference.equals(mVersion)) {
-            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(GITHUB_URL));
-            startActivity(browserIntent);
+            //do nothing
+//            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(GITHUB_URL));
+//            startActivity(browserIntent);
         } else if (preference.equals(mSettingsListsPortrait)) {
             ActSettingsListsPortraitAct.startActivity(mActivity);
         } else if (preference.equals(mSettingsListsLandscape)) {
