@@ -24,7 +24,6 @@
             android:textAlignment="center"
             android:textSize="@dimen/activity_main_please_open_file_textSize"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintBottom_toTopOf="@+id/guideline50"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -35,13 +34,14 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:padding="8dp"
-            app:layout_constraintBottom_toBottomOf="@+id/guideline95">
+            app:layout_constraintBottom_toBottomOf="parent">
 
             <Button
                 android:id="@+id/buttonOpenFile"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/action_open_title_button"
+                android:textAllCaps="false"
                 android:textColor="@color/white"
                 android:textSize="@dimen/activity_main_buttons_textSize" />
 
@@ -50,6 +50,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/action_open_sequential_title_button"
+                android:textAllCaps="false"
                 android:textColor="@color/white"
                 android:textSize="@dimen/activity_main_buttons_textSize" />
 
@@ -58,6 +59,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/action_recently_open_title"
+                android:textAllCaps="false"
                 android:textColor="@color/white"
                 android:textSize="@dimen/activity_main_buttons_textSize" />
         </LinearLayout>
@@ -68,13 +70,6 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             app:layout_constraintGuide_percent="0.5" />
-
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline95"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.95" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <RelativeLayout
