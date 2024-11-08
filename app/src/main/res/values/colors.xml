@@ -8,6 +8,7 @@
     <color name="textColorSecondary">#FF3B1C32</color>
     <color name="actionMenuTextColor">#FF1A1A1D</color>
     <color name="textColor">#FF1A1A1D</color>
+    <color name="white">#FFFFFFFF</color>
     <color name="windowBackground">#FFFFFFFF</color>
     <color name="colorButtonNormal">#FF522258</color>
     <color name="colorBackground">#FF522258</color>
@@ -19,5 +20,5 @@
     <color name="colorResultError">#FFC63C51</color>
     <color name="colorResultWarning">#FFFF9800</color>
     <color name="colorTextUpdated">#FFC63C51</color>
-    <color name="colorLineNumbers">#FFFFC107</color>
+    <color name="colorLineNumbers">#FFC63C51</color>
 </resources>

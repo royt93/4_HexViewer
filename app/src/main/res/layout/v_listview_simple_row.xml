@@ -12,6 +12,6 @@
         android:gravity="center_vertical"
         android:text="@null"
         android:textSize="@dimen/listview_simple_row_textSize"
-        android:typeface="monospace" />
+         />
 
 </LinearLayout>

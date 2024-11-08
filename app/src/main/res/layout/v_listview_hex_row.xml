@@ -14,7 +14,7 @@
         android:paddingEnd="8dp"
         android:text="@null"
         android:textSize="@dimen/listview_hex_row_textSize"
-        android:typeface="monospace" />
+         />
 
     <TextView
         android:id="@+id/content"
@@ -23,6 +23,6 @@
         android:gravity="center_vertical"
         android:text="@null"
         android:textSize="@dimen/listview_hex_row_textSize"
-        android:typeface="monospace" />
+         />
 
 </LinearLayout>
