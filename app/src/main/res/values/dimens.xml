@@ -51,4 +51,5 @@
 
     <!-- content_dialog_restore -->
     <dimen name="content_dialog_restore_textSize">18sp</dimen>
+    <dimen name="_16sp">16sp</dimen>
 </resources>
