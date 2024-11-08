@@ -183,7 +183,7 @@ public class FrmSettings extends FrmAbstractSettings implements Preference.OnPre
     @SuppressLint("InflateParams")
     private void restoreDefaultDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
-        builder.setCancelable(false)
+        builder.setCancelable(true)
                 .setTitle(R.string.dialog_restore_title)
                 .setPositiveButton(android.R.string.ok, null)
                 .setNegativeButton(android.R.string.cancel, (dialog, whichButton) -> {
