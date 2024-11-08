@@ -18,7 +18,6 @@ import androidx.preference.PreferenceScreen;
 import com.galaxyjoy.hexviewer.BuildConfig;
 import com.galaxyjoy.hexviewer.R;
 import com.galaxyjoy.hexviewer.models.SettingsKeys;
-import com.galaxyjoy.hexviewer.ui.act.ActLogs;
 import com.galaxyjoy.hexviewer.ui.act.setting.ActSettings;
 import com.galaxyjoy.hexviewer.ui.act.setting.ActSettingsListsLandscape;
 import com.galaxyjoy.hexviewer.ui.act.setting.ActSettingsListsPortraitAct;
@@ -32,7 +31,7 @@ public class FrmSettings extends FrmAbstractSettings implements Preference.OnPre
     protected Preference mLicense;
     protected Preference mVersion;
     private Preference mRestoreDefault;
-    private Preference mLogs;
+    //    private Preference mLogs;
     private ListPreference mLanguage;
     private ListPreference mScreenOrientation;
     private ListPreference mNbBytesPerLine;
@@ -66,7 +65,7 @@ public class FrmSettings extends FrmAbstractSettings implements Preference.OnPre
         mScreenOrientation = findPreference(SettingsKeys.CFG_SCREEN_ORIENTATION);
         mNbBytesPerLine = findPreference(SettingsKeys.CFG_NB_BYTES_PER_LINE);
         mRestoreDefault = findPreference(SettingsKeys.CFG_RESTORE_DEFAULT);
-        mLogs = findPreference(SettingsKeys.CFG_LOGS);
+//        mLogs = findPreference(SettingsKeys.CFG_LOGS);
 
         mSettingsListsPortrait.setOnPreferenceClickListener(this);
         mSettingsListsLandscape.setOnPreferenceClickListener(this);
@@ -76,7 +75,7 @@ public class FrmSettings extends FrmAbstractSettings implements Preference.OnPre
         mScreenOrientation.setOnPreferenceChangeListener(this);
         mNbBytesPerLine.setOnPreferenceChangeListener(this);
         mRestoreDefault.setOnPreferenceClickListener(this);
-        mLogs.setOnPreferenceClickListener(this);
+//        mLogs.setOnPreferenceClickListener(this);
 
         mVersion.setSummary(BuildConfig.VERSION_NAME);
 
@@ -143,9 +142,10 @@ public class FrmSettings extends FrmAbstractSettings implements Preference.OnPre
             } else {
                 UIHelper.showErrorDialog(mActivity, preference.getTitle(), mActivity.getString(R.string.control_language_change));
             }
-        } else if (preference.equals(mLogs)) {
-            ActLogs.startActivity(mActivity);
         }
+//        else if (preference.equals(mLogs)) {
+//            ActLogs.startActivity(mActivity);
+//        }
         return false;
     }
 
