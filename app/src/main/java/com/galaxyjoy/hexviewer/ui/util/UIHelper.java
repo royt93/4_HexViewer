@@ -134,13 +134,13 @@ public class UIHelper {
     public static int getTextWidth(final Context context,
                                    final UserConfig landscape,
                                    final UserConfig portrait) {
-        final Typeface monospace = Typeface.MONOSPACE;
+//        final Typeface monospace = Typeface.MONOSPACE;
         final String text = "a";
         float fontSize = 12.0f;
         /* Solution 1: We get the width of the text. */
         TextView tv = new TextView(context);
         tv.setText(text);
-        tv.setTypeface(monospace);
+//        tv.setTypeface(monospace);
         MyApplication app = (MyApplication) context.getApplicationContext();
         Configuration cfg = app.getConfiguration();
         if (landscape != null && cfg.orientation == Configuration.ORIENTATION_LANDSCAPE) {
@@ -154,7 +154,7 @@ public class UIHelper {
         /* Solution 2: If we can't get the width, then we try another method (obviously less accurate) */
         if (width < 1) {
             Paint paint = new Paint();
-            paint.setTypeface(monospace);
+//            paint.setTypeface(monospace);
             float scaledSizeInPixels = getSize(context, TypedValue.COMPLEX_UNIT_SP, fontSize);
             paint.setTextSize(scaledSizeInPixels);
             Rect bounds = new Rect();

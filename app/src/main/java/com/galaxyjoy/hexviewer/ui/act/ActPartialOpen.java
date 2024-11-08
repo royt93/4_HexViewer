@@ -502,8 +502,8 @@ public class ActPartialOpen extends AppCompatActivity implements AdapterView.OnI
             mTietEnd.setFilters(new InputFilter[]{mInputFilterTextHex});
             mTietEnd.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD | InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
         }
-        mTietStart.setTypeface(Typeface.MONOSPACE);
-        mTietEnd.setTypeface(Typeface.MONOSPACE);
+//        mTietStart.setTypeface(Typeface.MONOSPACE);
+//        mTietEnd.setTypeface(Typeface.MONOSPACE);
         if (SysHelper.isRTL(this)) {
             mTietStart.setTextDirection(View.TEXT_DIRECTION_RTL);
             mTietEnd.setTextDirection(View.TEXT_DIRECTION_RTL);
