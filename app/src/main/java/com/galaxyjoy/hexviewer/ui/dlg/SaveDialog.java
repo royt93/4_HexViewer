@@ -41,7 +41,7 @@ public class SaveDialog {
                             DialogPositiveClick positiveClick) {
         AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
         builder.setCancelable(false)
-                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setIcon(R.drawable.ic_done)
                 .setTitle(mTitle)
                 .setPositiveButton(android.R.string.ok, null)
                 .setNegativeButton(android.R.string.cancel, (dialog, whichButton) -> {
@@ -49,6 +49,7 @@ public class SaveDialog {
         LayoutInflater factory = LayoutInflater.from(mActivity);
         builder.setView(factory.inflate(R.layout.dlg_content_dialog_save, null));
         AlertDialog dialog = builder.create();
+        dialog.getWindow().setBackgroundDrawableResource(R.drawable.dialog_background);
         dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN |
                 WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
         dialog.show();
