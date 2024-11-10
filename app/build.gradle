@@ -25,8 +25,17 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+    signingConfigs {
+        release {
+            storeFile file("key/keystore.jks")
+            storePassword "27072000"
+            keyAlias "mckimquyen"
+            keyPassword "27072000"
+        }
+    }
     buildTypes {
         release {
+            signingConfig signingConfigs.release
             minifyEnabled true
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
@@ -53,6 +62,34 @@ android {
     namespace 'com.galaxyjoy.hexviewer'
     lint {
         abortOnError false
+    }
+
+    flavorDimensions.add("type")
+    productFlavors {
+        dev {
+            buildConfigField "Boolean", "build_debug", "true"
+            dimension "type"
+            buildConfigField("String", "FLAVOR_buildEnv", '"dev"')
+
+            resValue("string", "SDK_KEY", "e75FnQfS9XTTqM1Kne69U7PW_MBgAnGQTFvtwVVui6kRPKs5L7ws9twr5IQWwVfzPKZ5pF2IfDa7lguMgGlCyt")
+            resValue("string", "BANNER", "")
+            resValue("string", "INTER", "")
+
+            resValue("string", "EnableAdInter", "true")
+            resValue("string", "EnableAdBanner", "true")
+        }
+        production {
+            buildConfigField "Boolean", "build_debug", "false"
+            dimension "type"
+            buildConfigField("String", "FLAVOR_buildEnv", '"prod"')
+
+            resValue("string", "SDK_KEY", "e75FnQfS9XTTqM1Kne69U7PW_MBgAnGQTFvtwVVui6kRPKs5L7ws9twr5IQWwVfzPKZ5pF2IfDa7lguMgGlCyt")
+            resValue("string", "BANNER", "")
+            resValue("string", "INTER", "")
+
+            resValue("string", "EnableAdInter", "true")
+            resValue("string", "EnableAdBanner", "true")
+        }
     }
 }
 

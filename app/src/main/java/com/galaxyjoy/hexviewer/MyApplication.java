@@ -37,12 +37,12 @@ import java.util.concurrent.locks.ReentrantLock;
 //TODO roy93~ rate, more app, share app
 //TODO roy93~ github
 //TODO roy93~ gen ic_launcher https://easyappicon.com/
-//TODO roy93~ keystore
 //TODO roy93~ font scale
 //TODO roy93~ add lottie trang tri cho dep
 //TODO roy93~ splash screen
 
 //done mckimquyen
+//keystore
 //rename app
 public class MyApplication extends Application {
     private static final int CIRCULAR_BUFFER_DEPTH = 2000;
