@@ -31,7 +31,6 @@ import java.util.concurrent.locks.ReentrantLock;
 //TODO roy93~ vung bi mat de show applovin config
 //TODO roy93~ ad applovin
 
-//TODO roy93~ rename app
 //TODO roy93~ proguard
 //TODO roy93~ leak canary
 //TODO roy93~ license
@@ -43,6 +42,7 @@ import java.util.concurrent.locks.ReentrantLock;
 //TODO roy93~ add lottie trang tri cho dep
 
 //done mckimquyen
+//rename app
 public class MyApplication extends Application {
     private static final int CIRCULAR_BUFFER_DEPTH = 2000;
     private Queue<String> mLogs = null;
