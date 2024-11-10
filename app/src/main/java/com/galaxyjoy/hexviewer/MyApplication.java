@@ -34,12 +34,12 @@ import java.util.concurrent.locks.ReentrantLock;
 //TODO roy93~ license
 //TODO roy93~ rate, more app, share app
 //TODO roy93~ github
-//TODO roy93~ gen ic_launcher https://easyappicon.com/
 //TODO roy93~ font scale
 //TODO roy93~ add lottie trang tri cho dep
 //TODO roy93~ splash screen
 
 //done mckimquyen
+//gen ic_launcher https://easyappicon.com/
 //leak canary
 //proguard
 //keystore
