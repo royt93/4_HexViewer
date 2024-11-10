@@ -26,6 +26,24 @@ import java.util.Queue;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
+//TODO roy93~ firebase analytic
+//TODO roy93~ why you see ad
+//TODO roy93~ vung bi mat de show applovin config
+//TODO roy93~ ad applovin
+
+//TODO roy93~ rename app
+//TODO roy93~ proguard
+//TODO roy93~ leak canary
+//TODO roy93~ license
+//TODO roy93~ rate, more app, share app
+//TODO roy93~ github
+//TODO roy93~ gen ic_launcher https://easyappicon.com/
+//TODO roy93~ UI ios switch
+//TODO roy93~ check xem touch point 16 days ko work
+//TODO roy93~ keystore
+//TODO roy93~ font scale
+
+//done mckimquyen
 public class MyApplication extends Application {
     private static final int CIRCULAR_BUFFER_DEPTH = 2000;
     private Queue<String> mLogs = null;
