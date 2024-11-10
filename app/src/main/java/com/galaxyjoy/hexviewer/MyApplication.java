@@ -40,6 +40,7 @@ import java.util.concurrent.locks.ReentrantLock;
 //TODO roy93~ keystore
 //TODO roy93~ font scale
 //TODO roy93~ add lottie trang tri cho dep
+//TODO roy93~ splash screen
 
 //done mckimquyen
 //rename app
