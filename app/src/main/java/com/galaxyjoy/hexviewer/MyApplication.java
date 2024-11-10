@@ -38,10 +38,9 @@ import java.util.concurrent.locks.ReentrantLock;
 //TODO roy93~ rate, more app, share app
 //TODO roy93~ github
 //TODO roy93~ gen ic_launcher https://easyappicon.com/
-//TODO roy93~ UI ios switch
-//TODO roy93~ check xem touch point 16 days ko work
 //TODO roy93~ keystore
 //TODO roy93~ font scale
+//TODO roy93~ add lottie trang tri cho dep
 
 //done mckimquyen
 public class MyApplication extends Application {
