@@ -31,8 +31,6 @@ import java.util.concurrent.locks.ReentrantLock;
 //TODO roy93~ vung bi mat de show applovin config
 //TODO roy93~ ad applovin
 
-//TODO roy93~ proguard
-//TODO roy93~ leak canary
 //TODO roy93~ license
 //TODO roy93~ rate, more app, share app
 //TODO roy93~ github
@@ -42,6 +40,8 @@ import java.util.concurrent.locks.ReentrantLock;
 //TODO roy93~ splash screen
 
 //done mckimquyen
+//leak canary
+//proguard
 //keystore
 //rename app
 public class MyApplication extends Application {
