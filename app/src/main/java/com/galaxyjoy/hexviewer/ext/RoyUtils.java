@@ -30,4 +30,23 @@ public class RoyUtils {
             Toast.makeText(context, "Unable to open the rating page.", Toast.LENGTH_SHORT).show();
         }
     }
+
+    public static void getMoreApps(Context context) {
+        try {
+            // Mở trang của nhà phát triển McKimQuyen trên Google Play
+            Intent intent = new Intent(Intent.ACTION_VIEW,
+                    Uri.parse("market://search?q=pub:McKimQuyen"));
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            context.startActivity(intent);
+        } catch (android.content.ActivityNotFoundException e) {
+            // Nếu Google Play không có, mở trên trình duyệt web
+            Intent intent = new Intent(Intent.ACTION_VIEW,
+                    Uri.parse("https://play.google.com/store/search?q=pub:McKimQuyen"));
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            context.startActivity(intent);
+        } catch (Exception e) {
+            // Thông báo lỗi nếu có vấn đề phát sinh
+            Toast.makeText(context, "Unable to open the developer's page.", Toast.LENGTH_SHORT).show();
+        }
+    }
 }

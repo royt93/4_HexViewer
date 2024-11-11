@@ -323,7 +323,7 @@ public class ActMain extends ActAbstractBaseMain implements AdapterView.OnItemCl
         } else if (id == R.id.actionRate) {
             RoyUtils.rateApp(this, this.getPackageName());
         } else if (id == R.id.actionMoreApp) {
-
+            RoyUtils.getMoreApps(this);
         } else if (id == R.id.actionShareApp) {
 
         } else if (id == R.id.actionGithubOriginal) {
