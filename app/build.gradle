@@ -1,6 +1,7 @@
 plugins {
 //    id "org.sonarqube" version "3.3"
     id 'com.android.application'
+//    id 'org.jetbrains.kotlin.android'
 }
 
 //final SONAR_PROJECT_VERSION = '1.55'
@@ -25,6 +26,12 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+//    kotlinOptions {
+//        jvmTarget = '1.8'
+//    }
+//    composeOptions {
+//        kotlinCompilerExtensionVersion = "1.4.0"
+//    }
     signingConfigs {
         release {
             storeFile file("key/keystore.jks")
@@ -94,6 +101,7 @@ android {
 }
 
 dependencies {
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:1.7.20"
     implementation 'org.apache.commons:commons-collections4:4.4'
     implementation "androidx.appcompat:appcompat:1.7.0"
     implementation "androidx.preference:preference:1.2.1"
@@ -101,6 +109,7 @@ dependencies {
     implementation "androidx.emoji:emoji:1.1.0"
     implementation "com.android.support:support-emoji-bundled:$version"
     implementation "com.google.android.material:material:1.12.0"
+    implementation 'androidx.core:core-ktx:1.13.1'
 //    testImplementation "junit:junit:4.13.2"
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.14'
     implementation 'com.applovin:applovin-sdk:13.0.1'

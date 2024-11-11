@@ -167,4 +167,9 @@
     <string name="menu_delete">Delete</string>
     <string name="menu_edit">Edit</string>
     <string name="menu_copy">Copy</string>
+    <string name="rate_app">Rate app</string>
+    <string name="more_apps">More apps</string>
+    <string name="share_this_app">Share this app</string>
+    <string name="source_code_original">Source code (Original)</string>
+    <string name="source_code_forked_version">Source code (forked version)</string>
 </resources>
