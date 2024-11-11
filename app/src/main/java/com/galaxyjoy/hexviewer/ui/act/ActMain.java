@@ -325,7 +325,7 @@ public class ActMain extends ActAbstractBaseMain implements AdapterView.OnItemCl
         } else if (id == R.id.actionMoreApp) {
             RoyUtils.getMoreApps(this);
         } else if (id == R.id.actionShareApp) {
-
+            RoyUtils.shareApp(this, this.getPackageName());
         } else if (id == R.id.actionGithubOriginal) {
 
         } else if (id == R.id.actionGithubFork) {

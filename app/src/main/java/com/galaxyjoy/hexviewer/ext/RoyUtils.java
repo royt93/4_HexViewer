@@ -49,4 +49,28 @@ public class RoyUtils {
             Toast.makeText(context, "Unable to open the developer's page.", Toast.LENGTH_SHORT).show();
         }
     }
+
+    /**
+     * Shares the app link with a catchy message using the system's share dialog.
+     *
+     * @param context     The context from which the method is called.
+     * @param packageName The package name of the app to be shared.
+     */
+    public static void shareApp(Context context, String packageName) {
+        try {
+            String shareMessage = "✨ Check out this amazing app! ✨\n"
+                    + "I think you’ll love it as much as I do. "
+                    + "Download it now on Google Play: https://play.google.com/store/apps/details?id=" + packageName;
+
+            Intent shareIntent = new Intent(Intent.ACTION_SEND);
+            shareIntent.setType("text/plain");
+            shareIntent.putExtra(Intent.EXTRA_SUBJECT, "Awesome app alert!");
+            shareIntent.putExtra(Intent.EXTRA_TEXT, shareMessage);
+
+            context.startActivity(Intent.createChooser(shareIntent, "Share this app via"));
+        } catch (Exception e) {
+            // Show an error message if something goes wrong
+            Toast.makeText(context, "Unable to share the app.", Toast.LENGTH_SHORT).show();
+        }
+    }
 }
