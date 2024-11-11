@@ -31,7 +31,6 @@ import java.util.concurrent.locks.ReentrantLock;
 //TODO roy93~ vung bi mat de show applovin config
 //TODO roy93~ ad applovin
 
-//TODO roy93~ license
 //TODO roy93~ rate, more app, share app
 //TODO roy93~ github
 //TODO roy93~ font scale
@@ -39,6 +38,7 @@ import java.util.concurrent.locks.ReentrantLock;
 //TODO roy93~ splash screen
 
 //done mckimquyen
+//license
 //gen ic_launcher https://easyappicon.com/
 //leak canary
 //proguard

@@ -5,16 +5,15 @@
     android:layout_height="match_parent"
     android:background="@color/windowBackground">
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
         <LinearLayout
             android:id="@+id/action"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
             android:baselineAligned="false"
             android:layoutDirection="ltr"
             android:orientation="horizontal">
@@ -60,7 +59,6 @@
             android:id="@+id/actionOpen"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/action"
             android:background="?attr/selectableItemBackground"
             android:gravity="center_vertical"
             android:minHeight="?android:attr/listPreferredItemHeightSmall"
@@ -74,7 +72,6 @@
             android:id="@+id/actionOpenSequential"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/actionOpen"
             android:background="?attr/selectableItemBackground"
             android:gravity="center_vertical"
             android:minHeight="?android:attr/listPreferredItemHeightSmall"
@@ -88,7 +85,6 @@
             android:id="@+id/actionRecentlyOpen"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/actionOpenSequential"
             android:background="?attr/selectableItemBackground"
             android:gravity="center_vertical"
             android:minHeight="?android:attr/listPreferredItemHeightSmall"
@@ -101,8 +97,7 @@
         <LinearLayout
             android:id="@+id/actionPlainTextContainer"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/actionRecentlyOpen">
+            android:layout_height="wrap_content">
 
             <TextView
                 android:id="@+id/actionPlainTextTv"
@@ -132,8 +127,7 @@
         <LinearLayout
             android:id="@+id/actionLineNumbersContainer"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/actionPlainTextContainer">
+            android:layout_height="wrap_content">
 
             <TextView
                 android:id="@+id/actionLineNumbersTv"
@@ -164,7 +158,6 @@
             android:id="@+id/actionGoTo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/actionLineNumbersContainer"
             android:background="?attr/selectableItemBackground"
             android:gravity="center_vertical"
             android:minHeight="?android:attr/listPreferredItemHeightSmall"
@@ -178,7 +171,6 @@
             android:id="@+id/actionSave"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/actionGoTo"
             android:background="?attr/selectableItemBackground"
             android:gravity="center_vertical"
             android:minHeight="?android:attr/listPreferredItemHeightSmall"
@@ -192,7 +184,6 @@
             android:id="@+id/actionSaveAs"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/actionSave"
             android:background="?attr/selectableItemBackground"
             android:gravity="center_vertical"
             android:minHeight="?android:attr/listPreferredItemHeightSmall"
@@ -206,7 +197,6 @@
             android:id="@+id/actionClose"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/actionSaveAs"
             android:background="?attr/selectableItemBackground"
             android:gravity="center_vertical"
             android:minHeight="?android:attr/listPreferredItemHeightSmall"
@@ -220,7 +210,6 @@
             android:id="@+id/actionSettings"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/actionClose"
             android:background="?attr/selectableItemBackground"
             android:gravity="center_vertical"
             android:minHeight="?android:attr/listPreferredItemHeightSmall"
@@ -229,5 +218,5 @@
             android:text="@string/action_settings_title"
             android:textAppearance="?android:attr/textAppearanceListItemSmall"
             android:textSize="@dimen/main_popup_items_textSize" />
-    </RelativeLayout>
+    </LinearLayout>
 </ScrollView>
