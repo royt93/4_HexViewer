@@ -75,6 +75,11 @@ public class MainPopupWindow {
         popupView.findViewById(R.id.actionOpen).setOnClickListener(click);
         popupView.findViewById(R.id.actionOpenSequential).setOnClickListener(click);
         popupView.findViewById(R.id.actionSettings).setOnClickListener(click);
+        popupView.findViewById(R.id.actionRate).setOnClickListener(click);
+        popupView.findViewById(R.id.actionMoreApp).setOnClickListener(click);
+        popupView.findViewById(R.id.actionShareApp).setOnClickListener(click);
+        popupView.findViewById(R.id.actionGithubOriginal).setOnClickListener(click);
+        popupView.findViewById(R.id.actionGithubFork).setOnClickListener(click);
         mPlainText.setOnClickListener(click);
         mLineNumbers.setOnClickListener(click);
         mSaveAsMenu.setOnClickListener(click);

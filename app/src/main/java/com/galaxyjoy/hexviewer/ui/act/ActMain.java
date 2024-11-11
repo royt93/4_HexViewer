@@ -19,6 +19,7 @@ import androidx.core.view.MenuCompat;
 
 import com.galaxyjoy.hexviewer.MyApplication;
 import com.galaxyjoy.hexviewer.R;
+import com.galaxyjoy.hexviewer.ext.RoyUtils;
 import com.galaxyjoy.hexviewer.models.FileData;
 import com.galaxyjoy.hexviewer.models.LineEntry;
 import com.galaxyjoy.hexviewer.ui.act.setting.ActSettings;
@@ -67,10 +68,7 @@ public class ActMain extends ActAbstractBaseMain implements AdapterView.OnItemCl
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.act_main);
-        MyApplication.addLog(this,
-                "Main",
-                "Application started with language: '" +
-                        ((MyApplication) getApplicationContext()).getApplicationLanguage(this) + "'");
+        MyApplication.addLog(this, "Main", "Application started with language: '" + ((MyApplication) getApplicationContext()).getApplicationLanguage(this) + "'");
         setupViews(savedInstanceState);
     }
 
@@ -84,12 +82,9 @@ public class ActMain extends ActAbstractBaseMain implements AdapterView.OnItemCl
         mIdleView = findViewById(R.id.idleView);
         mIdleView.setVisibility(View.VISIBLE);
 
-        findViewById(R.id.buttonOpenFile).setOnClickListener(v ->
-                onPopupItemClick(R.id.actionOpen));
-        findViewById(R.id.buttonPartialOpenFile).setOnClickListener(v ->
-                onPopupItemClick(R.id.actionOpenSequential));
-        findViewById(R.id.buttonRecentlyOpen).setOnClickListener(v ->
-                onPopupItemClick(R.id.actionRecentlyOpen));
+        findViewById(R.id.buttonOpenFile).setOnClickListener(v -> onPopupItemClick(R.id.actionOpen));
+        findViewById(R.id.buttonPartialOpenFile).setOnClickListener(v -> onPopupItemClick(R.id.actionOpenSequential));
+        findViewById(R.id.buttonRecentlyOpen).setOnClickListener(v -> onPopupItemClick(R.id.actionRecentlyOpen));
         findViewById(R.id.buttonRecentlyOpen).setEnabled(!mApp.getRecentlyOpened().list().isEmpty());
         mPayloadHexHelper = new PayloadHexHelper();
         mPayloadHexHelper.onCreate(this);
@@ -105,8 +100,7 @@ public class ActMain extends ActAbstractBaseMain implements AdapterView.OnItemCl
 
         mGoToDialog = new GoToDialog(this);
 
-        if (savedInstanceState == null)
-            handleIntent(getIntent());
+        if (savedInstanceState == null) handleIntent(getIntent());
     }
 
     /**
@@ -116,16 +110,13 @@ public class ActMain extends ActAbstractBaseMain implements AdapterView.OnItemCl
     public void onResume() {
         super.onResume();
         setRequestedOrientation(mApp.getScreenOrientation(null));
-        if (mPopup != null)
-            mPopup.dismiss();
+        if (mPopup != null) mPopup.dismiss();
         mApp.applyApplicationLanguage(this);
         /* refresh */
         findViewById(R.id.buttonRecentlyOpen).setEnabled(!((MyApplication) getApplicationContext()).getRecentlyOpened().list().isEmpty());
         onOpenResult(!FileData.isEmpty(mFileData), false);
-        if (mPayloadHexHelper.isVisible())
-            mPayloadHexHelper.refreshAdapter();
-        else if (mPayloadPlainSwipe.isVisible())
-            mPayloadPlainSwipe.refreshAdapter();
+        if (mPayloadHexHelper.isVisible()) mPayloadHexHelper.refreshAdapter();
+        else if (mPayloadPlainSwipe.isVisible()) mPayloadPlainSwipe.refreshAdapter();
     }
 
     /**
@@ -155,18 +146,12 @@ public class ActMain extends ActAbstractBaseMain implements AdapterView.OnItemCl
             boolean addRecent;
             if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.Q) {
                 addRecent = false;
-            } else
-                addRecent = FileHelper.takeUriPermissions(this, uri, false);
+            } else addRecent = FileHelper.takeUriPermissions(this, uri, false);
             FileData fd = new FileData(this, uri, true);
             mApp.setSequential(fd.getRealSize() != 0);
             final Runnable r = () -> mLauncherOpen.processFileOpen(fd, null, addRecent);
             if (mUnDoRedo.isChanged()) {// a save operation is pending?
-                UIHelper.confirmFileChanged(this, mFileData, r,
-                        () -> new TaskSave(this,
-                                this).execute(
-                                new TaskSave.Request(mFileData,
-                                        mPayloadHexHelper.getAdapter().getEntries().getItems(),
-                                        r)));
+                UIHelper.confirmFileChanged(this, mFileData, r, () -> new TaskSave(this, this).execute(new TaskSave.Request(mFileData, mPayloadHexHelper.getAdapter().getEntries().getItems(), r)));
             } else {
                 r.run();
             }
@@ -224,8 +209,7 @@ public class ActMain extends ActAbstractBaseMain implements AdapterView.OnItemCl
     @Override
     public void doSearch(String queryStr) {
         mSearchQuery = queryStr;
-        final AdtSearchableListArray laa = ((mPayloadPlainSwipe.isVisible()) ?
-                mPayloadPlainSwipe.getAdapter() : mPayloadHexHelper.getAdapter());
+        final AdtSearchableListArray laa = ((mPayloadPlainSwipe.isVisible()) ? mPayloadPlainSwipe.getAdapter() : mPayloadHexHelper.getAdapter());
         laa.getFilter().filter(queryStr);
     }
 
@@ -237,21 +221,16 @@ public class ActMain extends ActAbstractBaseMain implements AdapterView.OnItemCl
      * @param userRunnable User runnable (can be null).
      */
     @Override
-    public void onSaveResult(FileData fd,
-                             boolean success,
-                             final Runnable userRunnable) {
+    public void onSaveResult(FileData fd, boolean success, final Runnable userRunnable) {
         if (success) {
             mUnDoRedo.refreshChange();
-            if (mFileData.isOpenFromAppIntent() && mPopup != null)
-                mPopup.setSaveMenuEnable(true);
+            if (mFileData.isOpenFromAppIntent() && mPopup != null) mPopup.setSaveMenuEnable(true);
             mFileData = fd;
             mFileData.clearOpenFromAppIntent();
             refreshTitle();
             mPayloadHexHelper.resetUpdateStatus();
-        } else
-            mApp.getRecentlyOpened().remove(fd);
-        if (userRunnable != null)
-            userRunnable.run();
+        } else mApp.getRecentlyOpened().remove(fd);
+        if (userRunnable != null) userRunnable.run();
     }
 
     /**
@@ -265,11 +244,9 @@ public class ActMain extends ActAbstractBaseMain implements AdapterView.OnItemCl
         setMenuVisible(mSearchMenu, success);
         boolean checked = mPopup != null && mPopup.getPlainText() != null && mPopup.getPlainText().setEnable(success);
         if (!FileData.isEmpty(mFileData) && mFileData.isOpenFromAppIntent()) {
-            if (mPopup != null)
-                mPopup.setSaveMenuEnable(false);
+            if (mPopup != null) mPopup.setSaveMenuEnable(false);
         } else {
-            if (mPopup != null)
-                mPopup.setSaveMenuEnable(success);
+            if (mPopup != null) mPopup.setSaveMenuEnable(success);
         }
         if (mPopup != null) {
             mPopup.setMenusEnable(success);
@@ -278,8 +255,7 @@ public class ActMain extends ActAbstractBaseMain implements AdapterView.OnItemCl
             mIdleView.setVisibility(View.GONE);
             mPayloadHexHelper.setVisible(!checked);
             mPayloadPlainSwipe.setVisible(checked);
-            if (fromOpen)
-                mUnDoRedo.clear();
+            if (fromOpen) mUnDoRedo.clear();
         } else {
             mIdleView.setVisibility(View.VISIBLE);
             mPayloadHexHelper.setVisible(false);
@@ -313,8 +289,7 @@ public class ActMain extends ActAbstractBaseMain implements AdapterView.OnItemCl
         mApp.setConfiguration(newConfig);
         if (mPayloadPlainSwipe.isVisible()) {
             mPayloadPlainSwipe.refresh();
-        } else if (mPayloadHexHelper.isVisible())
-            mPayloadHexHelper.getAdapter().notifyDataSetChanged();
+        } else if (mPayloadHexHelper.isVisible()) mPayloadHexHelper.getAdapter().notifyDataSetChanged();
         // Checks the orientation of the screen
         if (!FileData.isEmpty(mFileData)) {
             refreshTitle();
@@ -345,6 +320,16 @@ public class ActMain extends ActAbstractBaseMain implements AdapterView.OnItemCl
             mUnDoRedo.redo();
         } else if (id == R.id.actionGoTo) {
             popupActionGoTo();
+        } else if (id == R.id.actionRate) {
+            RoyUtils.rateApp(this, this.getPackageName());
+        } else if (id == R.id.actionMoreApp) {
+
+        } else if (id == R.id.actionShareApp) {
+
+        } else if (id == R.id.actionGithubOriginal) {
+
+        } else if (id == R.id.actionGithubFork) {
+
         } else if (mPopup != null) {
             specialPopupActions(id);
         }
@@ -375,8 +360,7 @@ public class ActMain extends ActAbstractBaseMain implements AdapterView.OnItemCl
         if (id == R.id.menuActionMore) {
             mPopup.show(findViewById(R.id.menuActionMore));
         } else if (id == R.id.menuActionEditEmpty) {
-            mLauncherLineUpdate.startActivity(new ByteArrayOutputStream().toByteArray(), 0, 0,
-                    mFileData.getShiftOffset(), 0);
+            mLauncherLineUpdate.startActivity(new ByteArrayOutputStream().toByteArray(), 0, 0, mFileData.getShiftOffset(), 0);
         }
         return super.onOptionsItemSelected(item);
     }
@@ -390,13 +374,9 @@ public class ActMain extends ActAbstractBaseMain implements AdapterView.OnItemCl
      * @param id       The row id of the item that was clicked.
      */
     @Override
-    public void onItemClick(AdapterView<?> parent,
-                            View view,
-                            int position,
-                            long id) {
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         LineEntry e = mPayloadHexHelper.getAdapter().getItem(position);
-        if (e == null)
-            return;
+        if (e == null) return;
         if (mPayloadPlainSwipe.isVisible()) {
             UIHelper.showErrorDialog(this, R.string.error_title, R.string.error_not_supported_in_plain_text);
             return;
@@ -405,8 +385,7 @@ public class ActMain extends ActAbstractBaseMain implements AdapterView.OnItemCl
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         for (Byte b : e.getRaw())
             byteArrayOutputStream.write(b);
-        mLauncherLineUpdate.startActivity(byteArrayOutputStream.toByteArray(), position, 1,
-                mFileData.getShiftOffset(), mPayloadHexHelper.getAdapter().getCurrentLine(position));
+        mLauncherLineUpdate.startActivity(byteArrayOutputStream.toByteArray(), position, 1, mFileData.getShiftOffset(), mPayloadHexHelper.getAdapter().getCurrentLine(position));
     }
 
     /**
@@ -416,9 +395,7 @@ public class ActMain extends ActAbstractBaseMain implements AdapterView.OnItemCl
     public void onExit() {
         if (mUnDoRedo.isChanged()) {// a save operation is pending?
             Runnable r = this::finish;
-            UIHelper.confirmFileChanged(this, mFileData, r,
-                    () -> new TaskSave(this, this).execute(
-                            new TaskSave.Request(mFileData, mPayloadHexHelper.getAdapter().getEntries().getItems(), r)));
+            UIHelper.confirmFileChanged(this, mFileData, r, () -> new TaskSave(this, this).execute(new TaskSave.Request(mFileData, mPayloadHexHelper.getAdapter().getEntries().getItems(), r)));
         } else {
             finish();
         }
@@ -528,11 +505,8 @@ public class ActMain extends ActAbstractBaseMain implements AdapterView.OnItemCl
             onOpenResult(false, false);
         };
         if (mUnDoRedo.isChanged()) {// a save operation is pending?
-            UIHelper.confirmFileChanged(this, mFileData, r,
-                    () -> new TaskSave(this, this).execute(
-                            new TaskSave.Request(mFileData, mPayloadHexHelper.getAdapter().getEntries().getItems(), r)));
-        } else
-            r.run();
+            UIHelper.confirmFileChanged(this, mFileData, r, () -> new TaskSave(this, this).execute(new TaskSave.Request(mFileData, mPayloadHexHelper.getAdapter().getEntries().getItems(), r)));
+        } else r.run();
     }
 
     /**
@@ -540,15 +514,10 @@ public class ActMain extends ActAbstractBaseMain implements AdapterView.OnItemCl
      */
     private void popupActionSave() {
         if (FileData.isEmpty(mFileData)) {
-            UIHelper.showErrorDialog(this,
-                    R.string.error_title,
-                    getString(R.string.open_a_file_before));
+            UIHelper.showErrorDialog(this, R.string.error_title, getString(R.string.open_a_file_before));
             return;
         }
-        new TaskSave(this,
-                this).execute(new TaskSave.Request(mFileData,
-                mPayloadHexHelper.getAdapter().getEntries().getItems(),
-                null));
+        new TaskSave(this, this).execute(new TaskSave.Request(mFileData, mPayloadHexHelper.getAdapter().getEntries().getItems(), null));
         refreshTitle();
     }
 
@@ -570,16 +539,12 @@ public class ActMain extends ActAbstractBaseMain implements AdapterView.OnItemCl
      * @param plainText   Plain text checkbox.
      * @param lineNumbers Line numbers checkbox.
      */
-    private void popupActionPlainText(int id,
-                                      PopupCheckboxHelper plainText,
-                                      PopupCheckboxHelper lineNumbers) {
-        if (plainText.containsId(id, true))
-            plainText.toggleCheck();
+    private void popupActionPlainText(int id, PopupCheckboxHelper plainText, PopupCheckboxHelper lineNumbers) {
+        if (plainText.containsId(id, true)) plainText.toggleCheck();
         boolean checked = plainText.isChecked();
         mPayloadPlainSwipe.setVisible(checked);
         mPayloadHexHelper.setVisible(!checked);
-        if (mSearchQuery != null && !mSearchQuery.isEmpty())
-            doSearch(mSearchQuery);
+        if (mSearchQuery != null && !mSearchQuery.isEmpty()) doSearch(mSearchQuery);
         refreshLineNumbers(lineNumbers);
     }
 
@@ -615,12 +580,10 @@ public class ActMain extends ActAbstractBaseMain implements AdapterView.OnItemCl
      * @param lineNumbers Line numbers checkbox.
      */
     private void popupActionLineNumbers(int id, PopupCheckboxHelper lineNumbers) {
-        if (lineNumbers.containsId(id, true))
-            lineNumbers.toggleCheck();
+        if (lineNumbers.containsId(id, true)) lineNumbers.toggleCheck();
         boolean checked = lineNumbers.isChecked();
         mApp.setLineNumber(checked);
-        if (mPayloadHexHelper.isVisible())
-            mPayloadHexHelper.refreshLineNumbers();
+        if (mPayloadHexHelper.isVisible()) mPayloadHexHelper.refreshLineNumbers();
         mPopup.refreshGoToName();
     }
 
@@ -636,23 +599,17 @@ public class ActMain extends ActAbstractBaseMain implements AdapterView.OnItemCl
             findViewById(R.id.buttonRecentlyOpen).setEnabled(!mApp.getRecentlyOpened().list().isEmpty());
         };
         if (mUnDoRedo.isChanged()) {// a save operation is pending?
-            UIHelper.confirmFileChanged(this, mFileData, r,
-                    () -> new TaskSave(this, this).execute(
-                            new TaskSave.Request(mFileData, mPayloadHexHelper.getAdapter().getEntries().getItems(), r)));
-        } else
-            r.run();
+            UIHelper.confirmFileChanged(this, mFileData, r, () -> new TaskSave(this, this).execute(new TaskSave.Request(mFileData, mPayloadHexHelper.getAdapter().getEntries().getItems(), r)));
+        } else r.run();
     }
 
     /**
      * Action when the user clicks on the "go to xxx" menu.
      */
     private void popupActionGoTo() {
-        if (mPopup.getPlainText().isChecked())
-            setOrphanDialog(mGoToDialog.show(GoToDialog.Mode.LINE_PLAIN));
-        else if (mPopup.getLineNumbers().isChecked())
-            setOrphanDialog(mGoToDialog.show(GoToDialog.Mode.ADDRESS));
-        else
-            setOrphanDialog(mGoToDialog.show(GoToDialog.Mode.LINE_HEX));
+        if (mPopup.getPlainText().isChecked()) setOrphanDialog(mGoToDialog.show(GoToDialog.Mode.LINE_PLAIN));
+        else if (mPopup.getLineNumbers().isChecked()) setOrphanDialog(mGoToDialog.show(GoToDialog.Mode.ADDRESS));
+        else setOrphanDialog(mGoToDialog.show(GoToDialog.Mode.LINE_HEX));
     }
 
 }
