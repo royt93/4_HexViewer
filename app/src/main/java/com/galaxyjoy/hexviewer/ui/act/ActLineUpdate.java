@@ -76,8 +76,17 @@ public class ActLineUpdate extends AppCompatActivity implements View.OnClickList
      *
      * @param base The new base context for this wrapper.
      */
+//    @Override
+//    protected void attachBaseContext(Context base) {
+//        super.attachBaseContext(((MyApplication) base.getApplicationContext()).onAttach(base));
+//    }
+
     @Override
     protected void attachBaseContext(Context base) {
+        Configuration override = new Configuration(base.getResources().getConfiguration());
+        override.fontScale = 1.0f;
+        applyOverrideConfiguration(override);
+//        super.attachBaseContext(base);
         super.attachBaseContext(((MyApplication) base.getApplicationContext()).onAttach(base));
     }
 

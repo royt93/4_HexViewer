@@ -1,6 +1,7 @@
 package com.galaxyjoy.hexviewer.ui.act.setting;
 
 import android.content.Context;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.MenuItem;
 
@@ -20,8 +21,17 @@ public abstract class ActAbstractSettings extends AppCompatActivity {
      *
      * @param base The new base context for this wrapper.
      */
+//    @Override
+//    protected void attachBaseContext(Context base) {
+//        super.attachBaseContext(((MyApplication) base.getApplicationContext()).onAttach(base));
+//    }
+
     @Override
     protected void attachBaseContext(Context base) {
+        Configuration override = new Configuration(base.getResources().getConfiguration());
+        override.fontScale = 1.0f;
+        applyOverrideConfiguration(override);
+//        super.attachBaseContext(base);
         super.attachBaseContext(((MyApplication) base.getApplicationContext()).onAttach(base));
     }
 

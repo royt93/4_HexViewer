@@ -29,6 +29,15 @@ public class ActLogs extends AppCompatActivity {
     private ListView mLogs = null;
     private MyApplication mApp = null;
 
+    @Override
+    protected void attachBaseContext(Context base) {
+        Configuration override = new Configuration(base.getResources().getConfiguration());
+        override.fontScale = 1.0f;
+        applyOverrideConfiguration(override);
+        super.attachBaseContext(base);
+//        super.attachBaseContext(((MyApplication) base.getApplicationContext()).onAttach(base));
+    }
+
     /**
      * Starts an activity.
      *
