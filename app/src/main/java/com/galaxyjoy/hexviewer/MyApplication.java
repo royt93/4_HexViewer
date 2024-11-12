@@ -32,9 +32,10 @@ import java.util.concurrent.locks.ReentrantLock;
 //TODO roy93~ ad applovin
 
 //TODO roy93~ add lottie trang tri cho dep
-//TODO roy93~ splash screen
+//TODO roy93~ them version o man hinh chu
 
 //done mckimquyen
+//splash screen
 //font scale
 //rate, more app, share app
 //github
