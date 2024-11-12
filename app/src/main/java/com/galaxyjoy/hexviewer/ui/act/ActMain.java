@@ -1,5 +1,6 @@
 package com.galaxyjoy.hexviewer.ui.act;
 
+import android.annotation.SuppressLint;
 import android.app.SearchManager;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -17,6 +18,7 @@ import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.view.MenuCompat;
 
+import com.galaxyjoy.hexviewer.BuildConfig;
 import com.galaxyjoy.hexviewer.MyApplication;
 import com.galaxyjoy.hexviewer.R;
 import com.galaxyjoy.hexviewer.ext.RoyUtils;
@@ -72,6 +74,7 @@ public class ActMain extends ActAbstractBaseMain implements AdapterView.OnItemCl
         setupViews(savedInstanceState);
     }
 
+    @SuppressLint("SetTextI18n")
     private void setupViews(final Bundle savedInstanceState) {
         mApp.setConfiguration(getResources().getConfiguration());
         mUnDoRedo = new UnDoRedo(this);
@@ -79,6 +82,8 @@ public class ActMain extends ActAbstractBaseMain implements AdapterView.OnItemCl
         mPopup = new MainPopupWindow(this, mUnDoRedo, this::onPopupItemClick);
 
         LinearLayout mainLayout = findViewById(R.id.mainLayout);
+        TextView tvVersion = findViewById(R.id.tvVersion);
+        tvVersion.setText("Version " + BuildConfig.VERSION_NAME);
         mIdleView = findViewById(R.id.idleView);
         mIdleView.setVisibility(View.VISIBLE);
 
