@@ -18,6 +18,8 @@ import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.view.MenuCompat;
 
+import com.airbnb.lottie.LottieAnimationView;
+import com.airbnb.lottie.LottieDrawable;
 import com.galaxyjoy.hexviewer.BuildConfig;
 import com.galaxyjoy.hexviewer.MyApplication;
 import com.galaxyjoy.hexviewer.R;
@@ -84,6 +86,12 @@ public class ActMain extends ActAbstractBaseMain implements AdapterView.OnItemCl
         LinearLayout mainLayout = findViewById(R.id.mainLayout);
         TextView tvVersion = findViewById(R.id.tvVersion);
         tvVersion.setText("Version " + BuildConfig.VERSION_NAME);
+
+//        LottieAnimationView lottieAnimationView = findViewById(R.id.lottieAnimationView);
+//        lottieAnimationView.setAnimation(R.raw.loading);
+//        lottieAnimationView.playAnimation();
+//        lottieAnimationView.setRepeatCount(LottieDrawable.INFINITE);
+
         mIdleView = findViewById(R.id.idleView);
         mIdleView.setVisibility(View.VISIBLE);
 

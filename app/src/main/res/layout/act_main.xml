@@ -19,11 +19,11 @@
         <TextView
             android:id="@+id/pleaseOpenFile"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
+            android:gravity="bottom"
             android:text="@string/please_open_file"
-            android:textAlignment="center"
             android:textSize="@dimen/activity_main_please_open_file_textSize"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/linearLayout"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -32,9 +32,18 @@
             android:id="@+id/linearLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center"
             android:orientation="vertical"
             android:padding="8dp"
             app:layout_constraintBottom_toBottomOf="parent">
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/lottieAnimationView"
+                android:layout_width="128dp"
+                android:layout_height="128dp"
+                app:lottie_autoPlay="true"
+                app:lottie_loop="true"
+                app:lottie_rawRes="@raw/loading" />
 
             <Button
                 android:id="@+id/buttonOpenFile"

@@ -31,9 +31,8 @@ import java.util.concurrent.locks.ReentrantLock;
 //TODO roy93~ vung bi mat de show applovin config
 //TODO roy93~ ad applovin
 
-//TODO roy93~ add lottie trang tri cho dep
-
 //done mckimquyen
+//add lottie trang tri cho dep
 //them version o man hinh chu
 //splash screen
 //font scale
