@@ -102,5 +102,8 @@
         <!--        <item name="android:windowLightStatusBar">true</item>-->
         <item name="android:windowIsTranslucent">false</item>
         <item name="android:windowBackground">@drawable/startup</item>
+        <item name="android:navigationBarColor">@color/navigationBarColor</item>
+        <item name="android:statusBarColor">@color/navigationBarColor</item>
+
     </style>
 </resources>
