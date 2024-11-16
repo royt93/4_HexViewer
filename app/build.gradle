@@ -16,8 +16,8 @@ android {
         applicationId "com.galaxyjoy.hexviewer"
         minSdk 23
         targetSdk 34
-        versionCode 20241116
-        versionName '2024.11.16'
+        versionCode 20241117
+        versionName '2024.11.17'
         vectorDrawables {
             useSupportLibrary true
         }
