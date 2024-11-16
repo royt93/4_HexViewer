@@ -30,7 +30,7 @@
 
         <activity
             android:name=".ui.act.SplashActivity"
-            android:configChanges="locale|orientation|screenSize"
+            android:configChanges="locale|keyboard|keyboardHidden|orientation|screenSize|screenLayout|smallestScreenSize|uiMode"
             android:exported="true"
             android:launchMode="singleTask"
             android:theme="@style/SplashTheme">
@@ -44,7 +44,7 @@
 
         <activity
             android:name=".ui.act.ActMain"
-            android:configChanges="locale|orientation|screenSize"
+            android:configChanges="locale|keyboard|keyboardHidden|orientation|screenSize|screenLayout|smallestScreenSize|uiMode"
             android:exported="true"
             android:icon="@mipmap/ic_launcher_round"
             android:launchMode="singleTask">
@@ -76,7 +76,7 @@
 
         <activity
             android:name=".ui.act.ActLineUpdate"
-            android:configChanges="locale|orientation|screenSize"
+            android:configChanges="locale|keyboard|keyboardHidden|orientation|screenSize|screenLayout|smallestScreenSize|uiMode"
             android:launchMode="singleTask">
 
             <meta-data
@@ -86,7 +86,7 @@
 
         <activity
             android:name=".ui.act.ActRecentlyOpen"
-            android:configChanges="locale|orientation|screenSize"
+            android:configChanges="locale|keyboard|keyboardHidden|orientation|screenSize|screenLayout|smallestScreenSize|uiMode"
             android:launchMode="singleTask">
 
             <meta-data
@@ -96,7 +96,7 @@
 
         <activity
             android:name=".ui.act.ActPartialOpen"
-            android:configChanges="locale|orientation|screenSize"
+            android:configChanges="locale|keyboard|keyboardHidden|orientation|screenSize|screenLayout|smallestScreenSize|uiMode"
             android:launchMode="singleTask">
 
             <meta-data
@@ -106,7 +106,7 @@
 
         <activity
             android:name=".ui.act.setting.ActSettings"
-            android:configChanges="locale|orientation|screenSize"
+            android:configChanges="locale|keyboard|keyboardHidden|orientation|screenSize|screenLayout|smallestScreenSize|uiMode"
             android:launchMode="singleTask">
 
             <meta-data
@@ -116,7 +116,7 @@
 
         <activity
             android:name=".ui.act.setting.ActSettingsListsPortraitAct"
-            android:configChanges="locale|orientation|screenSize"
+            android:configChanges="locale|keyboard|keyboardHidden|orientation|screenSize|screenLayout|smallestScreenSize|uiMode"
             android:launchMode="singleTask">
 
             <meta-data
@@ -126,7 +126,7 @@
 
         <activity
             android:name=".ui.act.setting.ActSettingsListsLandscape"
-            android:configChanges="locale|orientation|screenSize"
+            android:configChanges="locale|keyboard|keyboardHidden|orientation|screenSize|screenLayout|smallestScreenSize|uiMode"
             android:launchMode="singleTask">
 
             <meta-data
@@ -136,7 +136,7 @@
 
         <activity
             android:name=".ui.act.ActLogs"
-            android:configChanges="locale|orientation|screenSize"
+            android:configChanges="locale|keyboard|keyboardHidden|orientation|screenSize|screenLayout|smallestScreenSize|uiMode"
             android:launchMode="singleTask">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
