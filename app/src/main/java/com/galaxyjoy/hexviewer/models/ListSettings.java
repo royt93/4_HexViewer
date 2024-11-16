@@ -38,8 +38,8 @@ public class ListSettings {
      */
     public void loadDefaultValues(SharedPreferences.Editor e) {
         e.putString(mKeyFontSize, String.valueOf(mDefaultFontSize));
-        e.putString(mKeyDisplayDataColumn, String.valueOf(mDefaultDisplayDataColumn));
-        e.putString(mKeyRowHeightAuto, String.valueOf(mDefaultRowHeightAuto));
+        e.putBoolean(mKeyDisplayDataColumn, mDefaultDisplayDataColumn);
+        e.putBoolean(mKeyRowHeightAuto, mDefaultRowHeightAuto);
         e.putString(mKeyRowHeight, String.valueOf(mDefaultRowHeight));
     }
 

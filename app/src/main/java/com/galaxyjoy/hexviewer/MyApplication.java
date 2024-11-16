@@ -117,7 +117,8 @@ public class MyApplication extends Application {
                 SettingsKeys.CFG_PORTRAIT_HEX_FONT_SIZE_LINE_NUMBERS);
         mListSettingsHexLineNumbersPortrait.setDefaults(
                 R.string.default_hex_display_data_portrait_lines_numbers,
-                R.string.default_hex_row_height_portrait_lines_numbers, R.string.default_hex_row_height_auto_portrait_lines_numbers,
+                R.string.default_hex_row_height_portrait_lines_numbers,
+                R.string.default_hex_row_height_auto_portrait_lines_numbers,
                 R.string.default_hex_font_size_portrait_lines_numbers);
         mListSettingsHexLineNumbersLandscape = new ListSettings(this,
                 SettingsKeys.CFG_LANDSCAPE_HEX_DISPLAY_DATA_LINE_NUMBERS,
@@ -200,7 +201,6 @@ public class MyApplication extends Application {
      *
      * @param recent Delete the list of recent files?
      */
-    @SuppressWarnings("java:S1874")
     public void loadDefaultValues(boolean recent) {
         if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.M)
             mLanguage = Resources.getSystem().getConfiguration().locale.getLanguage();
