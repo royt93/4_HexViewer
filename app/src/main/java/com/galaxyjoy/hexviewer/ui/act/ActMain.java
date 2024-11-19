@@ -98,7 +98,7 @@ public class ActMain extends ActAbstractBaseMain implements AdapterView.OnItemCl
         findViewById(R.id.buttonOpenFile).setOnClickListener(v -> onPopupItemClick(R.id.actionOpen));
         findViewById(R.id.buttonPartialOpenFile).setOnClickListener(v -> onPopupItemClick(R.id.actionOpenSequential));
         findViewById(R.id.buttonRecentlyOpen).setOnClickListener(v -> onPopupItemClick(R.id.actionRecentlyOpen));
-        findViewById(R.id.buttonRecentlyOpen).setEnabled(!mApp.getRecentlyOpened().list().isEmpty());
+//        findViewById(R.id.buttonRecentlyOpen).setEnabled(!mApp.getRecentlyOpened().list().isEmpty());
         mPayloadHexHelper = new PayloadHexHelper();
         mPayloadHexHelper.onCreate(this);
 
@@ -126,7 +126,7 @@ public class ActMain extends ActAbstractBaseMain implements AdapterView.OnItemCl
         if (mPopup != null) mPopup.dismiss();
         mApp.applyApplicationLanguage(this);
         /* refresh */
-        findViewById(R.id.buttonRecentlyOpen).setEnabled(!((MyApplication) getApplicationContext()).getRecentlyOpened().list().isEmpty());
+//        findViewById(R.id.buttonRecentlyOpen).setEnabled(!((MyApplication) getApplicationContext()).getRecentlyOpened().list().isEmpty());
         onOpenResult(!FileData.isEmpty(mFileData), false);
         if (mPayloadHexHelper.isVisible()) mPayloadHexHelper.refreshAdapter();
         else if (mPayloadPlainSwipe.isVisible()) mPayloadPlainSwipe.refreshAdapter();
@@ -318,7 +318,11 @@ public class ActMain extends ActAbstractBaseMain implements AdapterView.OnItemCl
         if (id == R.id.actionOpen || id == R.id.actionOpenSequential) {
             popupActionOpen(id == R.id.actionOpenSequential);
         } else if (id == R.id.actionRecentlyOpen) {
-            mLauncherRecentlyOpen.startActivity();
+            if (mApp.getRecentlyOpened().list().isEmpty()) {
+                UIHelper.toast(this, getString(R.string.no_data_available));
+            } else {
+                mLauncherRecentlyOpen.startActivity();
+            }
         } else if (id == R.id.actionSave) {
             popupActionSave();
         } else if (id == R.id.actionSaveAs) {
@@ -609,7 +613,7 @@ public class ActMain extends ActAbstractBaseMain implements AdapterView.OnItemCl
             mPayloadPlainSwipe.getAdapter().clear();
             mPayloadHexHelper.getAdapter().clear();
             cancelSearch();
-            findViewById(R.id.buttonRecentlyOpen).setEnabled(!mApp.getRecentlyOpened().list().isEmpty());
+//            findViewById(R.id.buttonRecentlyOpen).setEnabled(!mApp.getRecentlyOpened().list().isEmpty());
         };
         if (mUnDoRedo.isChanged()) {// a save operation is pending?
             UIHelper.confirmFileChanged(this, mFileData, r, () -> new TaskSave(this, this).execute(new TaskSave.Request(mFileData, mPayloadHexHelper.getAdapter().getEntries().getItems(), r)));
