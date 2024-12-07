@@ -30,6 +30,8 @@ import java.util.concurrent.locks.ReentrantLock;
 //TODO roy93~ why you see ad
 //TODO roy93~ vung bi mat de show applovin config
 //TODO roy93~ ad applovin
+//TODO roy93~ 120hz
+//TODO roy93~ review in app
 
 //done mckimquyen
 //add lottie trang tri cho dep
