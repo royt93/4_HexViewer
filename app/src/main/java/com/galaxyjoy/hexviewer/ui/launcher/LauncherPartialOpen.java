@@ -65,9 +65,19 @@ public class LauncherPartialOpen {
                             Bundle bundle = data.getExtras();
                             final long startOffset = bundle.getLong(ActPartialOpen.RESULT_START_OFFSET);
                             final long endOffset = bundle.getLong(ActPartialOpen.RESULT_END_OFFSET);
-                            mActivity.getFileData().setOffsets(startOffset, endOffset, endOffset != 0L);
-                            mActivity.getUnDoRedo().clear();
-                            new TaskOpen(mActivity, mActivity.getPayloadHex().getAdapter(), mActivity, mOldToString, mAddRecent).execute(mActivity.getFileData());
+                            try {
+                                if (mActivity.getFileData() != null) {
+                                    mActivity.getFileData().setOffsets(startOffset, endOffset, endOffset != 0L);
+                                }
+                                if (mActivity.getUnDoRedo() != null) {
+                                    mActivity.getUnDoRedo().clear();
+                                }
+                                new TaskOpen(mActivity, mActivity.getPayloadHex().getAdapter(), mActivity, mOldToString, mAddRecent).execute(mActivity.getFileData());
+                            } catch (Exception e) {
+                                //how to fix?
+                                //https://play.google.com/console/u/0/developers/6193840742938642798/app/4976150193790107928/vitals/crashes/8b0fa34942f7a09e4f55b9272428af1a/details?days=28&versionCode=20241119&isUserPerceived=true
+                                Log.e("roy93~", "Error $e");
+                            }
                         } else {
                             Log.e(getClass().getSimpleName(), "LauncherPartialOpen -> Invalid data object!!!");
                             MyApplication.addLog(mActivity,
