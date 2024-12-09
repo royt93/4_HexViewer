@@ -114,7 +114,7 @@ dependencies {
 //    testImplementation "junit:junit:4.13.2"
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.14'
     implementation 'com.applovin:applovin-sdk:13.0.1'
-    implementation "com.airbnb.android:lottie:5.2.0"
+    implementation "com.airbnb.android:lottie:6.1.0"
 }
 // versionCode <-> versionName /////////////////////////////////////////////////////////////////////
 // I got the idea (code) below from the repository https://github.com/sal0max/currencie
