@@ -135,33 +135,37 @@ public class UIHelper {
                                    final UserConfig landscape,
                                    final UserConfig portrait) {
 //        final Typeface monospace = Typeface.MONOSPACE;
-        final String text = "a";
-        float fontSize = 12.0f;
-        /* Solution 1: We get the width of the text. */
-        TextView tv = new TextView(context);
-        tv.setText(text);
+        try {
+            final String text = "a";
+            float fontSize = 12.0f;
+            /* Solution 1: We get the width of the text. */
+            TextView tv = new TextView(context);
+            tv.setText(text);
 //        tv.setTypeface(monospace);
-        MyApplication app = (MyApplication) context.getApplicationContext();
-        Configuration cfg = app.getConfiguration();
-        if (landscape != null && cfg.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            fontSize = landscape.getFontSize();
-        } else if (portrait != null) {
-            fontSize = portrait.getFontSize();
-        }
-        tv.setTextSize(fontSize);
-        tv.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
-        int width = tv.getMeasuredWidth();
-        /* Solution 2: If we can't get the width, then we try another method (obviously less accurate) */
-        if (width < 1) {
-            Paint paint = new Paint();
+            MyApplication app = (MyApplication) context.getApplicationContext();
+            Configuration cfg = app.getConfiguration();
+            if (landscape != null && cfg.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                fontSize = landscape.getFontSize();
+            } else if (portrait != null) {
+                fontSize = portrait.getFontSize();
+            }
+            tv.setTextSize(fontSize);
+            tv.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
+            int width = tv.getMeasuredWidth();
+            /* Solution 2: If we can't get the width, then we try another method (obviously less accurate) */
+            if (width < 1) {
+                Paint paint = new Paint();
 //            paint.setTypeface(monospace);
-            float scaledSizeInPixels = getSize(context, TypedValue.COMPLEX_UNIT_SP, fontSize);
-            paint.setTextSize(scaledSizeInPixels);
-            Rect bounds = new Rect();
-            paint.getTextBounds(text, 0, text.length(), bounds);
-            width = bounds.width();
+                float scaledSizeInPixels = getSize(context, TypedValue.COMPLEX_UNIT_SP, fontSize);
+                paint.setTextSize(scaledSizeInPixels);
+                Rect bounds = new Rect();
+                paint.getTextBounds(text, 0, text.length(), bounds);
+                width = bounds.width();
+            }
+            return width;
+        } catch (Exception e) {
+            return 0;
         }
-        return width;
     }
 
     /**
