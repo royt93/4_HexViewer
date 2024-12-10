@@ -1,9 +1,20 @@
 package com.galaxyjoy.hexviewer.ext;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
+import android.util.Log;
 import android.widget.Toast;
+
+import com.google.android.play.core.review.ReviewException;
+import com.google.android.play.core.review.ReviewInfo;
+import com.google.android.play.core.review.ReviewManager;
+import com.google.android.play.core.review.ReviewManagerFactory;
+import com.google.android.play.core.review.model.ReviewErrorCode;
+
+import java.util.Calendar;
 
 public class RoyUtils {
     /**
@@ -26,6 +37,46 @@ public class RoyUtils {
         } catch (Exception e) {
             // Thông báo lỗi nếu có vấn đề phát sinh
             Toast.makeText(context, "Unable to open the rating page.", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public static void rateAppInApp(Activity activity, boolean forceRateInApp) {
+        SharedPreferences sharedPreferences = activity.getSharedPreferences("app_preferences", Context.MODE_PRIVATE);
+        long lastReviewTime = sharedPreferences.getLong("last_review_time", 0L);
+        Log.d("roy93~", "requestReview lastReviewTime " + lastReviewTime);
+
+        long currentTime = Calendar.getInstance().getTimeInMillis();
+        long daysSinceLastReview = (currentTime - lastReviewTime) / (1000 * 60 * 60 * 24);
+
+        Log.d("roy93~", "requestReview forceRateInApp " + forceRateInApp);
+        Log.d("roy93~", "requestReview daysSinceLastReview " + daysSinceLastReview);
+
+        if (daysSinceLastReview >= 30 || forceRateInApp) {
+            ReviewManager reviewManager = ReviewManagerFactory.create(activity);
+            reviewManager.requestReviewFlow().addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    try {
+                        ReviewInfo reviewInfo = task.getResult();
+                        reviewManager.launchReviewFlow(activity, reviewInfo);
+                        sharedPreferences.edit().putLong("last_review_time", currentTime).apply();
+
+                        Log.d("roy93~", "requestReview result " + task.getResult());
+                        Log.d("roy93~", "requestReview isSuccessful " + task.isSuccessful());
+                        Log.d("roy93~", "requestReview isCanceled " + task.isCanceled());
+                        Log.d("roy93~", "requestReview isComplete " + task.isComplete());
+                        Log.d("roy93~", "requestReview exception " + task.getException());
+                    } catch (Exception e) {
+                        Log.e("roy93~", "Error launching review flow", e);
+                    }
+                } else {
+                    if (task.getException() instanceof ReviewException) {
+                        @ReviewErrorCode int reviewErrorCode = ((ReviewException) task.getException()).getErrorCode();
+                        Log.e("roy93~", "requestReview error " + reviewErrorCode);
+                    } else {
+                        Log.e("roy93~", "requestReview error " + task.getException());
+                    }
+                }
+            });
         }
     }
 

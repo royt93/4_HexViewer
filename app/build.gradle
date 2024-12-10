@@ -115,6 +115,8 @@ dependencies {
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.14'
     implementation 'com.applovin:applovin-sdk:13.0.1'
     implementation "com.airbnb.android:lottie:6.1.0"
+    implementation("com.google.android.play:review:2.0.2")
+    implementation("com.google.android.play:review-ktx:2.0.2")
 }
 // versionCode <-> versionName /////////////////////////////////////////////////////////////////////
 // I got the idea (code) below from the repository https://github.com/sal0max/currencie

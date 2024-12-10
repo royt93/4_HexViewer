@@ -95,9 +95,15 @@ public class ActMain extends ActAbstractBaseMain implements AdapterView.OnItemCl
         mIdleView = findViewById(R.id.idleView);
         mIdleView.setVisibility(View.VISIBLE);
 
-        findViewById(R.id.buttonOpenFile).setOnClickListener(v -> onPopupItemClick(R.id.actionOpen));
-        findViewById(R.id.buttonPartialOpenFile).setOnClickListener(v -> onPopupItemClick(R.id.actionOpenSequential));
-        findViewById(R.id.buttonRecentlyOpen).setOnClickListener(v -> onPopupItemClick(R.id.actionRecentlyOpen));
+        findViewById(R.id.buttonOpenFile).setOnClickListener(v -> {
+            onPopupItemClick(R.id.actionOpen);
+        });
+        findViewById(R.id.buttonPartialOpenFile).setOnClickListener(v -> {
+            onPopupItemClick(R.id.actionOpenSequential);
+        });
+        findViewById(R.id.buttonRecentlyOpen).setOnClickListener(v -> {
+            onPopupItemClick(R.id.actionRecentlyOpen);
+        });
 //        findViewById(R.id.buttonRecentlyOpen).setEnabled(!mApp.getRecentlyOpened().list().isEmpty());
         mPayloadHexHelper = new PayloadHexHelper();
         mPayloadHexHelper.onCreate(this);
@@ -130,6 +136,7 @@ public class ActMain extends ActAbstractBaseMain implements AdapterView.OnItemCl
         onOpenResult(!FileData.isEmpty(mFileData), false);
         if (mPayloadHexHelper.isVisible()) mPayloadHexHelper.refreshAdapter();
         else if (mPayloadPlainSwipe.isVisible()) mPayloadPlainSwipe.refreshAdapter();
+        RoyUtils.rateAppInApp(this, BuildConfig.DEBUG);
     }
 
     /**
