@@ -15,37 +15,21 @@ import android.widget.SearchView;
 import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import com.galaxyjoy.hexviewer.BaseActivity;
 import com.galaxyjoy.hexviewer.MyApplication;
 import com.galaxyjoy.hexviewer.R;
 import com.galaxyjoy.hexviewer.ui.util.UIHelper;
 import com.galaxyjoy.hexviewer.util.SysHelper;
 
-public abstract class ActAbstractBaseMain extends AppCompatActivity {
+public abstract class ActAbstractBaseMain extends BaseActivity {
     private static final int BACK_TIME_DELAY = 2000;
     private long mLastBackPressed = -1;
     private SearchView mSearchView = null;
     private AlertDialog mOrphanDialog = null;
     protected MyApplication mApp = null;
-
-    /**
-     * Set the base context for this ContextWrapper.
-     * All calls will then be delegated to the base context.
-     * Throws IllegalStateException if a base context has already been set.
-     *
-     * @param base The new base context for this wrapper.
-     */
-    @Override
-    protected void attachBaseContext(Context base) {
-        Configuration override = new Configuration(base.getResources().getConfiguration());
-        override.fontScale = 1.0f;
-        applyOverrideConfiguration(override);
-//        super.attachBaseContext(base);
-        super.attachBaseContext(((MyApplication) base.getApplicationContext()).onAttach(base));
-    }
 
     /**
      * Called when the activity is created.
@@ -75,13 +59,9 @@ public abstract class ActAbstractBaseMain extends AppCompatActivity {
         }
 
         /* permissions */
-        boolean requestPermissions = Build.VERSION.SDK_INT > Build.VERSION_CODES.Q || ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED ||
-                ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED;
+        boolean requestPermissions = Build.VERSION.SDK_INT > Build.VERSION_CODES.Q || ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED || ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED;
         if (requestPermissions)
-            ActivityCompat.requestPermissions(this, new String[]{
-                    Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                    Manifest.permission.READ_EXTERNAL_STORAGE
-            }, 1);
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
 
         getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
             @Override
@@ -133,8 +113,7 @@ public abstract class ActAbstractBaseMain extends AppCompatActivity {
      * @param visible If true then the item will be visible; if false it is hidden.
      */
     protected void setMenuVisible(final MenuItem menu, final boolean visible) {
-        if (menu != null)
-            menu.setVisible(visible);
+        if (menu != null) menu.setVisible(visible);
     }
 
     /**
@@ -151,8 +130,7 @@ public abstract class ActAbstractBaseMain extends AppCompatActivity {
 
     protected void closeOrphanDialog() {
         if (mOrphanDialog != null) {
-            if (mOrphanDialog.isShowing())
-                mOrphanDialog.dismiss();
+            if (mOrphanDialog.isShowing()) mOrphanDialog.dismiss();
             mOrphanDialog = null;
         }
     }

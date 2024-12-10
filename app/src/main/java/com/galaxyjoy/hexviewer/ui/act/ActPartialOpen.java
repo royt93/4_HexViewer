@@ -3,7 +3,6 @@ package com.galaxyjoy.hexviewer.ui.act;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.InputFilter;
@@ -24,9 +23,9 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.annotation.NonNull;
 import androidx.annotation.StringRes;
 import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatSpinner;
 
+import com.galaxyjoy.hexviewer.BaseActivity;
 import com.galaxyjoy.hexviewer.MyApplication;
 import com.galaxyjoy.hexviewer.R;
 import com.galaxyjoy.hexviewer.models.FileData;
@@ -42,7 +41,7 @@ import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class ActPartialOpen extends AppCompatActivity implements AdapterView.OnItemSelectedListener, TextWatcher {
+public class ActPartialOpen extends BaseActivity implements AdapterView.OnItemSelectedListener, TextWatcher {
     public static final String RESULT_START_OFFSET = "startOffset";
     public static final String RESULT_END_OFFSET = "endOffset";
     private static final String ACTIVITY_EXTRA_IS_SEQUENTIAL = "ACTIVITY_EXTRA_IS_SEQUENTIAL";
@@ -104,27 +103,6 @@ public class ActPartialOpen extends AppCompatActivity implements AdapterView.OnI
 
         MyApplication.addLog(c, "PartialOpen", String.format(Locale.US, "Open file '%s', sequential: %b, rsize: %d, size: %d, start: %d, end: %d", fd.getName(), fd.isSequential(), fd.getRealSize(), fd.getSize(), fd.getStartOffset(), fd.getEndOffset()));
         activityResultLauncher.launch(intent);
-    }
-
-    /**
-     * Set the base context for this ContextWrapper.
-     * All calls will then be delegated to the base context.
-     * Throws IllegalStateException if a base context has already been set.
-     *
-     * @param base The new base context for this wrapper.
-     */
-//    @Override
-//    protected void attachBaseContext(Context base) {
-//        super.attachBaseContext(((MyApplication) base.getApplicationContext()).onAttach(base));
-//    }
-
-    @Override
-    protected void attachBaseContext(Context base) {
-        Configuration override = new Configuration(base.getResources().getConfiguration());
-        override.fontScale = 1.0f;
-        applyOverrideConfiguration(override);
-//        super.attachBaseContext(base);
-        super.attachBaseContext(((MyApplication) base.getApplicationContext()).onAttach(base));
     }
 
     /**

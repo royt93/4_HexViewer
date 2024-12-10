@@ -30,7 +30,6 @@ import java.util.concurrent.locks.ReentrantLock;
 //TODO roy93~ why you see ad
 //TODO roy93~ vung bi mat de show applovin config
 //TODO roy93~ ad applovin
-//TODO roy93~ 120hz
 //TODO roy93~ review in app
 
 //done mckimquyen
@@ -38,6 +37,7 @@ import java.util.concurrent.locks.ReentrantLock;
 //them version o man hinh chu
 //splash screen
 //font scale
+//120hz
 //rate, more app, share app
 //github
 //license

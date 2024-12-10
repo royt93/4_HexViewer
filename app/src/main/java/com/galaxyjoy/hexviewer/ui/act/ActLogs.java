@@ -11,8 +11,8 @@ import android.widget.ListView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
 
+import com.galaxyjoy.hexviewer.BaseActivity;
 import com.galaxyjoy.hexviewer.BuildConfig;
 import com.galaxyjoy.hexviewer.MyApplication;
 import com.galaxyjoy.hexviewer.R;
@@ -23,20 +23,20 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-public class ActLogs extends AppCompatActivity {
+public class ActLogs extends BaseActivity {
     private CircularFifoQueue<String> mCfq = null;
     private String mContent = null;
     private ListView mLogs = null;
     private MyApplication mApp = null;
 
-    @Override
-    protected void attachBaseContext(Context base) {
-        Configuration override = new Configuration(base.getResources().getConfiguration());
-        override.fontScale = 1.0f;
-        applyOverrideConfiguration(override);
-        super.attachBaseContext(base);
-//        super.attachBaseContext(((MyApplication) base.getApplicationContext()).onAttach(base));
-    }
+//    @Override
+//    protected void attachBaseContext(Context base) {
+//        Configuration override = new Configuration(base.getResources().getConfiguration());
+//        override.fontScale = 1.0f;
+//        applyOverrideConfiguration(override);
+//        super.attachBaseContext(base);
+////        super.attachBaseContext(((MyApplication) base.getApplicationContext()).onAttach(base));
+//    }
 
     /**
      * Starts an activity.

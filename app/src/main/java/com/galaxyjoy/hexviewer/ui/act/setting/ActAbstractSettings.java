@@ -1,39 +1,15 @@
 package com.galaxyjoy.hexviewer.ui.act.setting;
 
-import android.content.Context;
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.MenuItem;
 
 import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
 
-import com.galaxyjoy.hexviewer.MyApplication;
+import com.galaxyjoy.hexviewer.BaseActivity;
 import com.galaxyjoy.hexviewer.R;
 import com.galaxyjoy.hexviewer.ui.frm.FrmAbstractSettings;
 
-public abstract class ActAbstractSettings extends AppCompatActivity {
-
-    /**
-     * Set the base context for this ContextWrapper.
-     * All calls will then be delegated to the base context.
-     * Throws IllegalStateException if a base context has already been set.
-     *
-     * @param base The new base context for this wrapper.
-     */
-//    @Override
-//    protected void attachBaseContext(Context base) {
-//        super.attachBaseContext(((MyApplication) base.getApplicationContext()).onAttach(base));
-//    }
-
-    @Override
-    protected void attachBaseContext(Context base) {
-        Configuration override = new Configuration(base.getResources().getConfiguration());
-        override.fontScale = 1.0f;
-        applyOverrideConfiguration(override);
-//        super.attachBaseContext(base);
-        super.attachBaseContext(((MyApplication) base.getApplicationContext()).onAttach(base));
-    }
+public abstract class ActAbstractSettings extends BaseActivity {
 
     /**
      * User implementation (called in onCreate).

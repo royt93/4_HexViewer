@@ -9,11 +9,11 @@ import android.view.MenuItem;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.galaxyjoy.hexviewer.BaseActivity;
 import com.galaxyjoy.hexviewer.MyApplication;
 import com.galaxyjoy.hexviewer.R;
 import com.galaxyjoy.hexviewer.models.FileData;
@@ -23,7 +23,7 @@ import com.galaxyjoy.hexviewer.ui.adt.AdtRecentlyOpenRecycler;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ActRecentlyOpen extends AppCompatActivity implements AdtRecentlyOpenRecycler.OnEventListener {
+public class ActRecentlyOpen extends BaseActivity implements AdtRecentlyOpenRecycler.OnEventListener {
     private MyApplication mApp = null;
     public static final String RESULT_START_OFFSET = "startOffset";
     public static final String RESULT_END_OFFSET = "endOffset";
@@ -39,27 +39,6 @@ public class ActRecentlyOpen extends AppCompatActivity implements AdtRecentlyOpe
                                      final ActivityResultLauncher<Intent> activityResultLauncher) {
         Intent intent = new Intent(c, ActRecentlyOpen.class);
         activityResultLauncher.launch(intent);
-    }
-
-    /**
-     * Set the base context for this ContextWrapper.
-     * All calls will then be delegated to the base context.
-     * Throws IllegalStateException if a base context has already been set.
-     *
-     * @param base The new base context for this wrapper.
-     */
-//    @Override
-//    protected void attachBaseContext(Context base) {
-//        super.attachBaseContext(((MyApplication) base.getApplicationContext()).onAttach(base));
-//    }
-
-    @Override
-    protected void attachBaseContext(Context base) {
-        Configuration override = new Configuration(base.getResources().getConfiguration());
-        override.fontScale = 1.0f;
-        applyOverrideConfiguration(override);
-//        super.attachBaseContext(base);
-        super.attachBaseContext(((MyApplication) base.getApplicationContext()).onAttach(base));
     }
 
     /**

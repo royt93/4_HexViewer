@@ -1,6 +1,5 @@
 package com.galaxyjoy.hexviewer.ui.act;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -15,11 +14,11 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatCheckBox;
 import androidx.transition.AutoTransition;
 import androidx.transition.TransitionManager;
 
+import com.galaxyjoy.hexviewer.BaseActivity;
 import com.galaxyjoy.hexviewer.MyApplication;
 import com.galaxyjoy.hexviewer.R;
 import com.galaxyjoy.hexviewer.models.LineEntry;
@@ -36,7 +35,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-public class ActLineUpdate extends AppCompatActivity implements View.OnClickListener {
+public class ActLineUpdate extends BaseActivity implements View.OnClickListener {
     public static final String ACTIVITY_EXTRA_TEXTS = "ACTIVITY_EXTRA_TEXTS";
     public static final String ACTIVITY_EXTRA_POSITION = "ACTIVITY_EXTRA_POSITION";
     public static final String ACTIVITY_EXTRA_NB_LINES = "ACTIVITY_EXTRA_NB_LINES";
@@ -68,27 +67,6 @@ public class ActLineUpdate extends AppCompatActivity implements View.OnClickList
     private AdtLineUpdateHexArray mAdapterSource;
     private AdtLineUpdateHexArray mAdapterResult;
     private MemoryMonitor mMemoryMonitor;
-
-    /**
-     * Set the base context for this ContextWrapper.
-     * All calls will then be delegated to the base context.
-     * Throws IllegalStateException if a base context has already been set.
-     *
-     * @param base The new base context for this wrapper.
-     */
-//    @Override
-//    protected void attachBaseContext(Context base) {
-//        super.attachBaseContext(((MyApplication) base.getApplicationContext()).onAttach(base));
-//    }
-
-    @Override
-    protected void attachBaseContext(Context base) {
-        Configuration override = new Configuration(base.getResources().getConfiguration());
-        override.fontScale = 1.0f;
-        applyOverrideConfiguration(override);
-//        super.attachBaseContext(base);
-        super.attachBaseContext(((MyApplication) base.getApplicationContext()).onAttach(base));
-    }
 
     /**
      * Called when the activity is created.
