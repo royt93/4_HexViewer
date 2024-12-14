@@ -51,11 +51,11 @@ public class RoyUtils {
         Log.d("roy93~", "requestReview forceRateInApp " + forceRateInApp);
         Log.d("roy93~", "requestReview daysSinceLastReview " + daysSinceLastReview);
 
-        if (daysSinceLastReview >= 30 || forceRateInApp) {
+        if (daysSinceLastReview >= 7 || forceRateInApp) {
             ReviewManager reviewManager = ReviewManagerFactory.create(activity);
             reviewManager.requestReviewFlow().addOnCompleteListener(task -> {
-                if (task.isSuccessful()) {
-                    try {
+                try {
+                    if (task.isSuccessful()) {
                         ReviewInfo reviewInfo = task.getResult();
                         reviewManager.launchReviewFlow(activity, reviewInfo);
                         sharedPreferences.edit().putLong("last_review_time", currentTime).apply();
@@ -65,16 +65,11 @@ public class RoyUtils {
                         Log.d("roy93~", "requestReview isCanceled " + task.isCanceled());
                         Log.d("roy93~", "requestReview isComplete " + task.isComplete());
                         Log.d("roy93~", "requestReview exception " + task.getException());
-                    } catch (Exception e) {
-                        Log.e("roy93~", "Error launching review flow", e);
-                    }
-                } else {
-                    if (task.getException() instanceof ReviewException) {
-                        @ReviewErrorCode int reviewErrorCode = ((ReviewException) task.getException()).getErrorCode();
-                        Log.e("roy93~", "requestReview error " + reviewErrorCode);
                     } else {
-                        Log.e("roy93~", "requestReview error " + task.getException());
+                        Log.d("roy93~", "requestReview exception " + task.getException());
                     }
+                } catch (Exception e) {
+                    Log.e("roy93~", "requestReview e " + e);
                 }
             });
         }
