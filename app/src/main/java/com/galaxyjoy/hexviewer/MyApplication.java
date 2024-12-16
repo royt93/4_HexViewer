@@ -32,7 +32,7 @@ import java.util.concurrent.locks.ReentrantLock;
 //TODO roy93~ ad applovin
 
 //done mckimquyen
-//review in app
+//review in app bingo
 //add lottie trang tri cho dep
 //them version o man hinh chu
 //splash screen
