@@ -78,12 +78,12 @@ public class RoyUtils {
     public static void getMoreApps(Context context) {
         try {
             // Mở trang của nhà phát triển McKimQuyen trên Google Play
-            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("market://search?q=pub:McKimQuyen"));
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("market://search?q=pub:SAIGON PHANTOM LABS"));
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(intent);
         } catch (android.content.ActivityNotFoundException e) {
             // Nếu Google Play không có, mở trên trình duyệt web
-            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/search?q=pub:McKimQuyen"));
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/search?q=pub:SAIGON PHANTOM LABS"));
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(intent);
         } catch (Exception e) {
