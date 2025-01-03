@@ -8,16 +8,16 @@ plugins {
 //final SONAR_PROJECT_VERSION = '1.55'
 
 android {
-//    namespace 'com.example.myapplication'
-    compileSdk 34
-
+    namespace 'com.galaxyjoy.hexviewer'
+    compileSdk 35
     defaultConfig {
         //fr.ralala.hexviewer
         applicationId "com.galaxyjoy.hexviewer"
         minSdk 23
-        targetSdk 34
-        versionCode 20241221
-        versionName '2024.12.21'
+        //noinspection EditedTargetSdkVersion
+        targetSdk 35
+        versionCode 20250103
+        versionName '2025.01.03'
         vectorDrawables {
             useSupportLibrary true
         }
@@ -67,7 +67,6 @@ android {
 //            property 'sonar.coverage.exclusions', "**/**"
 //        }
 //    }
-    namespace 'com.galaxyjoy.hexviewer'
     lint {
         abortOnError false
     }
