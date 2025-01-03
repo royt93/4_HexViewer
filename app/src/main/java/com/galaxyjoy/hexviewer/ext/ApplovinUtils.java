@@ -7,6 +7,8 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+
 import com.applovin.mediation.MaxAd;
 import com.applovin.mediation.MaxAdFormat;
 import com.applovin.mediation.MaxAdViewAdListener;
@@ -99,28 +101,28 @@ public class ApplovinUtils {
         MaxAdView adView = new MaxAdView(id, activity);
         adView.setListener(new MaxAdViewAdListener() {
             @Override
-            public void onAdLoaded(MaxAd maxAd) {
+            public void onAdLoaded(@NonNull MaxAd maxAd) {
                 android.util.Log.i(log, "onAdLoaded");
                 // viewGroup.setVisibility(View.VISIBLE);
             }
 
             @Override
-            public void onAdDisplayed(MaxAd maxAd) {
+            public void onAdDisplayed(@NonNull MaxAd maxAd) {
                 android.util.Log.i(log, "onAdDisplayed");
             }
 
             @Override
-            public void onAdHidden(MaxAd maxAd) {
+            public void onAdHidden(@NonNull MaxAd maxAd) {
                 android.util.Log.i(log, "onAdHidden");
             }
 
             @Override
-            public void onAdClicked(MaxAd maxAd) {
+            public void onAdClicked(@NonNull MaxAd maxAd) {
                 android.util.Log.i(log, "onAdClicked");
             }
 
             @Override
-            public void onAdLoadFailed(String adUnitId, MaxError maxError) {
+            public void onAdLoadFailed(@NonNull String adUnitId, @NonNull MaxError maxError) {
                 android.util.Log.i(log, "onAdLoadFailed");
                 if (viewGroup != null) {
                     viewGroup.setVisibility(ViewGroup.GONE);
@@ -128,17 +130,17 @@ public class ApplovinUtils {
             }
 
             @Override
-            public void onAdDisplayFailed(MaxAd maxAd, MaxError maxError) {
+            public void onAdDisplayFailed(@NonNull MaxAd maxAd, @NonNull MaxError maxError) {
                 android.util.Log.i(log, "onAdDisplayFailed");
             }
 
             @Override
-            public void onAdExpanded(MaxAd maxAd) {
+            public void onAdExpanded(@NonNull MaxAd maxAd) {
                 android.util.Log.i(log, "onAdExpanded");
             }
 
             @Override
-            public void onAdCollapsed(MaxAd maxAd) {
+            public void onAdCollapsed(@NonNull MaxAd maxAd) {
                 android.util.Log.i(log, "onAdCollapsed");
             }
         });
