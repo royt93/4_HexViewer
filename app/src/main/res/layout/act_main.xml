@@ -9,165 +9,174 @@
     android:orientation="vertical"
     android:padding="1dp">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/idleView"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="gone"
-        tools:visibility="visible">
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/pleaseOpenFile"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:gravity="bottom"
-            android:text="@string/please_open_file"
-            android:textSize="@dimen/activity_main_please_open_file_textSize"
-            app:layout_constraintBottom_toTopOf="@+id/linearLayout"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <LinearLayout
-            android:id="@+id/linearLayout"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/idleView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="vertical"
-            android:padding="8dp"
-            app:layout_constraintBottom_toBottomOf="parent">
-
-            <com.airbnb.lottie.LottieAnimationView
-                android:id="@+id/lottieAnimationView"
-                android:layout_width="128dp"
-                android:layout_height="128dp"
-                app:lottie_autoPlay="true"
-                app:lottie_loop="true"
-                app:lottie_rawRes="@raw/loading" />
-
-            <Button
-                android:id="@+id/buttonOpenFile"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/button_gradient"
-                android:drawableEnd="@drawable/baseline_navigate_next_24"
-                android:drawableTint="@color/white"
-                android:text="@string/action_open_title_button"
-                android:textAllCaps="false"
-                android:textColor="@color/white"
-                android:textSize="@dimen/activity_main_buttons_textSize" />
-
-            <Button
-                android:id="@+id/buttonPartialOpenFile"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_16sp"
-                android:background="@drawable/button_gradient"
-                android:drawableEnd="@drawable/baseline_navigate_next_24"
-                android:drawableTint="@color/white"
-                android:text="@string/action_open_sequential_title_button"
-                android:textAllCaps="false"
-                android:textColor="@color/white"
-                android:textSize="@dimen/activity_main_buttons_textSize" />
-
-            <Button
-                android:id="@+id/buttonRecentlyOpen"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_16sp"
-                android:layout_marginBottom="@dimen/_16sp"
-                android:background="@drawable/button_gradient"
-                android:drawableEnd="@drawable/baseline_navigate_next_24"
-                android:drawableTint="@color/white"
-                android:text="@string/action_recently_open_title"
-                android:textAllCaps="false"
-                android:textColor="@color/white"
-                android:textSize="@dimen/activity_main_buttons_textSize" />
-
-            <TextView
-                android:id="@+id/tvVersion"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginBottom="16dp"
-                android:text="@string/version"
-                android:textAlignment="center"
-                android:textSize="@dimen/activity_main_please_open_file_textSize" />
-
-            <FrameLayout
-                android:id="@+id/flAd"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-        </LinearLayout>
-
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline50"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.5" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <RelativeLayout
-        android:id="@+id/payloadViewContainer"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <LinearLayout
-            android:id="@+id/title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:orientation="horizontal"
+            android:layout_height="match_parent"
             android:visibility="gone"
             tools:visibility="visible">
 
             <TextView
-                android:id="@+id/titleLineNumbers"
+                android:id="@+id/pleaseOpenFile"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:gravity="bottom"
+                android:text="@string/please_open_file"
+                android:textSize="@dimen/activity_main_please_open_file_textSize"
+                app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <LinearLayout
+                android:id="@+id/linearLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="8dp"
+                app:layout_constraintBottom_toBottomOf="parent">
+
+                <com.airbnb.lottie.LottieAnimationView
+                    android:id="@+id/lottieAnimationView"
+                    android:layout_width="128dp"
+                    android:layout_height="128dp"
+                    app:lottie_autoPlay="true"
+                    app:lottie_loop="true"
+                    app:lottie_rawRes="@raw/loading" />
+
+                <Button
+                    android:id="@+id/buttonOpenFile"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/button_gradient"
+                    android:drawableEnd="@drawable/baseline_navigate_next_24"
+                    android:drawableTint="@color/white"
+                    android:text="@string/action_open_title_button"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/activity_main_buttons_textSize" />
+
+                <Button
+                    android:id="@+id/buttonPartialOpenFile"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_16sp"
+                    android:background="@drawable/button_gradient"
+                    android:drawableEnd="@drawable/baseline_navigate_next_24"
+                    android:drawableTint="@color/white"
+                    android:text="@string/action_open_sequential_title_button"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/activity_main_buttons_textSize" />
+
+                <Button
+                    android:id="@+id/buttonRecentlyOpen"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_16sp"
+                    android:layout_marginBottom="@dimen/_16sp"
+                    android:background="@drawable/button_gradient"
+                    android:drawableEnd="@drawable/baseline_navigate_next_24"
+                    android:drawableTint="@color/white"
+                    android:text="@string/action_recently_open_title"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/activity_main_buttons_textSize" />
+
+                <TextView
+                    android:id="@+id/tvVersion"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="16dp"
+                    android:text="@string/version"
+                    android:textAlignment="center"
+                    android:textSize="@dimen/activity_main_please_open_file_textSize" />
+            </LinearLayout>
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline50"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:paddingStart="2dp"
-                android:paddingEnd="8dp"
-                android:text="@null"
-                android:textSize="@dimen/listview_hex_row_textSize" />
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent="0.5" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <TextView
-                android:id="@+id/titleContent"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:text="@null"
-                android:textSize="@dimen/listview_hex_row_textSize" />
-
-        </LinearLayout>
-
-        <ListView
-            android:id="@+id/payloadView"
+        <RelativeLayout
+            android:id="@+id/payloadViewContainer"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@id/title"
-            android:fastScrollEnabled="true"
-            android:padding="1dp"
-            android:textSize="@dimen/activity_main_payload_view_textSize"
-            android:visibility="gone"
-            tools:visibility="visible" />
-    </RelativeLayout>
+            android:layout_height="match_parent">
 
-    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        android:id="@+id/payloadPlainSwipeRefreshLayout"
+            <LinearLayout
+                android:id="@+id/title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:orientation="horizontal"
+                android:visibility="gone"
+                tools:visibility="visible">
+
+                <TextView
+                    android:id="@+id/titleLineNumbers"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:paddingStart="2dp"
+                    android:paddingEnd="8dp"
+                    android:text="@null"
+                    android:textSize="@dimen/listview_hex_row_textSize" />
+
+                <TextView
+                    android:id="@+id/titleContent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:text="@null"
+                    android:textSize="@dimen/listview_hex_row_textSize" />
+
+            </LinearLayout>
+
+            <ListView
+                android:id="@+id/payloadView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@id/title"
+                android:fastScrollEnabled="true"
+                android:padding="1dp"
+                android:textSize="@dimen/activity_main_payload_view_textSize"
+                android:visibility="gone"
+                tools:visibility="visible" />
+        </RelativeLayout>
+
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/payloadPlainSwipeRefreshLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ListView
+                android:id="@+id/payloadPlain"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fastScrollEnabled="true"
+                android:padding="1dp"
+                android:textSize="@dimen/activity_main_payload_plain_swipe_refresh_layout_textSize"
+                android:visibility="gone"
+                tools:visibility="visible" />
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+    </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/flAd"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <ListView
-            android:id="@+id/payloadPlain"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:fastScrollEnabled="true"
-            android:padding="1dp"
-            android:textSize="@dimen/activity_main_payload_plain_swipe_refresh_layout_textSize"
-            android:visibility="gone"
-            tools:visibility="visible" />
-    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+        android:layout_height="wrap_content"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp" />
 </LinearLayout>
