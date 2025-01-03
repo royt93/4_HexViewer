@@ -3,6 +3,7 @@ package com.galaxyjoy.hexviewer.ui.act;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.MenuItem;
 
@@ -13,9 +14,11 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.applovin.mediation.ads.MaxAdView;
 import com.galaxyjoy.hexviewer.BaseActivity;
 import com.galaxyjoy.hexviewer.MyApplication;
 import com.galaxyjoy.hexviewer.R;
+import com.galaxyjoy.hexviewer.ext.ApplovinUtils;
 import com.galaxyjoy.hexviewer.models.FileData;
 import com.galaxyjoy.hexviewer.models.UriData;
 import com.galaxyjoy.hexviewer.ui.adt.AdtRecentlyOpenRecycler;
@@ -28,6 +31,7 @@ public class ActRecentlyOpen extends BaseActivity implements AdtRecentlyOpenRecy
     public static final String RESULT_START_OFFSET = "startOffset";
     public static final String RESULT_END_OFFSET = "endOffset";
     public static final String RESULT_OLD_TO_STRING = "oldToString";
+    private MaxAdView adView;
 
     /**
      * Starts an activity.
@@ -79,6 +83,20 @@ public class ActRecentlyOpen extends BaseActivity implements AdtRecentlyOpenRecy
         itemTouchHelper.attachToRecyclerView(recyclerView);
 
         setTitle(getString(R.string.action_recently_open_title));
+
+        adView = ApplovinUtils.createAdBanner(this,
+                ActRecentlyOpen.class.getSimpleName(),
+                Color.TRANSPARENT,
+                findViewById(R.id.flAd),
+                true);
+    }
+
+    @Override
+    protected void onDestroy() {
+        if (adView != null) {
+            ApplovinUtils.destroyAdBanner(findViewById(R.id.flAd), adView);
+        }
+        super.onDestroy();
     }
 
     /**

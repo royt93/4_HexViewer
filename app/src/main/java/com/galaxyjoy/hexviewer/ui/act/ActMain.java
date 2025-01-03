@@ -19,8 +19,6 @@ import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.view.MenuCompat;
 
-import com.airbnb.lottie.LottieAnimationView;
-import com.airbnb.lottie.LottieDrawable;
 import com.applovin.mediation.ads.MaxAdView;
 import com.galaxyjoy.hexviewer.BuildConfig;
 import com.galaxyjoy.hexviewer.MyApplication;
