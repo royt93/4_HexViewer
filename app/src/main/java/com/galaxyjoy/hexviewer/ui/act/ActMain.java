@@ -347,6 +347,7 @@ public class ActMain extends ActAbstractBaseMain implements AdapterView.OnItemCl
             if (mApp.getRecentlyOpened().list().isEmpty()) {
                 UIHelper.toast(this, getString(R.string.no_data_available));
             } else {
+                showAd();
                 mLauncherRecentlyOpen.startActivity();
             }
         } else if (id == R.id.actionSave) {
