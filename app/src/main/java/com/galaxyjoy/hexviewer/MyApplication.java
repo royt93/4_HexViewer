@@ -30,9 +30,9 @@ import java.util.concurrent.locks.ReentrantLock;
 //TODO roy93~ firebase analytic
 //TODO roy93~ why you see ad
 //TODO roy93~ vung bi mat de show applovin config
-//TODO roy93~ ad applovin
 
 //done mckimquyen
+//ad applovin
 //sdk 35 edge to edge bingo
 //review in app bingo
 //add lottie trang tri cho dep
