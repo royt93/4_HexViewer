@@ -79,8 +79,8 @@ android {
             buildConfigField("String", "FLAVOR_buildEnv", '"dev"')
 
             resValue("string", "SDK_KEY", "e75FnQfS9XTTqM1Kne69U7PW_MBgAnGQTFvtwVVui6kRPKs5L7ws9twr5IQWwVfzPKZ5pF2IfDa7lguMgGlCyt")
-            resValue("string", "BANNER", "")
-            resValue("string", "INTER", "")
+            resValue("string", "BANNER", "aa53ac5866596140")
+            resValue("string", "INTER", "580476ed6f6e6d5b")
 
             resValue("string", "EnableAdInter", "true")
             resValue("string", "EnableAdBanner", "true")
@@ -91,8 +91,8 @@ android {
             buildConfigField("String", "FLAVOR_buildEnv", '"prod"')
 
             resValue("string", "SDK_KEY", "e75FnQfS9XTTqM1Kne69U7PW_MBgAnGQTFvtwVVui6kRPKs5L7ws9twr5IQWwVfzPKZ5pF2IfDa7lguMgGlCyt")
-            resValue("string", "BANNER", "")
-            resValue("string", "INTER", "")
+            resValue("string", "BANNER", "aa53ac5866596140")
+            resValue("string", "INTER", "580476ed6f6e6d5b")
 
             resValue("string", "EnableAdInter", "true")
             resValue("string", "EnableAdBanner", "true")
