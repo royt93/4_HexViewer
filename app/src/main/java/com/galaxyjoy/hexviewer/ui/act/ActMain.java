@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.SearchManager;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -20,9 +21,11 @@ import androidx.core.view.MenuCompat;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.airbnb.lottie.LottieDrawable;
+import com.applovin.mediation.ads.MaxAdView;
 import com.galaxyjoy.hexviewer.BuildConfig;
 import com.galaxyjoy.hexviewer.MyApplication;
 import com.galaxyjoy.hexviewer.R;
+import com.galaxyjoy.hexviewer.ext.ApplovinUtils;
 import com.galaxyjoy.hexviewer.ext.RoyUtils;
 import com.galaxyjoy.hexviewer.models.FileData;
 import com.galaxyjoy.hexviewer.models.LineEntry;
@@ -62,6 +65,7 @@ public class ActMain extends ActAbstractBaseMain implements AdapterView.OnItemCl
     private MainPopupWindow mPopup = null;
     private PayloadHexHelper mPayloadHexHelper = null;
     private GoToDialog mGoToDialog = null;
+    private MaxAdView adView;
 
     /**
      * Called when the activity is created.
@@ -120,6 +124,12 @@ public class ActMain extends ActAbstractBaseMain implements AdapterView.OnItemCl
         mGoToDialog = new GoToDialog(this);
 
         if (savedInstanceState == null) handleIntent(getIntent());
+
+        adView = ApplovinUtils.createAdBanner(this,
+                ActMain.class.getSimpleName(),
+                Color.TRANSPARENT,
+                findViewById(R.id.flAd),
+                true);
     }
 
     /**
@@ -137,6 +147,14 @@ public class ActMain extends ActAbstractBaseMain implements AdapterView.OnItemCl
         if (mPayloadHexHelper.isVisible()) mPayloadHexHelper.refreshAdapter();
         else if (mPayloadPlainSwipe.isVisible()) mPayloadPlainSwipe.refreshAdapter();
         RoyUtils.rateAppInApp(this, BuildConfig.DEBUG);
+    }
+
+    @Override
+    protected void onDestroy() {
+        if (adView != null) {
+            ApplovinUtils.destroyAdBanner(findViewById(R.id.flAd), adView);
+        }
+        super.onDestroy();
     }
 
     /**

@@ -13,6 +13,7 @@ import androidx.emoji.bundled.BundledEmojiCompatConfig;
 import androidx.emoji.text.EmojiCompat;
 import androidx.preference.PreferenceManager;
 
+import com.galaxyjoy.hexviewer.ext.ApplovinUtils;
 import com.galaxyjoy.hexviewer.models.ListSettings;
 import com.galaxyjoy.hexviewer.models.RecentlyOpened;
 import com.galaxyjoy.hexviewer.models.SettingsKeys;
@@ -75,6 +76,7 @@ public class MyApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        ApplovinUtils.setupApplovinAd(this);
         setupApp();
         /* EmojiCompat */
         EmojiCompat.Config config = new BundledEmojiCompatConfig(this);

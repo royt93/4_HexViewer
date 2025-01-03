@@ -93,6 +93,10 @@
                 android:textAlignment="center"
                 android:textSize="@dimen/activity_main_please_open_file_textSize" />
 
+            <FrameLayout
+                android:id="@+id/flAd"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
         </LinearLayout>
 
         <androidx.constraintlayout.widget.Guideline
