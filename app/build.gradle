@@ -16,8 +16,8 @@ android {
         minSdk 23
         //noinspection EditedTargetSdkVersion
         targetSdk 35
-        versionCode 20250103
-        versionName '2025.01.03'
+        versionCode 20250124
+        versionName '2025.01.24'
         vectorDrawables {
             useSupportLibrary true
         }
@@ -109,7 +109,7 @@ dependencies {
     implementation "androidx.emoji:emoji:1.1.0"
     implementation "com.android.support:support-emoji-bundled:$version"
     implementation "com.google.android.material:material:1.12.0"
-    implementation 'androidx.core:core-ktx:1.13.1'
+    implementation 'androidx.core:core-ktx:1.15.0'
 //    testImplementation "junit:junit:4.13.2"
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.14'
     implementation 'com.applovin:applovin-sdk:13.0.1'
