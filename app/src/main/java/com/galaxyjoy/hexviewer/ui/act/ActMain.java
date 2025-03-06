@@ -374,7 +374,7 @@ public class ActMain extends ActAbstractBaseMain implements AdapterView.OnItemCl
         } else if (id == R.id.actionGithubOriginal) {
             RoyUtils.openBrowser(this, "https://github.com/Keidan/HexViewer");
         } else if (id == R.id.actionGithubFork) {
-            RoyUtils.openBrowser(this, "https://github.com/gj-loitp/4_HexViewer");
+            RoyUtils.openBrowser(this, "https://github.com/royt93/4_HexViewer");
         } else if (mPopup != null) {
             specialPopupActions(id);
         }
