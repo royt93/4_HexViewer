@@ -43,12 +43,22 @@ android {
     }
     buildTypes {
         release {
+            // nhớ kiểm tra APPLICATION_ID trong manifest
+            buildConfigField "String", "ADMOB_BANNER_ID", "\"ca-app-pub-3612191981543807/5282471019\""
+            buildConfigField "String", "ADMOB_INTERSTITIAL_ID", "\"ca-app-pub-3612191981543807/2777620817\""
+            buildConfigField "String", "ADMOB_APP_OPEN_ID", "\"ca-app-pub-3612191981543807/4547973843\""
+
             signingConfig signingConfigs.release
+            debuggable false
             minifyEnabled true
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
         debug {
+            buildConfigField "String", "ADMOB_BANNER_ID", "\"ca-app-pub-3940256099942544/6300978111\""
+            buildConfigField "String", "ADMOB_INTERSTITIAL_ID", "\"ca-app-pub-3940256099942544/1033173712\""
+            buildConfigField "String", "ADMOB_APP_OPEN_ID", "\"ca-app-pub-3940256099942544/9257395921\""
+
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules-debug.pro'
         }
@@ -107,13 +117,14 @@ dependencies {
     implementation "androidx.emoji:emoji:1.1.0"
     implementation "com.android.support:support-emoji-bundled:$version"
     implementation "com.google.android.material:material:1.12.0"
-    implementation 'androidx.core:core-ktx:1.15.0'
+    implementation 'androidx.core:core-ktx:1.16.0'
 //    testImplementation "junit:junit:4.13.2"
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.14'
 //    implementation 'com.applovin:applovin-sdk:13.0.1'
-    implementation "com.airbnb.android:lottie:6.1.0"
+    implementation "com.airbnb.android:lottie:6.5.2"
     implementation("com.google.android.play:review:2.0.2")
     implementation("com.google.android.play:review-ktx:2.0.2")
+    implementation("com.google.android.gms:play-services-ads:24.2.0")
 }
 // versionCode <-> versionName /////////////////////////////////////////////////////////////////////
 // I got the idea (code) below from the repository https://github.com/sal0max/currencie

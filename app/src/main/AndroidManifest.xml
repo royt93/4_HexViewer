@@ -28,6 +28,11 @@
         android:usesCleartextTraffic="false"
         tools:targetApi="s">
 
+        <!-- Khai báo AdMob App ID -->
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-3612191981543807~2249113565" /> <!-- Sample AdMob App ID -->
+
         <activity
             android:name=".ui.act.SplashActivity"
             android:configChanges="locale|keyboard|keyboardHidden|orientation|screenSize|screenLayout|smallestScreenSize|uiMode"
