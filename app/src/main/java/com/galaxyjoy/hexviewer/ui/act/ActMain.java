@@ -20,15 +20,9 @@ import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.view.MenuCompat;
 
-import com.applovin.mediation.MaxAd;
-import com.applovin.mediation.MaxAdListener;
-import com.applovin.mediation.MaxError;
-import com.applovin.mediation.ads.MaxAdView;
-import com.applovin.mediation.ads.MaxInterstitialAd;
 import com.galaxyjoy.hexviewer.BuildConfig;
 import com.galaxyjoy.hexviewer.MyApplication;
 import com.galaxyjoy.hexviewer.R;
-import com.galaxyjoy.hexviewer.ext.ApplovinUtils;
 import com.galaxyjoy.hexviewer.ext.RoyUtils;
 import com.galaxyjoy.hexviewer.models.FileData;
 import com.galaxyjoy.hexviewer.models.LineEntry;
@@ -68,8 +62,8 @@ public class ActMain extends ActAbstractBaseMain implements AdapterView.OnItemCl
     private MainPopupWindow mPopup = null;
     private PayloadHexHelper mPayloadHexHelper = null;
     private GoToDialog mGoToDialog = null;
-    private MaxAdView adView;
-    private MaxInterstitialAd interstitialAd;
+//    private MaxAdView adView;
+//    private MaxInterstitialAd interstitialAd;
 
     /**
      * Called when the activity is created.
@@ -129,8 +123,9 @@ public class ActMain extends ActAbstractBaseMain implements AdapterView.OnItemCl
 
         if (savedInstanceState == null) handleIntent(getIntent());
 
-        adView = ApplovinUtils.createAdBanner(this, ActMain.class.getSimpleName(), Color.TRANSPARENT, findViewById(R.id.flAd), true);
-        createAdInter();
+        //TODO roy93~ admob
+//        adView = ApplovinUtils.createAdBanner(this, ActMain.class.getSimpleName(), Color.TRANSPARENT, findViewById(R.id.flAd), true);
+//        createAdInter();
     }
 
     /**
@@ -152,9 +147,9 @@ public class ActMain extends ActAbstractBaseMain implements AdapterView.OnItemCl
 
     @Override
     protected void onDestroy() {
-        if (adView != null) {
-            ApplovinUtils.destroyAdBanner(findViewById(R.id.flAd), adView);
-        }
+//        if (adView != null) {
+//            ApplovinUtils.destroyAdBanner(findViewById(R.id.flAd), adView);
+//        }
         super.onDestroy();
     }
 
@@ -347,7 +342,7 @@ public class ActMain extends ActAbstractBaseMain implements AdapterView.OnItemCl
             if (mApp.getRecentlyOpened().list().isEmpty()) {
                 UIHelper.toast(this, getString(R.string.no_data_available));
             } else {
-                showAd();
+//                showAd();
                 mLauncherRecentlyOpen.startActivity();
             }
         } else if (id == R.id.actionSave) {
@@ -357,7 +352,7 @@ public class ActMain extends ActAbstractBaseMain implements AdapterView.OnItemCl
         } else if (id == R.id.actionClose) {
             popupActionClose();
         } else if (id == R.id.actionSettings) {
-            showAd();
+//            showAd();
             ActSettings.startActivity(this, !FileData.isEmpty(mFileData), mUnDoRedo.isChanged());
         } else if (id == R.id.actionUndo) {
             mUnDoRedo.undo();
@@ -657,70 +652,70 @@ public class ActMain extends ActAbstractBaseMain implements AdapterView.OnItemCl
         else setOrphanDialog(mGoToDialog.show(GoToDialog.Mode.LINE_HEX));
     }
 
-    private void showAd() {
-        boolean enableAdInter = getString(R.string.EnableAdInter).equals("true");
-        if (!enableAdInter) {
-            return;
-        }
-        if (interstitialAd != null && interstitialAd.isReady()) {
-            if (BuildConfig.DEBUG) {
-                Toast.makeText(this, "Show ad FULL SUCCESSFULLY", Toast.LENGTH_SHORT).show();
+//    private void showAd() {
+//        boolean enableAdInter = getString(R.string.EnableAdInter).equals("true");
+//        if (!enableAdInter) {
+//            return;
+//        }
+//        if (interstitialAd != null && interstitialAd.isReady()) {
+//            if (BuildConfig.DEBUG) {
+//                Toast.makeText(this, "Show ad FULL SUCCESSFULLY", Toast.LENGTH_SHORT).show();
+////                interstitialAd.showAd();
+//            } else {
 //                interstitialAd.showAd();
-            } else {
-                interstitialAd.showAd();
-            }
-        }
-    }
+//            }
+//        }
+//    }
 
-    private void createAdInter() {
-        boolean enableAdInter = getString(R.string.EnableAdInter).equals("true");
-        if (!enableAdInter) {
-            return;
-        }
-        String id = getString(R.string.INTER);
-        if (id.isEmpty()) {
-            return;
-        }
-        interstitialAd = new MaxInterstitialAd(id, this);
-        interstitialAd.setListener(new MaxAdListener() {
-            @Override
-            public void onAdLoaded(@NonNull MaxAd maxAd) {
-//                retryAttempt = 0;
-            }
-
-            @Override
-            public void onAdDisplayed(@NonNull MaxAd maxAd) {
-
-            }
-
-            @Override
-            public void onAdHidden(@NonNull MaxAd maxAd) {
-                // Interstitial ad is hidden. Pre-load the next ad
-                interstitialAd.loadAd();
-            }
-
-            @Override
-            public void onAdClicked(@NonNull MaxAd maxAd) {
-
-            }
-
-            @Override
-            public void onAdLoadFailed(@NonNull String s, @NonNull MaxError maxError) {
-//                retryAttempt++;
-//                long delayMillis = TimeUnit.SECONDS.toMillis((long) Math.pow(2, Math.min(6, retryAttempt)));
+//    private void createAdInter() {
+//        boolean enableAdInter = getString(R.string.EnableAdInter).equals("true");
+//        if (!enableAdInter) {
+//            return;
+//        }
+//        String id = getString(R.string.INTER);
+//        if (id.isEmpty()) {
+//            return;
+//        }
+//        interstitialAd = new MaxInterstitialAd(id, this);
+//        interstitialAd.setListener(new MaxAdListener() {
+//            @Override
+//            public void onAdLoaded(@NonNull MaxAd maxAd) {
+////                retryAttempt = 0;
+//            }
 //
-//                new Handler().postDelayed(() -> interstitialAd.loadAd(), delayMillis);
-            }
-
-            @Override
-            public void onAdDisplayFailed(@NonNull MaxAd maxAd, @NonNull MaxError maxError) {
-                // Interstitial ad failed to display. AppLovin recommends that you load the next ad.
-                interstitialAd.loadAd();
-            }
-        });
-
-        // Load the first ad
-        interstitialAd.loadAd();
-    }
+//            @Override
+//            public void onAdDisplayed(@NonNull MaxAd maxAd) {
+//
+//            }
+//
+//            @Override
+//            public void onAdHidden(@NonNull MaxAd maxAd) {
+//                // Interstitial ad is hidden. Pre-load the next ad
+//                interstitialAd.loadAd();
+//            }
+//
+//            @Override
+//            public void onAdClicked(@NonNull MaxAd maxAd) {
+//
+//            }
+//
+//            @Override
+//            public void onAdLoadFailed(@NonNull String s, @NonNull MaxError maxError) {
+////                retryAttempt++;
+////                long delayMillis = TimeUnit.SECONDS.toMillis((long) Math.pow(2, Math.min(6, retryAttempt)));
+////
+////                new Handler().postDelayed(() -> interstitialAd.loadAd(), delayMillis);
+//            }
+//
+//            @Override
+//            public void onAdDisplayFailed(@NonNull MaxAd maxAd, @NonNull MaxError maxError) {
+//                // Interstitial ad failed to display. AppLovin recommends that you load the next ad.
+//                interstitialAd.loadAd();
+//            }
+//        });
+//
+//        // Load the first ad
+//        interstitialAd.loadAd();
+//    }
 
 }

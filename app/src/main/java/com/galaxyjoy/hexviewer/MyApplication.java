@@ -13,7 +13,6 @@ import androidx.emoji.bundled.BundledEmojiCompatConfig;
 import androidx.emoji.text.EmojiCompat;
 import androidx.preference.PreferenceManager;
 
-import com.galaxyjoy.hexviewer.ext.ApplovinUtils;
 import com.galaxyjoy.hexviewer.models.ListSettings;
 import com.galaxyjoy.hexviewer.models.RecentlyOpened;
 import com.galaxyjoy.hexviewer.models.SettingsKeys;
@@ -29,7 +28,6 @@ import java.util.concurrent.locks.ReentrantLock;
 
 //TODO roy93~ firebase analytic
 //TODO roy93~ why you see ad
-//TODO roy93~ vung bi mat de show applovin config
 
 //done mckimquyen
 //ad applovin
@@ -76,7 +74,7 @@ public class MyApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        ApplovinUtils.setupApplovinAd(this);
+//        ApplovinUtils.setupApplovinAd(this);
         setupApp();
         /* EmojiCompat */
         EmojiCompat.Config config = new BundledEmojiCompatConfig(this);
