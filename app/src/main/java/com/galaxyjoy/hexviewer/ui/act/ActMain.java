@@ -42,12 +42,16 @@ import com.galaxyjoy.hexviewer.ui.task.TaskSave;
 import com.galaxyjoy.hexviewer.ui.undoredo.UnDoRedo;
 import com.galaxyjoy.hexviewer.ui.util.UIHelper;
 import com.galaxyjoy.hexviewer.util.io.FileHelper;
+import com.google.android.gms.ads.AdError;
 import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.LoadAdError;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.io.ByteArrayOutputStream;
 
-public class ActMain extends ActAbstractBaseMain implements AdapterView.OnItemClickListener, TaskOpen.OpenResultListener, TaskSave.SaveResultListener {
+public class ActMain extends ActAbstractBaseMain implements AdapterView.OnItemClickListener, TaskOpen.OpenResultListener, TaskSave.SaveResultListener, AdMobManager.InterstitialAdListener {
     private FileData mFileData = null;
     private ConstraintLayout mIdleView = null;
     private MenuItem mSearchMenu = null;
@@ -667,6 +671,41 @@ public class ActMain extends ActAbstractBaseMain implements AdapterView.OnItemCl
         if (mPopup.getPlainText().isChecked()) setOrphanDialog(mGoToDialog.show(GoToDialog.Mode.LINE_PLAIN));
         else if (mPopup.getLineNumbers().isChecked()) setOrphanDialog(mGoToDialog.show(GoToDialog.Mode.ADDRESS));
         else setOrphanDialog(mGoToDialog.show(GoToDialog.Mode.LINE_HEX));
+    }
+
+    @Override
+    public void onAdLoaded() {
+
+    }
+
+    @Override
+    public void onAdFailedToLoad(@NotNull LoadAdError error) {
+
+    }
+
+    @Override
+    public void onAdShowed() {
+
+    }
+
+    @Override
+    public void onAdDismissed() {
+
+    }
+
+    @Override
+    public void onAdClicked() {
+
+    }
+
+    @Override
+    public void onAdFailedToShow(@NotNull AdError error) {
+
+    }
+
+    @Override
+    public void onAdNotAvailable() {
+
     }
 
 //    private void showAd() {
