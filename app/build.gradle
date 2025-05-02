@@ -1,11 +1,7 @@
 plugins {
-//    id "org.sonarqube" version "3.3"
     id 'com.android.application'
-//    id 'kotlin-android'
-//    id 'org.jetbrains.kotlin.android'
+    id 'org.jetbrains.kotlin.android'
 }
-
-//final SONAR_PROJECT_VERSION = '1.55'
 
 android {
     namespace 'com.galaxyjoy.hexviewer'
@@ -22,17 +18,16 @@ android {
             useSupportLibrary true
         }
     }
-
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
-//    kotlinOptions {
-//        jvmTarget = '1.8'
-//    }
-//    composeOptions {
-//        kotlinCompilerExtensionVersion = "1.4.0"
-//    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion = '1.3.2'
+    }
     signingConfigs {
         release {
             storeFile file("key/keystore.jks")
@@ -64,23 +59,11 @@ android {
         }
     }
     buildFeatures {
-        compose true
+        compose false
     }
-    // This is important, it will run lint checks but won't abort build
-//    sonarqube {
-//        properties {
-//            property "sonar.projectKey", "Keidan_HexViewer"
-//            property "sonar.organization", "keidan"
-//            property "sonar.host.url", "https://sonarcloud.io"
-//            property 'sonar.projectName', 'HexViewer'
-//            property 'sonar.projectVersion', SONAR_PROJECT_VERSION
-//            property 'sonar.coverage.exclusions', "**/**"
-//        }
-//    }
     lint {
         abortOnError false
     }
-
     flavorDimensions.add("type")
     productFlavors {
         dev {
@@ -109,7 +92,8 @@ android {
 }
 
 dependencies {
-//    implementation "org.jetbrains.kotlin:kotlin-stdlib:1.7.20"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:1.7.20"
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3'
     implementation 'org.apache.commons:commons-collections4:4.4'
     implementation "androidx.appcompat:appcompat:1.7.0"
     implementation "androidx.preference:preference:1.2.1"
@@ -118,57 +102,9 @@ dependencies {
     implementation "com.android.support:support-emoji-bundled:$version"
     implementation "com.google.android.material:material:1.12.0"
     implementation 'androidx.core:core-ktx:1.16.0'
-//    testImplementation "junit:junit:4.13.2"
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.14'
-//    implementation 'com.applovin:applovin-sdk:13.0.1'
     implementation "com.airbnb.android:lottie:6.5.2"
-    implementation("com.google.android.play:review:2.0.2")
-    implementation("com.google.android.play:review-ktx:2.0.2")
+    implementation("com.google.android.play:review:2.0.1")
+    implementation("com.google.android.play:review-ktx:2.0.1")
     implementation("com.google.android.gms:play-services-ads:24.2.0")
 }
-// versionCode <-> versionName /////////////////////////////////////////////////////////////////////
-// I got the idea (code) below from the repository https://github.com/sal0max/currencie
-/**
- * Checks if versionCode and versionName match.
- * Needed because of F-Droid: both have to be hard-coded and can't be assigned dynamically.
- * So at least check during build for them to match.
- */
-//tasks.register('checkVersion') {
-//    int versionCode = android.defaultConfig.versionCode
-//    String versionName = android.defaultConfig.versionName
-//    int correctVersionCode = generateVersionCode(android.defaultConfig.versionName)
-//    if (versionCode != correctVersionCode)
-//        throw new GradleException(
-//                "versionCode and versionName don't match: " +
-//                        "versionCode should be $correctVersionCode. Is $versionCode."
-//        )
-//    if (versionName != SONAR_PROJECT_VERSION)
-//        throw new GradleException(
-//                "versionName and sonar.projectVersion don't match: " +
-//                        "sonar.projectVersion should be $versionName. Is $SONAR_PROJECT_VERSION."
-//        )
-//}
-//assemble.dependsOn checkVersion
-
-//tasks.register('checkFastlaneChangelog') {
-//  int versionCode = android.defaultConfig.versionCode
-//  File changelogFile = file("$rootDir/fastlane/metadata/android/en-US/changelogs/${versionCode}.txt")
-//  if (!changelogFile.exists())
-//    throw new GradleException(
-//      "Fastlane changelog missing: expecting file '$changelogFile'"
-//    )
-//}
-//build.dependsOn checkFastlaneChangelog
-
-/**
- * Generates a versionCode based on the given semVer String.
- * See e.g. https://proandroiddev.com/keep-salinity-with-your-versioncode-db2089b640b9
- *
- * @param semVer e.g. 1.27
- * @return e.g. 127 (-> 1 27)
- */
-//private static int generateVersionCode(String semVer) {
-//    return semVer.split('\\.')
-//            .collect { Integer.parseInt(it) }
-//            .inject { sum, value -> sum * 100 + value }
-//}
