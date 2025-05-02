@@ -82,6 +82,8 @@ public class ActMain extends ActAbstractBaseMain implements AdapterView.OnItemCl
         setContentView(R.layout.act_main);
         MyApplication.addLog(this, "Main", "Application started with language: '" + ((MyApplication) getApplicationContext()).getApplicationLanguage(this) + "'");
         setupViews(savedInstanceState);
+        AdMobManager.INSTANCE.setCurrentActivity(this);
+        AdMobManager.INSTANCE.setInterstitialListener(this);
     }
 
     @SuppressLint("SetTextI18n")
