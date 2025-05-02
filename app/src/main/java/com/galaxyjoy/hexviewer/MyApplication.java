@@ -8,6 +8,7 @@ import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Build;
+import android.util.Log;
 
 import androidx.emoji.bundled.BundledEmojiCompatConfig;
 import androidx.emoji.text.EmojiCompat;
@@ -16,20 +17,31 @@ import androidx.preference.PreferenceManager;
 import com.galaxyjoy.hexviewer.models.ListSettings;
 import com.galaxyjoy.hexviewer.models.RecentlyOpened;
 import com.galaxyjoy.hexviewer.models.SettingsKeys;
+import com.galaxyjoy.hexviewer.sdkadbmob.AdMobManager;
+import com.galaxyjoy.hexviewer.sdkadbmob.AppLifecycleListener;
+import com.galaxyjoy.hexviewer.ui.act.SplashActivity;
+import com.google.android.gms.ads.MobileAds;
 
 import org.apache.commons.collections4.queue.CircularFifoQueue;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.Queue;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
+
+import kotlin.Unit;
+import kotlin.jvm.functions.Function0;
+import kotlin.jvm.functions.Function1;
+import kotlin.jvm.functions.Function2;
 
 //TODO roy93~ firebase analytic
 //TODO roy93~ why you see ad
 
 //done mckimquyen
+//admob
 //ad applovin
 //sdk 35 edge to edge bingo
 //review in app bingo
@@ -75,6 +87,7 @@ public class MyApplication extends Application {
     public void onCreate() {
         super.onCreate();
 //        ApplovinUtils.setupApplovinAd(this);
+        setupAdmob();
         setupApp();
         /* EmojiCompat */
         EmojiCompat.Config config = new BundledEmojiCompatConfig(this);
@@ -94,78 +107,25 @@ public class MyApplication extends Application {
         mDefaultMemoryThreshold = getString(R.string.default_memory_threshold);
         mDefaultPartialOpenButWholeFileIsOpened = Boolean.parseBoolean(getString(R.string.default_partial_open_but_whole_file_is_opened));
 
-        mListSettingsHexPortrait = new ListSettings(this,
-                SettingsKeys.CFG_PORTRAIT_HEX_DISPLAY_DATA,
-                SettingsKeys.CFG_PORTRAIT_HEX_ROW_HEIGHT,
-                SettingsKeys.CFG_PORTRAIT_HEX_ROW_HEIGHT_AUTO,
-                SettingsKeys.CFG_PORTRAIT_HEX_FONT_SIZE);
-        mListSettingsHexPortrait.setDefaults(
-                R.string.default_hex_display_data_portrait,
-                R.string.default_hex_row_height_portrait, R.string.default_hex_row_height_auto_portrait,
-                R.string.default_hex_font_size_portrait);
-        mListSettingsHexLandscape = new ListSettings(this,
-                SettingsKeys.CFG_LANDSCAPE_HEX_DISPLAY_DATA,
-                SettingsKeys.CFG_LANDSCAPE_HEX_ROW_HEIGHT,
-                SettingsKeys.CFG_LANDSCAPE_HEX_ROW_HEIGHT_AUTO,
-                SettingsKeys.CFG_LANDSCAPE_HEX_FONT_SIZE);
-        mListSettingsHexLandscape.setDefaults(
-                R.string.default_hex_display_data_landscape,
-                R.string.default_hex_row_height_landscape, R.string.default_hex_row_height_auto_landscape,
-                R.string.default_hex_font_size_landscape);
+        mListSettingsHexPortrait = new ListSettings(this, SettingsKeys.CFG_PORTRAIT_HEX_DISPLAY_DATA, SettingsKeys.CFG_PORTRAIT_HEX_ROW_HEIGHT, SettingsKeys.CFG_PORTRAIT_HEX_ROW_HEIGHT_AUTO, SettingsKeys.CFG_PORTRAIT_HEX_FONT_SIZE);
+        mListSettingsHexPortrait.setDefaults(R.string.default_hex_display_data_portrait, R.string.default_hex_row_height_portrait, R.string.default_hex_row_height_auto_portrait, R.string.default_hex_font_size_portrait);
+        mListSettingsHexLandscape = new ListSettings(this, SettingsKeys.CFG_LANDSCAPE_HEX_DISPLAY_DATA, SettingsKeys.CFG_LANDSCAPE_HEX_ROW_HEIGHT, SettingsKeys.CFG_LANDSCAPE_HEX_ROW_HEIGHT_AUTO, SettingsKeys.CFG_LANDSCAPE_HEX_FONT_SIZE);
+        mListSettingsHexLandscape.setDefaults(R.string.default_hex_display_data_landscape, R.string.default_hex_row_height_landscape, R.string.default_hex_row_height_auto_landscape, R.string.default_hex_font_size_landscape);
 
-        mListSettingsHexLineNumbersPortrait = new ListSettings(this,
-                SettingsKeys.CFG_PORTRAIT_HEX_DISPLAY_DATA_LINE_NUMBERS,
-                SettingsKeys.CFG_PORTRAIT_HEX_ROW_HEIGHT_LINE_NUMBERS,
-                SettingsKeys.CFG_PORTRAIT_HEX_ROW_HEIGHT_AUTO_LINE_NUMBERS,
-                SettingsKeys.CFG_PORTRAIT_HEX_FONT_SIZE_LINE_NUMBERS);
-        mListSettingsHexLineNumbersPortrait.setDefaults(
-                R.string.default_hex_display_data_portrait_lines_numbers,
-                R.string.default_hex_row_height_portrait_lines_numbers,
-                R.string.default_hex_row_height_auto_portrait_lines_numbers,
-                R.string.default_hex_font_size_portrait_lines_numbers);
-        mListSettingsHexLineNumbersLandscape = new ListSettings(this,
-                SettingsKeys.CFG_LANDSCAPE_HEX_DISPLAY_DATA_LINE_NUMBERS,
-                SettingsKeys.CFG_LANDSCAPE_HEX_ROW_HEIGHT_LINE_NUMBERS,
-                SettingsKeys.CFG_LANDSCAPE_HEX_ROW_HEIGHT_AUTO_LINE_NUMBERS,
-                SettingsKeys.CFG_LANDSCAPE_HEX_FONT_SIZE_LINE_NUMBERS);
-        mListSettingsHexLineNumbersLandscape.setDefaults(
-                R.string.default_hex_display_data_landscape_lines_numbers,
-                R.string.default_hex_row_height_landscape_lines_numbers, R.string.default_hex_row_height_auto_landscape_lines_numbers,
-                R.string.default_hex_font_size_landscape_lines_numbers);
+        mListSettingsHexLineNumbersPortrait = new ListSettings(this, SettingsKeys.CFG_PORTRAIT_HEX_DISPLAY_DATA_LINE_NUMBERS, SettingsKeys.CFG_PORTRAIT_HEX_ROW_HEIGHT_LINE_NUMBERS, SettingsKeys.CFG_PORTRAIT_HEX_ROW_HEIGHT_AUTO_LINE_NUMBERS, SettingsKeys.CFG_PORTRAIT_HEX_FONT_SIZE_LINE_NUMBERS);
+        mListSettingsHexLineNumbersPortrait.setDefaults(R.string.default_hex_display_data_portrait_lines_numbers, R.string.default_hex_row_height_portrait_lines_numbers, R.string.default_hex_row_height_auto_portrait_lines_numbers, R.string.default_hex_font_size_portrait_lines_numbers);
+        mListSettingsHexLineNumbersLandscape = new ListSettings(this, SettingsKeys.CFG_LANDSCAPE_HEX_DISPLAY_DATA_LINE_NUMBERS, SettingsKeys.CFG_LANDSCAPE_HEX_ROW_HEIGHT_LINE_NUMBERS, SettingsKeys.CFG_LANDSCAPE_HEX_ROW_HEIGHT_AUTO_LINE_NUMBERS, SettingsKeys.CFG_LANDSCAPE_HEX_FONT_SIZE_LINE_NUMBERS);
+        mListSettingsHexLineNumbersLandscape.setDefaults(R.string.default_hex_display_data_landscape_lines_numbers, R.string.default_hex_row_height_landscape_lines_numbers, R.string.default_hex_row_height_auto_landscape_lines_numbers, R.string.default_hex_font_size_landscape_lines_numbers);
 
-        mListSettingsPlainPortrait = new ListSettings(this,
-                null,
-                SettingsKeys.CFG_PORTRAIT_PLAIN_ROW_HEIGHT,
-                SettingsKeys.CFG_PORTRAIT_PLAIN_ROW_HEIGHT_AUTO,
-                SettingsKeys.CFG_PORTRAIT_PLAIN_FONT_SIZE);
-        mListSettingsPlainPortrait.setDefaults(
-                0, R.string.default_plain_row_height_portrait, R.string.default_plain_row_height_auto_portrait,
-                R.string.default_plain_font_size_portrait);
-        mListSettingsPlainLandscape = new ListSettings(this,
-                null,
-                SettingsKeys.CFG_LANDSCAPE_PLAIN_ROW_HEIGHT,
-                SettingsKeys.CFG_LANDSCAPE_PLAIN_ROW_HEIGHT_AUTO,
-                SettingsKeys.CFG_LANDSCAPE_PLAIN_FONT_SIZE);
-        mListSettingsPlainLandscape.setDefaults(
-                0, R.string.default_plain_row_height_landscape, R.string.default_plain_row_height_auto_landscape,
-                R.string.default_plain_font_size_landscape);
+        mListSettingsPlainPortrait = new ListSettings(this, null, SettingsKeys.CFG_PORTRAIT_PLAIN_ROW_HEIGHT, SettingsKeys.CFG_PORTRAIT_PLAIN_ROW_HEIGHT_AUTO, SettingsKeys.CFG_PORTRAIT_PLAIN_FONT_SIZE);
+        mListSettingsPlainPortrait.setDefaults(0, R.string.default_plain_row_height_portrait, R.string.default_plain_row_height_auto_portrait, R.string.default_plain_font_size_portrait);
+        mListSettingsPlainLandscape = new ListSettings(this, null, SettingsKeys.CFG_LANDSCAPE_PLAIN_ROW_HEIGHT, SettingsKeys.CFG_LANDSCAPE_PLAIN_ROW_HEIGHT_AUTO, SettingsKeys.CFG_LANDSCAPE_PLAIN_FONT_SIZE);
+        mListSettingsPlainLandscape.setDefaults(0, R.string.default_plain_row_height_landscape, R.string.default_plain_row_height_auto_landscape, R.string.default_plain_font_size_landscape);
 
-        mListSettingsLineEditPortrait = new ListSettings(this,
-                null,
-                SettingsKeys.CFG_PORTRAIT_LINE_EDIT_ROW_HEIGHT,
-                SettingsKeys.CFG_PORTRAIT_LINE_EDIT_ROW_HEIGHT_AUTO,
-                SettingsKeys.CFG_PORTRAIT_LINE_EDIT_FONT_SIZE);
-        mListSettingsLineEditPortrait.setDefaults(
-                0, R.string.default_line_edit_row_height_portrait, R.string.default_line_edit_row_height_auto_portrait,
-                R.string.default_line_edit_font_size_portrait);
-        mListSettingsLineEditLandscape = new ListSettings(this,
-                null,
-                SettingsKeys.CFG_LANDSCAPE_LINE_EDIT_ROW_HEIGHT,
-                SettingsKeys.CFG_LANDSCAPE_LINE_EDIT_ROW_HEIGHT_AUTO,
-                SettingsKeys.CFG_LANDSCAPE_LINE_EDIT_FONT_SIZE);
-        mListSettingsLineEditLandscape.setDefaults(
-                0, R.string.default_line_edit_row_height_landscape, R.string.default_line_edit_row_height_auto_landscape,
-                R.string.default_line_edit_font_size_landscape);
+        mListSettingsLineEditPortrait = new ListSettings(this, null, SettingsKeys.CFG_PORTRAIT_LINE_EDIT_ROW_HEIGHT, SettingsKeys.CFG_PORTRAIT_LINE_EDIT_ROW_HEIGHT_AUTO, SettingsKeys.CFG_PORTRAIT_LINE_EDIT_FONT_SIZE);
+        mListSettingsLineEditPortrait.setDefaults(0, R.string.default_line_edit_row_height_portrait, R.string.default_line_edit_row_height_auto_portrait, R.string.default_line_edit_font_size_portrait);
+        mListSettingsLineEditLandscape = new ListSettings(this, null, SettingsKeys.CFG_LANDSCAPE_LINE_EDIT_ROW_HEIGHT, SettingsKeys.CFG_LANDSCAPE_LINE_EDIT_ROW_HEIGHT_AUTO, SettingsKeys.CFG_LANDSCAPE_LINE_EDIT_FONT_SIZE);
+        mListSettingsLineEditLandscape.setDefaults(0, R.string.default_line_edit_row_height_landscape, R.string.default_line_edit_row_height_auto_landscape, R.string.default_line_edit_font_size_landscape);
     }
 
     public void setConfiguration(Configuration cfg) {
@@ -173,28 +133,22 @@ public class MyApplication extends Application {
     }
 
     public Configuration getConfiguration() {
-        if (mConfiguration == null)
-            mConfiguration = getResources().getConfiguration();
+        if (mConfiguration == null) mConfiguration = getResources().getConfiguration();
         return mConfiguration;
     }
 
     public Queue<String> getLogBuffer() {
-        if (mLogs == null)
-            mLogs = new CircularFifoQueue<>(CIRCULAR_BUFFER_DEPTH);
+        if (mLogs == null) mLogs = new CircularFifoQueue<>(CIRCULAR_BUFFER_DEPTH);
         return mLogs;
     }
 
     public static void addLog(final Context c, final String tag, final String msg) {
         MyApplication ctx;
-        if (c instanceof MyApplication)
-            ctx = (MyApplication) c;
-        else
-            ctx = (MyApplication) c.getApplicationContext();
+        if (c instanceof MyApplication) ctx = (MyApplication) c;
+        else ctx = (MyApplication) c.getApplicationContext();
         ctx.mLock.lock();
-        String head = new SimpleDateFormat("yyyyMMdd [hhmmssa]:\n",
-                Locale.US).format(new Date());
-        if (tag != null)
-            head += "(" + tag + ") -> ";
+        String head = new SimpleDateFormat("yyyyMMdd [hhmmssa]:\n", Locale.US).format(new Date());
+        if (tag != null) head += "(" + tag + ") -> ";
         ctx.getLogBuffer().add(head + msg);
         ctx.mLock.unlock();
     }
@@ -207,8 +161,7 @@ public class MyApplication extends Application {
     public void loadDefaultValues(boolean recent) {
         if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.M)
             mLanguage = Resources.getSystem().getConfiguration().locale.getLanguage();
-        else
-            mLanguage = Resources.getSystem().getConfiguration().getLocales().get(0).getLanguage();
+        else mLanguage = Resources.getSystem().getConfiguration().getLocales().get(0).getLanguage();
         setApplicationLanguage(mLanguage);
         SharedPreferences.Editor e = getPref(this).edit();
         mListSettingsHexPortrait.loadDefaultValues(e);
@@ -227,13 +180,11 @@ public class MyApplication extends Application {
         e.putString(SettingsKeys.CFG_MEMORY_THRESHOLD, mDefaultMemoryThreshold);
         e.putBoolean(SettingsKeys.CFG_PARTIAL_OPEN_BUT_WHOLE_FILE_IS_OPENED, mDefaultPartialOpenButWholeFileIsOpened);
         e.apply();
-        if (recent)
-            mRecentlyOpened.clear();
+        if (recent) mRecentlyOpened.clear();
     }
 
     public SharedPreferences getPref(final Context context) {
-        if (mSharedPreferences == null)
-            mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        if (mSharedPreferences == null) mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         return mSharedPreferences;
     }
 
@@ -255,12 +206,9 @@ public class MyApplication extends Application {
     public int getMemoryThreshold() {
         try {
             String s = getPref(this).getString(SettingsKeys.CFG_MEMORY_THRESHOLD, mDefaultMemoryThreshold);
-            if (s.equals(getString(R.string.memory_thresholds_disable)))
-                return -1;
-            if (s.startsWith("~"))
-                s = s.substring(1);
-            if (s.endsWith("%"))
-                s = s.substring(0, s.length() - 1);
+            if (s.equals(getString(R.string.memory_thresholds_disable))) return -1;
+            if (s.startsWith("~")) s = s.substring(1);
+            if (s.endsWith("%")) s = s.substring(0, s.length() - 1);
             return Integer.parseInt(s);
         } catch (Exception ignore) {
             return -1;
@@ -365,10 +313,8 @@ public class MyApplication extends Application {
      */
     public int getScreenOrientation(final String ref) {
         String s = ref != null ? ref : getScreenOrientationStr();
-        if (s.equals("SCREEN_ORIENTATION_LANDSCAPE"))
-            return ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE;
-        if (s.equals("SCREEN_ORIENTATION_PORTRAIT"))
-            return ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
+        if (s.equals("SCREEN_ORIENTATION_LANDSCAPE")) return ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE;
+        if (s.equals("SCREEN_ORIENTATION_PORTRAIT")) return ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
         return ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED;
     }
 
@@ -537,8 +483,7 @@ public class MyApplication extends Application {
         if (cfg.equals("in")) cfg = "in_ID";
         String cfgLang = cfg.replace('-', '_');
         Locale locale = Locale.getDefault();
-        if (!locale.toString().equals(cfgLang))
-            activity.recreate();
+        if (!locale.toString().equals(cfgLang)) activity.recreate();
     }
 
     /**
@@ -583,8 +528,7 @@ public class MyApplication extends Application {
             Locale loc = Locale.getDefault();
             mLanguage = loc.getLanguage();
             loc.getCountry();
-            if (!loc.getCountry().isEmpty())
-                mLanguage += "-" + loc.getCountry();
+            if (!loc.getCountry().isEmpty()) mLanguage += "-" + loc.getCountry();
             addLog(this, "Application", "Default system locale: '" + mLanguage + "'");
         }
     }
@@ -601,8 +545,7 @@ public class MyApplication extends Application {
         mLanguage = lang;
         String[] split = lang.split("-");
         Locale.Builder builder = new Locale.Builder().setLanguage(split[0]);
-        if (split.length == 2)
-            builder.setRegion(split[1]);
+        if (split.length == 2) builder.setRegion(split[1]);
         Locale locale = builder.build();
         Locale.setDefault(locale);
 
@@ -611,5 +554,56 @@ public class MyApplication extends Application {
         configuration.setLayoutDirection(locale);
 
         return context.createConfigurationContext(configuration);
+    }
+
+    public void setupAdmob() {
+        new Thread(() -> {
+            MobileAds.initialize(MyApplication.this, initializationStatus -> {
+                // Không làm gì
+            });
+            AdMobManager.INSTANCE.init(this, new Function2<Boolean, String, Unit>() {
+                @Override
+                public Unit invoke(Boolean success, String gaidCurrent) {
+                    Log.d("roy93~", "AdMobManager init success " + success + ", gaidCurrent " + gaidCurrent);
+                    return null;
+                }
+            });
+        }).start();
+        registerActivityLifecycleCallbacks(new AppLifecycleListener(new Function2<Boolean, Activity, Unit>() {
+            @Override
+            public Unit invoke(Boolean isForeground, Activity activity) {
+                if (isForeground) {
+                    Log.d("roy93~", "App moved to Foreground");
+                    Log.d("roy93~", "activity.getClass().getSimpleName() " + activity.getClass().getSimpleName());
+                    Log.d("roy93~", "SplashActivity.class.getSimpleName() " + SplashActivity.class.getSimpleName());
+                    if (Objects.equals(activity.getClass().getSimpleName(), SplashActivity.class.getSimpleName())) {
+                        //do nothing
+                    } else {
+                        AdMobManager.INSTANCE.showAppOpenAd(activity);
+                    }
+                } else {
+                    Log.d("roy93~", "App moved to Background");
+                }
+                return null;
+            }
+        }, new Function1<Activity, Unit>() {
+            @Override
+            public Unit invoke(Activity activity) {
+                Log.d("roy93~", "callbackActivityCreated");
+                Log.d("roy93~", "activity.getClass().getSimpleName() " + activity.getClass().getSimpleName());
+                Log.d("roy93~", "SplashActivity.class.getSimpleName() " + SplashActivity.class.getSimpleName());
+                if (Objects.equals(activity.getClass().getSimpleName(), SplashActivity.class.getSimpleName())) {
+                    //do nothing
+                } else {
+                    AdMobManager.INSTANCE.loadAppOpenAd(MyApplication.this, BuildConfig.ADMOB_APP_OPEN_ID, new Function0<Unit>() {
+                        @Override
+                        public Unit invoke() {
+                            return null;
+                        }
+                    });
+                }
+                return null;
+            }
+        }));
     }
 }

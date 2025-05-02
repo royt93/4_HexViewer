@@ -43,13 +43,13 @@ public class RoyUtils {
     public static void rateAppInApp(Activity activity, boolean forceRateInApp) {
         SharedPreferences sharedPreferences = activity.getSharedPreferences("app_preferences", Context.MODE_PRIVATE);
         long lastReviewTime = sharedPreferences.getLong("last_review_time", 0L);
-        Log.d("roy93~", "requestReview lastReviewTime " + lastReviewTime);
+//        Log.d("roy93~", "requestReview lastReviewTime " + lastReviewTime);
 
         long currentTime = Calendar.getInstance().getTimeInMillis();
         long daysSinceLastReview = (currentTime - lastReviewTime) / (1000 * 60 * 60 * 24);
 
-        Log.d("roy93~", "requestReview forceRateInApp " + forceRateInApp);
-        Log.d("roy93~", "requestReview daysSinceLastReview " + daysSinceLastReview);
+//        Log.d("roy93~", "requestReview forceRateInApp " + forceRateInApp);
+//        Log.d("roy93~", "requestReview daysSinceLastReview " + daysSinceLastReview);
 
         if (daysSinceLastReview >= 7 || forceRateInApp) {
             ReviewManager reviewManager = ReviewManagerFactory.create(activity);
@@ -60,16 +60,16 @@ public class RoyUtils {
                         reviewManager.launchReviewFlow(activity, reviewInfo);
                         sharedPreferences.edit().putLong("last_review_time", currentTime).apply();
 
-                        Log.d("roy93~", "requestReview result " + task.getResult());
-                        Log.d("roy93~", "requestReview isSuccessful " + task.isSuccessful());
-                        Log.d("roy93~", "requestReview isCanceled " + task.isCanceled());
-                        Log.d("roy93~", "requestReview isComplete " + task.isComplete());
-                        Log.d("roy93~", "requestReview exception " + task.getException());
+//                        Log.d("roy93~", "requestReview result " + task.getResult());
+//                        Log.d("roy93~", "requestReview isSuccessful " + task.isSuccessful());
+//                        Log.d("roy93~", "requestReview isCanceled " + task.isCanceled());
+//                        Log.d("roy93~", "requestReview isComplete " + task.isComplete());
+//                        Log.d("roy93~", "requestReview exception " + task.getException());
                     } else {
-                        Log.d("roy93~", "requestReview exception " + task.getException());
+//                        Log.d("roy93~", "requestReview exception " + task.getException());
                     }
                 } catch (Exception e) {
-                    Log.e("roy93~", "requestReview e " + e);
+//                    Log.e("roy93~", "requestReview e " + e);
                 }
             });
         }
