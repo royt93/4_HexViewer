@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.app.SearchManager;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -14,7 +13,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -26,6 +24,7 @@ import com.galaxyjoy.hexviewer.R;
 import com.galaxyjoy.hexviewer.ext.RoyUtils;
 import com.galaxyjoy.hexviewer.models.FileData;
 import com.galaxyjoy.hexviewer.models.LineEntry;
+import com.galaxyjoy.hexviewer.sdkadbmob.AdMobManager;
 import com.galaxyjoy.hexviewer.ui.act.setting.ActSettings;
 import com.galaxyjoy.hexviewer.ui.adt.AdtSearchableListArray;
 import com.galaxyjoy.hexviewer.ui.dlg.GoToDialog;
@@ -43,6 +42,8 @@ import com.galaxyjoy.hexviewer.ui.task.TaskSave;
 import com.galaxyjoy.hexviewer.ui.undoredo.UnDoRedo;
 import com.galaxyjoy.hexviewer.ui.util.UIHelper;
 import com.galaxyjoy.hexviewer.util.io.FileHelper;
+import com.google.android.gms.ads.AdSize;
+import com.google.android.gms.ads.AdView;
 
 import java.io.ByteArrayOutputStream;
 
@@ -62,8 +63,9 @@ public class ActMain extends ActAbstractBaseMain implements AdapterView.OnItemCl
     private MainPopupWindow mPopup = null;
     private PayloadHexHelper mPayloadHexHelper = null;
     private GoToDialog mGoToDialog = null;
-//    private MaxAdView adView;
+    //    private MaxAdView adView;
 //    private MaxInterstitialAd interstitialAd;
+    private AdView adView = null;
 
     /**
      * Called when the activity is created.
@@ -123,9 +125,8 @@ public class ActMain extends ActAbstractBaseMain implements AdapterView.OnItemCl
 
         if (savedInstanceState == null) handleIntent(getIntent());
 
-        //TODO roy93~ admob
-//        adView = ApplovinUtils.createAdBanner(this, ActMain.class.getSimpleName(), Color.TRANSPARENT, findViewById(R.id.flAd), true);
-//        createAdInter();
+        adView = AdMobManager.INSTANCE.loadBanner(this, BuildConfig.ADMOB_BANNER_ID, findViewById(R.id.flAd), AdSize.BANNER);
+        AdMobManager.INSTANCE.loadInterstitial(this, BuildConfig.ADMOB_INTERSTITIAL_ID);
     }
 
     /**
@@ -134,6 +135,9 @@ public class ActMain extends ActAbstractBaseMain implements AdapterView.OnItemCl
     @Override
     public void onResume() {
         super.onResume();
+        if (adView != null) {
+            adView.resume();
+        }
         setRequestedOrientation(mApp.getScreenOrientation(null));
         if (mPopup != null) mPopup.dismiss();
         mApp.applyApplicationLanguage(this);
@@ -146,10 +150,21 @@ public class ActMain extends ActAbstractBaseMain implements AdapterView.OnItemCl
     }
 
     @Override
+    protected void onPause() {
+        if (adView != null) {
+            adView.pause();
+        }
+        super.onPause();
+    }
+
+    @Override
     protected void onDestroy() {
 //        if (adView != null) {
 //            ApplovinUtils.destroyAdBanner(findViewById(R.id.flAd), adView);
 //        }
+        if (adView != null) {
+            adView.destroy();
+        }
         super.onDestroy();
     }
 
@@ -344,6 +359,7 @@ public class ActMain extends ActAbstractBaseMain implements AdapterView.OnItemCl
             } else {
 //                showAd();
                 mLauncherRecentlyOpen.startActivity();
+                AdMobManager.INSTANCE.showInterstitial(this);
             }
         } else if (id == R.id.actionSave) {
             popupActionSave();
@@ -354,6 +370,7 @@ public class ActMain extends ActAbstractBaseMain implements AdapterView.OnItemCl
         } else if (id == R.id.actionSettings) {
 //            showAd();
             ActSettings.startActivity(this, !FileData.isEmpty(mFileData), mUnDoRedo.isChanged());
+            AdMobManager.INSTANCE.showInterstitial(this);
         } else if (id == R.id.actionUndo) {
             mUnDoRedo.undo();
         } else if (id == R.id.actionRedo) {

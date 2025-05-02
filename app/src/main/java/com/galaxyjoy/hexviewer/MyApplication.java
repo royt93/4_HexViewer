@@ -574,12 +574,12 @@ public class MyApplication extends Application {
             public Unit invoke(Boolean isForeground, Activity activity) {
                 if (isForeground) {
                     Log.d("roy93~", "App moved to Foreground");
-                    Log.d("roy93~", "activity.getClass().getSimpleName() " + activity.getClass().getSimpleName());
-                    Log.d("roy93~", "SplashActivity.class.getSimpleName() " + SplashActivity.class.getSimpleName());
+//                    Log.d("roy93~", "activity.getClass().getSimpleName() " + activity.getClass().getSimpleName());
+//                    Log.d("roy93~", "SplashActivity.class.getSimpleName() " + SplashActivity.class.getSimpleName());
                     if (Objects.equals(activity.getClass().getSimpleName(), SplashActivity.class.getSimpleName())) {
                         //do nothing
                     } else {
-                        AdMobManager.INSTANCE.showAppOpenAd(activity);
+//                        AdMobManager.INSTANCE.showAppOpenAd(activity);
                     }
                 } else {
                     Log.d("roy93~", "App moved to Background");
@@ -590,17 +590,17 @@ public class MyApplication extends Application {
             @Override
             public Unit invoke(Activity activity) {
                 Log.d("roy93~", "callbackActivityCreated");
-                Log.d("roy93~", "activity.getClass().getSimpleName() " + activity.getClass().getSimpleName());
-                Log.d("roy93~", "SplashActivity.class.getSimpleName() " + SplashActivity.class.getSimpleName());
+//                Log.d("roy93~", "activity.getClass().getSimpleName() " + activity.getClass().getSimpleName());
+//                Log.d("roy93~", "SplashActivity.class.getSimpleName() " + SplashActivity.class.getSimpleName());
                 if (Objects.equals(activity.getClass().getSimpleName(), SplashActivity.class.getSimpleName())) {
                     //do nothing
                 } else {
-                    AdMobManager.INSTANCE.loadAppOpenAd(MyApplication.this, BuildConfig.ADMOB_APP_OPEN_ID, new Function0<Unit>() {
-                        @Override
-                        public Unit invoke() {
-                            return null;
-                        }
-                    });
+//                    AdMobManager.INSTANCE.loadAppOpenAd(MyApplication.this, BuildConfig.ADMOB_APP_OPEN_ID, new Function0<Unit>() {
+//                        @Override
+//                        public Unit invoke() {
+//                            return null;
+//                        }
+//                    });
                 }
                 return null;
             }
