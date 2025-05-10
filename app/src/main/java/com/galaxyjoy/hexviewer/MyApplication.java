@@ -18,8 +18,6 @@ import com.galaxyjoy.hexviewer.models.ListSettings;
 import com.galaxyjoy.hexviewer.models.RecentlyOpened;
 import com.galaxyjoy.hexviewer.models.SettingsKeys;
 import com.galaxyjoy.hexviewer.sdkadbmob.AdMobManager;
-import com.galaxyjoy.hexviewer.sdkadbmob.AppLifecycleListener;
-import com.galaxyjoy.hexviewer.ui.act.SplashActivity;
 import com.google.android.gms.ads.MobileAds;
 
 import org.apache.commons.collections4.queue.CircularFifoQueue;
@@ -27,14 +25,11 @@ import org.apache.commons.collections4.queue.CircularFifoQueue;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
-import java.util.Objects;
 import java.util.Queue;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 import kotlin.Unit;
-import kotlin.jvm.functions.Function0;
-import kotlin.jvm.functions.Function1;
 import kotlin.jvm.functions.Function2;
 
 //TODO roy93~ firebase analytic
@@ -569,41 +564,41 @@ public class MyApplication extends Application {
                 }
             });
         }).start();
-        registerActivityLifecycleCallbacks(new AppLifecycleListener(new Function2<Boolean, Activity, Unit>() {
-            @Override
-            public Unit invoke(Boolean isForeground, Activity activity) {
-                if (isForeground) {
-                    Log.d("roy93~", "App moved to Foreground");
-//                    Log.d("roy93~", "activity.getClass().getSimpleName() " + activity.getClass().getSimpleName());
-//                    Log.d("roy93~", "SplashActivity.class.getSimpleName() " + SplashActivity.class.getSimpleName());
-                    if (Objects.equals(activity.getClass().getSimpleName(), SplashActivity.class.getSimpleName())) {
-                        //do nothing
-                    } else {
-//                        AdMobManager.INSTANCE.showAppOpenAd(activity);
-                    }
-                } else {
-                    Log.d("roy93~", "App moved to Background");
-                }
-                return null;
-            }
-        }, new Function1<Activity, Unit>() {
-            @Override
-            public Unit invoke(Activity activity) {
-                Log.d("roy93~", "callbackActivityCreated");
-//                Log.d("roy93~", "activity.getClass().getSimpleName() " + activity.getClass().getSimpleName());
-//                Log.d("roy93~", "SplashActivity.class.getSimpleName() " + SplashActivity.class.getSimpleName());
-                if (Objects.equals(activity.getClass().getSimpleName(), SplashActivity.class.getSimpleName())) {
-                    //do nothing
-                } else {
-//                    AdMobManager.INSTANCE.loadAppOpenAd(MyApplication.this, BuildConfig.ADMOB_APP_OPEN_ID, new Function0<Unit>() {
-//                        @Override
-//                        public Unit invoke() {
-//                            return null;
-//                        }
-//                    });
-                }
-                return null;
-            }
-        }));
+//        registerActivityLifecycleCallbacks(new AppLifecycleListener(new Function2<Boolean, Activity, Unit>() {
+//            @Override
+//            public Unit invoke(Boolean isForeground, Activity activity) {
+//                if (isForeground) {
+//                    Log.d("roy93~", "App moved to Foreground");
+////                    Log.d("roy93~", "activity.getClass().getSimpleName() " + activity.getClass().getSimpleName());
+////                    Log.d("roy93~", "SplashActivity.class.getSimpleName() " + SplashActivity.class.getSimpleName());
+//                    if (Objects.equals(activity.getClass().getSimpleName(), SplashActivity.class.getSimpleName())) {
+//                        //do nothing
+//                    } else {
+////                        AdMobManager.INSTANCE.showAppOpenAd(activity);
+//                    }
+//                } else {
+//                    Log.d("roy93~", "App moved to Background");
+//                }
+//                return null;
+//            }
+//        }, new Function1<Activity, Unit>() {
+//            @Override
+//            public Unit invoke(Activity activity) {
+//                Log.d("roy93~", "callbackActivityCreated");
+////                Log.d("roy93~", "activity.getClass().getSimpleName() " + activity.getClass().getSimpleName());
+////                Log.d("roy93~", "SplashActivity.class.getSimpleName() " + SplashActivity.class.getSimpleName());
+//                if (Objects.equals(activity.getClass().getSimpleName(), SplashActivity.class.getSimpleName())) {
+//                    //do nothing
+//                } else {
+////                    AdMobManager.INSTANCE.loadAppOpenAd(MyApplication.this, BuildConfig.ADMOB_APP_OPEN_ID, new Function0<Unit>() {
+////                        @Override
+////                        public Unit invoke() {
+////                            return null;
+////                        }
+////                    });
+//                }
+//                return null;
+//            }
+//        }));
     }
 }
