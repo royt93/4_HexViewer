@@ -14,11 +14,15 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.galaxyjoy.hexviewer.BaseActivity;
+import com.galaxyjoy.hexviewer.BuildConfig;
 import com.galaxyjoy.hexviewer.MyApplication;
 import com.galaxyjoy.hexviewer.R;
 import com.galaxyjoy.hexviewer.models.FileData;
 import com.galaxyjoy.hexviewer.models.UriData;
+import com.galaxyjoy.hexviewer.sdkadbmob.AdMobManager;
 import com.galaxyjoy.hexviewer.ui.adt.AdtRecentlyOpenRecycler;
+import com.google.android.gms.ads.AdSize;
+import com.google.android.gms.ads.AdView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +32,8 @@ public class ActRecentlyOpen extends BaseActivity implements AdtRecentlyOpenRecy
     public static final String RESULT_START_OFFSET = "startOffset";
     public static final String RESULT_END_OFFSET = "endOffset";
     public static final String RESULT_OLD_TO_STRING = "oldToString";
-//    private MaxAdView adView;
+    //    private MaxAdView adView;
+    private AdView adView = null;
 
     /**
      * Starts an activity.
@@ -86,6 +91,24 @@ public class ActRecentlyOpen extends BaseActivity implements AdtRecentlyOpenRecy
 //                Color.TRANSPARENT,
 //                findViewById(R.id.flAd),
 //                true);
+        adView = AdMobManager.INSTANCE.loadBanner(this, BuildConfig.ADMOB_BANNER_ID, findViewById(R.id.flAd), AdSize.BANNER);
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (adView != null) {
+            adView.resume();
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        if (adView != null) {
+            adView.pause();
+        }
+        super.onPause();
     }
 
     @Override
@@ -93,6 +116,9 @@ public class ActRecentlyOpen extends BaseActivity implements AdtRecentlyOpenRecy
 //        if (adView != null) {
 //            ApplovinUtils.destroyAdBanner(findViewById(R.id.flAd), adView);
 //        }
+        if (adView != null) {
+            adView.destroy();
+        }
         super.onDestroy();
     }
 
