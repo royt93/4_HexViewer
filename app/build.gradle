@@ -5,13 +5,13 @@ plugins {
 
 android {
     namespace 'com.galaxyjoy.hexviewer'
-    compileSdk 35
+    compileSdk 36
     defaultConfig {
         //fr.ralala.hexviewer
         applicationId "com.galaxyjoy.hexviewer"
         minSdk 23
         //noinspection EditedTargetSdkVersion
-        targetSdk 35
+        targetSdk 36
         versionCode 20250526
         versionName '2025.05.26'
         vectorDrawables {
