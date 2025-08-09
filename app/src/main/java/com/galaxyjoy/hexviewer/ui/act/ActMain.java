@@ -51,6 +51,9 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.ByteArrayOutputStream;
 
+import kotlin.Unit;
+import kotlin.jvm.functions.Function1;
+
 public class ActMain extends ActAbstractBaseMain implements AdapterView.OnItemClickListener, TaskOpen.OpenResultListener, TaskSave.SaveResultListener, AdMobManager.InterstitialAdListener {
     private FileData mFileData = null;
     private ConstraintLayout mIdleView = null;
@@ -131,7 +134,12 @@ public class ActMain extends ActAbstractBaseMain implements AdapterView.OnItemCl
 
         if (savedInstanceState == null) handleIntent(getIntent());
 
-        adView = AdMobManager.INSTANCE.loadBanner(this, BuildConfig.ADMOB_BANNER_ID, findViewById(R.id.flAd), AdSize.BANNER);
+        adView = AdMobManager.INSTANCE.loadBanner(this,
+                BuildConfig.ADMOB_BANNER_ID,
+                findViewById(R.id.bannerContainer),
+                findViewById(R.id.tvLabelAd),
+                AdSize.LARGE_BANNER
+        );
         AdMobManager.INSTANCE.loadInterstitial(this, BuildConfig.ADMOB_INTERSTITIAL_ID);
     }
 
@@ -364,8 +372,13 @@ public class ActMain extends ActAbstractBaseMain implements AdapterView.OnItemCl
                 UIHelper.toast(this, getString(R.string.no_data_available));
             } else {
 //                showAd();
-                mLauncherRecentlyOpen.startActivity();
-                AdMobManager.INSTANCE.showInterstitial(this);
+                AdMobManager.INSTANCE.showInterstitial(this, new Function1<Boolean, Unit>() {
+                    @Override
+                    public Unit invoke(Boolean aBoolean) {
+                        mLauncherRecentlyOpen.startActivity();
+                        return null;
+                    }
+                });
             }
         } else if (id == R.id.actionSave) {
             popupActionSave();
@@ -375,8 +388,13 @@ public class ActMain extends ActAbstractBaseMain implements AdapterView.OnItemCl
             popupActionClose();
         } else if (id == R.id.actionSettings) {
 //            showAd();
-            ActSettings.startActivity(this, !FileData.isEmpty(mFileData), mUnDoRedo.isChanged());
-            AdMobManager.INSTANCE.showInterstitial(this);
+            AdMobManager.INSTANCE.showInterstitial(this, new Function1<Boolean, Unit>() {
+                @Override
+                public Unit invoke(Boolean aBoolean) {
+                    ActSettings.startActivity(ActMain.this, !FileData.isEmpty(mFileData), mUnDoRedo.isChanged());
+                    return null;
+                }
+            });
         } else if (id == R.id.actionUndo) {
             mUnDoRedo.undo();
         } else if (id == R.id.actionRedo) {

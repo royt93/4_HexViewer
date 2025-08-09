@@ -91,7 +91,12 @@ public class ActRecentlyOpen extends BaseActivity implements AdtRecentlyOpenRecy
 //                Color.TRANSPARENT,
 //                findViewById(R.id.flAd),
 //                true);
-        adView = AdMobManager.INSTANCE.loadBanner(this, BuildConfig.ADMOB_BANNER_ID, findViewById(R.id.flAd), AdSize.BANNER);
+        adView = AdMobManager.INSTANCE.loadBanner(this,
+                BuildConfig.ADMOB_BANNER_ID,
+                findViewById(R.id.bannerContainer),
+                findViewById(R.id.tvLabelAd),
+                AdSize.LARGE_BANNER
+        );
 
     }
 
