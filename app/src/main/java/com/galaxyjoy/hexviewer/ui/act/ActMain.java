@@ -138,7 +138,7 @@ public class ActMain extends ActAbstractBaseMain implements AdapterView.OnItemCl
                 BuildConfig.ADMOB_BANNER_ID,
                 findViewById(R.id.bannerContainer),
                 findViewById(R.id.tvLabelAd),
-                AdSize.LARGE_BANNER
+                AdSize.FULL_BANNER
         );
         AdMobManager.INSTANCE.loadInterstitial(this, BuildConfig.ADMOB_INTERSTITIAL_ID);
     }
