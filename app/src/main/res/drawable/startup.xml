@@ -11,10 +11,10 @@
         </shape>
     </item>
 
-<!--    <item-->
-<!--        android:width="220sp"-->
-<!--        android:height="220sp"-->
-<!--        android:drawable="@drawable/heart"-->
-<!--        android:gravity="center"-->
-<!--        tools:ignore="UnusedAttribute" />-->
+    <item
+        android:width="220sp"
+        android:height="220sp"
+        android:drawable="@drawable/heart"
+        android:gravity="center"
+        tools:ignore="UnusedAttribute" />
 </layer-list>
