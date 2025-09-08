@@ -1,3 +1,65 @@
+# Android Hex Viewer (Fork)
+
+This project is a **fork** of [HexViewer](https://github.com/keidan/HexViewer),  
+an open-source Android application for viewing and editing files in hexadecimal and plain text.
+
+The original project is licensed under the **GNU General Public License v3.0 or later (GPLv3+).**
+
+---
+
+## 📌 About This Fork
+
+This fork is based on the original HexViewer project created by [keidan](https://github.com/keidan).  
+The purpose of this fork is to continue development, apply fixes, and add new features.
+
+### Modifications in this fork:
+- UI improvements, bug fixes, performance optimizations
+- Integrated LeakCanary for memory leak detection
+- Added ProGuard configuration
+- Updated launcher icon
+- Added features: **Rate app**, **More apps**, **Share app**
+- Enabled adaptive **120Hz refresh rate** support
+- Fixed font scaling issues
+- Added splash screen
+- Added animations and decorative Lottie effects
+- Fixed edge-to-edge rendering
+- Support for **Android API 35**
+- And many other bug fixes & improvements
+
+---
+
+## 👥 Credits & Attribution
+
+- Original author: [keidan](https://github.com/keidan)
+- Original project: [HexViewer](https://github.com/keidan/HexViewer)
+- Contributors: See the original repository for the full contributor list.
+- Additional modifications by: **Roy**
+
+---
+
+## 📜 License
+
+This project is licensed under the terms of the  
+[GNU General Public License v3.0 or later](https://www.gnu.org/licenses/gpl-3.0.html).
+
+You are free to use, modify, and redistribute this software under the same license.
+---
+
+## 🔗 Source Code for Play Store Release
+
+The source code corresponding to the version published on the Google Play Store is available here:  
+👉 [https://github.com/royt93/4_HexViewer](https://github.com/royt93/4_HexViewer)
+
+---
+
+## 📱 Original Project Screenshots & Features
+
+For detailed features, documentation, and original screenshots, please refer to the  
+[upstream HexViewer repository](https://github.com/keidan/HexViewer).
+
+
+
+
 # HexViewer
 [![Build Status](https://github.com/Keidan/HexViewer/actions/workflows/build.yml/badge.svg)][build]
 [![Release](https://img.shields.io/github/v/release/Keidan/HexViewer.svg?logo=github)][releases]
