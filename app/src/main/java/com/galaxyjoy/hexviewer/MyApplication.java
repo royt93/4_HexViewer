@@ -1,3 +1,12 @@
+/**
+ *******************************************************************************
+ * <p><b>Project HexViewer</b><br/>
+ * Main application context
+ * </p>
+ * @author Keidan
+ *
+ *******************************************************************************
+ */
 package com.galaxyjoy.hexviewer;
 
 import android.app.Activity;

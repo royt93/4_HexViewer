@@ -1,3 +1,16 @@
+/**
+ * ******************************************************************************
+ * <p><b>Project HexViewer</b><br/>
+ * Random access file channel.
+ * See https://stackoverflow.com/questions/28698199/how-to-get-random-access-to-a-file-on-sd-card-by-means-of-api-presented-for-loll/28805474#28805474
+ * </p>
+ *
+ * @author Keidan
+ * <p>
+ * License: GPLv3
+ * </p>
+ * ******************************************************************************
+ */
 package com.galaxyjoy.hexviewer.util.io;
 
 import android.content.ContentResolver;

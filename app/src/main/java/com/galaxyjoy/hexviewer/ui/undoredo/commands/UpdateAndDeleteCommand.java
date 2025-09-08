@@ -1,3 +1,15 @@
+/**
+ * ******************************************************************************
+ * <p><b>Project HexViewer</b><br/>
+ * Command used when updating and deleting (2 in one) an entry.
+ * </p>
+ *
+ * @author Keidan
+ * <p>
+ * License: GPLv3
+ * </p>
+ * ******************************************************************************
+ */
 package com.galaxyjoy.hexviewer.ui.undoredo.commands;
 
 import android.util.Log;

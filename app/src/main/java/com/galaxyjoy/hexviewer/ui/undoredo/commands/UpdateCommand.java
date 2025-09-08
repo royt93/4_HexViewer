@@ -1,3 +1,13 @@
+/**
+ * ******************************************************************************
+ * <p><b>Project HexViewer</b><br/>
+ * Command used when updating an entry.
+ * </p>
+ *
+ * @author Keidan
+ * <p>
+ * ******************************************************************************
+ */
 package com.galaxyjoy.hexviewer.ui.undoredo.commands;
 
 import android.util.Log;

@@ -1,3 +1,11 @@
+/**
+ *******************************************************************************
+ * <p><b>Project HexViewer</b><br/>
+ * </p>
+ * @author Keidan
+ *
+ *******************************************************************************
+ */
 package com.galaxyjoy.hexviewer.ui.undoredo.commands;
 
 import android.util.Log;

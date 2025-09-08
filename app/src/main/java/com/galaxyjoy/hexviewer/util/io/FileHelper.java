@@ -1,3 +1,13 @@
+/**
+ * ******************************************************************************
+ * <p><b>Project HexViewer</b><br/>
+ * File functions.
+ * </p>
+ *
+ * @author Keidan
+ * <p>
+ * ******************************************************************************
+ */
 package com.galaxyjoy.hexviewer.util.io;
 
 import android.content.ContentResolver;

@@ -1,3 +1,13 @@
+/**
+ * ******************************************************************************
+ * <p><b>Project HexViewer</b><br/>
+ * Undo Redo Manager
+ * </p>
+ *
+ * @author Keidan
+ * <p>
+ * ******************************************************************************
+ */
 package com.galaxyjoy.hexviewer.ui.undoredo;
 
 import android.widget.FrameLayout;
