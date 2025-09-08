@@ -2,8 +2,6 @@
 [![Build Status](https://github.com/Keidan/HexViewer/actions/workflows/build.yml/badge.svg)][build]
 [![Release](https://img.shields.io/github/v/release/Keidan/HexViewer.svg?logo=github)][releases]
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)][license]
-[![Tests](https://keidan.testspace.com/spaces/154614/badge?token=1703ccc98e9b749c34f17b691e15d58ce0789f38)][tests]
-[![Issues](https://keidan.testspace.com/spaces/154614/metrics/192721/badge?token=5f710af9a9e6285910122d933e899b47c31eeb22)][issues]
 [![Weblate](https://hosted.weblate.org/widgets/hexviewer/-/svg-badge.svg)][weblate]
 [![Bugs](https://sonarcloud.io/api/project_badges/measure?project=Keidan_HexViewer&metric=bugs)][sonarcloud]
 [![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=Keidan_HexViewer&metric=code_smells)][sonarcloud]
@@ -38,6 +36,9 @@ _Caution: Opening files that are too large seriously degrades application perfor
 
 **WARNING:** This application cannot open files larger than ~20 MB on recent smartphones and less for older smartphones.
 
+**WARNING:** Searching within the plain text view may become excessively slow when handling large files.
+
+
 :star2: A special thanks to [@OmlineEditor](https://github.com/OmlineEditor) for her patience and help :pray:, without her this application would not be at this level :blush:.
 
 ## Instructions
@@ -68,29 +69,38 @@ Translations can be provided via [Weblate][weblate].
 Note: In the settings, the list of languages is sorted as follows (according to the alphabetical order of their codes):
 | Code | Language | Contributors |
 | ---- | -------- | ------------ |
-| ar | Arabic | [@sec.xyx](https://hosted.weblate.org/user/sec.xyx/) |
+| ar | Arabic | [@sec.xyx](https://hosted.weblate.org/user/sec.xyx/), [@amro](https://hosted.weblate.org/user/amro/) |
+| cs | Czech | [@hajdam](https://github.com/hajdam) |
 | de-DE | German | [@iNtEgraIR2021](https://github.com/iNtEgraIR2021), [@eUgEntOptIc44](https://github.com/eUgEntOptIc44), (+DeepL) |
 | en-US | English | [@Keidan](https://github.com/Keidan), [@comradekingu](https://github.com/comradekingu) |
-| es-ES | Spanish | [@sguinetti](https://github.com/sguinetti), [@gallegonovato](https://hosted.weblate.org/user/gallegonovato/), (+DeepL) |
+| es-ES | Spanish | [@sguinetti](https://github.com/sguinetti), @gallegonovato (from weblate), (+DeepL) |
+| fa | Persian | [@qaria185-blip](https://github.com/qaria185-blip) |
 | fr-FR | French | [@Keidan](https://github.com/Keidan), [@Edanas](https://hosted.weblate.org/user/Edanas/) |
-| hi | Hindi | [@Shopimisrel](https://github.com/Scrambled777) |
+| hi | Hindi | @Shopimisrel (from github) |
 | hu-HU | Hungarian | [@SziaTomi](https://github.com/SziaTomi) |
-| in-ID | Indonesian | [@Velorixen](https://github.com/Velorixen) |
+| in-ID | Indonesian | @Velorixen (from github) |
 | it-IT | Italian | [@eUgEntOptIc44](https://github.com/eUgEntOptIc44) |
-| iw | Hebrew | [@Shopimisrel](https://github.com/Shopimisrel) |
+| iw | Hebrew | @Shopimisrel (from github) |
 | ja-JP | Japanese | [@gnuhead-chieb](https://github.com/gnuhead-chieb) |
 | nb-NO | Norwegian Bokmål | [@comradekingu](https://github.com/comradekingu) |
 | nl-NL | Dutch (Nederlands) | [@AudeBelgraver](https://hosted.weblate.org/user/AudeBelgraver/) |
-| pt-BR | Portuguese (Brazil) | [@Bardock88](https://github.com/Bardock88), [@pedrolinharesmoreira](https://github.com/pedrolinharesmoreira) |
+| pt-BR | Portuguese (Brazil) | [@Bardock88](https://github.com/Bardock88), @pedrolinharesmoreira (from github) |
 | pt-PT | Portuguese | [@SantosSi](https://github.com/SantosSi) |
 | ru-RU | Russian | [@OmlineEditor](https://github.com/OmlineEditor), [@AHOHNMYC](https://github.com/AHOHNMYC), [@racingrebel](https://github.com/racingrebel), [@Usland123](https://github.com/Usland123) |
-| tr-TR | Turkish | [@ersen0](https://github.com/ersen0) |
+| ta-IN | Tamil | [@TamilNeram](https://github.com/TamilNeram) |
+| tr-TR | Turkish | @ersen0 (from github) |
 | vi-VN | Vietnamese | [@unbiaseduser](https://github.com/unbiaseduser) |
-| zh-CN | Chinese | [@sr093906](https://github.com/sr093906), [@alchemillatruth](https://hosted.weblate.org/user/alchemillatruth/), [@hamburger1024](https://hosted.weblate.org/user/hamburger1024/) |
+| zh-CN | Chinese | [@sr093906](https://github.com/sr093906), @alchemillatruth (from weblate), @hamburger1024 (from weblate), [@inworless](https://github.com/inworless), [@hamburger2048](https://hosted.weblate.org/user/hamburger2048/) |
 
 The current status of the translations is as follows:
 
 [![Weblate](https://hosted.weblate.org/widgets/hexviewer/-/strings/multi-auto.svg)][weblate]
+
+## Contributors
+
+Thanks to all the people who make this project possible :purple_heart:
+
+[See the full list][contributors]
 
 ## Screenshots
 <p align="center"><img src="fastlane/metadata/android/en-US/images/phoneScreenshots/1.jpg" width="270px" height="600px" alt="Home screen"></p>
@@ -107,7 +117,6 @@ The current status of the translations is as follows:
 [build]: https://github.com/Keidan/HexViewer/actions
 [releases]: https://github.com/Keidan/HexViewer/releases
 [license]: https://github.com/Keidan/HexViewer/blob/master/license.txt
-[tests]: https://keidan.testspace.com/spaces/154614?utm_campaign=badge&utm_medium=referral&utm_source=test
-[issues]: https://keidan.testspace.com/spaces/154614/current/Issues?utm_campaign=badge&utm_medium=referral&utm_source=issues
 [weblate]: https://hosted.weblate.org/engage/hexviewer/
 [sonarcloud]: https://sonarcloud.io/summary/new_code?id=Keidan_HexViewer
+[contributors]: https://github.com/Keidan/HexViewer/blob/master/CONTRIBUTORS.md
