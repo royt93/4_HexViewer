@@ -1,3 +1,15 @@
+/**
+ * ******************************************************************************
+ * <p><b>Project HexViewer</b><br/>
+ * Helper for the hex list view.
+ * </p>
+ *
+ * @author Keidan
+ *
+ * License: GPLv3
+ * <p>
+ * ******************************************************************************
+ */
 package com.galaxyjoy.hexviewer.ui.payload;
 
 import android.view.View;

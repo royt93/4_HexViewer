@@ -1,3 +1,15 @@
+/**
+ * ******************************************************************************
+ * <p><b>Project HexViewer</b><br/>
+ * PopupWindow used with MainActivity.
+ * </p>
+ *
+ * @author Keidan
+ *
+ * License: GPLv3
+ * <p>
+ * ******************************************************************************
+ */
 package com.galaxyjoy.hexviewer.ui.popup;
 
 import android.annotation.SuppressLint;

@@ -1,3 +1,12 @@
+/**
+ *******************************************************************************
+ * <p><b>Project HexViewer</b><br/>
+ * Generic task with progress.
+ * </p>
+ * @author Keidan
+ *
+ *******************************************************************************
+ */
 package com.galaxyjoy.hexviewer.ui.task;
 
 import android.app.Activity;

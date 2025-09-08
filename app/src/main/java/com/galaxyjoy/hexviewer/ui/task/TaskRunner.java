@@ -1,3 +1,15 @@
+/**
+ * ******************************************************************************
+ * <p><b>Project HexViewer</b><br/>
+ * Task runner
+ * </p>
+ *
+ * @author Keidan
+ * <p>
+ * License: GPLv3
+ * <p>
+ * ******************************************************************************
+ */
 package com.galaxyjoy.hexviewer.ui.task;
 
 import android.os.Handler;

@@ -1,3 +1,15 @@
+/**
+ * ******************************************************************************
+ * <p><b>Project HexViewer</b><br/>
+ * As the checkbox used in the popup menu is quite particular, this class avoids burdening the code of the MainActivity class.
+ * </p>
+ *
+ * @author Keidan
+ *
+ * License: GPLv3
+ * <p>
+ * ******************************************************************************
+ */
 package com.galaxyjoy.hexviewer.ui.popup;
 
 import android.view.View;

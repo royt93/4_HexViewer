@@ -1,3 +1,15 @@
+/**
+ * ******************************************************************************
+ * <p><b>Project HexViewer</b><br/>
+ * Task runner callback
+ * </p>
+ *
+ * @author Keidan
+ * <p>
+ * License: GPLv3
+ * <p>
+ * ******************************************************************************
+ */
 package com.galaxyjoy.hexviewer.ui.task;
 
 import androidx.annotation.Nullable;
