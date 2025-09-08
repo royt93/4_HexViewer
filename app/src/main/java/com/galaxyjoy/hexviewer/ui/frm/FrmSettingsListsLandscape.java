@@ -1,3 +1,14 @@
+/**
+ * ******************************************************************************
+ * <p><b>Project HexViewer</b><br/>
+ * </p>
+ *
+ * @author Keidan
+ * <p>
+ * License: GPLv3
+ * </p>
+ * ******************************************************************************
+ */
 package com.galaxyjoy.hexviewer.ui.frm;
 
 import android.os.Bundle;
