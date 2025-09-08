@@ -1,3 +1,13 @@
+/**
+ * ******************************************************************************
+ * <p><b>Project HexViewer</b><br/>
+ * Line entry.
+ * </p>
+ *
+ * @author Keidan
+ * <p>
+ * ******************************************************************************
+ */
 package com.galaxyjoy.hexviewer.models;
 
 import java.util.ArrayList;

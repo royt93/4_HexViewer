@@ -103,13 +103,13 @@ Thanks to all the people who make this project possible :purple_heart:
 [See the full list][contributors]
 
 ## Screenshots
-<p align="center"><img src="https://github.com/Keidan/HexViewer/tree/master/fastlane/metadata/android/en-US/images/phoneScreenshots/1.jpg" width="270px" height="600px" alt="Home screen"></p>
-<p align="center"><img src="https://github.com/Keidan/HexViewer/tree/master/fastlane/metadata/android/en-US/images/phoneScreenshots/2.jpg" width="270px" height="600px" alt="Home screen menu"></p>
-<p align="center"><img src="https://github.com/Keidan/HexViewer/tree/master/fastlane/metadata/android/en-US/images/phoneScreenshots/4.jpg" width="270px" height="600px" alt="Hex display update"></p>
-<p align="center"><img src="https://github.com/Keidan/HexViewer/tree/master/fastlane/metadata/android/en-US/images/phoneScreenshots/5.jpg" width="270px" height="600px" alt="Hex display update & line numbers portrait"></p>
-<p align="center"><img src="https://github.com/Keidan/HexViewer/tree/master/fastlane/metadata/android/en-US/images/phoneScreenshots/6.jpg" width="600px" height="270px" alt="Hex display update & ine numbers landscape"></p>
-<p align="center"><img src="https://github.com/Keidan/HexViewer/tree/master/fastlane/metadata/android/en-US/images/phoneScreenshots/8.jpg" width="270px" height="600px" alt="Update mode"></p>
-<p align="center"><img src="https://github.com/Keidan/HexViewer/tree/master/fastlane/metadata/android/en-US/images/phoneScreenshots/9.jpg" width="270px" height="600px" alt="Plain display"></p>
+<p align="center"><img src="https://raw.githubusercontent.com/Keidan/HexViewer/refs/heads/master/fastlane/metadata/android/en-US/images/phoneScreenshots/1.jpg" width="270px" height="600px" alt="Home screen"></p>
+<p align="center"><img src="https://raw.githubusercontent.com/Keidan/HexViewer/refs/heads/master/fastlane/metadata/android/en-US/images/phoneScreenshots/2.jpg" width="270px" height="600px" alt="Home screen menu"></p>
+<p align="center"><img src="https://raw.githubusercontent.com/Keidan/HexViewer/refs/heads/master/fastlane/metadata/android/en-US/images/phoneScreenshots/4.jpg" width="270px" height="600px" alt="Hex display update"></p>
+<p align="center"><img src="https://raw.githubusercontent.com/Keidan/HexViewer/refs/heads/master/fastlane/metadata/android/en-US/images/phoneScreenshots/5.jpg" width="270px" height="600px" alt="Hex display update & line numbers portrait"></p>
+<p align="center"><img src="https://raw.githubusercontent.com/Keidan/HexViewer/refs/heads/master/fastlane/metadata/android/en-US/images/phoneScreenshots/6.jpg" width="600px" height="270px" alt="Hex display update & ine numbers landscape"></p>
+<p align="center"><img src="https://raw.githubusercontent.com/Keidan/HexViewer/refs/heads/master/fastlane/metadata/android/en-US/images/phoneScreenshots/8.jpg" width="270px" height="600px" alt="Update mode"></p>
+<p align="center"><img src="https://raw.githubusercontent.com/Keidan/HexViewer/refs/heads/master/fastlane/metadata/android/en-US/images/phoneScreenshots/9.jpg" width="270px" height="600px" alt="Plain display"></p>
 
 ## License
 [GNU GPL v3 or later](https://github.com/Keidan/HexViewer/blob/master/license.txt)

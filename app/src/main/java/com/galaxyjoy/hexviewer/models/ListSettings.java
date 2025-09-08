@@ -1,3 +1,15 @@
+/**
+ * ******************************************************************************
+ * <p><b>Project HexViewer</b><br/>
+ * List settings
+ * </p>
+ *
+ * @author Keidan
+ *
+ * License: GPLv3
+ * <p>
+ * ******************************************************************************
+ */
 package com.galaxyjoy.hexviewer.models;
 
 import android.content.SharedPreferences;

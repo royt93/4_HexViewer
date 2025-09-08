@@ -1,3 +1,15 @@
+/**
+ * ******************************************************************************
+ * <p><b>Project HexViewer</b><br/>
+ * Settings keys
+ * </p>
+ *
+ * @author Keidan
+ * <p>
+ * License: GPLv3
+ * </p>
+ * ******************************************************************************
+ */
 package com.galaxyjoy.hexviewer.models;
 
 public final class SettingsKeys {

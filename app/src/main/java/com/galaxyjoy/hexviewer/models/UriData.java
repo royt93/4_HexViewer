@@ -1,3 +1,15 @@
+/**
+ * ******************************************************************************
+ * <p><b>Project HexViewer</b><br/>
+ * Uri data representation (used by RecentlyOpenRecyclerAdapter)
+ * </p>
+ *
+ * @author Keidan
+ * <p>
+ * License: GPLv3
+ * </p>
+ * ******************************************************************************
+ */
 package com.galaxyjoy.hexviewer.models;
 
 import android.content.Context;

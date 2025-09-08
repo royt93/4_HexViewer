@@ -1,3 +1,13 @@
+/**
+ * ******************************************************************************
+ * <p><b>Project HexViewer</b><br/>
+ * File data representation (used by MainActivity)
+ * </p>
+ *
+ * @author Keidan
+ * <p>
+ * ******************************************************************************
+ */
 package com.galaxyjoy.hexviewer.models;
 
 import android.content.Context;
