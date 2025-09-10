@@ -23,6 +23,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.galaxyjoy.hexviewer.BuildConfig;
 import com.galaxyjoy.hexviewer.R;
 import com.galaxyjoy.hexviewer.sdkadbmob.AdMobManager;
+import com.galaxyjoy.hexviewer.sdkadbmob.UIUtils;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -36,7 +37,9 @@ public class SplashActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        UIUtils.INSTANCE.setupEdgeToEdge1(getWindow());
         setContentView(R.layout.activity_splash);
+        UIUtils.INSTANCE.setupEdgeToEdge2(findViewById(R.id.layoutRoot));
         checkShowAd();
     }
 
