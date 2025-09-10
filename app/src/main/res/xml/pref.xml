@@ -88,6 +88,10 @@
             android:summary="@string/settings_pref_summary_license"
             android:title="@string/settings_pref_title_license"
             app:iconSpaceReserved="false" />
+<!--        <androidx.preference.Preference-->
+<!--            android:key="openSourceLicensesPage"-->
+<!--            android:title="@string/open_source_licenses_page"-->
+<!--            app:iconSpaceReserved="false" />-->
         <androidx.preference.Preference
             android:enabled="false"
             android:key=""

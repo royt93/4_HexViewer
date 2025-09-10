@@ -33,13 +33,15 @@ import com.galaxyjoy.hexviewer.ui.act.setting.ActSettings;
 import com.galaxyjoy.hexviewer.ui.act.setting.ActSettingsListsLandscape;
 import com.galaxyjoy.hexviewer.ui.act.setting.ActSettingsListsPortraitAct;
 import com.galaxyjoy.hexviewer.ui.util.UIHelper;
+//import com.google.android.gms.oss.licenses.OssLicensesMenuActivity;
 
 public class FrmSettings extends FrmAbstractSettings implements Preference.OnPreferenceClickListener, Preference.OnPreferenceChangeListener {
-//    private static final String GITHUB_URL = "https://github.com/Keidan/HexViewer";
+    //    private static final String GITHUB_URL = "https://github.com/Keidan/HexViewer";
     private static final String GITHUB_LIC_URL = "https://github.com/royt93/4_HexViewer/blob/dev/license.txt";
     protected Preference mSettingsListsPortrait;
     protected Preference mSettingsListsLandscape;
     protected Preference mLicense;
+//    protected Preference mOpenSourceLicensesPage;
     protected Preference mVersion;
     private Preference mRestoreDefault;
     //    private Preference mLogs;
@@ -71,6 +73,7 @@ public class FrmSettings extends FrmAbstractSettings implements Preference.OnPre
         mSettingsListsPortrait = findPreference(SettingsKeys.CFG_LISTS_PORTRAIT);
         mSettingsListsLandscape = findPreference(SettingsKeys.CFG_LISTS_LANDSCAPE);
         mLicense = findPreference(SettingsKeys.CFG_LICENSE);
+//        mOpenSourceLicensesPage = findPreference(SettingsKeys.CFG_OPEN_SOURCE_LICENSES_PAGE);
         mVersion = findPreference(SettingsKeys.CFG_VERSION);
         mLanguage = findPreference(SettingsKeys.CFG_LANGUAGE);
         mScreenOrientation = findPreference(SettingsKeys.CFG_SCREEN_ORIENTATION);
@@ -81,6 +84,7 @@ public class FrmSettings extends FrmAbstractSettings implements Preference.OnPre
         mSettingsListsPortrait.setOnPreferenceClickListener(this);
         mSettingsListsLandscape.setOnPreferenceClickListener(this);
         mLicense.setOnPreferenceClickListener(this);
+//        mOpenSourceLicensesPage.setOnPreferenceClickListener(this);
         mVersion.setOnPreferenceClickListener(this);
         mLanguage.setOnPreferenceChangeListener(this);
         mScreenOrientation.setOnPreferenceChangeListener(this);
@@ -139,7 +143,11 @@ public class FrmSettings extends FrmAbstractSettings implements Preference.OnPre
         if (preference.equals(mLicense)) {
             Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(GITHUB_LIC_URL));
             startActivity(browserIntent);
-        } else if (preference.equals(mVersion)) {
+        }
+//        else if (preference.equals(mOpenSourceLicensesPage)) {
+//            startActivity(new Intent(getActivity(), OssLicensesMenuActivity.class));
+//        }
+        else if (preference.equals(mVersion)) {
             //do nothing
 //            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(GITHUB_URL));
 //            startActivity(browserIntent);

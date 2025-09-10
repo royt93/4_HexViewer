@@ -47,6 +47,7 @@ public final class SettingsKeys {
     public static final String CFG_RECENTLY_OPEN = "recentlyOpen";
     public static final String CFG_VERSION = "version";
     public static final String CFG_LICENSE = "license";
+    public static final String CFG_OPEN_SOURCE_LICENSES_PAGE = "openSourceLicensesPage";
     public static final String CFG_LANGUAGE = "language";
     public static final String CFG_RESTORE_DEFAULT = "restoreDefault";
 //    public static final String CFG_LOGS = "logs";
