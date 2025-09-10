@@ -18,6 +18,7 @@ import androidx.appcompat.app.ActionBar;
 
 import com.galaxyjoy.hexviewer.BaseActivity;
 import com.galaxyjoy.hexviewer.R;
+import com.galaxyjoy.hexviewer.sdkadbmob.UIUtils;
 import com.galaxyjoy.hexviewer.ui.frm.FrmAbstractSettings;
 
 public abstract class ActAbstractSettings extends BaseActivity {
@@ -37,9 +38,9 @@ public abstract class ActAbstractSettings extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        UIUtils.INSTANCE.setupEdgeToEdge1(getWindow());
         setContentView(R.layout.act_settings);
-
+        UIUtils.INSTANCE.setupEdgeToEdge2(findViewById(R.id.layoutRoot));
         //If you want to insert data in your settings
         FrmAbstractSettings prefs = onUserCreate();
 
