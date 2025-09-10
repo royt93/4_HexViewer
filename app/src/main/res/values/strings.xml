@@ -170,7 +170,7 @@
     <string name="rate_app">Rate app</string>
     <string name="more_apps">More apps</string>
     <string name="share_this_app">Share this app</string>
-    <string name="source_code_original">Source code (Original)</string>
+    <string name="source_code_original">Source code (Original version)</string>
     <string name="source_code_forked_version">Source code (forked version)</string>
     <string name="version">Version</string>
     <string name="no_data_available">No data available</string>
