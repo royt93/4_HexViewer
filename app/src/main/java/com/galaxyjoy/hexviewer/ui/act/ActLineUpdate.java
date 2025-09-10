@@ -33,6 +33,7 @@ import com.galaxyjoy.hexviewer.BaseActivity;
 import com.galaxyjoy.hexviewer.MyApplication;
 import com.galaxyjoy.hexviewer.R;
 import com.galaxyjoy.hexviewer.models.LineEntry;
+import com.galaxyjoy.hexviewer.sdkadbmob.UIUtils;
 import com.galaxyjoy.hexviewer.ui.adt.AdtLineUpdateHexArray;
 import com.galaxyjoy.hexviewer.ui.adt.holder.LineNumbersTitle;
 import com.galaxyjoy.hexviewer.ui.util.LineUpdateTextWatcher;
@@ -87,7 +88,9 @@ public class ActLineUpdate extends BaseActivity implements View.OnClickListener 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        UIUtils.INSTANCE.setupEdgeToEdge1(getWindow());
         setContentView(R.layout.act_line_update);
+        UIUtils.INSTANCE.setupEdgeToEdge2(findViewById(R.id.layoutRoot));
         mApp = (MyApplication) getApplicationContext();
         setupViews();
     }

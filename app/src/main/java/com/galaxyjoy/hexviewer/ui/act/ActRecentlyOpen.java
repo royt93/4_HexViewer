@@ -31,6 +31,7 @@ import com.galaxyjoy.hexviewer.R;
 import com.galaxyjoy.hexviewer.models.FileData;
 import com.galaxyjoy.hexviewer.models.UriData;
 import com.galaxyjoy.hexviewer.sdkadbmob.AdMobManager;
+import com.galaxyjoy.hexviewer.sdkadbmob.UIUtils;
 import com.galaxyjoy.hexviewer.ui.adt.AdtRecentlyOpenRecycler;
 import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
@@ -66,8 +67,9 @@ public class ActRecentlyOpen extends BaseActivity implements AdtRecentlyOpenRecy
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        UIUtils.INSTANCE.setupEdgeToEdge1(getWindow());
         setContentView(R.layout.act_recently_open);
+        UIUtils.INSTANCE.setupEdgeToEdge2(findViewById(R.id.layoutRoot));
         mApp = (MyApplication) getApplicationContext();
         setupViews();
     }
