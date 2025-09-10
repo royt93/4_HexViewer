@@ -15,16 +15,16 @@
         android:padding="1dp"
         tools:ignore="UselessParent">
 
+        <include
+            android:id="@+id/layoutAdBanner"
+            layout="@layout/layout_ad_banner" />
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
             android:padding="1dp" />
-
-        <include
-            android:id="@+id/layoutAdBanner"
-            layout="@layout/layout_ad_banner" />
     </LinearLayout>
 
 </FrameLayout>

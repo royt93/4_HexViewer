@@ -14,8 +14,11 @@ package com.galaxyjoy.hexviewer.ui.act;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.graphics.Rect;
 import android.os.Bundle;
+import android.util.TypedValue;
 import android.view.MenuItem;
+import android.view.View;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.annotation.NonNull;
@@ -69,7 +72,7 @@ public class ActRecentlyOpen extends BaseActivity implements AdtRecentlyOpenRecy
         super.onCreate(savedInstanceState);
         UIUtils.INSTANCE.setupEdgeToEdge1(getWindow());
         setContentView(R.layout.act_recently_open);
-        UIUtils.INSTANCE.setupEdgeToEdge2(findViewById(R.id.layoutRoot), true, true);
+        UIUtils.INSTANCE.setupEdgeToEdge2(findViewById(R.id.layoutRoot), true, false);
         mApp = (MyApplication) getApplicationContext();
         setupViews();
     }
@@ -94,6 +97,23 @@ public class ActRecentlyOpen extends BaseActivity implements AdtRecentlyOpenRecy
         AdtRecentlyOpenRecycler adapter = new AdtRecentlyOpenRecycler(this, list, this);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.addItemDecoration(new RecyclerView.ItemDecoration() {
+            @Override
+            public void getItemOffsets(@NonNull Rect outRect,
+                                       @NonNull View view,
+                                       @NonNull RecyclerView parent,
+                                       @NonNull RecyclerView.State state) {
+                int position = parent.getChildAdapterPosition(view);
+                if (parent.getAdapter() != null && position == parent.getAdapter().getItemCount() - 1) {
+                    outRect.bottom = (int) TypedValue.applyDimension(
+                            TypedValue.COMPLEX_UNIT_DIP,
+                            128,
+                            parent.getResources().getDisplayMetrics()
+                    );
+                }
+            }
+        });
+
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(adapter.getSwipeToDeleteCallback());
         itemTouchHelper.attachToRecyclerView(recyclerView);
 
