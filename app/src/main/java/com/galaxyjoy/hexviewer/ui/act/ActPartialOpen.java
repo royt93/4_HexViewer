@@ -40,6 +40,7 @@ import com.galaxyjoy.hexviewer.BaseActivity;
 import com.galaxyjoy.hexviewer.MyApplication;
 import com.galaxyjoy.hexviewer.R;
 import com.galaxyjoy.hexviewer.models.FileData;
+import com.galaxyjoy.hexviewer.sdkadbmob.UIUtils;
 import com.galaxyjoy.hexviewer.ui.util.UIHelper;
 import com.galaxyjoy.hexviewer.util.SysHelper;
 import com.google.android.material.textfield.TextInputEditText;
@@ -124,7 +125,9 @@ public class ActPartialOpen extends BaseActivity implements AdapterView.OnItemSe
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        UIUtils.INSTANCE.setupEdgeToEdge1(getWindow());
         setContentView(R.layout.act_partial_open);
+        UIUtils.INSTANCE.setupEdgeToEdge2(findViewById(R.id.layoutRoot));
         setupViews();
         evaluateSize();
     }
