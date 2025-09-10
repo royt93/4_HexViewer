@@ -421,6 +421,9 @@ public class ActMain extends ActAbstractBaseMain implements AdapterView.OnItemCl
             RoyUtils.getMoreApps(this);
         } else if (id == R.id.actionShareApp) {
             RoyUtils.shareApp(this, this.getPackageName());
+        } else if (id == R.id.actionAbout) {
+            Intent intent = new Intent(this, AboutActivity.class);
+            startActivity(intent);
         } else if (id == R.id.actionGithubOriginal) {
             RoyUtils.openBrowser(this, "https://github.com/Keidan/HexViewer");
         } else if (id == R.id.actionGithubFork) {

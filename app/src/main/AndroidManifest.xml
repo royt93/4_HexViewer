@@ -147,11 +147,16 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.act.setting.ActSettings" />
         </activity>
-<!--        <activity-->
-<!--            android:name="com.google.android.gms.oss.licenses.OssLicensesMenuActivity"-->
-<!--            android:theme="@style/Theme.AppCompat.Light.DarkActionBar" />-->
-<!--        <activity-->
-<!--            android:name="com.google.android.gms.oss.licenses.OssLicensesActivity"-->
-<!--            android:theme="@style/Theme.AppCompat.Light.DarkActionBar" />-->
+        <!--        <activity-->
+        <!--            android:name="com.google.android.gms.oss.licenses.OssLicensesMenuActivity"-->
+        <!--            android:theme="@style/Theme.AppCompat.Light.DarkActionBar" />-->
+        <!--        <activity-->
+        <!--            android:name="com.google.android.gms.oss.licenses.OssLicensesActivity"-->
+        <!--            android:theme="@style/Theme.AppCompat.Light.DarkActionBar" />-->
+
+        <activity
+            android:name=".ui.act.AboutActivity"
+            android:configChanges="locale|keyboard|keyboardHidden|orientation|screenSize|screenLayout|smallestScreenSize|uiMode"
+            android:launchMode="singleTask" />
     </application>
 </manifest>

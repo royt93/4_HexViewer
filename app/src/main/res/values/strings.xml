@@ -175,4 +175,7 @@
     <string name="version">Version</string>
     <string name="no_data_available">No data available</string>
     <string name="open_source_licenses_page">Open Source Licenses page</string>
+    <string name="about">About</string>
+    <string name="ui_improvements_bug_fixes_performance_optimizations_n_integrated_leakcanary_for_memory_leak_detection_n_added_proguard_configuration_n_updated_launcher_icon_n_added_features_rate_app_more_apps_share_app_n_enabled_adaptive_120hz_refresh_rate_support_n_fixed_font_scaling_issues_n_added_splash_screen_n_added_animations_and_decorative_lottie_effects_n_fixed_edge_to_edge_rendering_n_support_for_android_api_35_n_many_other_bug_fixes_improvements"><![CDATA[• UI improvements, bug fixes, performance optimizations\n• Integrated LeakCanary for memory leak detection\n• Added ProGuard configuration\n• Updated launcher icon\n• Added features: Rate app, More apps, Share app\n• Enabled adaptive 120Hz refresh rate support\n• Fixed font scaling issues\n• Added splash screen\n• Added animations and decorative Lottie effects\n• Fixed edge-to-edge rendering\n• Support for Android API 35\n• Many other bug fixes & improvements]]></string>
+    <string name="credits_attribution"><![CDATA[👥 Credits & Attribution]]></string>
 </resources>
