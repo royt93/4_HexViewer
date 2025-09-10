@@ -35,8 +35,8 @@ import com.galaxyjoy.hexviewer.ui.act.setting.ActSettingsListsPortraitAct;
 import com.galaxyjoy.hexviewer.ui.util.UIHelper;
 
 public class FrmSettings extends FrmAbstractSettings implements Preference.OnPreferenceClickListener, Preference.OnPreferenceChangeListener {
-    private static final String GITHUB_URL = "https://github.com/Keidan/HexViewer";
-    private static final String GITHUB_LIC_URL = GITHUB_URL + "/blob/master/license.txt";
+//    private static final String GITHUB_URL = "https://github.com/Keidan/HexViewer";
+    private static final String GITHUB_LIC_URL = "https://github.com/royt93/4_HexViewer/blob/dev/license.txt";
     protected Preference mSettingsListsPortrait;
     protected Preference mSettingsListsLandscape;
     protected Preference mLicense;
