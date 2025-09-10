@@ -36,6 +36,7 @@ import com.galaxyjoy.hexviewer.ext.RoyUtils;
 import com.galaxyjoy.hexviewer.models.FileData;
 import com.galaxyjoy.hexviewer.models.LineEntry;
 import com.galaxyjoy.hexviewer.sdkadbmob.AdMobManager;
+import com.galaxyjoy.hexviewer.sdkadbmob.UIUtils;
 import com.galaxyjoy.hexviewer.ui.act.setting.ActSettings;
 import com.galaxyjoy.hexviewer.ui.adt.AdtSearchableListArray;
 import com.galaxyjoy.hexviewer.ui.dlg.GoToDialog;
@@ -93,7 +94,9 @@ public class ActMain extends ActAbstractBaseMain implements AdapterView.OnItemCl
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        UIUtils.INSTANCE.setupEdgeToEdge1(getWindow());
         setContentView(R.layout.act_main);
+        UIUtils.INSTANCE.setupEdgeToEdge2(findViewById(R.id.layoutRoot));
         MyApplication.addLog(this, "Main", "Application started with language: '" + ((MyApplication) getApplicationContext()).getApplicationLanguage(this) + "'");
         setupViews(savedInstanceState);
         AdMobManager.INSTANCE.setCurrentActivity(this);
