@@ -90,7 +90,7 @@ public class ActLineUpdate extends BaseActivity implements View.OnClickListener 
         super.onCreate(savedInstanceState);
         UIUtils.INSTANCE.setupEdgeToEdge1(getWindow());
         setContentView(R.layout.act_line_update);
-        UIUtils.INSTANCE.setupEdgeToEdge2(findViewById(R.id.layoutRoot));
+        UIUtils.INSTANCE.setupEdgeToEdge2(findViewById(R.id.layoutRoot), true, true);
         mApp = (MyApplication) getApplicationContext();
         setupViews();
     }

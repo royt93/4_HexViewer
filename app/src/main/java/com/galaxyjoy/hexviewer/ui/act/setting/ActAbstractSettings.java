@@ -40,7 +40,7 @@ public abstract class ActAbstractSettings extends BaseActivity {
         super.onCreate(savedInstanceState);
         UIUtils.INSTANCE.setupEdgeToEdge1(getWindow());
         setContentView(R.layout.act_settings);
-        UIUtils.INSTANCE.setupEdgeToEdge2(findViewById(R.id.layoutRoot));
+        UIUtils.INSTANCE.setupEdgeToEdge2(findViewById(R.id.layoutRoot), true, false);
         //If you want to insert data in your settings
         FrmAbstractSettings prefs = onUserCreate();
 

@@ -127,7 +127,7 @@ public class ActPartialOpen extends BaseActivity implements AdapterView.OnItemSe
         super.onCreate(savedInstanceState);
         UIUtils.INSTANCE.setupEdgeToEdge1(getWindow());
         setContentView(R.layout.act_partial_open);
-        UIUtils.INSTANCE.setupEdgeToEdge2(findViewById(R.id.layoutRoot));
+        UIUtils.INSTANCE.setupEdgeToEdge2(findViewById(R.id.layoutRoot), true, true);
         setupViews();
         evaluateSize();
     }

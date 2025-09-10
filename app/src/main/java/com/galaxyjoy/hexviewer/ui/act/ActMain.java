@@ -96,7 +96,7 @@ public class ActMain extends ActAbstractBaseMain implements AdapterView.OnItemCl
         super.onCreate(savedInstanceState);
         UIUtils.INSTANCE.setupEdgeToEdge1(getWindow());
         setContentView(R.layout.act_main);
-        UIUtils.INSTANCE.setupEdgeToEdge2(findViewById(R.id.layoutRoot));
+        UIUtils.INSTANCE.setupEdgeToEdge2(findViewById(R.id.layoutRoot), true, true);
         MyApplication.addLog(this, "Main", "Application started with language: '" + ((MyApplication) getApplicationContext()).getApplicationLanguage(this) + "'");
         setupViews(savedInstanceState);
         AdMobManager.INSTANCE.setCurrentActivity(this);
