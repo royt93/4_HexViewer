@@ -27,6 +27,7 @@ import com.galaxyjoy.hexviewer.BaseActivity;
 import com.galaxyjoy.hexviewer.BuildConfig;
 import com.galaxyjoy.hexviewer.MyApplication;
 import com.galaxyjoy.hexviewer.R;
+import com.galaxyjoy.hexviewer.sdkadbmob.UIUtils;
 
 import org.apache.commons.collections4.queue.CircularFifoQueue;
 
@@ -65,7 +66,9 @@ public class ActLogs extends BaseActivity {
     @Override
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        UIUtils.INSTANCE.setupEdgeToEdge1(getWindow());
         setContentView(R.layout.act_logs);
+        UIUtils.INSTANCE.setupEdgeToEdge2(findViewById(R.id.layoutRoot));
         mApp = (MyApplication) getApplicationContext();
         setupViews();
     }
