@@ -202,7 +202,7 @@ object AdMobManager {
         }
         Log.d(TAG, "loadBanner~~~")
         container.isVisible = true
-        tvLabelAd.isVisible = true
+        tvLabelAd.isVisible = false
         val adView = AdView(context).apply {
             setAdSize(adSize)
             setAdUnitId(adUnitId)
