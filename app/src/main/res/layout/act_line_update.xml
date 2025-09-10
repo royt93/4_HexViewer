@@ -8,7 +8,7 @@
     android:background="@color/colorPrimary">
 
     <LinearLayout
-        android:id="@+id/base_view"
+        android:id="@+id/baseView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/windowBackground"

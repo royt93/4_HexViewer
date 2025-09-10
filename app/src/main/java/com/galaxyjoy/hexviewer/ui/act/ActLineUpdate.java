@@ -314,13 +314,13 @@ public class ActLineUpdate extends BaseActivity implements View.OnClickListener 
 
     private void animateVisibility(ImageView iv, View v) {
         if (v.getVisibility() == View.VISIBLE) {
-            TransitionManager.beginDelayedTransition(findViewById(R.id.base_view),
+            TransitionManager.beginDelayedTransition(findViewById(R.id.baseView),
                     new AutoTransition());
             v.setVisibility(View.GONE);
             if (iv != null)
                 iv.setImageResource(R.drawable.ic_expand_more);
         } else {
-            TransitionManager.beginDelayedTransition(findViewById(R.id.base_view),
+            TransitionManager.beginDelayedTransition(findViewById(R.id.baseView),
                     new AutoTransition());
             v.setVisibility(View.VISIBLE);
             if (iv != null)
