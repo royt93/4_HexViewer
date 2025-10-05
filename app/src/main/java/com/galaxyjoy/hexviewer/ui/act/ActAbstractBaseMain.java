@@ -36,7 +36,8 @@ import com.galaxyjoy.hexviewer.ui.util.UIHelper;
 import com.galaxyjoy.hexviewer.util.SysHelper;
 
 public abstract class ActAbstractBaseMain extends BaseActivity {
-    private static final int BACK_TIME_DELAY = 2000;
+    // Use centralized constant instead of magic number
+    private static final long BACK_TIME_DELAY = com.galaxyjoy.hexviewer.constants.AppConstants.BACK_TIME_DELAY_MS;
     private long mLastBackPressed = -1;
     private SearchView mSearchView = null;
     private AlertDialog mOrphanDialog = null;

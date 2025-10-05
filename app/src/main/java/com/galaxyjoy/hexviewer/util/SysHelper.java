@@ -242,40 +242,92 @@ public class SysHelper {
         int len = length;
         if (len > buffer.length)
             throw new IllegalArgumentException("length > buffer.length");
-        StringBuilder currentLine = new StringBuilder();
-        StringBuilder currentEndLine = new StringBuilder();
-        final List<Byte> currentLineRaw = new ArrayList<>();
+
+        // Performance: Pre-allocate StringBuilders with proper capacity
+        // Each row: maxByRow * 3 chars for hex (e.g., "FF ") + maxByRow chars for ASCII
+        final int lineCapacity = maxByRow * 3;
+        final int endLineCapacity = maxByRow;
+
+        StringBuilder currentLine = new StringBuilder(lineCapacity);
+        StringBuilder currentEndLine = new StringBuilder(endLineCapacity);
+
+        // Performance: Use primitive byte array instead of List<Byte> to avoid boxing
+        byte[] currentLineRaw = new byte[maxByRow];
+        int rawIndex = 0;
+
         int currentIndex = 0;
         int bufferIndex = 0;
+
         if (shiftOffset != 0) {
             currentIndex = shiftOffset;
-            int n = shiftOffset;
-            while (n > 0) {
+            // Performance: Append all at once instead of loop
+            for (int i = 0; i < shiftOffset; i++) {
                 currentLine.append("   ");
                 currentEndLine.append(" ");
-                n--;
             }
         }
+
         while (len > 0) {
             if (cancel != null && cancel.get())
                 break;
+
             final byte c = buffer[bufferIndex++];
-            currentLine.append(formatHex((char) c, false)).append(" ");
-            currentLineRaw.add(c);
+
+            // Performance: Direct hex append without intermediate String allocation
+            appendHexByte(currentLine, c);
+            currentLine.append(' ');
+
+            // Performance: No boxing - use primitive array
+            currentLineRaw[rawIndex++] = c;
+
             /* only the visible char */
             currentEndLine.append((c >= 0x20 && c <= 0x7e) ? (char) c : (char) 0x2e); /* 0x2e = . */
+
             /* Prepare the new index. If the index is equal to MAX_BY_ROW - 1, currentLine and currentEndLine will be added to the list and then deleted. */
-            currentIndex = formatBufferPrepareLineComplete(lines, currentIndex, currentLine, currentEndLine, currentLineRaw, maxByRow);
+            if (currentIndex >= maxByRow - 1) {
+                // Line complete - convert byte array to List<Byte> only when needed
+                List<Byte> lineRawList = new ArrayList<>(rawIndex);
+                for (int i = 0; i < rawIndex; i++) {
+                    lineRawList.add(currentLineRaw[i]);
+                }
+
+                formatBufferPrepareLineComplete(lines, currentIndex, currentLine, currentEndLine, lineRawList, maxByRow);
+
+                // Reset for next line
+                currentLine.setLength(0);
+                currentEndLine.setLength(0);
+                rawIndex = 0;
+                currentIndex = 0;
+            } else {
+                currentIndex++;
+            }
 
             /* next */
             len--;
         }
+
         if (cancel != null && cancel.get())
             return;
+
+        // Convert remaining bytes to list
+        List<Byte> finalLineRawList = new ArrayList<>(rawIndex);
+        for (int i = 0; i < rawIndex; i++) {
+            finalLineRawList.add(currentLineRaw[i]);
+        }
+
         formatBufferAlign(lines, currentIndex, currentLine.toString(),
-                currentEndLine.toString(), currentLineRaw, maxByRow);
+                currentEndLine.toString(), finalLineRawList, maxByRow);
         if (!lines.isEmpty())
             lines.get(0).setShiftOffset(shiftOffset);
+    }
+
+    /**
+     * Performance-optimized hex byte formatter - avoids String creation
+     * Appends hex representation of byte directly to StringBuilder
+     */
+    private static void appendHexByte(StringBuilder sb, byte b) {
+        sb.append(HEX_LOWERCASE.charAt((b & 0xF0) >> 4));
+        sb.append(HEX_LOWERCASE.charAt(b & 0x0F));
     }
 
     /**

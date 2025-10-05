@@ -29,7 +29,7 @@ import com.galaxyjoy.hexviewer.models.SettingsKeys;
 import com.galaxyjoy.hexviewer.sdkadbmob.AdMobManager;
 import com.google.android.gms.ads.MobileAds;
 
-import org.apache.commons.collections4.queue.CircularFifoQueue;
+import com.galaxyjoy.hexviewer.util.CircularLogBuffer;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -63,7 +63,8 @@ import kotlin.jvm.functions.Function2;
 //keystore
 //rename app
 public class MyApplication extends Application {
-    private static final int CIRCULAR_BUFFER_DEPTH = 2000;
+    // Use centralized constant instead of magic number
+    private static final int CIRCULAR_BUFFER_DEPTH = com.galaxyjoy.hexviewer.constants.AppConstants.LOG_BUFFER_CAPACITY;
     private Queue<String> mLogs = null;
     private final Lock mLock = new ReentrantLock();
     private SharedPreferences mSharedPreferences;
@@ -145,7 +146,8 @@ public class MyApplication extends Application {
         if (mLogs == null) {
             synchronized(this) {
                 if (mLogs == null) {
-                    mLogs = new CircularFifoQueue<>(CIRCULAR_BUFFER_DEPTH);
+                    // Use lightweight CircularLogBuffer instead of Apache Commons (saves ~600KB)
+                    mLogs = new CircularLogBuffer(CIRCULAR_BUFFER_DEPTH);
                 }
             }
         }

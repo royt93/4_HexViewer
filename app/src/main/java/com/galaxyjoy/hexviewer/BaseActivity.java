@@ -14,6 +14,7 @@ package com.galaxyjoy.hexviewer;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Build;
+import android.util.Log;
 import android.view.Display;
 import android.view.WindowManager;
 
@@ -62,7 +63,10 @@ public class BaseActivity extends AppCompatActivity {
                 if (highestRefreshRateMode != null) {
                     getWindow().setAttributes(getWindow().getAttributes());
                     getWindow().getAttributes().preferredDisplayModeId = highestRefreshRateMode.getModeId();
-                    System.out.println("Adaptive refresh rate applied: " + highestRefreshRateMode.getRefreshRate() + " Hz");
+                    // Use proper Android logging instead of System.out
+                    if (BuildConfig.DEBUG) {
+                        Log.d("BaseActivity", "Adaptive refresh rate applied: " + highestRefreshRateMode.getRefreshRate() + " Hz");
+                    }
                 }
             }
         }

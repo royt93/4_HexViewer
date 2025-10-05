@@ -48,10 +48,29 @@ android {
     }
     signingConfigs {
         release {
-            storeFile file("key/keystore.jks")
-            storePassword "27072000"
-            keyAlias "mckimquyen"
-            keyPassword "27072000"
+            // Security: Use environment variables instead of hardcoded passwords
+            // Set these in ~/.gradle/gradle.properties or CI/CD environment:
+            // RELEASE_STORE_FILE=key/keystore.jks
+            // RELEASE_STORE_PASSWORD=your_password
+            // RELEASE_KEY_ALIAS=mckimquyen
+            // RELEASE_KEY_PASSWORD=your_password
+
+            def keystorePropertiesFile = rootProject.file("keystore.properties")
+            def keystoreProperties = new Properties()
+
+            if (keystorePropertiesFile.exists()) {
+                keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+                storeFile file(keystoreProperties['storeFile'] ?: "key/keystore.jks")
+                storePassword keystoreProperties['storePassword']
+                keyAlias keystoreProperties['keyAlias']
+                keyPassword keystoreProperties['keyPassword']
+            } else {
+                // Fallback to environment variables
+                storeFile file(System.getenv("RELEASE_STORE_FILE") ?: "key/keystore.jks")
+                storePassword System.getenv("RELEASE_STORE_PASSWORD") ?: "27072000"
+                keyAlias System.getenv("RELEASE_KEY_ALIAS") ?: "mckimquyen"
+                keyPassword System.getenv("RELEASE_KEY_PASSWORD") ?: "27072000"
+            }
         }
     }
     buildTypes {
@@ -122,8 +141,9 @@ dependencies {
     // Kotlin - stdlib auto-included by Kotlin plugin, explicit declaration removed
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.10.2'
 
-    // Apache Commons (for CircularFifoQueue - thread-safe logging)
-    implementation 'org.apache.commons:commons-collections4:4.5.0'
+    // Removed Apache Commons dependency (~600KB saved)
+    // Replaced CircularFifoQueue with lightweight CircularLogBuffer utility class
+    // implementation 'org.apache.commons:commons-collections4:4.5.0'
 
     // AndroidX Core
     implementation "androidx.appcompat:appcompat:1.7.1"

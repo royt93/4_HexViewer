@@ -35,7 +35,8 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 public class TaskOpen extends ProgressTask<ContentResolver, FileData, TaskOpen.Result> implements MemoryListener {
     private final Context mContext;
-    private static final int MAX_LENGTH = SysHelper.MAX_BY_ROW_16 * 20000;
+    // Use centralized constant: SysHelper.MAX_BY_ROW_16 * AppConstants.FILE_BUFFER_ROWS
+    private static final int MAX_LENGTH = com.galaxyjoy.hexviewer.constants.AppConstants.MAX_FILE_BUFFER_SIZE;
     private final AdtHexTextArray mAdapter;
     private final OpenResultListener mListener;
     private RandomAccessFileChannel mRandomAccessFileChannel = null;

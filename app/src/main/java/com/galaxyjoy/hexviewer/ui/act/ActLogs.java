@@ -29,14 +29,15 @@ import com.galaxyjoy.hexviewer.MyApplication;
 import com.galaxyjoy.hexviewer.R;
 import com.galaxyjoy.hexviewer.sdkadbmob.UIUtils;
 
-import org.apache.commons.collections4.queue.CircularFifoQueue;
+import com.galaxyjoy.hexviewer.util.CircularLogBuffer;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Queue;
 
 public class ActLogs extends BaseActivity {
-    private CircularFifoQueue<String> mCfq = null;
+    private Queue<String> mCfq = null;
     private String mContent = null;
     private ListView mLogs = null;
     private MyApplication mApp = null;
@@ -82,7 +83,7 @@ public class ActLogs extends BaseActivity {
 
         mLogs = findViewById(R.id.logs);
 
-        mCfq = (CircularFifoQueue<String>) mApp.getLogBuffer();
+        mCfq = mApp.getLogBuffer();
         final String[] lines = mCfq.toArray(new String[]{});
         final StringBuilder sb = new StringBuilder();
         for (final String s : lines)
