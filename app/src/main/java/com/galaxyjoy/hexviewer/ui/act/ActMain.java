@@ -192,7 +192,15 @@ public class ActMain extends ActAbstractBaseMain implements AdapterView.OnItemCl
 //        }
         if (adView != null) {
             adView.destroy();
+            adView = null;
         }
+        if (mPayloadPlainSwipe != null) {
+            mPayloadPlainSwipe.onDestroy();
+        }
+        if (mPopup != null) {
+            mPopup.dismiss();
+        }
+        AdMobManager.INSTANCE.clearCurrentActivity();
         super.onDestroy();
     }
 

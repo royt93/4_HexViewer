@@ -68,7 +68,9 @@ public abstract class TaskRunner<C, P, I, R> implements TaskRunnerCallback<C, P,
                 onException(e);
             } finally {
                 final R finalResult = result;
-                mHandler.post(() -> onPostExecute(finalResult));
+                if (finalResult != null) {
+                    mHandler.post(() -> onPostExecute(finalResult));
+                }
                 if (!mExecutor.isShutdown())
                     mExecutor.shutdown();
             }

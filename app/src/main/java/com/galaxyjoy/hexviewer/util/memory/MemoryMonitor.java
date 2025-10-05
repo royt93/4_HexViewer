@@ -15,7 +15,7 @@ package com.galaxyjoy.hexviewer.util.memory;
 import android.os.Handler;
 import android.os.Looper;
 
-public class MemoryMonitor implements Runnable {
+public class MemoryMonitor implements Runnable, AutoCloseable {
     private Handler mMemoryHandler = null;
     private final float mThreshold;
     private final int mCheckFrequencyMs;
@@ -93,5 +93,14 @@ public class MemoryMonitor implements Runnable {
         // Repeat after a delay
         if (mMemoryHandler != null)
             mMemoryHandler.postDelayed(this, mCheckFrequencyMs);
+    }
+
+    /**
+     * Closes the memory monitor and releases resources.
+     * Implements AutoCloseable for try-with-resources support.
+     */
+    @Override
+    public void close() {
+        stop();
     }
 }

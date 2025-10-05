@@ -156,7 +156,9 @@ public class ActRecentlyOpen extends BaseActivity implements AdtRecentlyOpenRecy
 //        }
         if (adView != null) {
             adView.destroy();
+            adView = null;
         }
+        AdMobManager.INSTANCE.clearCurrentActivity();
         super.onDestroy();
     }
 

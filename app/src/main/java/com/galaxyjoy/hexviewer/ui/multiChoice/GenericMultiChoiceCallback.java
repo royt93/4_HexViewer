@@ -40,6 +40,7 @@ public abstract class GenericMultiChoiceCallback implements AbsListView.MultiCho
     private int mFirstSelection = -1;
     private final AlertDialog mProgress;
     private MenuItem mMenuItemSelectAll;
+    private Handler mActionHandler;
 
     @SuppressLint("InflateParams")
     protected GenericMultiChoiceCallback(ActMain activityMain, final ListView listView, final AdtSearchableListArray adapter) {
@@ -48,6 +49,7 @@ public abstract class GenericMultiChoiceCallback implements AbsListView.MultiCho
         mAdapter = adapter;
         mClipboard = (ClipboardManager) mActivity.getSystemService(Context.CLIPBOARD_SERVICE);
         mProgress = UIHelper.createCircularProgressDialog(mActivity, null);
+        mActionHandler = new Handler(Looper.getMainLooper());
     }
 
     /**
@@ -121,6 +123,9 @@ public abstract class GenericMultiChoiceCallback implements AbsListView.MultiCho
         mAdapter.removeSelection();
         if (mProgress.isShowing())
             mProgress.dismiss();
+        if (mActionHandler != null) {
+            mActionHandler.removeCallbacksAndMessages(null);
+        }
     }
 
     /**
@@ -192,7 +197,7 @@ public abstract class GenericMultiChoiceCallback implements AbsListView.MultiCho
      */
     protected void closeActionMode(ActionMode mode, boolean delayed) {
         if (delayed)
-            new Handler(Looper.getMainLooper()).postDelayed(mode::finish, 500);
+            mActionHandler.postDelayed(mode::finish, 500);
         else
             mode.finish();
     }
@@ -214,8 +219,7 @@ public abstract class GenericMultiChoiceCallback implements AbsListView.MultiCho
      */
     protected void setActionView(final MenuItem item, final Runnable action) {
         UIHelper.showCircularProgressDialog(mProgress);
-        final Handler handler = new Handler(Looper.getMainLooper());
-        handler.postDelayed(() -> {
+        mActionHandler.postDelayed(() -> {
             action.run();
             if (item != null) {
                 item.setCheckable(true);

@@ -142,7 +142,13 @@ public class MyApplication extends Application {
     }
 
     public Queue<String> getLogBuffer() {
-        if (mLogs == null) mLogs = new CircularFifoQueue<>(CIRCULAR_BUFFER_DEPTH);
+        if (mLogs == null) {
+            synchronized(this) {
+                if (mLogs == null) {
+                    mLogs = new CircularFifoQueue<>(CIRCULAR_BUFFER_DEPTH);
+                }
+            }
+        }
         return mLogs;
     }
 
@@ -562,16 +568,20 @@ public class MyApplication extends Application {
 
     public void setupAdmob() {
         new Thread(() -> {
-            MobileAds.initialize(MyApplication.this, initializationStatus -> {
-                // Không làm gì
-            });
-            AdMobManager.INSTANCE.init(this, new Function2<Boolean, String, Unit>() {
-                @Override
-                public Unit invoke(Boolean success, String gaidCurrent) {
-                    Log.d("roy93~", "AdMobManager init success " + success + ", gaidCurrent " + gaidCurrent);
-                    return null;
-                }
-            });
+            try {
+                MobileAds.initialize(MyApplication.this, initializationStatus -> {
+                    // Không làm gì
+                });
+                AdMobManager.INSTANCE.init(this, new Function2<Boolean, String, Unit>() {
+                    @Override
+                    public Unit invoke(Boolean success, String gaidCurrent) {
+                        Log.d("roy93~", "AdMobManager init success " + success + ", gaidCurrent " + gaidCurrent);
+                        return null;
+                    }
+                });
+            } catch (Exception e) {
+                Log.e("roy93~", "AdMob initialization error", e);
+            }
         }).start();
 //        registerActivityLifecycleCallbacks(new AppLifecycleListener(new Function2<Boolean, Activity, Unit>() {
 //            @Override

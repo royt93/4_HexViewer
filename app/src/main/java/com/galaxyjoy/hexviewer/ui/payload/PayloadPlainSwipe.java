@@ -39,6 +39,7 @@ public class PayloadPlainSwipe {
     private final AtomicBoolean mCancelPayloadPlainSwipeRefresh = new AtomicBoolean(false);
     private UserConfigPortrait mUserConfigPortrait;
     private UserConfigLandscape mUserConfigLandscape;
+    private Handler mRefreshHandler;
 
     /**
      * Called when the activity is created.
@@ -47,6 +48,7 @@ public class PayloadPlainSwipe {
      */
     public void onCreate(final ActMain activity) {
         mActivity = activity;
+        mRefreshHandler = new Handler(Looper.getMainLooper());
         mPayloadPlain = activity.findViewById(R.id.payloadPlain);
         mPayloadPlainSwipeRefreshLayout = activity.findViewById(R.id.payloadPlainSwipeRefreshLayout);
         // Configure SwipeRefreshLayout
@@ -104,7 +106,7 @@ public class PayloadPlainSwipe {
     public void setVisible(boolean b) {
         mPayloadPlain.setVisibility(b ? View.VISIBLE : View.GONE);
         if (b) {
-            new Handler(Looper.getMainLooper()).postDelayed(() -> {
+            mRefreshHandler.postDelayed(() -> {
                 mPayloadPlainSwipeRefreshLayout.setRefreshing(true);
                 refresh();
             }, 100);
@@ -117,7 +119,7 @@ public class PayloadPlainSwipe {
      */
     public void refresh() {
         mCancelPayloadPlainSwipeRefresh.set(true);
-        new Handler(Looper.getMainLooper()).postDelayed(() -> {
+        mRefreshHandler.postDelayed(() -> {
             mCancelPayloadPlainSwipeRefresh.set(false);
             final List<LineEntry> list = refreshPlain(mCancelPayloadPlainSwipeRefresh);
             if (!mCancelPayloadPlainSwipeRefresh.get()) {
@@ -171,6 +173,16 @@ public class PayloadPlainSwipe {
      */
     public ListView getListView() {
         return mPayloadPlain;
+    }
+
+    /**
+     * Called when the activity is destroyed.
+     * Cleans up handlers to prevent memory leaks.
+     */
+    public void onDestroy() {
+        if (mRefreshHandler != null) {
+            mRefreshHandler.removeCallbacksAndMessages(null);
+        }
     }
 
 }

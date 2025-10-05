@@ -68,6 +68,8 @@ public class UIHelper {
      * @param context The Android context.
      * @param cancel  The cancel event callback (if null the dialog is not cancelable).
      * @return AlertDialog
+     * @implNote IMPORTANT: The caller MUST dismiss the returned dialog when finished to prevent memory leaks.
+     *           If the context is an Activity, ensure the dialog is dismissed in onPause() or onDestroy().
      */
     public static AlertDialog createCircularProgressDialog(Context context,
                                                            DialogInterface.OnCancelListener cancel) {
@@ -214,6 +216,8 @@ public class UIHelper {
      * @param context The Android context.
      * @param title   The dialog title.
      * @param message The dialog message.
+     * @implNote The dialog is automatically dismissed when the OK button is clicked.
+     *           However, if the activity is destroyed before user interaction, ensure proper cleanup.
      */
     public static void showErrorDialog(final Context context,
                                        CharSequence title,
@@ -358,6 +362,8 @@ public class UIHelper {
      * @param title   The dialog title.
      * @param message The dialog message.
      * @param yes     Listener used when the 'yes' button is clicked.
+     * @implNote The dialog is automatically dismissed when a button is clicked.
+     *           However, if the activity is destroyed before user interaction, ensure proper cleanup.
      */
     public static void showConfirmDialog(final Context c,
                                          String title,
@@ -425,6 +431,8 @@ public class UIHelper {
      * @param fd           FileData.
      * @param runnable     The action to be taken if the user validates or not.
      * @param runnableSave To call TaskSave.
+     * @implNote The dialog is automatically dismissed when a button is clicked.
+     *           However, if the activity is destroyed before user interaction, ensure proper cleanup.
      */
     public static void confirmFileChanged(final Context c,
                                           final FileData fd,

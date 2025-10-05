@@ -78,4 +78,13 @@ public abstract class ProgressTask<C, P, T> extends TaskRunner<C, P, Long, T> {
             mDialog.dismiss();
     }
 
+    /**
+     * Called when the async task is cancelled.
+     */
+    @Override
+    public void onCancelled() {
+        if (mDialog != null && mDialog.isShowing())
+            mDialog.dismiss();
+    }
+
 }

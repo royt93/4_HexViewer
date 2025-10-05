@@ -137,8 +137,7 @@ public class RandomAccessFileChannel {
             return;
         FileChannel fch = mFileOutputStream.getChannel();
         fch.position(mPosition);
-        int result = fch.write(buffer);
-        Log.d("roy93~", "result " + result);
+        fch.write(buffer);
         mPosition = fch.position();
     }
 
@@ -210,15 +209,37 @@ public class RandomAccessFileChannel {
      * Closes the file.
      */
     public void close() {
+        IOException firstException = null;
+
+        // Close output streams first
         if (mMode == Mode.WO) {
-            closeOutputStreams();
+            try {
+                closeOutputStreams();
+            } catch (Exception e) {
+                if (firstException == null && e instanceof IOException) {
+                    firstException = (IOException) e;
+                }
+            }
         }
-        closeInputStreams();
+
+        // Always try to close input streams
+        try {
+            closeInputStreams();
+        } catch (Exception e) {
+            if (firstException == null && e instanceof IOException) {
+                firstException = (IOException) e;
+            }
+        }
+
+        // Always try to close file descriptors
         if (mFdInput != null) {
             try {
                 mFdInput.close();
             } catch (IOException ioException) {
                 Log.e(getClass().getSimpleName(), EXCEPTION_TAG + ioException.getMessage(), ioException);
+                if (firstException == null) {
+                    firstException = ioException;
+                }
             }
             mFdInput = null;
         }
@@ -227,8 +248,14 @@ public class RandomAccessFileChannel {
                 mFdOutput.close();
             } catch (IOException ioException) {
                 Log.e(getClass().getSimpleName(), EXCEPTION_TAG + ioException.getMessage(), ioException);
+                if (firstException == null) {
+                    firstException = ioException;
+                }
             }
             mFdOutput = null;
         }
+
+        // If any exception occurred, log it (already logged above)
+        // We don't re-throw to ensure all cleanup attempts were made
     }
 }

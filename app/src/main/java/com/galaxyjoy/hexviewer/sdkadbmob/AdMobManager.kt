@@ -78,6 +78,15 @@ object AdMobManager {
 
     var interstitialListener: InterstitialAdListener? = null
 
+    /**
+     * Clear activity reference to prevent memory leaks.
+     * Should be called in Activity's onDestroy()
+     */
+    fun clearCurrentActivity() {
+        currentActivity = null
+        interstitialListener = null
+    }
+
     private var lastInterstitialErrorTime: Long = 0
     private var lastAppOpenErrorTime: Long = 0
     private val ERROR_COOLDOWN = 15 * 60 * 1000L // 15 phút dưới dạng milliseconds

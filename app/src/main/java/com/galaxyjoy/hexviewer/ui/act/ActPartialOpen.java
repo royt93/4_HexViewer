@@ -217,6 +217,21 @@ public class ActPartialOpen extends BaseActivity implements AdapterView.OnItemSe
     }
 
     /**
+     * Called when the activity is destroyed.
+     */
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        // Remove TextWatchers to prevent memory leaks
+        if (mTietStart != null) {
+            mTietStart.removeTextChangedListener(this);
+        }
+        if (mTietEnd != null) {
+            mTietEnd.removeTextChangedListener(this);
+        }
+    }
+
+    /**
      * Called by the system when the device configuration changes while your activity is running.
      *
      * @param newConfig The new device configuration. This value cannot be null.

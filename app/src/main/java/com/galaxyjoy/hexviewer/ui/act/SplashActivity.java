@@ -33,6 +33,7 @@ import kotlin.jvm.functions.Function1;
 
 @SuppressLint("CustomSplashScreen")
 public class SplashActivity extends AppCompatActivity {
+    private final Runnable finishRunnable = this::finish;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,11 +59,13 @@ public class SplashActivity extends AppCompatActivity {
         startActivity(intent);
 //        finish(); // Close SplashActivity so the user can't go back to it
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
-        getWindow().getDecorView().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                finish();
-            }
-        }, 300);
+        getWindow().getDecorView().postDelayed(finishRunnable, 300);
+    }
+
+    @Override
+    protected void onDestroy() {
+        getWindow().getDecorView().removeCallbacks(finishRunnable);
+        AdMobManager.INSTANCE.clearCurrentActivity();
+        super.onDestroy();
     }
 }

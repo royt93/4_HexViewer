@@ -211,6 +211,15 @@ public class ActLineUpdate extends BaseActivity implements View.OnClickListener 
     }
 
     /**
+     * Called when the activity is paused.
+     */
+    @Override
+    public void onPause() {
+        super.onPause();
+        mMemoryMonitor.stop();
+    }
+
+    /**
      * Called when the activity is destroyed.
      */
     @Override
