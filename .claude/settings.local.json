@@ -5,7 +5,8 @@
       "Bash(for:*)",
       "Bash(done)",
       "Bash(tree:*)",
-      "Bash(ls:*)"
+      "Bash(ls:*)",
+      "Bash(chmod:*)"
     ],
     "deny": [],
     "ask": []
