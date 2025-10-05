@@ -60,6 +60,7 @@ android {
     }
     buildFeatures {
         compose false
+        buildConfig true
     }
     lint {
         abortOnError false
