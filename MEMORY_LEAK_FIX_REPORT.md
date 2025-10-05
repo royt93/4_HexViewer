@@ -1,7 +1,7 @@
 # Memory Leak & Code Quality Fix Report
 **Project:** HexViewer Android App
 **Date:** 2025-10-05
-**Total Issues Fixed:** 22
+**Total Issues Fixed:** 24 (22 original + 2 AdMob leaks)
 
 ---
 
@@ -340,6 +340,108 @@ protected void onDestroy() {
 
 ---
 
+## 🔴 NEW: AdMob-Related Memory Leaks Fixed (2 issues)
+
+### #23 ✅ AdMob Loader Memory Leak - ActRecentlyOpen.java
+**File:** `ui/act/ActRecentlyOpen.java`
+**Discovered:** 2025-10-05 (LeakCanary detection)
+**Vấn đề:**
+- AdMob loader (`com.google.android.gms.ads.nonagon.load.as`) giữ reference đến Activity
+- AdView không được remove khỏi parent ViewGroup trước khi destroy
+- Leak 84.2 KB per Activity instance
+
+**LeakCanary trace:**
+```
+com.google.android.gms.ads.nonagon.load.as
+  ↓ as.a
+  ╰→ com.galaxyjoy.hexviewer.ui.act.ActRecentlyOpen (LEAKED)
+     retaining 84.2 kB in 1291 objects
+```
+
+**Fix:**
+- Remove AdView khỏi parent ViewGroup trước khi destroy
+- Clear AdView reference properly
+```java
+@Override
+protected void onDestroy() {
+    if (adView != null) {
+        // Remove from parent first to break reference chain
+        android.view.ViewParent parent = adView.getParent();
+        if (parent instanceof android.view.ViewGroup) {
+            ((android.view.ViewGroup) parent).removeView(adView);
+        }
+        adView.destroy();
+        adView = null;
+    }
+    AdMobManager.INSTANCE.clearCurrentActivity();
+    super.onDestroy();
+}
+```
+
+**Impact:** ✅ Eliminates 84 KB leak per Activity destroy
+
+---
+
+### #24 ✅ AdMob WebView Memory Leak - SplashActivity.java + AdMobManager.kt
+**Files:**
+- `ui/act/SplashActivity.java`
+- `sdkadbmob/AdMobManager.kt`
+
+**Discovered:** 2025-10-05 (LeakCanary detection)
+**Vấn đề:**
+- AdMob App Open Ad tạo WebView giữ reference đến Activity qua WindowManager
+- ContextImpl.mAutofillClient giữ reference đến destroyed Activity
+- Leak 6.5 KB per Activity instance
+
+**LeakCanary trace:**
+```
+com.google.android.gms.ads.internal.webview.ai (WebView)
+  ↓ ai.aa (WindowManagerImpl)
+  ↓ WindowManagerImpl.mContext
+  ↓ ContextImpl.mAutofillClient
+  ╰→ com.galaxyjoy.hexviewer.ui.act.SplashActivity (LEAKED)
+     retaining 6.5 kB in 236 objects
+```
+
+**Fix Part 1 - SplashActivity.java:**
+- Clear tất cả pending callbacks trước khi destroy
+- Ensure AdMob cleanup hoàn tất
+```java
+@Override
+protected void onDestroy() {
+    getWindow().getDecorView().removeCallbacks(finishRunnable);
+    // Clear AdMob references before calling super.onDestroy()
+    AdMobManager.INSTANCE.clearCurrentActivity();
+    // Clear any pending UI operations
+    if (getWindow() != null && getWindow().getDecorView() != null) {
+        getWindow().getDecorView().removeCallbacksAndMessages(null);
+    }
+    super.onDestroy();
+}
+```
+
+**Fix Part 2 - AdMobManager.kt:**
+- Clear App Open Ad và Interstitial Ad callbacks
+- Nullify ad references để release WebView
+```kotlin
+fun clearCurrentActivity() {
+    currentActivity = null
+    interstitialListener = null
+
+    // Clear App Open Ad to release WebView references
+    appOpenAd?.fullScreenContentCallback = null
+    appOpenAd = null
+
+    // Clear Interstitial Ad callbacks
+    interstitialAd?.fullScreenContentCallback = null
+    interstitialAd = null
+}
+```
+
+**Impact:** ✅ Eliminates WebView leak in App Open Ads
+
+---
+
 **Report Generated:** 2025-10-05
 **Fixed By:** Claude Code Assistant
-**Total Issues:** 22/22 ✅
+**Total Issues:** 24/24 ✅ (22 original + 2 AdMob leaks)

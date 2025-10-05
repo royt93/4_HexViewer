@@ -155,6 +155,11 @@ public class ActRecentlyOpen extends BaseActivity implements AdtRecentlyOpenRecy
 //            ApplovinUtils.destroyAdBanner(findViewById(R.id.flAd), adView);
 //        }
         if (adView != null) {
+            // Remove from parent first to break reference chain
+            android.view.ViewParent parent = adView.getParent();
+            if (parent instanceof android.view.ViewGroup) {
+                ((android.view.ViewGroup) parent).removeView(adView);
+            }
             adView.destroy();
             adView = null;
         }

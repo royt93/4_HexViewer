@@ -85,6 +85,14 @@ object AdMobManager {
     fun clearCurrentActivity() {
         currentActivity = null
         interstitialListener = null
+
+        // Clear App Open Ad to release WebView references
+        appOpenAd?.fullScreenContentCallback = null
+        appOpenAd = null
+
+        // Clear Interstitial Ad callbacks
+        interstitialAd?.fullScreenContentCallback = null
+        interstitialAd = null
     }
 
     private var lastInterstitialErrorTime: Long = 0

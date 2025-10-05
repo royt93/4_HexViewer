@@ -64,7 +64,10 @@ public class SplashActivity extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
+        // Clear all pending callbacks and messages
         getWindow().getDecorView().removeCallbacks(finishRunnable);
+        // Clear AdMob references before calling super.onDestroy()
+        // This ensures App Open Ad releases its WebView and Activity references
         AdMobManager.INSTANCE.clearCurrentActivity();
         super.onDestroy();
     }
