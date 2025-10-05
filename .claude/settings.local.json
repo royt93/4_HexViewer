@@ -4,7 +4,8 @@
       "Bash(./gradlew:*)",
       "Bash(for:*)",
       "Bash(done)",
-      "Bash(tree:*)"
+      "Bash(tree:*)",
+      "Bash(ls:*)"
     ],
     "deny": [],
     "ask": []

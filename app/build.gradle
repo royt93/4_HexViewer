@@ -17,6 +17,24 @@ android {
         vectorDrawables {
             useSupportLibrary true
         }
+
+        // Optimize APK size with splits
+        ndk {
+            abiFilters 'armeabi-v7a', 'arm64-v8a', 'x86', 'x86_64'
+        }
+    }
+
+    // Enable ABI and Density splits for smaller APK sizes
+    bundle {
+        language {
+            enableSplit = true
+        }
+        density {
+            enableSplit = true
+        }
+        abi {
+            enableSplit = true
+        }
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_17
@@ -47,7 +65,15 @@ android {
             debuggable false
             minifyEnabled true
             shrinkResources true
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            // Use custom optimize file (more aggressive) or SDK default
+            proguardFiles 'proguard-android-optimize.txt', 'proguard-rules.pro'
+            // Alternative: Use SDK default if custom file has issues
+            // proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+
+            // Additional optimizations for smaller APK
+            ndk {
+                debugSymbolLevel 'NONE'
+            }
         }
         debug {
             buildConfigField "String", "ADMOB_BANNER_ID", "\"ca-app-pub-3940256099942544/6300978111\""
