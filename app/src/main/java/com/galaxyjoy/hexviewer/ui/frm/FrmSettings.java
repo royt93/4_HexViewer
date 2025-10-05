@@ -22,11 +22,13 @@ import android.widget.CheckBox;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.DialogFragment;
 import androidx.preference.ListPreference;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceScreen;
 
 import com.galaxyjoy.hexviewer.BuildConfig;
+import com.galaxyjoy.hexviewer.ui.preference.RoundedListPreferenceDialogFragment;
 import com.galaxyjoy.hexviewer.R;
 import com.galaxyjoy.hexviewer.models.SettingsKeys;
 import com.galaxyjoy.hexviewer.ui.act.setting.ActSettings;
@@ -206,6 +208,17 @@ public class FrmSettings extends FrmAbstractSettings implements Preference.OnPre
         return false;
     }
 
+    @Override
+    public void onDisplayPreferenceDialog(Preference preference) {
+        if (preference instanceof ListPreference) {
+            DialogFragment dialogFragment = RoundedListPreferenceDialogFragment.newInstance(preference.getKey());
+            dialogFragment.setTargetFragment(this, 0);
+            dialogFragment.show(getParentFragmentManager(), "androidx.preference.PreferenceFragment.DIALOG");
+        } else {
+            super.onDisplayPreferenceDialog(preference);
+        }
+    }
+
     @SuppressLint("InflateParams")
     private void restoreDefaultDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
@@ -217,7 +230,9 @@ public class FrmSettings extends FrmAbstractSettings implements Preference.OnPre
         LayoutInflater factory = LayoutInflater.from(mActivity);
         builder.setView(factory.inflate(R.layout.dlg_content_dialog_restore, null));
         final AlertDialog dialog = builder.create();
-        dialog.getWindow().setBackgroundDrawableResource(R.drawable.dialog_background);
+        if (dialog.getWindow() != null) {
+            dialog.getWindow().setBackgroundDrawableResource(R.drawable.bg_alert_dialog);
+        }
         dialog.show();
         final CheckBox cb = dialog.findViewById(R.id.deleteRecent);
         dialog.getButton(DialogInterface.BUTTON_POSITIVE).setOnClickListener(v -> {

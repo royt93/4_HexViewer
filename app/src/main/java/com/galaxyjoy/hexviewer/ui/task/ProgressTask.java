@@ -29,7 +29,9 @@ public abstract class ProgressTask<C, P, T> extends TaskRunner<C, P, Long, T> {
         progressText = activity.getString(loading ? R.string.loading : R.string.saving) + " ";
         mDialog = new AlertDialog.Builder(activity).create();
         mDialog.setCancelable(false);
-        mDialog.getWindow().setBackgroundDrawableResource(R.drawable.dialog_background);
+        if (mDialog.getWindow() != null) {
+            mDialog.getWindow().setBackgroundDrawableResource(R.drawable.bg_alert_dialog);
+        }
         final View v = activity.getLayoutInflater().inflate(R.layout.v_progress_dialog, null);
         mTextView = v.findViewById(R.id.text);
         mTextView.setText(loading ? R.string.loading : R.string.saving);

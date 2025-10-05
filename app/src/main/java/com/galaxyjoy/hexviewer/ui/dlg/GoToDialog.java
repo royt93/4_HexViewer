@@ -83,7 +83,9 @@ public class GoToDialog implements View.OnClickListener {
         if (mDialog.isShowing())
             mDialog.dismiss();
         mMode = mode;
-        mDialog.getWindow().setBackgroundDrawableResource(R.drawable.dialog_background);
+        if (mDialog.getWindow() != null) {
+            mDialog.getWindow().setBackgroundDrawableResource(R.drawable.bg_alert_dialog);
+        }
         mDialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN |
                 WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
 

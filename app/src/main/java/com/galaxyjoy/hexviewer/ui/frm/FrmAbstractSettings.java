@@ -95,6 +95,9 @@ public abstract class FrmAbstractSettings extends PreferenceFragmentCompat {
         LayoutInflater factory = LayoutInflater.from(mActivity);
         builder.setView(factory.inflate(R.layout.dlg_content_dialog_pref_input, null));
         final AlertDialog dialog = builder.create();
+        if (dialog.getWindow() != null) {
+            dialog.getWindow().setBackgroundDrawableResource(R.drawable.bg_alert_dialog);
+        }
         dialog.show();
         EditText et = dialog.findViewById(R.id.editText);
         if (et != null) {

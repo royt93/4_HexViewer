@@ -60,7 +60,9 @@ public class SaveDialog {
         LayoutInflater factory = LayoutInflater.from(mActivity);
         builder.setView(factory.inflate(R.layout.dlg_content_dialog_save, null));
         AlertDialog dialog = builder.create();
-        dialog.getWindow().setBackgroundDrawableResource(R.drawable.dialog_background);
+        if (dialog.getWindow() != null) {
+            dialog.getWindow().setBackgroundDrawableResource(R.drawable.bg_alert_dialog);
+        }
         dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN |
                 WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
         dialog.show();

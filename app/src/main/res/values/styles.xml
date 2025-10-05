@@ -40,7 +40,10 @@
     </style>
 
     <style name="AppTheme.DialogTheme" parent="Theme.AppCompat.Light.Dialog.Alert">
-        <item name="android:background">@color/white</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowContentOverlay">@null</item>
         <item name="android:textColor">@color/text_color_enabled</item>
         <item name="android:colorAccent">@color/accent_color_enabled</item>
         <item name="android:textColorPrimary">@color/text_color_primary_enabled</item>
@@ -50,6 +53,10 @@
         <item name="android:textColorSecondary">@color/colorAccent</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="textColorAlertDialogListItem">@color/text_color_enabled</item>
+        <item name="android:listChoiceIndicatorSingle">@drawable/radio_button_material3</item>
+        <item name="listChoiceIndicatorSingleAnimated">@drawable/radio_button_material3</item>
+        <item name="listPreferredItemPaddingLeft">24dp</item>
+        <item name="listPreferredItemPaddingRight">24dp</item>
     </style>
 
     <style name="NegativeButtonStyle" parent="Widget.AppCompat.Button.ButtonBar.AlertDialog">
