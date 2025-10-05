@@ -88,9 +88,6 @@ public class FileHelper {
         try {
             final int takeFlags = Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION;
             c.getContentResolver().takePersistableUriPermission(uri, takeFlags);
-            if (!fromDir) {
-                takUriPermissionsForDir(c, uri);
-            }
             success = true;
         } catch (Exception e) {
             Log.e(SysHelper.class.getSimpleName(), EXCEPTION_TAG + e.getMessage(), e);
@@ -99,6 +96,10 @@ public class FileHelper {
                     String.format(Locale.US,
                             "Exception: '%s'",
                             e.getMessage()));
+        }
+        // Try to take parent dir permission separately (don't fail if this doesn't work)
+        if (success && !fromDir) {
+            takUriPermissionsForDir(c, uri);
         }
         return success;
     }

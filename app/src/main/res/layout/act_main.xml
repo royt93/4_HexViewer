@@ -12,7 +12,7 @@
         android:id="@+id/mainLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/windowBackground"
+        android:background="?attr/colorSurface"
         android:orientation="vertical"
         tools:ignore="UselessParent">
 
@@ -24,6 +24,7 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/idleView"
+                android:padding="16dp"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:visibility="gone"
@@ -36,6 +37,8 @@
                     android:gravity="bottom"
                     android:text="@string/please_open_file"
                     android:textSize="@dimen/activity_main_please_open_file_textSize"
+                    android:textColor="?attr/colorOnSurface"
+                    android:textStyle="bold"
                     app:layout_constraintBottom_toTopOf="@+id/linearLayout"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -52,60 +55,66 @@
 
                     <com.airbnb.lottie.LottieAnimationView
                         android:id="@+id/lottieAnimationView"
-                        android:layout_width="128dp"
-                        android:layout_height="128dp"
+                        android:layout_width="160dp"
+                        android:layout_height="160dp"
+                        android:layout_marginBottom="16dp"
                         app:lottie_autoPlay="true"
                         app:lottie_loop="true"
                         app:lottie_rawRes="@raw/loading" />
 
-                    <Button
+                    <com.google.android.material.button.MaterialButton
                         android:id="@+id/buttonOpenFile"
+                        style="@style/Widget.Material3.Button.ElevatedButton"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/button_gradient"
-                        android:drawableEnd="@drawable/baseline_navigate_next_24"
-                        android:drawableTint="@color/white"
+                        android:paddingTop="16dp"
+                        android:paddingBottom="16dp"
                         android:text="@string/action_open_title_button"
-                        android:textAllCaps="false"
-                        android:textColor="@color/white"
-                        android:textSize="@dimen/activity_main_buttons_textSize" />
+                        android:textSize="@dimen/activity_main_buttons_textSize"
+                        app:icon="@drawable/baseline_navigate_next_24"
+                        app:iconGravity="end"
+                        app:cornerRadius="12dp" />
 
-                    <Button
+                    <com.google.android.material.button.MaterialButton
                         android:id="@+id/buttonPartialOpenFile"
+                        style="@style/Widget.Material3.Button.TonalButton"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/_16sp"
-                        android:background="@drawable/button_gradient"
-                        android:drawableEnd="@drawable/baseline_navigate_next_24"
-                        android:drawableTint="@color/white"
+                        android:layout_marginTop="12dp"
+                        android:paddingTop="16dp"
+                        android:paddingBottom="16dp"
                         android:text="@string/action_open_sequential_title_button"
-                        android:textAllCaps="false"
-                        android:textColor="@color/white"
-                        android:textSize="@dimen/activity_main_buttons_textSize" />
+                        android:textSize="@dimen/activity_main_buttons_textSize"
+                        app:icon="@drawable/baseline_navigate_next_24"
+                        app:iconGravity="end"
+                        app:cornerRadius="12dp" />
 
-                    <Button
+                    <com.google.android.material.button.MaterialButton
                         android:id="@+id/buttonRecentlyOpen"
+                        style="@style/Widget.Material3.Button.OutlinedButton"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/_16sp"
-                        android:layout_marginBottom="@dimen/_16sp"
-                        android:background="@drawable/button_gradient"
-                        android:drawableEnd="@drawable/baseline_navigate_next_24"
-                        android:drawableTint="@color/white"
+                        android:layout_marginTop="12dp"
+                        android:layout_marginBottom="16dp"
+                        android:paddingTop="16dp"
+                        android:paddingBottom="16dp"
                         android:text="@string/action_recently_open_title"
-                        android:textAllCaps="false"
-                        android:textColor="@color/white"
-                        android:textSize="@dimen/activity_main_buttons_textSize" />
+                        android:textSize="@dimen/activity_main_buttons_textSize"
+                        app:icon="@drawable/baseline_navigate_next_24"
+                        app:iconGravity="end"
+                        app:cornerRadius="12dp" />
 
                     <TextView
                         android:id="@+id/tvVersion"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
+                        android:layout_marginTop="8dp"
                         android:layout_marginBottom="16dp"
                         android:text="@string/version"
                         android:textAlignment="center"
-                        android:textSize="@dimen/activity_main_please_open_file_textSize" />
+                        android:textSize="@dimen/activity_main_please_open_file_textSize"
+                        android:textColor="?attr/colorOnSurfaceVariant" />
                 </LinearLayout>
 
                 <androidx.constraintlayout.widget.Guideline
@@ -139,6 +148,7 @@
                         android:paddingStart="2dp"
                         android:paddingEnd="8dp"
                         android:text="@null"
+                        android:textColor="?attr/colorOnSurfaceVariant"
                         android:textSize="@dimen/listview_hex_row_textSize" />
 
                     <TextView
@@ -147,7 +157,9 @@
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical"
                         android:text="@null"
-                        android:textSize="@dimen/listview_hex_row_textSize" />
+                        android:textColor="?attr/colorPrimary"
+                        android:textSize="@dimen/listview_hex_row_textSize"
+                        android:textStyle="bold" />
 
                 </LinearLayout>
 
@@ -157,8 +169,10 @@
                     android:layout_height="match_parent"
                     android:layout_below="@id/title"
                     android:fastScrollEnabled="true"
-                    android:padding="1dp"
+                    android:padding="4dp"
                     android:textSize="@dimen/activity_main_payload_view_textSize"
+                    android:divider="@android:color/transparent"
+                    android:dividerHeight="2dp"
                     android:visibility="gone"
                     tools:visibility="visible" />
             </RelativeLayout>
@@ -175,6 +189,8 @@
                     android:fastScrollEnabled="true"
                     android:padding="1dp"
                     android:textSize="@dimen/activity_main_payload_plain_swipe_refresh_layout_textSize"
+                    android:divider="@android:color/transparent"
+                    android:dividerHeight="2dp"
                     android:visibility="gone"
                     tools:visibility="visible" />
             </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

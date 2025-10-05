@@ -21,4 +21,5 @@
     <color name="colorResultWarning">#FFFF9800</color>
     <color name="colorTextUpdated">#FFC63C51</color>
     <color name="colorLineNumbers">#FFC63C51</color>
+    <color name="action_bar_purple">#522258</color>
 </resources>

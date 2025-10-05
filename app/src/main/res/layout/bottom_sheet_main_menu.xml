@@ -1,0 +1,394 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Material 3 Bottom Sheet Menu with Sections -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingTop="8dp"
+    android:paddingBottom="16dp">
+
+    <!-- Drag handle -->
+    <View
+        android:layout_width="48dp"
+        android:layout_height="5dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/bg_drag_handle" />
+
+    <!-- Edit Actions Section -->
+    <TextView
+        style="@style/TextAppearance.Material3.TitleSmall"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="12dp"
+        android:text="Edit Actions"
+        android:textColor="?attr/colorPrimary"
+        android:textStyle="bold"
+        android:textSize="15sp" />
+
+    <LinearLayout
+        android:id="@+id/action"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:baselineAligned="false"
+        android:layoutDirection="ltr"
+        android:orientation="horizontal"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/containerUndo"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:layout_marginEnd="8dp"
+            app:cardBackgroundColor="?attr/colorSurfaceContainerLow"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="0dp"
+            android:foreground="@drawable/ripple_surface"
+            android:clickable="true"
+            android:focusable="true">
+
+            <ImageView
+                android:id="@+id/actionUndo"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:padding="20dp"
+                android:contentDescription="@string/content_description_undo"
+                android:src="@drawable/ic_undo_disabled"
+                app:tint="?attr/colorPrimary" />
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/containerRedo"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:layout_marginStart="8dp"
+            app:cardBackgroundColor="?attr/colorSurfaceContainerLow"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="0dp"
+            android:foreground="@drawable/ripple_surface"
+            android:clickable="true"
+            android:focusable="true">
+
+            <ImageView
+                android:id="@+id/actionRedo"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:padding="20dp"
+                android:contentDescription="@string/content_description_redo"
+                android:src="@drawable/ic_redo_disabled"
+                app:tint="?attr/colorPrimary" />
+        </androidx.cardview.widget.CardView>
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:background="?attr/colorOutlineVariant" />
+
+    <!-- File Operations Section -->
+    <TextView
+        style="@style/TextAppearance.Material3.TitleSmall"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:text="File Operations"
+        android:textColor="?attr/colorPrimary" />
+
+    <TextView
+        android:id="@+id/actionOpen"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/ripple_surface"
+        android:gravity="center_vertical"
+        android:minHeight="56dp"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
+        android:paddingTop="12dp"
+        android:paddingBottom="12dp"
+        android:text="@string/action_open_title"
+        android:textAppearance="?android:attr/textAppearanceListItemSmall"
+        android:textSize="16sp"
+        android:textColor="?attr/colorOnSurface" />
+
+    <TextView
+        android:id="@+id/actionOpenSequential"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/ripple_surface"
+        android:gravity="center_vertical"
+        android:minHeight="?android:attr/listPreferredItemHeightSmall"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:text="@string/action_open_sequential_title"
+        android:textAppearance="?android:attr/textAppearanceListItemSmall"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/actionRecentlyOpen"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/ripple_surface"
+        android:gravity="center_vertical"
+        android:minHeight="?android:attr/listPreferredItemHeightSmall"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:text="@string/action_recently_open_title"
+        android:textAppearance="?android:attr/textAppearanceListItemSmall"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/actionSave"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/ripple_surface"
+        android:gravity="center_vertical"
+        android:minHeight="?android:attr/listPreferredItemHeightSmall"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:text="@string/action_save_title"
+        android:textAppearance="?android:attr/textAppearanceListItemSmall"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/actionSaveAs"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/ripple_surface"
+        android:gravity="center_vertical"
+        android:minHeight="?android:attr/listPreferredItemHeightSmall"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:text="@string/action_save_as_title"
+        android:textAppearance="?android:attr/textAppearanceListItemSmall"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/actionClose"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/ripple_surface"
+        android:gravity="center_vertical"
+        android:minHeight="?android:attr/listPreferredItemHeightSmall"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:text="@string/action_close_title"
+        android:textAppearance="?android:attr/textAppearanceListItemSmall"
+        android:textSize="16sp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:background="?attr/colorOutlineVariant" />
+
+    <!-- View Options Section -->
+    <TextView
+        style="@style/TextAppearance.Material3.TitleSmall"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:text="View Options"
+        android:textColor="?attr/colorPrimary" />
+
+    <LinearLayout
+        android:id="@+id/actionPlainTextContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/ripple_surface"
+        android:clickable="true"
+        android:focusable="true"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp">
+
+        <TextView
+            android:id="@+id/actionPlainTextTv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.85"
+            android:gravity="center_vertical"
+            android:minHeight="?android:attr/listPreferredItemHeightSmall"
+            android:text="@string/action_plain_text_title"
+            android:textAppearance="?android:attr/textAppearanceListItemSmall"
+            android:textSize="16sp" />
+
+        <CheckBox
+            android:id="@+id/actionPlainTextCb"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.15"
+            android:gravity="center_vertical"
+            android:minHeight="?android:attr/listPreferredItemHeightSmall" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/actionLineNumbersContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/ripple_surface"
+        android:clickable="true"
+        android:focusable="true"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp">
+
+        <TextView
+            android:id="@+id/actionLineNumbersTv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.85"
+            android:gravity="center_vertical"
+            android:minHeight="?android:attr/listPreferredItemHeightSmall"
+            android:text="@string/action_line_numbers_title"
+            android:textAppearance="?android:attr/textAppearanceListItemSmall"
+            android:textSize="16sp" />
+
+        <CheckBox
+            android:id="@+id/actionLineNumbersCb"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.15"
+            android:gravity="center_vertical"
+            android:minHeight="?android:attr/listPreferredItemHeightSmall" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/actionGoTo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/ripple_surface"
+        android:gravity="center_vertical"
+        android:minHeight="?android:attr/listPreferredItemHeightSmall"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:text="@string/action_go_to_address"
+        android:textAppearance="?android:attr/textAppearanceListItemSmall"
+        android:textSize="16sp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:background="?attr/colorOutlineVariant" />
+
+    <!-- Settings & More Section -->
+    <TextView
+        style="@style/TextAppearance.Material3.TitleSmall"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:text="Settings &amp; More"
+        android:textColor="?attr/colorPrimary" />
+
+    <TextView
+        android:id="@+id/actionSettings"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/ripple_surface"
+        android:gravity="center_vertical"
+        android:minHeight="?android:attr/listPreferredItemHeightSmall"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:text="@string/action_settings_title"
+        android:textAppearance="?android:attr/textAppearanceListItemSmall"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/actionRate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/ripple_surface"
+        android:gravity="center_vertical"
+        android:minHeight="?android:attr/listPreferredItemHeightSmall"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:text="@string/rate_app"
+        android:textAppearance="?android:attr/textAppearanceListItemSmall"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/actionMoreApp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/ripple_surface"
+        android:gravity="center_vertical"
+        android:minHeight="?android:attr/listPreferredItemHeightSmall"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:text="@string/more_apps"
+        android:textAppearance="?android:attr/textAppearanceListItemSmall"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/actionShareApp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/ripple_surface"
+        android:gravity="center_vertical"
+        android:minHeight="?android:attr/listPreferredItemHeightSmall"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:text="@string/share_this_app"
+        android:textAppearance="?android:attr/textAppearanceListItemSmall"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/actionAbout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/ripple_surface"
+        android:gravity="center_vertical"
+        android:minHeight="?android:attr/listPreferredItemHeightSmall"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:text="@string/about"
+        android:textAppearance="?android:attr/textAppearanceListItemSmall"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/actionGithubOriginal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/ripple_surface"
+        android:gravity="center_vertical"
+        android:minHeight="?android:attr/listPreferredItemHeightSmall"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:text="@string/source_code_original"
+        android:textAppearance="?android:attr/textAppearanceListItemSmall"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/actionGithubFork"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/ripple_surface"
+        android:gravity="center_vertical"
+        android:minHeight="?android:attr/listPreferredItemHeightSmall"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:text="@string/source_code_forked_version"
+        android:textAppearance="?android:attr/textAppearanceListItemSmall"
+        android:textSize="16sp" />
+</LinearLayout>

@@ -9,7 +9,10 @@
       "Bash(chmod:*)",
       "Bash(tee:*)",
       "Read(//private/tmp/**)",
-      "Bash(find:*)"
+      "Bash(find:*)",
+      "Bash(adb install:*)",
+      "Bash(adb uninstall:*)",
+      "Bash(adb shell pm uninstall:*)"
     ],
     "deny": [],
     "ask": []

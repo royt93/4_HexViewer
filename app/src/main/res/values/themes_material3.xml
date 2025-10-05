@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Material 3 Light Theme - Simple 3-color scheme: White, Black, Purple -->
+    <style name="AppTheme.Material3" parent="Theme.Material3.Light">
+
+        <!-- Primary colors - Purple -->
+        <item name="colorPrimary">#522258</item>
+        <item name="colorOnPrimary">#FFFFFF</item>
+        <item name="colorPrimaryContainer">#E8D4F0</item>
+        <item name="colorOnPrimaryContainer">#522258</item>
+
+        <!-- Secondary colors - Purple tint -->
+        <item name="colorSecondary">#6B4370</item>
+        <item name="colorOnSecondary">#FFFFFF</item>
+        <item name="colorSecondaryContainer">#F0E6F2</item>
+        <item name="colorOnSecondaryContainer">#522258</item>
+
+        <!-- Tertiary colors - Purple variant -->
+        <item name="colorTertiary">#7D5689</item>
+        <item name="colorOnTertiary">#FFFFFF</item>
+        <item name="colorTertiaryContainer">#F5EDF7</item>
+        <item name="colorOnTertiaryContainer">#522258</item>
+
+        <!-- Error colors -->
+        <item name="colorError">#BA1A1A</item>
+        <item name="colorOnError">#FFFFFF</item>
+        <item name="colorErrorContainer">#FFDAD6</item>
+        <item name="colorOnErrorContainer">#410002</item>
+
+        <!-- Surface colors - White -->
+        <item name="colorSurface">#FFFFFF</item>
+        <item name="colorOnSurface">#000000</item>
+        <item name="colorSurfaceVariant">#F5F5F5</item>
+        <item name="colorOnSurfaceVariant">#424242</item>
+
+        <!-- Outline -->
+        <item name="colorOutline">#BDBDBD</item>
+        <item name="colorOutlineVariant">#E0E0E0</item>
+
+        <!-- Background - White -->
+        <item name="android:colorBackground">#FFFFFF</item>
+        <item name="colorOnBackground">#000000</item>
+
+        <!-- Status bar & Navigation bar -->
+        <item name="android:statusBarColor">?attr/colorPrimary</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:navigationBarColor">?attr/colorSurface</item>
+        <item name="android:windowLightNavigationBar">true</item>
+
+        <!-- Action bar - Explicitly set to purple -->
+        <item name="colorPrimaryDark">#522258</item>
+        <item name="actionBarStyle">@style/AppTheme.Material3.ActionBar</item>
+        <item name="actionBarTheme">@style/AppTheme.Material3.ActionBarTheme</item>
+
+        <!-- Material 3 specific -->
+        <item name="elevationOverlayEnabled">false</item>
+        <item name="android:windowActivityTransitions">true</item>
+
+        <!-- Shape appearance -->
+        <item name="shapeAppearanceSmallComponent">@style/ShapeAppearance.Material3.SmallComponent</item>
+        <item name="shapeAppearanceMediumComponent">@style/ShapeAppearance.Material3.MediumComponent</item>
+        <item name="shapeAppearanceLargeComponent">@style/ShapeAppearance.Material3.LargeComponent</item>
+    </style>
+
+    <!-- Custom shape appearances -->
+    <style name="ShapeAppearance.Material3.SmallComponent" parent="ShapeAppearance.Material3.Corner.Small">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">12dp</item>
+    </style>
+
+    <style name="ShapeAppearance.Material3.MediumComponent" parent="ShapeAppearance.Material3.Corner.Medium">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">16dp</item>
+    </style>
+
+    <style name="ShapeAppearance.Material3.LargeComponent" parent="ShapeAppearance.Material3.Corner.Large">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">24dp</item>
+    </style>
+
+    <!-- Action Bar Style - Purple background with white text and icons -->
+    <style name="AppTheme.Material3.ActionBar" parent="Widget.Material3.ActionBar.Solid">
+        <item name="background">@color/action_bar_purple</item>
+        <item name="titleTextStyle">@style/AppTheme.Material3.ActionBar.TitleText</item>
+        <item name="subtitleTextStyle">@style/AppTheme.Material3.ActionBar.SubtitleText</item>
+    </style>
+
+    <style name="AppTheme.Material3.ActionBar.TitleText" parent="TextAppearance.Material3.ActionBar.Title">
+        <item name="android:textColor">#FFFFFF</item>
+    </style>
+
+    <style name="AppTheme.Material3.ActionBar.SubtitleText" parent="TextAppearance.Material3.ActionBar.Subtitle">
+        <item name="android:textColor">#FFFFFF</item>
+    </style>
+
+    <!-- Action Bar Theme - White icons and text -->
+    <style name="AppTheme.Material3.ActionBarTheme" parent="ThemeOverlay.Material3.Dark">
+        <item name="colorControlNormal">#FFFFFF</item>
+        <item name="actionMenuTextColor">#FFFFFF</item>
+    </style>
+</resources>

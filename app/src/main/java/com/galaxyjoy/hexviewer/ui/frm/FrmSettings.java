@@ -180,7 +180,14 @@ public class FrmSettings extends FrmAbstractSettings implements Preference.OnPre
         if (preference.equals(mLanguage)) {
             if (((ActSettings) mActivity).isNotChanged()) {
                 mApp.setApplicationLanguage("" + newValue);
-                mActivity.finish();
+                // Recreate all activities to apply new language
+                mActivity.finishAffinity();
+                Intent intent = mActivity.getPackageManager().getLaunchIntentForPackage(mActivity.getPackageName());
+                if (intent != null) {
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    mActivity.startActivity(intent);
+                }
                 return true;
             } else {
                 UIHelper.showErrorDialog(mActivity, preference.getTitle(), mActivity.getString(R.string.control_language_change));

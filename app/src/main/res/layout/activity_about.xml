@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/layoutRoot"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimary">
+    android:background="?attr/colorPrimary">
 
     <ScrollView
         android:id="@+id/scrollView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/windowBackground">
+        android:background="?attr/colorSurface">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -22,9 +23,10 @@
                 android:id="@+id/appTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingBottom="12dp"
+                android:paddingBottom="16dp"
                 android:text="Android Hex Viewer (Fork)"
-                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textColor="?attr/colorOnSurface"
+                android:textSize="24sp"
                 android:textStyle="bold" />
 
             <!-- About this fork -->
@@ -34,15 +36,19 @@
                 android:layout_height="wrap_content"
                 android:paddingBottom="16dp"
                 android:text="This project is a fork of HexViewer, an open-source Android application for viewing and editing files in hexadecimal and plain text.\n\nThe original project is licensed under the GNU General Public License v3.0 or later (GPLv3+)."
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+                android:textColor="?attr/colorOnSurfaceVariant"
+                android:textSize="16sp"
+                android:lineSpacingExtra="4dp" />
 
             <!-- Modifications -->
             <TextView
                 android:id="@+id/modificationsTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingBottom="8dp"
+                android:paddingBottom="12dp"
                 android:text="📌 Modifications in this fork:"
+                android:textColor="?attr/colorPrimary"
+                android:textSize="18sp"
                 android:textStyle="bold" />
 
             <TextView
@@ -50,15 +56,20 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingBottom="16dp"
-                android:text="@string/ui_improvements_bug_fixes_performance_optimizations_n_integrated_leakcanary_for_memory_leak_detection_n_added_proguard_configuration_n_updated_launcher_icon_n_added_features_rate_app_more_apps_share_app_n_enabled_adaptive_120hz_refresh_rate_support_n_fixed_font_scaling_issues_n_added_splash_screen_n_added_animations_and_decorative_lottie_effects_n_fixed_edge_to_edge_rendering_n_support_for_android_api_35_n_many_other_bug_fixes_improvements" />
+                android:text="@string/ui_improvements_bug_fixes_performance_optimizations_n_integrated_leakcanary_for_memory_leak_detection_n_added_proguard_configuration_n_updated_launcher_icon_n_added_features_rate_app_more_apps_share_app_n_enabled_adaptive_120hz_refresh_rate_support_n_fixed_font_scaling_issues_n_added_splash_screen_n_added_animations_and_decorative_lottie_effects_n_fixed_edge_to_edge_rendering_n_support_for_android_api_35_n_many_other_bug_fixes_improvements"
+                android:textColor="?attr/colorOnSurfaceVariant"
+                android:textSize="14sp"
+                android:lineSpacingExtra="4dp" />
 
             <!-- Credits -->
             <TextView
                 android:id="@+id/creditsTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingBottom="8dp"
+                android:paddingBottom="12dp"
                 android:text="@string/credits_attribution"
+                android:textColor="?attr/colorPrimary"
+                android:textSize="18sp"
                 android:textStyle="bold" />
 
             <TextView
@@ -66,15 +77,20 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingBottom="16dp"
-                android:text="Original author: Keidan\nOriginal project: HexViewer\nContributors: See the original repository for full contributor list.\nAdditional modifications by: Roy" />
+                android:text="Original author: Keidan\nOriginal project: HexViewer\nContributors: See the original repository for full contributor list.\nAdditional modifications by: Roy"
+                android:textColor="?attr/colorOnSurfaceVariant"
+                android:textSize="14sp"
+                android:lineSpacingExtra="4dp" />
 
             <!-- License -->
             <TextView
                 android:id="@+id/licenseTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingBottom="8dp"
+                android:paddingBottom="12dp"
                 android:text="📜 License"
+                android:textColor="?attr/colorPrimary"
+                android:textSize="18sp"
                 android:textStyle="bold" />
 
             <TextView
@@ -82,17 +98,25 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingBottom="16dp"
-                android:text="This project is licensed under the terms of the GNU General Public License v3.0 or later. You are free to use, modify, and redistribute this software under the same license." />
+                android:text="This project is licensed under the terms of the GNU General Public License v3.0 or later. You are free to use, modify, and redistribute this software under the same license."
+                android:textColor="?attr/colorOnSurfaceVariant"
+                android:textSize="14sp"
+                android:lineSpacingExtra="4dp" />
 
             <!-- Source code link -->
             <TextView
                 android:id="@+id/sourceCodeLink"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingBottom="24dp"
+                android:paddingBottom="16dp"
                 android:text="🔗 Source Code"
-                android:textColor="@android:color/holo_blue_dark"
-                android:textStyle="bold" />
+                android:textColor="?attr/colorPrimary"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:background="@drawable/ripple_surface"
+                android:clickable="true"
+                android:focusable="true"
+                android:padding="12dp" />
 
             <View
                 android:layout_width="match_parent"

@@ -18,16 +18,45 @@ import android.util.Log;
 import android.view.Display;
 import android.view.WindowManager;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
+import java.util.Locale;
 
 public class BaseActivity extends AppCompatActivity {
 
+    private Locale currentLocale;
+
+    @Override
+    protected void onCreate(android.os.Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        currentLocale = getResources().getConfiguration().locale;
+    }
+
+    @Override
+    public void onConfigurationChanged(@NonNull Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        // Check if locale changed
+        if (currentLocale != null && !currentLocale.equals(newConfig.locale)) {
+            // Locale changed, recreate activity to apply new language
+            recreate();
+        }
+    }
+
     @Override
     protected void attachBaseContext(Context context) {
-        Configuration override = new Configuration(context.getResources().getConfiguration());
-        override.fontScale = 1.0f;
-        applyOverrideConfiguration(override);
-        super.attachBaseContext(((MyApplication) context.getApplicationContext()).onAttach(context));
+        // First apply language from MyApplication
+        Context newContext = ((MyApplication) context.getApplicationContext()).onAttach(context);
+        super.attachBaseContext(newContext);
+    }
+
+    @Override
+    public void applyOverrideConfiguration(Configuration overrideConfiguration) {
+        if (overrideConfiguration != null) {
+            // Only override fontScale, preserve locale for language to work
+            overrideConfiguration.fontScale = 1.0f;
+        }
+        super.applyOverrideConfiguration(overrideConfiguration);
     }
 
     @Override

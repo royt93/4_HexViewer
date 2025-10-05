@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Material 3 Dark Theme - Simple 3-color scheme: Dark Gray, White, Purple -->
+    <style name="AppTheme.Material3" parent="Theme.Material3.Dark">
+
+        <!-- Primary colors - Purple (same as light theme for consistency) -->
+        <item name="colorPrimary">#522258</item>
+        <item name="colorOnPrimary">#FFFFFF</item>
+        <item name="colorPrimaryContainer">#3D2A42</item>
+        <item name="colorOnPrimaryContainer">#E8D4F0</item>
+
+        <!-- Secondary colors - Purple tint -->
+        <item name="colorSecondary">#C9A8D4</item>
+        <item name="colorOnSecondary">#1C1C1E</item>
+        <item name="colorSecondaryContainer">#4A3551</item>
+        <item name="colorOnSecondaryContainer">#F0E6F2</item>
+
+        <!-- Tertiary colors - Purple variant -->
+        <item name="colorTertiary">#D4B5E0</item>
+        <item name="colorOnTertiary">#1C1C1E</item>
+        <item name="colorTertiaryContainer">#5A4262</item>
+        <item name="colorOnTertiaryContainer">#F5EDF7</item>
+
+        <!-- Error colors -->
+        <item name="colorError">#FFB4AB</item>
+        <item name="colorOnError">#690005</item>
+        <item name="colorErrorContainer">#93000A</item>
+        <item name="colorOnErrorContainer">#FFDAD6</item>
+
+        <!-- Surface colors - Dark Gray -->
+        <item name="colorSurface">#1C1C1E</item>
+        <item name="colorOnSurface">#FFFFFF</item>
+        <item name="colorSurfaceVariant">#2C2C2E</item>
+        <item name="colorOnSurfaceVariant">#E0E0E0</item>
+
+        <!-- Outline -->
+        <item name="colorOutline">#545454</item>
+        <item name="colorOutlineVariant">#3A3A3C</item>
+
+        <!-- Background - Dark Gray -->
+        <item name="android:colorBackground">#1C1C1E</item>
+        <item name="colorOnBackground">#FFFFFF</item>
+
+        <!-- Status bar & Navigation bar -->
+        <item name="android:statusBarColor">?attr/colorPrimary</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:navigationBarColor">?attr/colorSurface</item>
+        <item name="android:windowLightNavigationBar">false</item>
+
+        <!-- Action bar - Explicitly set to purple -->
+        <item name="colorPrimaryDark">#522258</item>
+        <item name="actionBarStyle">@style/AppTheme.Material3.ActionBar</item>
+        <item name="actionBarTheme">@style/AppTheme.Material3.ActionBarTheme</item>
+
+        <!-- Material 3 specific for dark mode -->
+        <item name="elevationOverlayEnabled">true</item>
+        <item name="elevationOverlayColor">?attr/colorPrimary</item>
+        <item name="android:windowActivityTransitions">true</item>
+
+        <!-- Shape appearance (same as light) -->
+        <item name="shapeAppearanceSmallComponent">@style/ShapeAppearance.Material3.SmallComponent</item>
+        <item name="shapeAppearanceMediumComponent">@style/ShapeAppearance.Material3.MediumComponent</item>
+        <item name="shapeAppearanceLargeComponent">@style/ShapeAppearance.Material3.LargeComponent</item>
+    </style>
+</resources>

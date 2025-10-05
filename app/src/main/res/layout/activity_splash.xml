@@ -1,56 +1,135 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/layoutRoot"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimary"
-    android:gravity="center"
-    android:orientation="vertical">
+    android:background="@color/colorPrimary">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:gravity="center"
-        android:orientation="vertical">
+    <!-- App Name -->
+    <TextView
+        android:id="@+id/appName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:alpha="0"
+        android:letterSpacing="0.05"
+        android:scaleX="0.7"
+        android:scaleY="0.7"
+        android:shadowColor="#60000000"
+        android:shadowDx="0"
+        android:shadowDy="4"
+        android:shadowRadius="12"
+        android:text="@string/app_name"
+        android:textColor="@color/white"
+        android:textSize="40sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@id/lottieAnimationView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="packed" />
 
-        <com.airbnb.lottie.LottieAnimationView
-            android:id="@+id/lottieAnimationView"
-            android:layout_width="128dp"
-            android:layout_height="128dp"
-            app:lottie_autoPlay="true"
-            app:lottie_loop="true"
-            app:lottie_rawRes="@raw/no_data" />
+    <!-- Lottie Animation - Larger Size -->
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/lottieAnimationView"
+        android:layout_width="240dp"
+        android:layout_height="240dp"
+        android:layout_marginTop="32dp"
+        app:layout_constraintBottom_toTopOf="@id/progressContainer"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/appName"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        app:lottie_rawRes="@raw/no_data" />
 
-        <!--    <ImageView-->
-        <!--        android:id="@+id/logo"-->
-        <!--        android:layout_width="256dp"-->
-        <!--        android:layout_height="256dp"-->
-        <!--        android:contentDescription="@string/app_name"-->
-        <!--        android:src="@drawable/heart" />-->
+    <!-- Progress Bar Container -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/progressContainer"
+        android:layout_width="88dp"
+        android:layout_height="88dp"
+        android:layout_marginTop="40dp"
+        android:alpha="0"
+        app:cardBackgroundColor="#00000000"
+        app:cardCornerRadius="44dp"
+        app:cardElevation="0dp"
+        app:layout_constraintBottom_toTopOf="@id/loadingText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/lottieAnimationView">
 
         <ProgressBar
             android:id="@+id/progressbar"
-            style="?android:attr/progressBarStyleLarge"
-            android:layout_width="56dp"
-            android:layout_height="56dp"
-            android:layout_marginTop="@dimen/_16sp"
-            android:backgroundTint="@color/white"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:layout_gravity="center"
             android:indeterminate="true"
-            android:indeterminateTint="@color/white"
-            android:max="100" />
+            android:indeterminateTint="@color/white" />
+    </androidx.cardview.widget.CardView>
+
+    <!-- Loading Text -->
+    <TextView
+        android:id="@+id/loadingText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:alpha="0"
+        android:letterSpacing="0.1"
+        android:text="Loading..."
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/progressContainer" />
+
+    <!-- Ad Notice Card -->
+    <LinearLayout
+        android:id="@+id/adNoticeCard"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="16dp"
+        android:alpha="0"
+        android:background="@drawable/bg_ad_notice_rounded"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="16dp"
+        android:translationY="80dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <!-- Icon Circle -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginEnd="16dp"
+            app:cardBackgroundColor="#ffffff"
+            app:cardCornerRadius="45dp"
+            app:cardElevation="0dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="i"
+                android:textColor="@color/colorPrimary"
+                android:textSize="28sp"
+                android:textStyle="bold" />
+        </androidx.cardview.widget.CardView>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Please note: this action may show ads"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            android:textStyle="bold" />
     </LinearLayout>
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:paddingStart="16dp"
-        android:paddingEnd="16dp"
-        android:paddingBottom="16dp"
-        android:text="Please note: this action may show ads"
-        android:textColor="@color/white"
-        android:textSize="16dp"
-        android:textStyle="normal" />
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

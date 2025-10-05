@@ -17,6 +17,13 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
+import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.animation.ObjectAnimator;
+import android.animation.AnimatorSet;
+import android.view.animation.AccelerateDecelerateInterpolator;
+import android.view.animation.LinearInterpolator;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -41,7 +48,69 @@ public class SplashActivity extends AppCompatActivity {
         UIUtils.INSTANCE.setupEdgeToEdge1(getWindow());
         setContentView(R.layout.activity_splash);
         UIUtils.INSTANCE.setupEdgeToEdge2(findViewById(R.id.layoutRoot), true, true);
+        startAnimations();
         checkShowAd();
+    }
+
+    private void startAnimations() {
+        View appName = findViewById(R.id.appName);
+        View progressContainer = findViewById(R.id.progressContainer);
+        View loadingText = findViewById(R.id.loadingText);
+        View adNoticeCard = findViewById(R.id.adNoticeCard);
+
+        // App name animation - zoom in with fade
+        appName.animate()
+                .alpha(1f)
+                .scaleX(1f)
+                .scaleY(1f)
+                .setDuration(1000)
+                .setStartDelay(200)
+                .setInterpolator(new AccelerateDecelerateInterpolator())
+                .start();
+
+        // Progress bar container - fade in with scale
+        progressContainer.animate()
+                .alpha(1f)
+                .setDuration(800)
+                .setStartDelay(900)
+                .setInterpolator(new AccelerateDecelerateInterpolator())
+                .start();
+
+        // Loading text - fade in with pulsing
+        loadingText.animate()
+                .alpha(1f)
+                .setDuration(800)
+                .setStartDelay(1100)
+                .setInterpolator(new AccelerateDecelerateInterpolator())
+                .withEndAction(() -> pulseAnimation(loadingText))
+                .start();
+
+        // Ad notice card - slide up from bottom
+        adNoticeCard.animate()
+                .alpha(1f)
+                .translationY(0)
+                .setDuration(900)
+                .setStartDelay(1300)
+                .setInterpolator(new AccelerateDecelerateInterpolator())
+                .start();
+    }
+
+    private void pulseAnimation(View view) {
+        view.animate()
+                .scaleX(1.1f)
+                .scaleY(1.1f)
+                .setDuration(800)
+                .setInterpolator(new AccelerateDecelerateInterpolator())
+                .withEndAction(() -> {
+                    view.animate()
+                            .scaleX(1f)
+                            .scaleY(1f)
+                            .setDuration(800)
+                            .setInterpolator(new AccelerateDecelerateInterpolator())
+                            .withEndAction(() -> pulseAnimation(view))
+                            .start();
+                })
+                .start();
     }
 
     private void checkShowAd() {

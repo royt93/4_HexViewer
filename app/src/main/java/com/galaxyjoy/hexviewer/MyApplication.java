@@ -19,6 +19,7 @@ import android.content.res.Resources;
 import android.os.Build;
 import android.util.Log;
 
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.emoji.bundled.BundledEmojiCompatConfig;
 import androidx.emoji.text.EmojiCompat;
 import androidx.preference.PreferenceManager;
@@ -91,6 +92,8 @@ public class MyApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        // Enable automatic dark mode following system settings
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
 //        ApplovinUtils.setupApplovinAd(this);
         setupAdmob();
         setupApp();

@@ -6,10 +6,15 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/tilEditText"
+        style="@style/Widget.Material3.TextInputLayout.FilledBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginEnd="50dp"
         android:padding="16dp"
+        app:boxCornerRadiusBottomEnd="12dp"
+        app:boxCornerRadiusBottomStart="12dp"
+        app:boxCornerRadiusTopEnd="12dp"
+        app:boxCornerRadiusTopStart="12dp"
         app:errorEnabled="true"
         app:errorTextAppearance="@style/AppTheme.ErrorTextAppearance"
         app:hintTextAppearance="@style/AppTheme.HintPrefTextAppearance">

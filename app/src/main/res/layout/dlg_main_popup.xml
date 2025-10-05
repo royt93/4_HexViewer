@@ -1,9 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="16dp"
+    app:cardCornerRadius="16dp"
+    app:cardElevation="8dp"
+    style="@style/Widget.Material3.CardView.Elevated">
+
+<ScrollView
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/windowBackground">
+    android:background="@drawable/bg_glass_dialog">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -20,16 +28,19 @@
 
             <FrameLayout
                 android:id="@+id/containerUndo"
-                style="?android:borderlessButtonStyle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.5">
+                android:layout_weight="0.5"
+                android:background="@drawable/ripple_surface"
+                android:clickable="true"
+                android:focusable="true">
 
                 <ImageView
                     android:id="@+id/actionUndo"
                     android:layout_width="32dp"
                     android:layout_height="32dp"
                     android:layout_gravity="center"
+                    android:layout_margin="8dp"
                     android:contentDescription="@string/content_description_undo"
                     android:src="@drawable/ic_undo_disabled"
                     android:text="@null"
@@ -38,16 +49,19 @@
 
             <FrameLayout
                 android:id="@+id/containerRedo"
-                style="?android:borderlessButtonStyle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.5">
+                android:layout_weight="0.5"
+                android:background="@drawable/ripple_surface"
+                android:clickable="true"
+                android:focusable="true">
 
                 <ImageView
                     android:id="@+id/actionRedo"
                     android:layout_width="32dp"
                     android:layout_height="32dp"
                     android:layout_gravity="center"
+                    android:layout_margin="8dp"
                     android:contentDescription="@string/content_description_redo"
                     android:src="@drawable/ic_redo_disabled"
                     android:text="@null"
@@ -59,7 +73,7 @@
             android:id="@+id/actionOpen"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="?attr/selectableItemBackground"
+            android:background="@drawable/ripple_surface"
             android:gravity="center_vertical"
             android:minHeight="?android:attr/listPreferredItemHeightSmall"
             android:paddingStart="?android:attr/listPreferredItemPaddingStart"
@@ -72,7 +86,7 @@
             android:id="@+id/actionOpenSequential"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="?attr/selectableItemBackground"
+            android:background="@drawable/ripple_surface"
             android:gravity="center_vertical"
             android:minHeight="?android:attr/listPreferredItemHeightSmall"
             android:paddingStart="?android:attr/listPreferredItemPaddingStart"
@@ -85,7 +99,7 @@
             android:id="@+id/actionRecentlyOpen"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="?attr/selectableItemBackground"
+            android:background="@drawable/ripple_surface"
             android:gravity="center_vertical"
             android:minHeight="?android:attr/listPreferredItemHeightSmall"
             android:paddingStart="?android:attr/listPreferredItemPaddingStart"
@@ -97,7 +111,10 @@
         <LinearLayout
             android:id="@+id/actionPlainTextContainer"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:background="@drawable/ripple_surface"
+            android:clickable="true"
+            android:focusable="true">
 
             <TextView
                 android:id="@+id/actionPlainTextTv"
@@ -127,7 +144,10 @@
         <LinearLayout
             android:id="@+id/actionLineNumbersContainer"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:background="@drawable/ripple_surface"
+            android:clickable="true"
+            android:focusable="true">
 
             <TextView
                 android:id="@+id/actionLineNumbersTv"
@@ -158,7 +178,7 @@
             android:id="@+id/actionGoTo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="?attr/selectableItemBackground"
+            android:background="@drawable/ripple_surface"
             android:gravity="center_vertical"
             android:minHeight="?android:attr/listPreferredItemHeightSmall"
             android:paddingStart="?android:attr/listPreferredItemPaddingStart"
@@ -171,7 +191,7 @@
             android:id="@+id/actionSave"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="?attr/selectableItemBackground"
+            android:background="@drawable/ripple_surface"
             android:gravity="center_vertical"
             android:minHeight="?android:attr/listPreferredItemHeightSmall"
             android:paddingStart="?android:attr/listPreferredItemPaddingStart"
@@ -184,7 +204,7 @@
             android:id="@+id/actionSaveAs"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="?attr/selectableItemBackground"
+            android:background="@drawable/ripple_surface"
             android:gravity="center_vertical"
             android:minHeight="?android:attr/listPreferredItemHeightSmall"
             android:paddingStart="?android:attr/listPreferredItemPaddingStart"
@@ -197,7 +217,7 @@
             android:id="@+id/actionClose"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="?attr/selectableItemBackground"
+            android:background="@drawable/ripple_surface"
             android:gravity="center_vertical"
             android:minHeight="?android:attr/listPreferredItemHeightSmall"
             android:paddingStart="?android:attr/listPreferredItemPaddingStart"
@@ -210,7 +230,7 @@
             android:id="@+id/actionSettings"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="?attr/selectableItemBackground"
+            android:background="@drawable/ripple_surface"
             android:gravity="center_vertical"
             android:minHeight="?android:attr/listPreferredItemHeightSmall"
             android:paddingStart="?android:attr/listPreferredItemPaddingStart"
@@ -223,7 +243,7 @@
             android:id="@+id/actionRate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="?attr/selectableItemBackground"
+            android:background="@drawable/ripple_surface"
             android:gravity="center_vertical"
             android:minHeight="?android:attr/listPreferredItemHeightSmall"
             android:paddingStart="?android:attr/listPreferredItemPaddingStart"
@@ -236,7 +256,7 @@
             android:id="@+id/actionMoreApp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="?attr/selectableItemBackground"
+            android:background="@drawable/ripple_surface"
             android:gravity="center_vertical"
             android:minHeight="?android:attr/listPreferredItemHeightSmall"
             android:paddingStart="?android:attr/listPreferredItemPaddingStart"
@@ -249,7 +269,7 @@
             android:id="@+id/actionShareApp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="?attr/selectableItemBackground"
+            android:background="@drawable/ripple_surface"
             android:gravity="center_vertical"
             android:minHeight="?android:attr/listPreferredItemHeightSmall"
             android:paddingStart="?android:attr/listPreferredItemPaddingStart"
@@ -262,7 +282,7 @@
             android:id="@+id/actionAbout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="?attr/selectableItemBackground"
+            android:background="@drawable/ripple_surface"
             android:gravity="center_vertical"
             android:minHeight="?android:attr/listPreferredItemHeightSmall"
             android:paddingStart="?android:attr/listPreferredItemPaddingStart"
@@ -275,7 +295,7 @@
             android:id="@+id/actionGithubOriginal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="?attr/selectableItemBackground"
+            android:background="@drawable/ripple_surface"
             android:gravity="center_vertical"
             android:minHeight="?android:attr/listPreferredItemHeightSmall"
             android:paddingStart="?android:attr/listPreferredItemPaddingStart"
@@ -288,7 +308,7 @@
             android:id="@+id/actionGithubFork"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="?attr/selectableItemBackground"
+            android:background="@drawable/ripple_surface"
             android:gravity="center_vertical"
             android:minHeight="?android:attr/listPreferredItemHeightSmall"
             android:paddingStart="?android:attr/listPreferredItemPaddingStart"
@@ -298,3 +318,4 @@
             android:textSize="@dimen/main_popup_items_textSize" />
     </LinearLayout>
 </ScrollView>
+</com.google.android.material.card.MaterialCardView>
