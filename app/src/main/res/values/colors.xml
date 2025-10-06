@@ -10,6 +10,7 @@
     <color name="textColor">#FF1A1A1D</color>
     <color name="white">#FFFFFFFF</color>
     <color name="windowBackground">#FFFFFFFF</color>
+    <color name="dialogBackground">#FFFFFFFF</color>
     <color name="colorButtonNormal">#FF522258</color>
 <!--    <color name="colorBackground">#FF522258</color>-->
     <color name="colorControlNormal">#FFC5C5C5</color>

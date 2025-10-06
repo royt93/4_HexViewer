@@ -5,4 +5,5 @@
     <color name="textColor">#E7E1E5</color>
     <color name="textColorPrimary">#E7E1E5</color>
     <color name="textColorSecondary">#CDC4CE</color>
+    <color name="dialogBackground">#1C1C1E</color>
 </resources>
