@@ -45,7 +45,22 @@ public abstract class TaskRunner<C, P, I, R> implements TaskRunnerCallback<C, P,
     public void cancel() {
         mCancel.set(true);
         mExecutor.shutdownNow();
-        mHandler.post(this::onCancelled);
+        // Post onCancelled, then cleanup after it runs to prevent memory leaks
+        mHandler.post(() -> {
+            onCancelled();
+            cleanup();
+        });
+    }
+
+    /**
+     * Cleans up resources to prevent memory leaks.
+     * Removes all pending Handler callbacks and messages.
+     * Should be called after task completion or cancellation.
+     */
+    private void cleanup() {
+        if (mHandler != null) {
+            mHandler.removeCallbacksAndMessages(null);
+        }
     }
 
     /**
@@ -69,7 +84,11 @@ public abstract class TaskRunner<C, P, I, R> implements TaskRunnerCallback<C, P,
             } finally {
                 final R finalResult = result;
                 if (finalResult != null) {
-                    mHandler.post(() -> onPostExecute(finalResult));
+                    mHandler.post(() -> {
+                        onPostExecute(finalResult);
+                        // Clean up after normal completion to prevent memory leaks
+                        cleanup();
+                    });
                 }
                 if (!mExecutor.isShutdown())
                     mExecutor.shutdown();

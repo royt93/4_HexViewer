@@ -79,6 +79,7 @@ public class ActLineUpdate extends BaseActivity implements View.OnClickListener 
     private AdtLineUpdateHexArray mAdapterSource;
     private AdtLineUpdateHexArray mAdapterResult;
     private MemoryMonitor mMemoryMonitor;
+    private LineUpdateTextWatcher mTextWatcher;
 
     /**
      * Called when the activity is created.
@@ -192,13 +193,15 @@ public class ActLineUpdate extends BaseActivity implements View.OnClickListener 
         if (mHex.endsWith(" "))
             mHex = mHex.substring(0, mHex.length() - 1);
         mEtInputHex.setText(mHex);
-        mEtInputHex.addTextChangedListener(new LineUpdateTextWatcher(
+        // Store TextWatcher reference to prevent memory leaks
+        mTextWatcher = new LineUpdateTextWatcher(
                 mAdapterResult,
                 mTilInputHex,
                 mApp,
                 mShiftOffset,
                 maxLengthWithPartial,
-                mSequential));
+                mSequential);
+        mEtInputHex.addTextChangedListener(mTextWatcher);
     }
 
     /**
@@ -226,6 +229,11 @@ public class ActLineUpdate extends BaseActivity implements View.OnClickListener 
     public void onDestroy() {
         super.onDestroy();
         mMemoryMonitor.stop();
+        // Remove TextWatcher to prevent memory leaks
+        if (mEtInputHex != null && mTextWatcher != null) {
+            mEtInputHex.removeTextChangedListener(mTextWatcher);
+            mTextWatcher = null;
+        }
     }
 
     /**

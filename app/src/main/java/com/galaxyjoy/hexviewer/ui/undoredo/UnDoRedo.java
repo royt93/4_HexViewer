@@ -22,6 +22,7 @@ import com.galaxyjoy.hexviewer.ui.undoredo.commands.DeleteCommand;
 import com.galaxyjoy.hexviewer.ui.undoredo.commands.UpdateAndDeleteCommand;
 import com.galaxyjoy.hexviewer.ui.undoredo.commands.UpdateCommand;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.List;
@@ -30,17 +31,28 @@ import java.util.Map;
 public class UnDoRedo {
     private static final int CONTROL_UNDO = 0;
     private static final int CONTROL_REDO = 1;
-    private final ActMain mActivity;
+    // Use WeakReference to prevent Activity leaks if UnDoRedo outlives Activity
+    private final WeakReference<ActMain> mActivityRef;
     private final Control[] mControls;
     private final Deque<ICommand> mUndo;
     private final Deque<ICommand> mRedo;
     private int mReferenceIndex;
 
     public UnDoRedo(ActMain activity) {
-        mActivity = activity;
+        mActivityRef = new WeakReference<>(activity);
         mControls = new Control[2];
         mUndo = new ArrayDeque<>();
         mRedo = new ArrayDeque<>();
+    }
+
+    /**
+     * Gets the Activity reference, or null if it has been garbage collected.
+     * Callers should check for null before using.
+     *
+     * @return ActMain or null
+     */
+    private ActMain getActivity() {
+        return mActivityRef.get();
     }
 
     /**
@@ -106,7 +118,10 @@ public class UnDoRedo {
         manageControl(mControls[CONTROL_REDO], false);
         mRedo.clear();
 
-        mActivity.refreshTitle();
+        // Use the activity parameter passed to this method
+        if (activity != null) {
+            activity.refreshTitle();
+        }
         return cmd;
     }
 
@@ -133,7 +148,10 @@ public class UnDoRedo {
         manageControl(mControls[CONTROL_REDO], false);
         mRedo.clear();
 
-        mActivity.refreshTitle();
+        // Use the activity parameter passed to this method
+        if (activity != null) {
+            activity.refreshTitle();
+        }
         return cmd;
     }
 
@@ -152,7 +170,10 @@ public class UnDoRedo {
         manageControl(mControls[CONTROL_REDO], false);
         mRedo.clear();
 
-        mActivity.refreshTitle();
+        // Use the activity parameter passed to this method
+        if (activity != null) {
+            activity.refreshTitle();
+        }
         return cmd;
     }
 
@@ -166,10 +187,14 @@ public class UnDoRedo {
             command.unExecute();
             manageControl(mControls[CONTROL_REDO], true);
         }
-        mActivity.refreshTitle();
+        ActMain activity = getActivity();
+        if (activity != null) {
+            activity.refreshTitle();
+        }
         manageControl(mControls[CONTROL_UNDO], !mUndo.isEmpty());
-        if (!isChanged())
-            mActivity.getPayloadHex().resetUpdateStatus();
+        if (!isChanged() && activity != null) {
+            activity.getPayloadHex().resetUpdateStatus();
+        }
     }
 
     /**
@@ -182,10 +207,14 @@ public class UnDoRedo {
             command.execute();
             manageControl(mControls[CONTROL_UNDO], true);
         }
-        mActivity.refreshTitle();
+        ActMain activity = getActivity();
+        if (activity != null) {
+            activity.refreshTitle();
+        }
         manageControl(mControls[CONTROL_REDO], !mRedo.isEmpty());
-        if (!isChanged())
-            mActivity.getPayloadHex().resetUpdateStatus();
+        if (!isChanged() && activity != null) {
+            activity.getPayloadHex().resetUpdateStatus();
+        }
     }
 
     /**
@@ -197,7 +226,10 @@ public class UnDoRedo {
         mUndo.clear();
         mRedo.clear();
         mReferenceIndex = 0;
-        mActivity.refreshTitle();
+        ActMain activity = getActivity();
+        if (activity != null) {
+            activity.refreshTitle();
+        }
     }
 
     /**
@@ -210,8 +242,11 @@ public class UnDoRedo {
         if (control != null && control.img != null) {
             if (control.container != null)
                 control.container.setEnabled(enabled);
-            control.img.setImageDrawable(ContextCompat.getDrawable(mActivity, enabled ? control.enable : control.disable));
-            control.img.setEnabled(enabled);
+            ActMain activity = getActivity();
+            if (activity != null) {
+                control.img.setImageDrawable(ContextCompat.getDrawable(activity, enabled ? control.enable : control.disable));
+                control.img.setEnabled(enabled);
+            }
         }
     }
 

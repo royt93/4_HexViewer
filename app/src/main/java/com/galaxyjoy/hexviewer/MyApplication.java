@@ -88,6 +88,7 @@ public class MyApplication extends Application {
     private String mDefaultMemoryThreshold;
     private boolean mDefaultPartialOpenButWholeFileIsOpened;
     private Configuration mConfiguration = null;
+    private Thread mAdMobInitThread = null;
 
     @Override
     public void onCreate() {
@@ -572,11 +573,23 @@ public class MyApplication extends Application {
     }
 
     public void setupAdmob() {
-        new Thread(() -> {
+        // Create named thread with proper lifecycle management to prevent leaks
+        mAdMobInitThread = new Thread(() -> {
             try {
+                // Check if thread was interrupted before initialization
+                if (Thread.currentThread().isInterrupted()) {
+                    return;
+                }
+
                 MobileAds.initialize(MyApplication.this, initializationStatus -> {
                     // Không làm gì
                 });
+
+                // Check again after initialization
+                if (Thread.currentThread().isInterrupted()) {
+                    return;
+                }
+
                 AdMobManager.INSTANCE.init(this, new Function2<Boolean, String, Unit>() {
                     @Override
                     public Unit invoke(Boolean success, String gaidCurrent) {
@@ -585,9 +598,32 @@ public class MyApplication extends Application {
                     }
                 });
             } catch (Exception e) {
-                Log.e("roy93~", "AdMob initialization error", e);
+                // Check if the exception was due to thread interruption
+                if (Thread.currentThread().isInterrupted() || e instanceof InterruptedException) {
+                    Log.d("roy93~", "AdMob initialization interrupted");
+                    Thread.currentThread().interrupt(); // Restore interrupt status
+                } else {
+                    Log.e("roy93~", "AdMob initialization error", e);
+                }
             }
-        }).start();
+        }, "AdMobInitThread");
+        mAdMobInitThread.start();
+    }
+
+    /**
+     * Called when the application is terminating.
+     * Note: This is rarely called in production, but good practice to implement.
+     */
+    @Override
+    public void onTerminate() {
+        super.onTerminate();
+        // Interrupt the AdMob initialization thread if it's still running
+        if (mAdMobInitThread != null && mAdMobInitThread.isAlive()) {
+            mAdMobInitThread.interrupt();
+        }
+    }
+
+    /* Commented out code for future use
 //        registerActivityLifecycleCallbacks(new AppLifecycleListener(new Function2<Boolean, Activity, Unit>() {
 //            @Override
 //            public Unit invoke(Boolean isForeground, Activity activity) {
@@ -624,5 +660,5 @@ public class MyApplication extends Application {
 //                return null;
 //            }
 //        }));
-    }
+    */
 }
