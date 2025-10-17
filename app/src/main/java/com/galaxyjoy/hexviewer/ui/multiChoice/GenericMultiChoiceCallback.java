@@ -40,7 +40,16 @@ public abstract class GenericMultiChoiceCallback implements AbsListView.MultiCho
     private int mFirstSelection = -1;
     private final AlertDialog mProgress;
     private MenuItem mMenuItemSelectAll;
-    private Handler mActionHandler;
+    private final Handler mActionHandler;
+    private boolean mIsSelectingAll = false;
+    private ActionMode mCurrentActionMode = null;
+    private int mBatchUpdateCounter = 0;
+
+    // Performance optimization constants
+    private static final int SMALL_FILE_THRESHOLD = 500;
+    private static final int MEDIUM_FILE_THRESHOLD = 5000;
+    private static final int LARGE_FILE_THRESHOLD = 20000;
+    private static final int TITLE_UPDATE_INTERVAL = 10; // Update title every N batches
 
     @SuppressLint("InflateParams")
     protected GenericMultiChoiceCallback(ActMain activityMain, final ListView listView, final AdtSearchableListArray adapter) {
@@ -68,6 +77,7 @@ public abstract class GenericMultiChoiceCallback implements AbsListView.MultiCho
      */
     @Override
     public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+        mCurrentActionMode = mode;
         mode.getMenuInflater().inflate(getMenuId(), menu);
         mMenuItemSelectAll = menu.findItem(R.id.menuActionSelectAll);
         return true;
@@ -120,6 +130,9 @@ public abstract class GenericMultiChoiceCallback implements AbsListView.MultiCho
      */
     @Override
     public void onDestroyActionMode(ActionMode mode) {
+        mIsSelectingAll = false;
+        mCurrentActionMode = null;
+        mBatchUpdateCounter = 0;
         mAdapter.removeSelection();
         if (mProgress.isShowing())
             mProgress.dismiss();
@@ -138,9 +151,21 @@ public abstract class GenericMultiChoiceCallback implements AbsListView.MultiCho
      */
     @Override
     public void onItemCheckedStateChanged(ActionMode mode, int position, long id, boolean checked) {
+        mAdapter.toggleSelection(position, checked);
+
+        // Skip UI updates during batch selection to prevent OOM
+        if (mIsSelectingAll) {
+            // Batch update title periodically instead of every item
+            mBatchUpdateCounter++;
+            if (mBatchUpdateCounter % TITLE_UPDATE_INTERVAL == 0) {
+                updateActionModeTitle(mode);
+            }
+            return;
+        }
+
+        // Normal single-item selection
         final int checkedCount = mListView.getCheckedItemCount();
         mode.setTitle(String.format(mActivity.getString(R.string.items_selected), checkedCount));
-        mAdapter.toggleSelection(position, checked);
         if (checkedCount == 1)
             mFirstSelection = mAdapter.getSelectedIds().get(0);
         if (mMenuItemSelectAll != null)
@@ -149,20 +174,178 @@ public abstract class GenericMultiChoiceCallback implements AbsListView.MultiCho
     }
 
     /**
+     * Update action mode title - extracted for reuse
+     */
+    private void updateActionModeTitle(ActionMode mode) {
+        if (mode != null) {
+            final int checkedCount = mListView.getCheckedItemCount();
+            mode.setTitle(String.format(mActivity.getString(R.string.items_selected), checkedCount));
+        }
+    }
+
+    /**
      * Select all action.
      *
      * @param item The item that was clicked.
      */
     private void actionSelectAll(MenuItem item) {
+        final int count = mAdapter.getCount();
         final boolean checked = mAdapter.getSelectedCount() != mAdapter.getCount();
-        setActionView(item, () -> {
-            final int count = mAdapter.getCount();
-            for (int i = 0; i < count; i++) {
-                if (mFirstSelection == i && !checked)
-                    continue;
-                mListView.setItemChecked(i, checked);
+
+        // Warn user for extremely large selections
+        if (count > LARGE_FILE_THRESHOLD) {
+            UIHelper.showErrorDialog(mActivity,
+                mActivity.getString(R.string.error_title),
+                "Cannot select more than " + LARGE_FILE_THRESHOLD + " items at once. Current count: " + count);
+            return;
+        }
+
+        // Dynamic batch size based on file size for optimal performance
+        final int batchSize = calculateOptimalBatchSize(count);
+        final long batchDelay = calculateOptimalDelay(count);
+
+        // Reset counter for batch updates
+        mBatchUpdateCounter = 0;
+
+        // Small files: process immediately without progress dialog
+        if (count <= SMALL_FILE_THRESHOLD) {
+            mIsSelectingAll = true;
+            processSmallFileDirectly(count, checked, item);
+            return;
+        }
+
+        // Medium/Large files: use batching with progress dialog
+        UIHelper.showCircularProgressDialog(mProgress);
+
+        mActionHandler.postDelayed(() -> {
+            mIsSelectingAll = true;
+            processBatch(0, count, batchSize, batchDelay, checked, item);
+        }, 50); // Reduced initial delay from 100ms to 50ms
+    }
+
+    /**
+     * Calculate optimal batch size based on total item count
+     * Larger batches for smaller files = faster processing
+     */
+    private int calculateOptimalBatchSize(int totalCount) {
+        if (totalCount <= SMALL_FILE_THRESHOLD) {
+            return totalCount; // Process all at once
+        } else if (totalCount <= MEDIUM_FILE_THRESHOLD) {
+            return 200; // Medium batches
+        } else {
+            return 150; // Smaller batches for large files
+        }
+    }
+
+    /**
+     * Calculate optimal delay between batches
+     * Shorter delays for smaller files = faster completion
+     */
+    private long calculateOptimalDelay(int totalCount) {
+        if (totalCount <= SMALL_FILE_THRESHOLD) {
+            return 0; // No delay
+        } else if (totalCount <= MEDIUM_FILE_THRESHOLD) {
+            return 8; // ~2 frames
+        } else {
+            return 16; // 1 frame for large files
+        }
+    }
+
+    /**
+     * Process small files directly without batching for instant response
+     * Disables drawing during selection for maximum performance
+     */
+    private void processSmallFileDirectly(int count, boolean checked, MenuItem item) {
+        // Temporarily disable drawing for ultra-fast selection
+        mListView.setDrawingCacheEnabled(false);
+
+        for (int i = 0; i < count; i++) {
+            if (mFirstSelection == i && !checked)
+                continue;
+            mListView.setItemChecked(i, checked);
+        }
+
+        // Re-enable drawing and invalidate to show results
+        mListView.setDrawingCacheEnabled(true);
+        mListView.invalidate();
+
+        finishSelectAll(item);
+    }
+
+    /**
+     * Process selection in batches to prevent OOM and ANR
+     * Uses adaptive delay based on file size for optimal performance
+     */
+    private void processBatch(final int start, final int total, final int batchSize,
+                              final long batchDelay, final boolean checked, final MenuItem item) {
+        // Stop processing if action mode was destroyed
+        if (mCurrentActionMode == null) {
+            mIsSelectingAll = false;
+            if (mProgress.isShowing())
+                mProgress.dismiss();
+            return;
+        }
+
+        final int end = Math.min(start + batchSize, total);
+
+        // Process current batch with optimized loop
+        for (int i = start; i < end; i++) {
+            if (mFirstSelection == i && !checked)
+                continue;
+            mListView.setItemChecked(i, checked);
+        }
+
+        // Continue with next batch or finish
+        if (end < total) {
+            // Use adaptive delay: no delay for fast files, minimal for medium, 1 frame for large
+            if (batchDelay > 0) {
+                mActionHandler.postDelayed(() -> processBatch(end, total, batchSize, batchDelay, checked, item), batchDelay);
+            } else {
+                // Zero delay = use post() for immediate scheduling (faster than postDelayed(0))
+                mActionHandler.post(() -> processBatch(end, total, batchSize, batchDelay, checked, item));
             }
-        });
+        } else {
+            // All items processed, update UI once
+            finishSelectAll(item);
+        }
+    }
+
+    /**
+     * Finish select all operation and update UI
+     */
+    private void finishSelectAll(final MenuItem item) {
+        // Check if action mode was destroyed during batch processing
+        if (mCurrentActionMode == null) {
+            mIsSelectingAll = false;
+            mBatchUpdateCounter = 0;
+            if (mProgress.isShowing())
+                mProgress.dismiss();
+            return;
+        }
+
+        mIsSelectingAll = false;
+        mBatchUpdateCounter = 0;
+
+        // Update UI only once after all selections complete
+        if (item != null) {
+            item.setCheckable(true);
+            item.setChecked(mAdapter.getSelectedCount() == mAdapter.getCount());
+            View view = item.getActionView();
+            if (view != null) {
+                view.clearAnimation();
+                item.setActionView(null);
+            }
+        }
+
+        // Update action mode title one final time
+        final int checkedCount = mListView.getCheckedItemCount();
+        mCurrentActionMode.setTitle(String.format(mActivity.getString(R.string.items_selected), checkedCount));
+
+        if (mMenuItemSelectAll != null)
+            mMenuItemSelectAll.setChecked(mAdapter.getSelectedCount() == mAdapter.getCount());
+
+        if (mProgress.isShowing())
+            mProgress.dismiss();
     }
 
     /**
