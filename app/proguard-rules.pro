@@ -74,13 +74,26 @@
 # APK Size Optimization Rules
 # ================================
 
-# Remove logging in release builds
+# Remove logging in release builds - SECURITY: Prevents sensitive data leakage
+# This removes all Log statements including sensitive GAIDs, file paths, etc.
 -assumenosideeffects class android.util.Log {
     public static *** d(...);
     public static *** v(...);
     public static *** i(...);
     public static *** w(...);
 }
+
+# Remove custom logging that may contain sensitive information
+# MyApplication.addLog stores logs in memory buffer - remove in release
+-assumenosideeffects class com.galaxyjoy.hexviewer.MyApplication {
+    public static *** addLog(...);
+}
+
+# Note: We keep Log.e() for crash reporting
+# To remove all logging including errors, uncomment below:
+# -assumenosideeffects class android.util.Log {
+#     public static *** e(...);
+# }
 
 # Aggressive optimization (but not too aggressive)
 -optimizations !code/simplification/arithmetic,!code/simplification/cast,!field/*,!class/merging/*

@@ -219,15 +219,103 @@ public class ActMain extends ActAbstractBaseMain implements AdapterView.OnItemCl
      * @param intent The intent.
      */
     private void handleIntent(Intent intent) {
-        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
+        if (intent == null) {
+            return;
+        }
+
+        // Validate intent action - only allow known safe actions
+        String action = intent.getAction();
+        if (Intent.ACTION_SEARCH.equals(action)) {
             mSearchQuery = intent.getStringExtra(SearchManager.QUERY);
             doSearch(mSearchQuery == null ? "" : mSearchQuery);
-        } else {
+        } else if (Intent.ACTION_VIEW.equals(action) || Intent.ACTION_EDIT.equals(action)) {
+            // Security: Validate intent for VIEW/EDIT actions
+            if (!validateIntent(intent)) {
+                UIHelper.showErrorDialog(this, getString(R.string.error_title),
+                        "Invalid or unsafe file source. Please use the Open File menu instead.");
+                return;
+            }
+
             if (intent.getData() != null) {
                 closeOrphanDialog();
-                processIntentUri(getIntent().getData());
+                processIntentUri(intent.getData());
             }
+        } else if (action == null && intent.getData() != null) {
+            // Handle intents without explicit action but with data
+            if (!validateIntent(intent)) {
+                UIHelper.showErrorDialog(this, getString(R.string.error_title),
+                        "Invalid or unsafe file source. Please use the Open File menu instead.");
+                return;
+            }
+            closeOrphanDialog();
+            processIntentUri(intent.getData());
         }
+    }
+
+    /**
+     * Validates intent for security - prevents malicious file opening attacks.
+     *
+     * @param intent The intent to validate
+     * @return true if intent is safe to process
+     */
+    private boolean validateIntent(Intent intent) {
+        if (intent == null || intent.getData() == null) {
+            return false;
+        }
+
+        Uri uri = intent.getData();
+        String scheme = uri.getScheme();
+
+        // Only allow content:// and file:// schemes - block others like javascript://, data://
+        if (scheme == null || (!scheme.equals("content") && !scheme.equals("file"))) {
+            android.util.Log.w("ActMain", "Rejected intent with unsafe scheme: " + scheme);
+            return false;
+        }
+
+        // Validate mime type if available
+        String mimeType = intent.getType();
+        if (mimeType != null && !isAllowedMimeType(mimeType)) {
+            android.util.Log.w("ActMain", "Rejected intent with unsafe mime type: " + mimeType);
+            return false;
+        }
+
+        // Additional validation: Check file size if possible
+        try {
+            long fileSize = com.galaxyjoy.hexviewer.util.io.FileHelper.getFileSize(this, getContentResolver(), uri);
+            if (fileSize > com.galaxyjoy.hexviewer.constants.AppConstants.MAX_EXTERNAL_INTENT_FILE_SIZE) {
+                String maxSizeStr = com.galaxyjoy.hexviewer.util.SysHelper.sizeToHuman(this,
+                    com.galaxyjoy.hexviewer.constants.AppConstants.MAX_EXTERNAL_INTENT_FILE_SIZE,
+                    true, true, false);
+                UIHelper.showErrorDialog(this, getString(R.string.error_title),
+                        "File too large (max " + maxSizeStr + " for external files). Use Open File menu for larger files.");
+                return false;
+            }
+        } catch (Exception e) {
+            // If we can't get file size, allow but log
+            android.util.Log.w("ActMain", "Could not validate file size: " + e.getMessage());
+        }
+
+        return true;
+    }
+
+    /**
+     * Checks if mime type is in allowed list.
+     *
+     * @param mimeType MIME type to check
+     * @return true if allowed
+     */
+    private boolean isAllowedMimeType(String mimeType) {
+        if (mimeType == null) {
+            return true; // Allow null mime type
+        }
+
+        // Whitelist of allowed mime types matching our intent filters
+        return mimeType.startsWith("text/") ||
+                mimeType.startsWith("image/") ||
+                mimeType.equals("application/octet-stream") ||
+                mimeType.equals("application/x-binary") ||
+                mimeType.equals("application/zip") ||
+                mimeType.equals("application/pdf");
     }
 
     /**

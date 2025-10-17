@@ -14,7 +14,8 @@
       "Bash(adb uninstall:*)",
       "Bash(adb shell pm uninstall:*)",
       "Bash(adb shell pm clear:*)",
-      "Bash(adb shell:*)"
+      "Bash(adb shell:*)",
+      "Bash(awk:*)"
     ],
     "deny": [],
     "ask": []

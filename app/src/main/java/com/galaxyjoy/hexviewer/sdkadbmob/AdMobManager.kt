@@ -168,17 +168,29 @@ object AdMobManager {
         return list
     }
 
+    /**
+     * Retrieves Google Advertising ID (GAID) asynchronously using Coroutines.
+     * Uses proper thread pool management via Dispatchers.IO instead of manual Thread creation.
+     *
+     * @param context Android context
+     * @param callback Callback invoked with GAID or empty string on error
+     */
     fun getGAID(context: Context, callback: (String) -> Unit) {
-        Thread {
+        kotlinx.coroutines.GlobalScope.launch(kotlinx.coroutines.Dispatchers.IO) {
             try {
                 val info = AdvertisingIdClient.getAdvertisingIdInfo(context)
                 val id = info.id ?: ""
-                callback(id)
+                // Switch to Main thread to invoke callback safely
+                kotlinx.coroutines.withContext(kotlinx.coroutines.Dispatchers.Main) {
+                    callback(id)
+                }
             } catch (e: Exception) {
-                callback("")
                 Log.d("AdMobManager", "getGAID error $e")
+                kotlinx.coroutines.withContext(kotlinx.coroutines.Dispatchers.Main) {
+                    callback("")
+                }
             }
-        }.start()
+        }
     }
 
     fun setCurrentActivity(activity: Activity) {

@@ -191,6 +191,12 @@ public class TaskOpen extends ProgressTask<ContentResolver, FileData, TaskOpen.R
             result.startOffset = fd.getStartOffset();
             /* Size + stream */
             mTotalSize = fd.getSize();
+
+            // Validate file size before processing
+            if (!validateFileSize(fd, result)) {
+                return result; // result.exception already set
+            }
+
             publishProgress(0L);
             mRandomAccessFileChannel = RandomAccessFileChannel.openForReadOnly(contentResolver, fd.getUri());
 
@@ -218,6 +224,46 @@ public class TaskOpen extends ProgressTask<ContentResolver, FileData, TaskOpen.R
             close();
         }
         return result;
+    }
+
+    /**
+     * Validates file size to prevent OOM errors.
+     *
+     * @param fd FileData to validate
+     * @param result Result object to set exception message if validation fails
+     * @return true if file size is valid, false otherwise
+     */
+    private boolean validateFileSize(FileData fd, Result result) {
+        long fileSize = fd.getSize();
+
+        // Check absolute maximum (Android limitation)
+        if (fileSize > com.galaxyjoy.hexviewer.constants.AppConstants.ABSOLUTE_MAX_FILE_SIZE) {
+            String maxSizeStr = SysHelper.sizeToHuman(mContext,
+                com.galaxyjoy.hexviewer.constants.AppConstants.ABSOLUTE_MAX_FILE_SIZE,
+                true, true, false);
+            result.exception = "File too large: " + SysHelper.sizeToHuman(mContext, fileSize, true, true, false) +
+                ". Maximum supported: " + maxSizeStr;
+            return false;
+        }
+
+        // Check sequential mode limit - stricter because it loads entire file
+        if (fd.isSequential() && fileSize > com.galaxyjoy.hexviewer.constants.AppConstants.MAX_SEQUENTIAL_FILE_SIZE) {
+            String maxSizeStr = SysHelper.sizeToHuman(mContext,
+                com.galaxyjoy.hexviewer.constants.AppConstants.MAX_SEQUENTIAL_FILE_SIZE,
+                true, true, false);
+            result.exception = "File too large for sequential mode: " + SysHelper.sizeToHuman(mContext, fileSize, true, true, false) +
+                ". Maximum for sequential: " + maxSizeStr + ". Try normal mode instead.";
+            return false;
+        }
+
+        // Warn about large files but allow opening
+        if (fileSize > com.galaxyjoy.hexviewer.constants.AppConstants.RECOMMENDED_MAX_FILE_SIZE) {
+            MyApplication.addLog(mContext, "TaskOpen",
+                "Warning: Opening large file (" + SysHelper.sizeToHuman(mContext, fileSize, true, true, false) +
+                "). This may take time and consume significant memory.");
+        }
+
+        return true;
     }
 
     private int moveCursorIfSequential(FileData fd, Result result) {

@@ -38,6 +38,30 @@ public final class AppConstants {
      */
     public static final int MAX_FILE_BUFFER_SIZE = 16 * FILE_BUFFER_ROWS;
 
+    /**
+     * Maximum file size for files opened via external intents (500 MB)
+     * Prevents malicious apps from opening huge files that could cause OOM
+     */
+    public static final long MAX_EXTERNAL_INTENT_FILE_SIZE = 500L * 1024 * 1024;
+
+    /**
+     * Maximum file size for sequential access mode (2 GB)
+     * Sequential mode loads entire file into memory
+     */
+    public static final long MAX_SEQUENTIAL_FILE_SIZE = 2L * 1024 * 1024 * 1024;
+
+    /**
+     * Recommended maximum file size for normal operation (1 GB)
+     * Files larger than this will show a warning but can still be opened
+     */
+    public static final long RECOMMENDED_MAX_FILE_SIZE = 1L * 1024 * 1024 * 1024;
+
+    /**
+     * Absolute maximum file size (4 GB - 1 byte)
+     * Android file system limit for most operations
+     */
+    public static final long ABSOLUTE_MAX_FILE_SIZE = Integer.MAX_VALUE;
+
     // ============================
     // Logging Constants
     // ============================
