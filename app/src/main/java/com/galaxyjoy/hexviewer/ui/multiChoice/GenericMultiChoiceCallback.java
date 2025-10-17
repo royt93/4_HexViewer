@@ -43,13 +43,11 @@ public abstract class GenericMultiChoiceCallback implements AbsListView.MultiCho
     private final Handler mActionHandler;
     private boolean mIsSelectingAll = false;
     private ActionMode mCurrentActionMode = null;
-    private int mBatchUpdateCounter = 0;
 
     // Performance optimization constants
     private static final int SMALL_FILE_THRESHOLD = 500;
     private static final int MEDIUM_FILE_THRESHOLD = 5000;
     private static final int LARGE_FILE_THRESHOLD = 20000;
-    private static final int TITLE_UPDATE_INTERVAL = 10; // Update title every N batches
 
     @SuppressLint("InflateParams")
     protected GenericMultiChoiceCallback(ActMain activityMain, final ListView listView, final AdtSearchableListArray adapter) {
@@ -132,7 +130,6 @@ public abstract class GenericMultiChoiceCallback implements AbsListView.MultiCho
     public void onDestroyActionMode(ActionMode mode) {
         mIsSelectingAll = false;
         mCurrentActionMode = null;
-        mBatchUpdateCounter = 0;
         mAdapter.removeSelection();
         if (mProgress.isShowing())
             mProgress.dismiss();
@@ -153,34 +150,22 @@ public abstract class GenericMultiChoiceCallback implements AbsListView.MultiCho
     public void onItemCheckedStateChanged(ActionMode mode, int position, long id, boolean checked) {
         mAdapter.toggleSelection(position, checked);
 
-        // Skip UI updates during batch selection to prevent OOM
+        // Skip ALL UI updates during batch selection to prevent OOM
+        // Title will be updated once at the end in finishSelectAll()
         if (mIsSelectingAll) {
-            // Batch update title periodically instead of every item
-            mBatchUpdateCounter++;
-            if (mBatchUpdateCounter % TITLE_UPDATE_INTERVAL == 0) {
-                updateActionModeTitle(mode);
-            }
             return;
         }
 
         // Normal single-item selection
         final int checkedCount = mListView.getCheckedItemCount();
-        mode.setTitle(String.format(mActivity.getString(R.string.items_selected), checkedCount));
+        if (mode != null) {
+            mode.setTitle(String.format(mActivity.getString(R.string.items_selected), checkedCount));
+        }
         if (checkedCount == 1)
             mFirstSelection = mAdapter.getSelectedIds().get(0);
         if (mMenuItemSelectAll != null)
             mMenuItemSelectAll.setChecked(!mMenuItemSelectAll.isChecked() &&
                     mAdapter.getSelectedCount() == mAdapter.getCount());
-    }
-
-    /**
-     * Update action mode title - extracted for reuse
-     */
-    private void updateActionModeTitle(ActionMode mode) {
-        if (mode != null) {
-            final int checkedCount = mListView.getCheckedItemCount();
-            mode.setTitle(String.format(mActivity.getString(R.string.items_selected), checkedCount));
-        }
     }
 
     /**
@@ -203,9 +188,6 @@ public abstract class GenericMultiChoiceCallback implements AbsListView.MultiCho
         // Dynamic batch size based on file size for optimal performance
         final int batchSize = calculateOptimalBatchSize(count);
         final long batchDelay = calculateOptimalDelay(count);
-
-        // Reset counter for batch updates
-        mBatchUpdateCounter = 0;
 
         // Small files: process immediately without progress dialog
         if (count <= SMALL_FILE_THRESHOLD) {
@@ -317,14 +299,12 @@ public abstract class GenericMultiChoiceCallback implements AbsListView.MultiCho
         // Check if action mode was destroyed during batch processing
         if (mCurrentActionMode == null) {
             mIsSelectingAll = false;
-            mBatchUpdateCounter = 0;
             if (mProgress.isShowing())
                 mProgress.dismiss();
             return;
         }
 
         mIsSelectingAll = false;
-        mBatchUpdateCounter = 0;
 
         // Update UI only once after all selections complete
         if (item != null) {
