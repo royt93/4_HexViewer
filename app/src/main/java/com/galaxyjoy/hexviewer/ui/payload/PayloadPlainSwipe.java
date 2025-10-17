@@ -32,6 +32,10 @@ import com.galaxyjoy.hexviewer.ui.multiChoice.PlainMultiChoiceCallback;
 import com.galaxyjoy.hexviewer.ui.util.UIHelper;
 
 public class PayloadPlainSwipe {
+    // Limit number of plain text lines to prevent OOM with very large files
+    // Users can still use hex view for large files
+    private static final int MAX_PLAIN_TEXT_LINES = 50000;
+
     private ActMain mActivity;
     private ListView mPayloadPlain = null;
     private AdtPlainTextListArray mAdapterPlain = null;
@@ -138,31 +142,64 @@ public class PayloadPlainSwipe {
 
     /**
      * Refreshes the plain text list according to the list of payload data.
+     * Optimized to avoid OOM by processing entries in streaming fashion.
      *
      * @param cancel Used to cancel this method.
      * @return List<ListData < String>>
      */
     private List<LineEntry> refreshPlain(final AtomicBoolean cancel) {
         int maxByLine = UIHelper.getMaxByLine(mActivity, mUserConfigLandscape, mUserConfigPortrait);
-        final List<Byte> payload = new ArrayList<>();
-        for (LineEntry le : mActivity.getPayloadHex().getAdapter().getEntries().getItems())
-            payload.addAll(le.getRaw());
-        final StringBuilder sb = new StringBuilder();
-        int nbPerLine = 0;
         final List<LineEntry> list = new ArrayList<>();
-        for (int i = 0; i < payload.size() && (cancel == null || !cancel.get()); i++) {
-            sb.append((char) payload.get(i).byteValue());
-            if (nbPerLine != 0 && (nbPerLine % maxByLine) == 0) {
-                list.add(new LineEntry(sb.toString(), null));
-                nbPerLine = 0;
-                sb.setLength(0);
-            } else {
+        final StringBuilder sb = new StringBuilder(maxByLine); // Pre-allocate with capacity
+        int nbPerLine = 0;
+        boolean limitReached = false;
+
+        // Process entries in streaming fashion to avoid creating giant ArrayList<Byte>
+        // This prevents OOM with large files by not loading all bytes into memory at once
+        List<LineEntry> hexEntries = mActivity.getPayloadHex().getAdapter().getEntries().getItems();
+
+        outerLoop:
+        for (LineEntry le : hexEntries) {
+            if (cancel != null && cancel.get()) {
+                break;
+            }
+
+            // Process raw bytes directly without intermediate ArrayList
+            List<Byte> rawBytes = le.getRaw();
+            if (rawBytes == null) continue;
+
+            for (Byte b : rawBytes) {
+                if (cancel != null && cancel.get()) {
+                    break outerLoop;
+                }
+
+                // Check if we reached the limit
+                if (list.size() >= MAX_PLAIN_TEXT_LINES) {
+                    limitReached = true;
+                    break outerLoop;
+                }
+
+                sb.append((char) b.byteValue());
                 nbPerLine++;
+
+                if (nbPerLine >= maxByLine) {
+                    list.add(new LineEntry(sb.toString(), null));
+                    nbPerLine = 0;
+                    sb.setLength(0);
+                }
             }
         }
-        if ((cancel == null || !cancel.get()) && nbPerLine != 0) {
+
+        // Add remaining characters if any
+        if ((cancel == null || !cancel.get()) && nbPerLine > 0 && !limitReached) {
             list.add(new LineEntry(sb.toString(), null));
         }
+
+        // If limit reached, add a warning message
+        if (limitReached && list.size() > 0) {
+            list.add(new LineEntry("... (File too large, showing first " + MAX_PLAIN_TEXT_LINES + " lines only)", null));
+        }
+
         return list;
     }
 
