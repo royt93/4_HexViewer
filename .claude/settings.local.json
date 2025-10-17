@@ -12,7 +12,9 @@
       "Bash(find:*)",
       "Bash(adb install:*)",
       "Bash(adb uninstall:*)",
-      "Bash(adb shell pm uninstall:*)"
+      "Bash(adb shell pm uninstall:*)",
+      "Bash(adb shell pm clear:*)",
+      "Bash(adb shell:*)"
     ],
     "deny": [],
     "ask": []
