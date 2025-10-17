@@ -197,6 +197,15 @@ public class ActMain extends ActAbstractBaseMain implements AdapterView.OnItemCl
         if (mPayloadPlainSwipe != null) {
             mPayloadPlainSwipe.onDestroy();
         }
+        if (mPayloadHexHelper != null) {
+            mPayloadHexHelper.onDestroy();
+        }
+        if (mGoToDialog != null) {
+            mGoToDialog.cleanup();
+        }
+        if (mUnDoRedo != null) {
+            mUnDoRedo.cleanup();
+        }
         if (mPopup != null) {
             mPopup.dismiss();
         }

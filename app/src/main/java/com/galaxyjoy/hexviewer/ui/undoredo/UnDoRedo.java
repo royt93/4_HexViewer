@@ -233,6 +233,26 @@ public class UnDoRedo {
     }
 
     /**
+     * Cleanup method to prevent memory leaks.
+     * Clears all View references held by the controls to break circular references.
+     * MUST be called when the Activity is destroyed.
+     */
+    public void cleanup() {
+        // Clear View references to break circular reference with MainPopupWindow
+        if (mControls != null) {
+            for (Control ctrl : mControls) {
+                if (ctrl != null) {
+                    ctrl.container = null;
+                    ctrl.img = null;
+                }
+            }
+        }
+        // Clear command stacks
+        mUndo.clear();
+        mRedo.clear();
+    }
+
+    /**
      * Manages control state.
      *
      * @param control The control.

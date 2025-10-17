@@ -617,9 +617,17 @@ public class MyApplication extends Application {
     @Override
     public void onTerminate() {
         super.onTerminate();
-        // Interrupt the AdMob initialization thread if it's still running
+        // Interrupt and join the AdMob initialization thread if it's still running
         if (mAdMobInitThread != null && mAdMobInitThread.isAlive()) {
             mAdMobInitThread.interrupt();
+            try {
+                // Wait up to 2 seconds for thread to finish
+                // This prevents memory leaks by ensuring thread is properly terminated
+                mAdMobInitThread.join(2000);
+            } catch (InterruptedException e) {
+                Log.d("roy93~", "AdMob thread join interrupted");
+                Thread.currentThread().interrupt(); // Restore interrupt status
+            }
         }
     }
 

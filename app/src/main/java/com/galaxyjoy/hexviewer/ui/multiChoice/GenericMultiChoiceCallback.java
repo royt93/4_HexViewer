@@ -422,5 +422,24 @@ public abstract class GenericMultiChoiceCallback implements AbsListView.MultiCho
         closeActionMode(mode, true);
         return true;
     }
+
+    /**
+     * Cleanup method to prevent memory leaks.
+     * MUST be called from Activity's onDestroy() to remove all Handler callbacks.
+     * This prevents the Handler from holding references to the Activity after it's destroyed.
+     */
+    public void cleanup() {
+        if (mActionHandler != null) {
+            mActionHandler.removeCallbacksAndMessages(null);
+        }
+        mIsSelectingAll = false;
+        if (mProgress != null && mProgress.isShowing()) {
+            try {
+                mProgress.dismiss();
+            } catch (Exception e) {
+                // Ignore if window is already detached
+            }
+        }
+    }
 }
 

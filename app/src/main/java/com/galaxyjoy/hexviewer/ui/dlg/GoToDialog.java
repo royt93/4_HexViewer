@@ -21,6 +21,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.AbsListView;
 import android.widget.EditText;
 import android.widget.ListView;
 
@@ -54,6 +55,9 @@ public class GoToDialog implements View.OnClickListener {
     private Mode mMode;
     private String mTitle;
     private final MyApplication mApp;
+    private ObjectAnimator mBlinkAnimator = null;
+    private AbsListView.OnScrollListener mOriginalScrollListener = null;
+    private ListView mCurrentListView = null;
 
     public enum Mode {
         ADDRESS,
@@ -307,18 +311,82 @@ public class GoToDialog implements View.OnClickListener {
      * Blinks the background of the selected view
      */
     private void blinkBackground(int position) {
+        // Cancel any existing animation to prevent memory leaks
+        if (mBlinkAnimator != null && mBlinkAnimator.isRunning()) {
+            mBlinkAnimator.cancel();
+        }
+
+        // Restore previous scroll listener if exists
+        restoreScrollListener();
+
         ListView lv = (mMode == Mode.ADDRESS || mMode == Mode.LINE_HEX) ?
                 mActivity.getPayloadHex().getListView() : mActivity.getPayloadPlain().getListView();
         View v = UIHelper.getViewByPosition(position, lv);
+
+        // Save current scroll listener before setting to null
+        mCurrentListView = lv;
+        try {
+            // Note: ListView doesn't provide a way to get the current scroll listener
+            // We can only save it if we set it ourselves, so we just store null here
+            mOriginalScrollListener = null;
+        } catch (Exception e) {
+            mOriginalScrollListener = null;
+        }
         lv.setOnScrollListener(null);
+
         int windowBackground = ContextCompat.getColor(mActivity, R.color.windowBackground);
         int colorAccent = ContextCompat.getColor(mActivity, R.color.colorAccent);
-        ObjectAnimator anim = ObjectAnimator.ofInt(v, "backgroundColor",
+        mBlinkAnimator = ObjectAnimator.ofInt(v, "backgroundColor",
                 windowBackground, colorAccent, windowBackground);
-        anim.setDuration(1000);
-        anim.setEvaluator(new ArgbEvaluator());
-        anim.setRepeatMode(ValueAnimator.REVERSE);
-        anim.setRepeatCount(3);
-        anim.start();
+        mBlinkAnimator.setDuration(1000);
+        mBlinkAnimator.setEvaluator(new ArgbEvaluator());
+        mBlinkAnimator.setRepeatMode(ValueAnimator.REVERSE);
+        mBlinkAnimator.setRepeatCount(3);
+        // Add listener to restore scroll listener after animation completes
+        mBlinkAnimator.addListener(new android.animation.AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(android.animation.Animator animation) {
+                restoreScrollListener();
+            }
+        });
+        mBlinkAnimator.start();
+    }
+
+    /**
+     * Restores the original scroll listener if it was saved.
+     */
+    private void restoreScrollListener() {
+        if (mCurrentListView != null && mOriginalScrollListener != null) {
+            try {
+                mCurrentListView.setOnScrollListener(mOriginalScrollListener);
+            } catch (Exception e) {
+                // Ignore if view is no longer valid
+            }
+            mOriginalScrollListener = null;
+            mCurrentListView = null;
+        }
+    }
+
+    /**
+     * Cleanup method to prevent memory leaks.
+     * Cancels any running animations and dismisses the dialog.
+     * MUST be called when the Activity is destroyed.
+     */
+    public void cleanup() {
+        if (mBlinkAnimator != null && mBlinkAnimator.isRunning()) {
+            mBlinkAnimator.cancel();
+            mBlinkAnimator = null;
+        }
+        // Restore scroll listener if it was saved
+        restoreScrollListener();
+        // Dismiss and release the AlertDialog to prevent memory leaks
+        if (mDialog != null && mDialog.isShowing()) {
+            try {
+                mDialog.dismiss();
+            } catch (Exception e) {
+                // Ignore if window is already detached
+            }
+        }
+        mDialog = null;
     }
 }

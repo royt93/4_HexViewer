@@ -41,6 +41,11 @@ import kotlin.jvm.functions.Function1;
 @SuppressLint("CustomSplashScreen")
 public class SplashActivity extends AppCompatActivity {
     private final Runnable finishRunnable = this::finish;
+    // Store animated view references to cancel animations in onDestroy
+    private View mAppName = null;
+    private View mProgressContainer = null;
+    private View mLoadingText = null;
+    private View mAdNoticeCard = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,13 +58,14 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     private void startAnimations() {
-        View appName = findViewById(R.id.appName);
-        View progressContainer = findViewById(R.id.progressContainer);
-        View loadingText = findViewById(R.id.loadingText);
-        View adNoticeCard = findViewById(R.id.adNoticeCard);
+        // Store references to cancel animations later
+        mAppName = findViewById(R.id.appName);
+        mProgressContainer = findViewById(R.id.progressContainer);
+        mLoadingText = findViewById(R.id.loadingText);
+        mAdNoticeCard = findViewById(R.id.adNoticeCard);
 
         // App name animation - zoom in with fade
-        appName.animate()
+        mAppName.animate()
                 .alpha(1f)
                 .scaleX(1f)
                 .scaleY(1f)
@@ -69,7 +75,7 @@ public class SplashActivity extends AppCompatActivity {
                 .start();
 
         // Progress bar container - fade in with scale
-        progressContainer.animate()
+        mProgressContainer.animate()
                 .alpha(1f)
                 .setDuration(800)
                 .setStartDelay(900)
@@ -77,16 +83,21 @@ public class SplashActivity extends AppCompatActivity {
                 .start();
 
         // Loading text - fade in with pulsing
-        loadingText.animate()
+        mLoadingText.animate()
                 .alpha(1f)
                 .setDuration(800)
                 .setStartDelay(1100)
                 .setInterpolator(new AccelerateDecelerateInterpolator())
-                .withEndAction(() -> pulseAnimation(loadingText))
+                .withEndAction(() -> {
+                    // Only start pulse if activity is not finishing
+                    if (!isFinishing()) {
+                        pulseAnimation(mLoadingText);
+                    }
+                })
                 .start();
 
         // Ad notice card - slide up from bottom
-        adNoticeCard.animate()
+        mAdNoticeCard.animate()
                 .alpha(1f)
                 .translationY(0)
                 .setDuration(900)
@@ -96,18 +107,33 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     private void pulseAnimation(View view) {
+        // Stop animation if activity is finishing to prevent memory leak
+        if (isFinishing() || view == null) {
+            return;
+        }
+
         view.animate()
                 .scaleX(1.1f)
                 .scaleY(1.1f)
                 .setDuration(800)
                 .setInterpolator(new AccelerateDecelerateInterpolator())
                 .withEndAction(() -> {
+                    // Check again before starting scale-down animation
+                    if (isFinishing() || view == null) {
+                        return;
+                    }
+
                     view.animate()
                             .scaleX(1f)
                             .scaleY(1f)
                             .setDuration(800)
                             .setInterpolator(new AccelerateDecelerateInterpolator())
-                            .withEndAction(() -> pulseAnimation(view))
+                            .withEndAction(() -> {
+                                // Check again before restarting pulse animation
+                                if (!isFinishing()) {
+                                    pulseAnimation(view);
+                                }
+                            })
                             .start();
                 })
                 .start();
@@ -133,6 +159,24 @@ public class SplashActivity extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
+        // Cancel all animations to prevent memory leaks
+        if (mAppName != null) {
+            mAppName.animate().cancel();
+            mAppName.clearAnimation();
+        }
+        if (mProgressContainer != null) {
+            mProgressContainer.animate().cancel();
+            mProgressContainer.clearAnimation();
+        }
+        if (mLoadingText != null) {
+            mLoadingText.animate().cancel();
+            mLoadingText.clearAnimation();
+        }
+        if (mAdNoticeCard != null) {
+            mAdNoticeCard.animate().cancel();
+            mAdNoticeCard.clearAnimation();
+        }
+
         // Clear all pending callbacks and messages
         getWindow().getDecorView().removeCallbacks(finishRunnable);
         // Clear AdMob references before calling super.onDestroy()
