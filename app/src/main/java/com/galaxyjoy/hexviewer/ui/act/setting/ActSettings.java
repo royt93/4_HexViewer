@@ -55,7 +55,7 @@ public class ActSettings extends ActAbstractSettings {
         }
 
         //If you want to insert data in your settings
-        return new FrmSettings(this);
+        return new FrmSettings();
     }
 
     /**

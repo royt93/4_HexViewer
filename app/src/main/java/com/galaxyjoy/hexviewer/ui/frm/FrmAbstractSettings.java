@@ -14,6 +14,7 @@ package com.galaxyjoy.hexviewer.ui.frm;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.os.Bundle;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.InputType;
@@ -39,12 +40,32 @@ public abstract class FrmAbstractSettings extends PreferenceFragmentCompat {
     protected static final int MAX_PLAIN_ROW_HEIGHT = 1000;
     protected static final int MIN_PLAIN_FONT_SIZE = 1;
     protected static final int MAX_PLAIN_FONT_SIZE = 100;
-    protected final AppCompatActivity mActivity;
-    protected final MyApplication mApp;
+    protected AppCompatActivity mActivity;
+    protected MyApplication mApp;
 
+    // Default constructor required for Fragment instantiation
+    public FrmAbstractSettings() {
+    }
+
+    @Deprecated
     protected FrmAbstractSettings(AppCompatActivity owner) {
+        // This constructor is deprecated but kept for backward compatibility
+        // Fragments should not take constructor parameters
+        // However, we initialize fields here for safety in case old code still uses it
         mActivity = owner;
         mApp = (MyApplication) owner.getApplicationContext();
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        // Initialize fields BEFORE calling super.onCreate()
+        // because super.onCreate() will call onCreatePreferences()
+        // Only initialize if not already set (in case constructor with params was used)
+        if (mActivity == null && getActivity() instanceof AppCompatActivity) {
+            mActivity = (AppCompatActivity) getActivity();
+            mApp = (MyApplication) requireActivity().getApplicationContext();
+        }
+        super.onCreate(savedInstanceState);
     }
 
     /* ----------------------------- */

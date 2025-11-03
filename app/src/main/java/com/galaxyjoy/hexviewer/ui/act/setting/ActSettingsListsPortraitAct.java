@@ -35,7 +35,7 @@ public class ActSettingsListsPortraitAct extends ActAbstractSettings {
      * @return AbstractSettingsFragment
      */
     public FrmAbstractSettings onUserCreate() {
-        return new FrmSettingsListsPortraitFrm(this);
+        return new FrmSettingsListsPortraitFrm();
     }
 
 }

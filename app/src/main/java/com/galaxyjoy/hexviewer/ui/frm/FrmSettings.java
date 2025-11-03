@@ -51,6 +51,12 @@ public class FrmSettings extends FrmAbstractSettings implements Preference.OnPre
     private ListPreference mScreenOrientation;
     private ListPreference mNbBytesPerLine;
 
+    // Default constructor required for Fragment instantiation
+    public FrmSettings() {
+        super();
+    }
+
+    @Deprecated
     public FrmSettings(AppCompatActivity owner) {
         super(owner);
     }

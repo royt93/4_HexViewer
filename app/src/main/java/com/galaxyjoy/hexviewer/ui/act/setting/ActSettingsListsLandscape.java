@@ -35,7 +35,7 @@ public class ActSettingsListsLandscape extends ActAbstractSettings {
      * @return AbstractSettingsFragment
      */
     public FrmAbstractSettings onUserCreate() {
-        return new FrmSettingsListsLandscape(this);
+        return new FrmSettingsListsLandscape();
     }
 
 }

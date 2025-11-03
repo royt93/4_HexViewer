@@ -35,6 +35,12 @@ public class FrmSettingsListsLandscape extends FrmAbstractSettings implements Pr
     protected Preference mLineEditRowHeightLandscape;
     protected Preference mLineEditFontSizeLandscape;
 
+    // Default constructor required for Fragment instantiation
+    public FrmSettingsListsLandscape() {
+        super();
+    }
+
+    @Deprecated
     public FrmSettingsListsLandscape(AppCompatActivity owner) {
         super(owner);
     }

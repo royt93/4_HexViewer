@@ -35,6 +35,12 @@ public class FrmSettingsListsPortraitFrm extends FrmAbstractSettings implements 
     protected Preference mLineEditRowHeightPortrait;
     protected Preference mLineEditFontSizePortrait;
 
+    // Default constructor required for Fragment instantiation
+    public FrmSettingsListsPortraitFrm() {
+        super();
+    }
+
+    @Deprecated
     public FrmSettingsListsPortraitFrm(AppCompatActivity owner) {
         super(owner);
     }
