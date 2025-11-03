@@ -23,6 +23,7 @@ import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.PreferenceFragmentCompat;
@@ -57,10 +58,19 @@ public abstract class FrmAbstractSettings extends PreferenceFragmentCompat {
     }
 
     @Override
+    public void onAttach(@NonNull android.content.Context context) {
+        super.onAttach(context);
+        // Initialize fields in onAttach - this is called BEFORE onCreate
+        // and guarantees that getActivity() is available
+        if (mActivity == null && context instanceof AppCompatActivity) {
+            mActivity = (AppCompatActivity) context;
+            mApp = (MyApplication) context.getApplicationContext();
+        }
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
-        // Initialize fields BEFORE calling super.onCreate()
-        // because super.onCreate() will call onCreatePreferences()
-        // Only initialize if not already set (in case constructor with params was used)
+        // Double-check initialization (in case onAttach wasn't called)
         if (mActivity == null && getActivity() instanceof AppCompatActivity) {
             mActivity = (AppCompatActivity) getActivity();
             mApp = (MyApplication) requireActivity().getApplicationContext();
