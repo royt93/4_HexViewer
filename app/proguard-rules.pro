@@ -115,7 +115,20 @@
 -keep class androidx.preference.** { *; }
 -keep class * extends androidx.preference.PreferenceFragmentCompat
 -keepclassmembers class * extends androidx.preference.PreferenceFragmentCompat {
+    public <init>();
     public <init>(...);
+}
+
+# CRITICAL: Keep Fragment default constructors for restoration after configuration changes
+# Without this, app crashes with NoSuchMethodException when rotating screen
+-keepclassmembers class * extends androidx.fragment.app.Fragment {
+    public <init>();
+}
+-keepclassmembers class * extends androidx.preference.PreferenceFragmentCompat {
+    public <init>();
+}
+-keepclassmembers class * extends androidx.preference.ListPreferenceDialogFragmentCompat {
+    public <init>();
 }
 
 # Keep Kotlin metadata (for reflection)
