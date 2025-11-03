@@ -25,6 +25,8 @@ import java.util.List;
 
 public class RecentlyOpened {
     protected static final String SEQUENTIAL_MASK = "$^#*";
+    private static final int MAX_RECENTLY_OPENED = 50; // Maximum number of recently opened files
+    private static final int MAX_PREFS_SIZE = 500 * 1024; // 500KB limit for SharedPreferences data
     private List<FileData> mList;
     private final MyApplication mApp;
 
@@ -104,6 +106,12 @@ public class RecentlyOpened {
     public void add(FileData recent) {
         removeElement(recent.toString());
         mList.add(recent);
+
+        // Limit the list size to prevent OOM
+        while (mList.size() > MAX_RECENTLY_OPENED) {
+            mList.remove(0); // Remove oldest entry
+        }
+
         setRecentlyOpened(mList);
     }
 
@@ -151,17 +159,47 @@ public class RecentlyOpened {
      * @param list The list
      */
     private void setRecentlyOpened(List<FileData> list) {
-        StringBuilder sb = new StringBuilder();
-        sb.append(SEQUENTIAL_MASK);
-        final int size = list.size();
-        for (int i = 0; i < size; i++) {
-            sb.append(list.get(i).toString());
-            if (i != size - 1)
-                sb.append("|");
+        try {
+            StringBuilder sb = new StringBuilder();
+            sb.append(SEQUENTIAL_MASK);
+            final int size = list.size();
+
+            // Build the string incrementally and check size
+            for (int i = 0; i < size; i++) {
+                String item = list.get(i).toString();
+
+                // Check if adding this item would exceed the limit
+                if (sb.length() + item.length() + 1 > MAX_PREFS_SIZE) {
+                    Log.w(RecentlyOpened.class.getName(),
+                        "Recently opened list is too large, truncating at " + i + " items");
+                    break;
+                }
+
+                sb.append(item);
+                if (i != size - 1)
+                    sb.append("|");
+            }
+
+            SharedPreferences.Editor e = mApp.getPref(mApp).edit();
+            e.putString(SettingsKeys.CFG_RECENTLY_OPEN, sb.toString());
+            e.apply();
+        } catch (OutOfMemoryError oom) {
+            Log.e(RecentlyOpened.class.getName(),
+                "OutOfMemoryError while saving recently opened files, clearing list", oom);
+            // Clear the list to prevent future OOM errors
+            try {
+                SharedPreferences.Editor e = mApp.getPref(mApp).edit();
+                e.putString(SettingsKeys.CFG_RECENTLY_OPEN, SEQUENTIAL_MASK);
+                e.apply();
+                mList.clear();
+            } catch (Exception clearEx) {
+                Log.e(RecentlyOpened.class.getName(),
+                    "Failed to clear recently opened list", clearEx);
+            }
+        } catch (Exception e) {
+            Log.e(RecentlyOpened.class.getName(),
+                "Error while saving recently opened files", e);
         }
-        SharedPreferences.Editor e = mApp.getPref(mApp).edit();
-        e.putString(SettingsKeys.CFG_RECENTLY_OPEN, sb.toString());
-        e.apply();
     }
 
     /**
@@ -171,14 +209,39 @@ public class RecentlyOpened {
      */
     private List<FileData> load() {
         final List<FileData> uris = new ArrayList<>();
-        String content = mApp.getPref(mApp).getString(SettingsKeys.CFG_RECENTLY_OPEN, "");
-        if (content.startsWith(SEQUENTIAL_MASK))
-            content = content.substring(SEQUENTIAL_MASK.length());
-        String[] split = content.split("\\|");
-        if (split.length != 0 && !split[0].isEmpty())
-            for (String s : split) {
-                uris.add(decode(mApp, s));
+        try {
+            String content = mApp.getPref(mApp).getString(SettingsKeys.CFG_RECENTLY_OPEN, "");
+            if (content.startsWith(SEQUENTIAL_MASK))
+                content = content.substring(SEQUENTIAL_MASK.length());
+            String[] split = content.split("\\|");
+            if (split.length != 0 && !split[0].isEmpty()) {
+                int count = 0;
+                for (String s : split) {
+                    if (count >= MAX_RECENTLY_OPENED) {
+                        Log.w(RecentlyOpened.class.getName(),
+                            "Loaded list exceeds MAX_RECENTLY_OPENED, truncating at " + MAX_RECENTLY_OPENED);
+                        break;
+                    }
+                    uris.add(decode(mApp, s));
+                    count++;
+                }
             }
+        } catch (OutOfMemoryError oom) {
+            Log.e(RecentlyOpened.class.getName(),
+                "OutOfMemoryError while loading recently opened files", oom);
+            // Clear corrupted data
+            try {
+                SharedPreferences.Editor e = mApp.getPref(mApp).edit();
+                e.putString(SettingsKeys.CFG_RECENTLY_OPEN, SEQUENTIAL_MASK);
+                e.apply();
+            } catch (Exception clearEx) {
+                Log.e(RecentlyOpened.class.getName(),
+                    "Failed to clear corrupted recently opened list", clearEx);
+            }
+        } catch (Exception e) {
+            Log.e(RecentlyOpened.class.getName(),
+                "Error while loading recently opened files", e);
+        }
         return uris;
     }
 }
