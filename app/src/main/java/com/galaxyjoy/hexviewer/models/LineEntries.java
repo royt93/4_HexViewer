@@ -140,11 +140,27 @@ public class LineEntries {
      */
     public void addAll(@NonNull Collection<? extends LineEntry> collection) {
         /* Here the list is already empty */
-        int i = 0;
-        for (LineEntry t : collection) {
-            t.setIndex(i);
-            mEntryList.add(t);
-            mFilteredList.add(i++);
+        try {
+            // Pre-allocate capacity to avoid multiple array copies during growth
+            int size = collection.size();
+            if (mEntryList instanceof ArrayList) {
+                ((ArrayList<LineEntry>) mEntryList).ensureCapacity(size);
+            }
+            if (mFilteredList instanceof ArrayList) {
+                ((ArrayList<Integer>) mFilteredList).ensureCapacity(size);
+            }
+
+            int i = 0;
+            for (LineEntry t : collection) {
+                t.setIndex(i);
+                mEntryList.add(t);
+                mFilteredList.add(i++);
+            }
+        } catch (OutOfMemoryError oom) {
+            // Clear partially added data and rethrow with context
+            clear();
+            throw new OutOfMemoryError("Failed to add " + collection.size() +
+                " entries to LineEntries. Consider opening a smaller file portion.");
         }
     }
 
