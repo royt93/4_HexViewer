@@ -89,9 +89,14 @@ public class EntryFilter extends Filter {
     @Override
     protected void publishResults(CharSequence constraint,
                                   FilterResults results) {
-        List<Integer> li = new ArrayList<>((Set<Integer>) results.values);
-        Collections.sort(li);
-        mLineEntries.setFilteredList(li);
-        mAdapter.notifyDataSetChanged();
+        try {
+            List<Integer> li = new ArrayList<>((Set<Integer>) results.values);
+            Collections.sort(li);
+            mLineEntries.setFilteredList(li);
+            mAdapter.notifyDataSetChanged();
+        } catch (IllegalStateException e) {
+            // ListView is in inconsistent state (e.g., during scroll/touch)
+            // The filter results will be applied on next filter request
+        }
     }
 }

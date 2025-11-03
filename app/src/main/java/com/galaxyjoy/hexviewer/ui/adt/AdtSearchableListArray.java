@@ -76,20 +76,29 @@ public abstract class AdtSearchableListArray extends ArrayAdapter<LineEntry> imp
      * @param position Item position.
      */
     public void toggleSelection(int position, boolean checked) {
-        if (checked) {
-            mSelectedItemsIds.add(position);
-        } else {
-            mSelectedItemsIds.remove(position);
+        try {
+            if (checked) {
+                mSelectedItemsIds.add(position);
+            } else {
+                mSelectedItemsIds.remove(position);
+            }
+            notifyDataSetChanged();
+        } catch (IllegalStateException e) {
+            // Adapter state changed during touch event, ignore
+            // The selection will be applied on next interaction
         }
-        notifyDataSetChanged();
     }
 
     /**
      * Removes the item selection.
      */
     public void removeSelection() {
-        mSelectedItemsIds = new HashSet<>();
-        notifyDataSetChanged();
+        try {
+            mSelectedItemsIds = new HashSet<>();
+            notifyDataSetChanged();
+        } catch (IllegalStateException e) {
+            // Adapter state changed, ignore
+        }
     }
 
     /**
