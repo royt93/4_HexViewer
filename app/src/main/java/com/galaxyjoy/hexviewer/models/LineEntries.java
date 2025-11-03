@@ -141,8 +141,32 @@ public class LineEntries {
     public void addAll(@NonNull Collection<? extends LineEntry> collection) {
         /* Here the list is already empty */
         try {
-            // Pre-allocate capacity to avoid multiple array copies during growth
             int size = collection.size();
+
+            // Check available memory before attempting to add large collections
+            Runtime runtime = Runtime.getRuntime();
+            long maxMemory = runtime.maxMemory();
+            long usedMemory = runtime.totalMemory() - runtime.freeMemory();
+            long freeMemory = maxMemory - usedMemory;
+
+            // Estimate memory needed: each LineEntry + Integer ≈ 200 bytes
+            long estimatedMemoryNeeded = size * 200L;
+
+            if (estimatedMemoryNeeded > freeMemory * 0.8) {
+                // Not enough memory, suggest GC
+                System.gc();
+                // Re-check after GC
+                usedMemory = runtime.totalMemory() - runtime.freeMemory();
+                freeMemory = maxMemory - usedMemory;
+
+                if (estimatedMemoryNeeded > freeMemory * 0.8) {
+                    throw new OutOfMemoryError("Insufficient memory to load " + size +
+                        " entries (need ~" + (estimatedMemoryNeeded / 1024 / 1024) +
+                        "MB, free: " + (freeMemory / 1024 / 1024) + "MB). Try opening a smaller file portion.");
+                }
+            }
+
+            // Pre-allocate capacity to avoid multiple array copies during growth
             if (mEntryList instanceof ArrayList) {
                 ((ArrayList<LineEntry>) mEntryList).ensureCapacity(size);
             }
@@ -160,7 +184,7 @@ public class LineEntries {
             // Clear partially added data and rethrow with context
             clear();
             throw new OutOfMemoryError("Failed to add " + collection.size() +
-                " entries to LineEntries. Consider opening a smaller file portion.");
+                " entries to LineEntries. Consider opening a smaller file portion. " + oom.getMessage());
         }
     }
 

@@ -15,7 +15,8 @@
       "Bash(adb shell pm uninstall:*)",
       "Bash(adb shell pm clear:*)",
       "Bash(adb shell:*)",
-      "Bash(awk:*)"
+      "Bash(awk:*)",
+      "Bash(git diff:*)"
     ],
     "deny": [],
     "ask": []

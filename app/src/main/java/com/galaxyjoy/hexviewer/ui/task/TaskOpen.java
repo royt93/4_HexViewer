@@ -104,8 +104,17 @@ public class TaskOpen extends ProgressTask<ContentResolver, FileData, TaskOpen.R
             UIHelper.showErrorDialog(mContext, R.string.error_title, mContext.getString(R.string.exception) + ": " + result.exception);
         else {
             if (result.listHex != null) {
-                mAdapter.setStartOffset(result.startOffset);
-                mAdapter.addAll(result.listHex);
+                try {
+                    mAdapter.setStartOffset(result.startOffset);
+                    mAdapter.addAll(result.listHex);
+                } catch (OutOfMemoryError oom) {
+                    // Handle OOM when adding to adapter
+                    result.listHex.clear(); // Release memory
+                    result.listHex = null;
+                    System.gc();
+                    // Set exception so it's handled by the normal error flow
+                    result.exception = "OutOfMemoryError: " + oom.getMessage();
+                }
             }
         }
         if (!mLowMemory.get()) {
