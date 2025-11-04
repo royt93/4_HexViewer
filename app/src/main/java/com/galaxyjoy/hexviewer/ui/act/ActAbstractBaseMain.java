@@ -70,30 +70,16 @@ public abstract class ActAbstractBaseMain extends BaseActivity {
             recreate();
         }
 
-        /* permissions - Modern approach for Android 13+ */
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            // Android 13+: Request granular media permissions
-            String[] permissions = new String[]{
-                    Manifest.permission.READ_MEDIA_IMAGES,
-                    Manifest.permission.READ_MEDIA_VIDEO,
-                    Manifest.permission.READ_MEDIA_AUDIO
-            };
-            boolean needsPermission = false;
-            for (String permission : permissions) {
-                if (ContextCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED) {
-                    needsPermission = true;
-                    break;
-                }
-            }
-            if (needsPermission) {
-                ActivityCompat.requestPermissions(this, permissions, 1);
-            }
-        } else {
+        /* permissions - Legacy storage for Android 12 and below only
+         * Android 13+ uses Storage Access Framework (SAF) which doesn't require READ_MEDIA permissions */
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
             // Android 12 and below: Use legacy READ_EXTERNAL_STORAGE
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
                 ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
             }
         }
+        // Note: Android 13+ doesn't need runtime permissions because app uses
+        // ACTION_OPEN_DOCUMENT/ACTION_OPEN_DOCUMENT_TREE (SAF) for file access
 
         getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
             @Override
