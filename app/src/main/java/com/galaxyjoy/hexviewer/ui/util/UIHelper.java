@@ -37,6 +37,7 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.appcompat.app.AlertDialog;
 
 import com.galaxyjoy.hexviewer.MyApplication;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.galaxyjoy.hexviewer.R;
 import com.galaxyjoy.hexviewer.models.FileData;
 import com.galaxyjoy.hexviewer.ui.adt.config.UserConfig;
@@ -222,12 +223,12 @@ public class UIHelper {
     public static void showErrorDialog(final Context context,
                                        CharSequence title,
                                        String message) {
-        new AlertDialog.Builder(context)
+        new MaterialAlertDialogBuilder(context)
                 .setCancelable(false)
-                .setIcon(android.R.drawable.ic_dialog_alert)
                 .setTitle(title)
                 .setMessage(message)
-                .setPositiveButton(android.R.string.ok, (dialog, whichButton) -> dialog.dismiss()).show();
+                .setPositiveButton(android.R.string.ok, (dialog, whichButton) -> dialog.dismiss())
+                .show();
     }
 
     /**
@@ -369,16 +370,16 @@ public class UIHelper {
                                          String title,
                                          String message,
                                          final View.OnClickListener yes) {
-        new AlertDialog.Builder(c)
+        new MaterialAlertDialogBuilder(c)
                 .setCancelable(false)
-                .setIcon(R.mipmap.ic_launcher_round)
                 .setTitle(title)
                 .setMessage(message)
                 .setPositiveButton(android.R.string.ok, (dialog, whichButton) -> {
                     if (yes != null) yes.onClick(null);
                 })
                 .setNegativeButton(android.R.string.cancel, (dialog, whichButton) -> {
-                }).show();
+                })
+                .show();
     }
 
     /**
@@ -442,8 +443,7 @@ public class UIHelper {
             runnable.run();
             return;
         }
-        new AlertDialog.Builder(c)
-                .setIcon(android.R.drawable.ic_dialog_alert)
+        new MaterialAlertDialogBuilder(c)
                 .setTitle(R.string.action_close_title)
                 .setMessage(String.format(c.getString(R.string.confirm_save), fd.getName()))
                 .setPositiveButton(R.string.yes, (dialog, which) -> {
