@@ -216,5 +216,15 @@
             android:name=".ui.act.AboutActivity"
             android:configChanges="locale|keyboard|keyboardHidden|orientation|screenSize|screenLayout|smallestScreenSize|uiMode"
             android:launchMode="singleTask" />
+        <activity
+            android:name=".ui.act.ActHashCalculator"
+            android:configChanges="locale|keyboard|keyboardHidden|orientation|screenSize|screenLayout|smallestScreenSize|uiMode"
+            android:launchMode="singleTask"
+            android:theme="@style/AppTheme.Material3.NoActionBar">
+
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.act.ActMain" />
+        </activity>
     </application>
 </manifest>

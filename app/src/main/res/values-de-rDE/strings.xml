@@ -125,4 +125,25 @@
     <string name="menu_delete">Delete</string>
     <string name="menu_edit">Edit</string>
     <string name="menu_copy">Copy</string>
+    <!-- File Hash Calculator -->
+    <string name="hash_title">Datei-Hash-Rechner</string>
+    <string name="hash_select_file_hint">Tippen, um Datei auszuwählen</string>
+    <string name="hash_calculating">Prüfsummen werden berechnet…</string>
+    <string name="hash_algorithm">Algorithmus</string>
+    <string name="hash_copy_toast">Hash in die Zwischenablage kopiert</string>
+    <string name="hash_paste_compare_hint">Hash hier einfügen zum Überprüfen</string>
+    <string name="hash_result_match">ÜBEREINSTIMMUNG ✅</string>
+    <string name="hash_result_mismatch">KEINE ÜBEREINSTIMMUNG ❌</string>
+    <string name="hash_error_open_file">Datei konnte nicht geöffnet werden</string>
+    <string name="open_source_licenses_page">Open-Source-Lizenzseite</string>
+    <string name="rate_app">App bewerten</string>
+    <string name="more_apps">Mehr Apps</string>
+    <string name="share_this_app">App teilen</string>
+    <string name="source_code_original">Quellcode (Originalversion)</string>
+    <string name="source_code_forked_version">Quellcode (Geforkte Version)</string>
+    <string name="version">Version</string>
+    <string name="no_data_available">Keine Daten verfügbar</string>
+    <string name="about">Über</string>
+    <string name="changelog_text"><![CDATA[• UI-Verbesserungen, Fehlerkorrekturen, Leistungsoptimierungen\n• LeakCanary zur Speicherleckerkennung integriert\n• ProGuard-Konfiguration hinzugefügt\n• Launcher-Symbol aktualisiert\n• Hinzugefügte Funktionen: App bewerten, Mehr Apps, App teilen\n• Adaptive 120Hz-Bildwiederholfrequenz aktiviert\n• Probleme mit der Schriftskalierung behoben\n• Startbildschirm hinzugefügt\n• Animationen und dekorative Lottie-Effekte hinzugefügt\n• Edge-to-Edge-Rendering behoben\n• Unterstützung für Android API 35\n• Viele weitere Fehlerbehebungen und Verbesserungen]]></string>
+    <string name="credits_attribution"><![CDATA[👥 Credits & Namensnennung]]></string>
 </resources>

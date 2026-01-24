@@ -125,4 +125,25 @@
     <string name="menu_delete">Delete</string>
     <string name="menu_edit">Edit</string>
     <string name="menu_copy">Copy</string>
+    <!-- File Hash Calculator -->
+    <string name="hash_title">Dosya Hash Hesaplayıcı</string>
+    <string name="hash_select_file_hint">Dosya seçmek için dokunun</string>
+    <string name="hash_calculating">Sağlama toplamları hesaplanıyor…</string>
+    <string name="hash_algorithm">Algoritma</string>
+    <string name="hash_copy_toast">Hash panoya kopyalandı</string>
+    <string name="hash_paste_compare_hint">Doğrulamak için hash\'i buraya yapıştırın</string>
+    <string name="hash_result_match">EŞLEŞTİ ✅</string>
+    <string name="hash_result_mismatch">EŞLEŞMEDİ ❌</string>
+    <string name="hash_error_open_file">Dosya açılamadı</string>
+    <string name="open_source_licenses_page">Açık Kaynak Lisansları sayfası</string>
+    <string name="rate_app">Uygulamayı oyla</string>
+    <string name="more_apps">Daha fazla uygulama</string>
+    <string name="share_this_app">Paylaş</string>
+    <string name="source_code_original">Kaynak kodu (Orijinal)</string>
+    <string name="source_code_forked_version">Kaynak kodu (Fork)</string>
+    <string name="version">Sürüm</string>
+    <string name="no_data_available">Veri yok</string>
+    <string name="about">Hakkında</string>
+    <string name="changelog_text"><![CDATA[• UI iyileştirmeleri, hata düzeltmeleri, performans optimizasyonları\n• Bellek sızıntısı tespiti için LeakCanary entegre edildi\n• ProGuard yapılandırması eklendi\n• Başlatıcı simgesi güncellendi\n• Eklenen özellikler: Uygulamayı oyla, Daha fazla uygulama, Uygulamayı paylaş\n• Uyarlanabilir 120Hz yenileme hızı desteği etkinleştirildi\n• Yazı tipi ölçeklendirme sorunları düzeltildi\n• Açılış ekranı eklendi\n• Animasyonlar ve dekoratif Lottie efektleri eklendi\n• Uçtan uca işleme düzeltildi\n• Android API 35 desteği\n• Daha fazla hata düzeltmesi ve iyileştirme]]></string>
+    <string name="credits_attribution"><![CDATA[👥 Krediler]]></string>
 </resources>

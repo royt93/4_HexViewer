@@ -125,4 +125,25 @@
     <string name="menu_delete">Delete</string>
     <string name="menu_edit">Edit</string>
     <string name="menu_copy">Copy</string>
+    <!-- File Hash Calculator -->
+    <string name="hash_title">Kalkulator Hash File</string>
+    <string name="hash_select_file_hint">Ketuk untuk memilih file</string>
+    <string name="hash_calculating">Menghitung checksum...</string>
+    <string name="hash_algorithm">Algoritma</string>
+    <string name="hash_copy_toast">Hash disalin ke papan klip</string>
+    <string name="hash_paste_compare_hint">Tempel hash di sini untuk verifikasi</string>
+    <string name="hash_result_match">COCOK ✅</string>
+    <string name="hash_result_mismatch">TIDAK COCOK ❌</string>
+    <string name="hash_error_open_file">Tidak dapat membuka file</string>
+    <string name="open_source_licenses_page">Halaman Lisensi Open Source</string>
+    <string name="rate_app">Beri Nilai Aplikasi</string>
+    <string name="more_apps">Aplikasi Lainnya</string>
+    <string name="share_this_app">Bagikan Aplikasi Ini</string>
+    <string name="source_code_original">Kode Sumber (Versi Asli)</string>
+    <string name="source_code_forked_version">Kode Sumber (Versi Fork)</string>
+    <string name="version">Versi</string>
+    <string name="no_data_available">Data tidak tersedia</string>
+    <string name="about">Tentang</string>
+    <string name="changelog_text"><![CDATA[• Perbaikan UI, perbaikan bug, optimalisasi kinerja\n• LeakCanary terintegrasi untuk deteksi kebocoran memori\n• Konfigurasi ProGuard ditambahkan\n• Ikon peluncur diperbarui\n• Fitur ditambahkan: Beri nilai aplikasi, Aplikasi lainnya, Bagikan aplikasi\n• Dukungan refresh rate adaptif 120Hz diaktifkan\n• Masalah skala font diperbaiki\n• Layar splash ditambahkan\n• Animasi dan efek dekoratif Lottie ditambahkan\n• Rendering edge-to-edge diperbaiki\n• Dukungan untuk Android API 35\n• Banyak perbaikan bug dan peningkatan lainnya]]></string>
+    <string name="credits_attribution"><![CDATA[👥 Kredit & Atribusi]]></string>
 </resources>

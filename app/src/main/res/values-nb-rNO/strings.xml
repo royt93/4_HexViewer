@@ -125,4 +125,25 @@
     <string name="menu_delete">Delete</string>
     <string name="menu_edit">Edit</string>
     <string name="menu_copy">Copy</string>
+    <!-- File Hash Calculator -->
+    <string name="hash_title">Fil-hash Kalkulator</string>
+    <string name="hash_select_file_hint">Trykk for å velge fil</string>
+    <string name="hash_calculating">Beregner sjekksummer...</string>
+    <string name="hash_algorithm">Algoritme</string>
+    <string name="hash_copy_toast">Hash kopiert til utklippstavlen</string>
+    <string name="hash_paste_compare_hint">Lim inn hash her for å verifisere</string>
+    <string name="hash_result_match">MATCH ✅</string>
+    <string name="hash_result_mismatch">INGEN MATCH ❌</string>
+    <string name="hash_error_open_file">Kunne ikke åpne fil</string>
+    <string name="open_source_licenses_page">Side for åpen kildekode-lisenser</string>
+    <string name="rate_app">Vurder appen</string>
+    <string name="more_apps">Flere apper</string>
+    <string name="share_this_app">Del denne appen</string>
+    <string name="source_code_original">Kildekode (Originalversjon)</string>
+    <string name="source_code_forked_version">Kildekode (Forket versjon)</string>
+    <string name="version">Versjon</string>
+    <string name="no_data_available">Ingen data tilgjengelig</string>
+    <string name="about">Om</string>
+    <string name="changelog_text"><![CDATA[• UI-forbedringer, feilrettinger, ytelsesoptimaliseringer\n• Integrert LeakCanary for deteksjon av minnelekkasjer\n• Lagt til ProGuard-konfigurasjon\n• Oppdatert oppstartsikon\n• Lagt til funksjoner: Vurder app, Flere apper, Del app\n• Aktivert støtte for adaptiv 120Hz oppdateringsfrekvens\n• Fikset problemer med skrifttypeskalering\n• Lagt til oppstartsskjerm\n• Lagt til animasjoner og dekorative Lottie-effekter\n• Fikset kant-til-kant gjengivelse\n• Støtte for Android API 35\n• Mange andre feilrettinger og forbedringer]]></string>
+    <string name="credits_attribution"><![CDATA[👥 Kreditter og attribusjon]]></string>
 </resources>

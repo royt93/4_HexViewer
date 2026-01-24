@@ -125,4 +125,25 @@
     <string name="menu_delete">Delete</string>
     <string name="menu_edit">Edit</string>
     <string name="menu_copy">Copy</string>
+    <!-- File Hash Calculator -->
+    <string name="hash_title">Kiểm tra Hash Tệp</string>
+    <string name="hash_select_file_hint">Chạm để chọn tệp cần kiểm tra</string>
+    <string name="hash_calculating">Đang tính toán…</string>
+    <string name="hash_algorithm">Thuật toán</string>
+    <string name="hash_copy_toast">Đã sao chép mã Hash</string>
+    <string name="hash_paste_compare_hint">Dán mã hash vào để đối chiếu</string>
+    <string name="hash_result_match">TRÙNG KHỚP ✅</string>
+    <string name="hash_result_mismatch">KHÔNG TRÙNG ❌</string>
+    <string name="hash_error_open_file">Không thể mở tệp</string>
+    <string name="open_source_licenses_page">Trang Giấy phép Mã nguồn Mở</string>
+    <string name="rate_app">Đánh giá ứng dụng</string>
+    <string name="more_apps">Ứng dụng khác</string>
+    <string name="share_this_app">Chia sẻ ứng dụng này</string>
+    <string name="source_code_original">Mã nguồn (Bản gốc)</string>
+    <string name="source_code_forked_version">Mã nguồn (Bản fork)</string>
+    <string name="version">Phiên bản</string>
+    <string name="no_data_available">Không có dữ liệu</string>
+    <string name="about">Giới thiệu</string>
+    <string name="changelog_text"><![CDATA[• Cải thiện giao diện, sửa lỗi, tối ưu hiệu năng\n• Tích hợp LeakCanary để phát hiện rò rỉ bộ nhớ\n• Thêm cấu hình ProGuard\n• Cập nhật biểu tượng ứng dụng\n• Thêm tính năng: Đánh giá ứng dụng, Ứng dụng khác, Chia sẻ ứng dụng\n• Bật hỗ trợ tốc độ làm mới thích ứng 120Hz\n• Sửa lỗi tỷ lệ phông chữ\n• Thêm màn hình chờ (Splash screen)\n• Thêm hoạt ảnh và hiệu ứng Lottie trang trí\n• Sửa lỗi hiển thị tràn viền (edge-to-edge)\n• Hỗ trợ Android API 35\n• Nhiều sửa lỗi và cải tiến khác]]></string>
+    <string name="credits_attribution"><![CDATA[👥 Tín dụng & Ghi công]]></string>
 </resources>

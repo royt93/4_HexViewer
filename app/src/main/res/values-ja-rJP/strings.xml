@@ -125,4 +125,25 @@
     <string name="menu_delete">Delete</string>
     <string name="menu_edit">Edit</string>
     <string name="menu_copy">Copy</string>
+    <!-- File Hash Calculator -->
+    <string name="hash_title">ファイルハッシュ計算機</string>
+    <string name="hash_select_file_hint">タップしてファイルを選択</string>
+    <string name="hash_calculating">チェックサムを計算中…</string>
+    <string name="hash_algorithm">アルゴリズム</string>
+    <string name="hash_copy_toast">ハッシュをクリップボードにコピーしました</string>
+    <string name="hash_paste_compare_hint">ここにハッシュを貼り付けて検証</string>
+    <string name="hash_result_match">一致しました ✅</string>
+    <string name="hash_result_mismatch">一致しません ❌</string>
+    <string name="hash_error_open_file">ファイルを開けませんでした</string>
+    <string name="open_source_licenses_page">オープンソースライセンスページ</string>
+    <string name="rate_app">アプリを評価</string>
+    <string name="more_apps">他のアプリ</string>
+    <string name="share_this_app">アプリを共有</string>
+    <string name="source_code_original">ソースコード（オリジナル版）</string>
+    <string name="source_code_forked_version">ソースコード（フォーク版）</string>
+    <string name="version">バージョン</string>
+    <string name="no_data_available">データなし</string>
+    <string name="about">情報</string>
+    <string name="changelog_text"><![CDATA[• UIの改善、バグ修正、パフォーマンスの最適化\n• メモリリーク検出のためのLeakCanaryの統合\n• ProGuard構成の追加\n• ランチャーアイコンの更新\n• 追加機能：アプリの評価、その他のアプリ、アプリの共有\n• アダプティブ120Hzリフレッシュレートのサポートを有効化\n• フォントスケーリングの問題を修正\n• スプラッシュ画面の追加\n• アニメーションと装飾的なLottieエフェクトの追加\n• エッジツーエッジレンダリングの修正\n• Android API 35のサポート\n• その他多数のバグ修正と改善]]></string>
+    <string name="credits_attribution"><![CDATA[👥 クレジット]]></string>
 </resources>

@@ -98,4 +98,10 @@
         <item name="colorControlNormal">#FFFFFF</item>
         <item name="actionMenuTextColor">#FFFFFF</item>
     </style>
+
+    <style name="AppTheme.Material3.NoActionBar" parent="AppTheme.Material3">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:statusBarColor">@color/colorPrimaryDark</item>
+    </style>
 </resources>

@@ -125,4 +125,25 @@
     <string name="dialog_restore_recent">हाल की फाइलों की सूची हटाएं?</string>
     <string name="action_line_numbers_title">पंक्ति संख्याएं</string>
     <string name="error_no_file">फाइल गुम (हटाई गई या स्थानांतरित)</string>
+    <!-- File Hash Calculator -->
+    <string name="hash_title">फ़ाइल हैश कैलकुलेटर</string>
+    <string name="hash_select_file_hint">फ़ाइल चुनने के लिए टैप करें</string>
+    <string name="hash_calculating">चेकसम की गणना की जा रही है…</string>
+    <string name="hash_algorithm">एल्गोरिदम</string>
+    <string name="hash_copy_toast">हैश क्लिपबोर्ड पर कॉपी किया गया</string>
+    <string name="hash_paste_compare_hint">सत्यापित करने के लिए यहाँ हैश पेस्ट करें</string>
+    <string name="hash_result_match">मेल खाता है ✅</string>
+    <string name="hash_result_mismatch">मेल नहीं खाता ❌</string>
+    <string name="hash_error_open_file">फ़ाइल नहीं खोली जा सकी</string>
+    <string name="open_source_licenses_page">ओपन सोर्स लाइसेंस पेज</string>
+    <string name="rate_app">ऐप को रेट करें</string>
+    <string name="more_apps">और ऐप्स</string>
+    <string name="share_this_app">इस ऐप को साझा करें</string>
+    <string name="source_code_original">स्रोत कोड (मूल संस्करण)</string>
+    <string name="source_code_forked_version">स्रोत कोड (फोर्क किया गया संस्करण)</string>
+    <string name="version">संस्करण</string>
+    <string name="no_data_available">कोई डेटा उपलब्ध नहीं</string>
+    <string name="about">के बारे में</string>
+    <string name="changelog_text"><![CDATA[• यूआई सुधार, बग फिक्स, प्रदर्शन अनुकूलन\n• मेमोरी लीक डिटेक्शन के लिए LeakCanary एकीकृत\n• ProGuard कॉन्फ़िगरेशन जोड़ा गया\n• लॉन्चर आइकन अपडेट किया गया\n• जोड़ी गई सुविधाएँ: ऐप को रेट करें, अधिक ऐप्स, ऐप साझा करें\n• एडेप्टिव 120Hz रिफ्रेश रेट सपोर्ट सक्षम\n• फ़ॉन्ट स्केलिंग मुद्दे ठीक किए गए\n• स्पलैश स्क्रीन जोड़ी गई\n• एनिमेशन और सजावटी Lottie प्रभाव जोड़े गए\n• एज-टू-एज रेंडरिंग ठीक की गई\n• Android API 35 के लिए समर्थन\n• कई अन्य बग फिक्स और सुधार]]></string>
+    <string name="credits_attribution"><![CDATA[👥 क्रेडिट और एट्रिब्यूशन]]></string>
 </resources>

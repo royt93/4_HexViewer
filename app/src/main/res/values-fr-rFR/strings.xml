@@ -125,4 +125,25 @@
     <string name="menu_delete">Supprimer</string>
     <string name="menu_edit">Editer</string>
     <string name="menu_copy">Copier</string>
+    <!-- File Hash Calculator -->
+    <string name="hash_title">Calculateur de Hash</string>
+    <string name="hash_select_file_hint">Appuyez pour sélectionner un fichier</string>
+    <string name="hash_calculating">Calcul des sommes de contrôle...</string>
+    <string name="hash_algorithm">Algorithme</string>
+    <string name="hash_copy_toast">Hash copié dans le presse-papiers</string>
+    <string name="hash_paste_compare_hint">Collez le hash ici pour vérifier</string>
+    <string name="hash_result_match">CORRESPOND ✅</string>
+    <string name="hash_result_mismatch">NE CORRESPOND PAS ❌</string>
+    <string name="hash_error_open_file">Impossible d\'ouvrir le fichier</string>
+    <string name="open_source_licenses_page">Page des licences open source</string>
+    <string name="rate_app">Noter l\'application</string>
+    <string name="more_apps">Plus d\'applications</string>
+    <string name="share_this_app">Partager cette application</string>
+    <string name="source_code_original">Code source (Version originale)</string>
+    <string name="source_code_forked_version">Code source (Version dérivée)</string>
+    <string name="version">Version</string>
+    <string name="no_data_available">Aucune donnée disponible</string>
+    <string name="about">À propos</string>
+    <string name="changelog_text"><![CDATA[• Améliorations de l UI, corrections de bugs, optimisations des performances\n• Intégration de LeakCanary pour la détection des fuites de mémoire\n• Ajout de la configuration ProGuard\n• Mise à jour de l icône du lanceur\n• Fonctionnalités ajoutées : Noter l application, Plus d applications, Partager l application\n• Prise en charge du taux de rafraîchissement adaptatif de 120 Hz activée\n• Correction des problèmes de mise à l échelle des polices\n• Ajout d un écran de lancement\n• Ajout d animations et d effets Lottie décoratifs\n• Correction du rendu bord à bord\n• Prise en charge de l API Android 35\n• De nombreuses autres corrections et améliorations]]></string>
+    <string name="credits_attribution"><![CDATA[👥 Crédits et Attribution]]></string>
 </resources>

@@ -125,4 +125,25 @@
     <string name="menu_delete">Delete</string>
     <string name="menu_edit">Edit</string>
     <string name="menu_copy">Copy</string>
+    <!-- File Hash Calculator -->
+    <string name="hash_title">Calcolatore Hash File</string>
+    <string name="hash_select_file_hint">Tocca per selezionare un file</string>
+    <string name="hash_calculating">Calcolo checksum...</string>
+    <string name="hash_algorithm">Algoritmo</string>
+    <string name="hash_copy_toast">Hash copiato negli appunti</string>
+    <string name="hash_paste_compare_hint">Incolla l\'hash qui per verificare</string>
+    <string name="hash_result_match">CORRISPONDE ✅</string>
+    <string name="hash_result_mismatch">NON CORRISPONDE ❌</string>
+    <string name="hash_error_open_file">Impossibile aprire il file</string>
+    <string name="open_source_licenses_page">Pagina delle licenze Open Source</string>
+    <string name="rate_app">Valuta app</string>
+    <string name="more_apps">Altre app</string>
+    <string name="share_this_app">Condividi questa app</string>
+    <string name="source_code_original">Codice sorgente (Versione originale)</string>
+    <string name="source_code_forked_version">Codice sorgente (Versione fork)</string>
+    <string name="version">Versione</string>
+    <string name="no_data_available">Nessun dato disponibile</string>
+    <string name="about">Info</string>
+    <string name="changelog_text"><![CDATA[• Miglioramenti UI, correzioni bug, ottimizzazioni prestazioni\n• LeakCanary integrato per rilevamento perdite di memoria\n• Aggiunta configurazione ProGuard\n• Icona launcher aggiornata\n• Funzionalità aggiunte: Valuta app, Altre app, Condividi app\n• Supporto refresh rate adattivo 120Hz abilitato\n• Risolti problemi di ridimensionamento font\n• Schermata splash aggiunta\n• Aggiunte animazioni ed effetti Lottie decorativi\n• Risolto rendering edge-to-edge\n• Supporto per Android API 35\n• Molte altre correzioni di bug e miglioramenti]]></string>
+    <string name="credits_attribution"><![CDATA[👥 Crediti e Attribuzione]]></string>
 </resources>

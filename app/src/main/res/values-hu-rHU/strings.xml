@@ -125,4 +125,25 @@
     <string name="menu_delete">Delete</string>
     <string name="menu_edit">Szerkesztés</string>
     <string name="menu_copy">Másolás</string>
+    <!-- File Hash Calculator -->
+    <string name="hash_title">Fájl Hash Számológép</string>
+    <string name="hash_select_file_hint">Koppintson a fájl kiválasztásához</string>
+    <string name="hash_calculating">Ellenőrző összegek számítása...</string>
+    <string name="hash_algorithm">Algoritmus</string>
+    <string name="hash_copy_toast">Hash a vágólapra másolva</string>
+    <string name="hash_paste_compare_hint">Illessze be a hash-t az ellenőrzéshez</string>
+    <string name="hash_result_match">EGYEZIK ✅</string>
+    <string name="hash_result_mismatch">NEM EGYEZIK ❌</string>
+    <string name="hash_error_open_file">Nem sikerült megnyitni a fájlt</string>
+    <string name="open_source_licenses_page">Nyílt forráskódú licenc oldal</string>
+    <string name="rate_app">Alkalmazás értékelése</string>
+    <string name="more_apps">További alkalmazások</string>
+    <string name="share_this_app">Alkalmazás megosztása</string>
+    <string name="source_code_original">Forráskód (Eredeti verzió)</string>
+    <string name="source_code_forked_version">Forráskód (Forkolt verzió)</string>
+    <string name="version">Verzió</string>
+    <string name="no_data_available">Nincs elérhető adat</string>
+    <string name="about">Névjegy</string>
+    <string name="changelog_text"><![CDATA[• UI fejlesztések, hibajavítások, teljesítmény optimalizálások\n• LeakCanary integrálása memóriaszivárgás észleléséhez\n• ProGuard konfiguráció hozzáadva\n• Indítóikon frissítve\n• Hozzáadott funkciók: Alkalmazás értékelése, További alkalmazások, Alkalmazás megosztása\n• Adaptív 120Hz frissítési gyakoriság támogatás engedélyezve\n• Betűméretezési problémák javítva\n• Splash képernyő hozzáadva\n• Animációk és dekoratív Lottie effektek hozzáadva\n• Edge-to-edge megjelenítés javítva\n• Android API 35 támogatás\n• Számos egyéb hibajavítás és fejlesztés]]></string>
+    <string name="credits_attribution"><![CDATA[👥 Kreditek és Nevezetes]]></string>
 </resources>

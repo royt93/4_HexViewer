@@ -125,4 +125,25 @@
     <string name="menu_delete">Delete</string>
     <string name="menu_edit">Edit</string>
     <string name="menu_copy">Copy</string>
+    <!-- File Hash Calculator -->
+    <string name="hash_title">حاسبة تججزئة الملفات</string>
+    <string name="hash_select_file_hint">اضغط لاختيار ملف</string>
+    <string name="hash_calculating">جاري حساب التجزئة…</string>
+    <string name="hash_algorithm">الخوارزمية</string>
+    <string name="hash_copy_toast">تم نسخ التجزئة إلى الحافظة</string>
+    <string name="hash_paste_compare_hint">الصق التجزئة هنا للتحقق</string>
+    <string name="hash_result_match">متطابق ✅</string>
+    <string name="hash_result_mismatch">غير متطابق ❌</string>
+    <string name="hash_error_open_file">تعذر فتح الملف</string>
+    <string name="open_source_licenses_page">صفحة تراخيص المصدر المفتوح</string>
+    <string name="rate_app">تقييم التطبيق</string>
+    <string name="more_apps">المزيد من التطبيقات</string>
+    <string name="share_this_app">شارك هذا التطبيق</string>
+    <string name="source_code_original">كود المصدر (النسخة الأصلية)</string>
+    <string name="source_code_forked_version">كود المصدر (النسخة المعدلة)</string>
+    <string name="version">الإصدار</string>
+    <string name="no_data_available">لا يوجد بيانات</string>
+    <string name="about">حول</string>
+    <string name="changelog_text"><![CDATA[• تحسينات الواجهة وإصلاحات الأخطاء وتحسينات الأداء\n• دمج LeakCanary لاكتشاف تسرب الذاكرة\n• إضافة تكوين ProGuard\n• تحديث أيقونة المشغل\n• إضافة ميزات: تقييم التطبيق، المزيد من التطبيقات، مشاركة التطبيق\n• تمكين دعم معدل التحديث التكيفي 120 هرتز\n• إصلاح مشكلات تحجيم الخط\n• إضافة شاشة البداية\n• إضافة رسوم متحركة وتأثيرات Lottie الزخرفية\n• إصلاح العرض من الحافة إلى الحافة\n• دعم Android API 35\n• العديد من إصلاحات الأخطاء والتحسينات الأخرى]]></string>
+    <string name="credits_attribution"><![CDATA[👥 الحقوق والنسب]]></string>
 </resources>

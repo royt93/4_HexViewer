@@ -66,7 +66,8 @@ import java.io.ByteArrayOutputStream;
 import kotlin.Unit;
 import kotlin.jvm.functions.Function1;
 
-public class ActMain extends ActAbstractBaseMain implements AdapterView.OnItemClickListener, TaskOpen.OpenResultListener, TaskSave.SaveResultListener, AdMobManager.InterstitialAdListener {
+public class ActMain extends ActAbstractBaseMain implements AdapterView.OnItemClickListener,
+        TaskOpen.OpenResultListener, TaskSave.SaveResultListener, AdMobManager.InterstitialAdListener {
     private FileData mFileData = null;
     private ConstraintLayout mIdleView = null;
     private MenuItem mSearchMenu = null;
@@ -82,8 +83,8 @@ public class ActMain extends ActAbstractBaseMain implements AdapterView.OnItemCl
     private MainPopupWindow mPopup = null;
     private PayloadHexHelper mPayloadHexHelper = null;
     private GoToDialog mGoToDialog = null;
-    //    private MaxAdView adView;
-//    private MaxInterstitialAd interstitialAd;
+    // private MaxAdView adView;
+    // private MaxInterstitialAd interstitialAd;
     private AdView adView = null;
 
     /**
@@ -97,7 +98,8 @@ public class ActMain extends ActAbstractBaseMain implements AdapterView.OnItemCl
         UIUtils.INSTANCE.setupEdgeToEdge1(getWindow());
         setContentView(R.layout.act_main);
         UIUtils.INSTANCE.setupEdgeToEdge2(findViewById(R.id.layoutRoot), true, true);
-        MyApplication.addLog(this, "Main", "Application started with language: '" + ((MyApplication) getApplicationContext()).getApplicationLanguage(this) + "'");
+        MyApplication.addLog(this, "Main", "Application started with language: '"
+                + ((MyApplication) getApplicationContext()).getApplicationLanguage(this) + "'");
         setupViews(savedInstanceState);
         AdMobManager.INSTANCE.setCurrentActivity(this);
         AdMobManager.INSTANCE.setInterstitialListener(this);
@@ -114,10 +116,11 @@ public class ActMain extends ActAbstractBaseMain implements AdapterView.OnItemCl
         TextView tvVersion = findViewById(R.id.tvVersion);
         tvVersion.setText("Version " + BuildConfig.VERSION_NAME);
 
-//        LottieAnimationView lottieAnimationView = findViewById(R.id.lottieAnimationView);
-//        lottieAnimationView.setAnimation(R.raw.loading);
-//        lottieAnimationView.playAnimation();
-//        lottieAnimationView.setRepeatCount(LottieDrawable.INFINITE);
+        // LottieAnimationView lottieAnimationView =
+        // findViewById(R.id.lottieAnimationView);
+        // lottieAnimationView.setAnimation(R.raw.loading);
+        // lottieAnimationView.playAnimation();
+        // lottieAnimationView.setRepeatCount(LottieDrawable.INFINITE);
 
         mIdleView = findViewById(R.id.idleView);
         mIdleView.setVisibility(View.VISIBLE);
@@ -131,7 +134,10 @@ public class ActMain extends ActAbstractBaseMain implements AdapterView.OnItemCl
         findViewById(R.id.buttonRecentlyOpen).setOnClickListener(v -> {
             onPopupItemClick(R.id.actionRecentlyOpen);
         });
-//        findViewById(R.id.buttonRecentlyOpen).setEnabled(!mApp.getRecentlyOpened().list().isEmpty());
+        findViewById(R.id.buttonHash).setOnClickListener(v -> {
+            startActivity(new Intent(this, ActHashCalculator.class));
+        });
+        // findViewById(R.id.buttonRecentlyOpen).setEnabled(!mApp.getRecentlyOpened().list().isEmpty());
         mPayloadHexHelper = new PayloadHexHelper();
         mPayloadHexHelper.onCreate(this);
 
@@ -146,14 +152,14 @@ public class ActMain extends ActAbstractBaseMain implements AdapterView.OnItemCl
 
         mGoToDialog = new GoToDialog(this);
 
-        if (savedInstanceState == null) handleIntent(getIntent());
+        if (savedInstanceState == null)
+            handleIntent(getIntent());
 
         adView = AdMobManager.INSTANCE.loadBanner(this,
                 BuildConfig.ADMOB_BANNER_ID,
                 findViewById(R.id.bannerContainer),
                 findViewById(R.id.tvLabelAd),
-                AdSize.FULL_BANNER
-        );
+                AdSize.FULL_BANNER);
         AdMobManager.INSTANCE.loadInterstitial(this, BuildConfig.ADMOB_INTERSTITIAL_ID);
     }
 
@@ -167,13 +173,17 @@ public class ActMain extends ActAbstractBaseMain implements AdapterView.OnItemCl
             adView.resume();
         }
         setRequestedOrientation(mApp.getScreenOrientation(null));
-        if (mPopup != null) mPopup.dismiss();
+        if (mPopup != null)
+            mPopup.dismiss();
         mApp.applyApplicationLanguage(this);
         /* refresh */
-//        findViewById(R.id.buttonRecentlyOpen).setEnabled(!((MyApplication) getApplicationContext()).getRecentlyOpened().list().isEmpty());
+        // findViewById(R.id.buttonRecentlyOpen).setEnabled(!((MyApplication)
+        // getApplicationContext()).getRecentlyOpened().list().isEmpty());
         onOpenResult(!FileData.isEmpty(mFileData), false);
-        if (mPayloadHexHelper.isVisible()) mPayloadHexHelper.refreshAdapter();
-        else if (mPayloadPlainSwipe.isVisible()) mPayloadPlainSwipe.refreshAdapter();
+        if (mPayloadHexHelper.isVisible())
+            mPayloadHexHelper.refreshAdapter();
+        else if (mPayloadPlainSwipe.isVisible())
+            mPayloadPlainSwipe.refreshAdapter();
         RoyUtils.rateAppInApp(this, BuildConfig.DEBUG);
     }
 
@@ -187,9 +197,9 @@ public class ActMain extends ActAbstractBaseMain implements AdapterView.OnItemCl
 
     @Override
     protected void onDestroy() {
-//        if (adView != null) {
-//            ApplovinUtils.destroyAdBanner(findViewById(R.id.flAd), adView);
-//        }
+        // if (adView != null) {
+        // ApplovinUtils.destroyAdBanner(findViewById(R.id.flAd), adView);
+        // }
         if (adView != null) {
             adView.destroy();
             adView = null;
@@ -266,7 +276,8 @@ public class ActMain extends ActAbstractBaseMain implements AdapterView.OnItemCl
         Uri uri = intent.getData();
         String scheme = uri.getScheme();
 
-        // Only allow content:// and file:// schemes - block others like javascript://, data://
+        // Only allow content:// and file:// schemes - block others like javascript://,
+        // data://
         if (scheme == null || (!scheme.equals("content") && !scheme.equals("file"))) {
             android.util.Log.w("ActMain", "Rejected intent with unsafe scheme: " + scheme);
             return false;
@@ -284,10 +295,11 @@ public class ActMain extends ActAbstractBaseMain implements AdapterView.OnItemCl
             long fileSize = com.galaxyjoy.hexviewer.util.io.FileHelper.getFileSize(this, getContentResolver(), uri);
             if (fileSize > com.galaxyjoy.hexviewer.constants.AppConstants.MAX_EXTERNAL_INTENT_FILE_SIZE) {
                 String maxSizeStr = com.galaxyjoy.hexviewer.util.SysHelper.sizeToHuman(this,
-                    com.galaxyjoy.hexviewer.constants.AppConstants.MAX_EXTERNAL_INTENT_FILE_SIZE,
-                    true, true, false);
+                        com.galaxyjoy.hexviewer.constants.AppConstants.MAX_EXTERNAL_INTENT_FILE_SIZE,
+                        true, true, false);
                 UIHelper.showErrorDialog(this, getString(R.string.error_title),
-                        "File too large (max " + maxSizeStr + " for external files). Use Open File menu for larger files.");
+                        "File too large (max " + maxSizeStr
+                                + " for external files). Use Open File menu for larger files.");
                 return false;
             }
         } catch (Exception e) {
@@ -328,12 +340,14 @@ public class ActMain extends ActAbstractBaseMain implements AdapterView.OnItemCl
             boolean addRecent;
             if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.Q) {
                 addRecent = false;
-            } else addRecent = FileHelper.takeUriPermissions(this, uri, false);
+            } else
+                addRecent = FileHelper.takeUriPermissions(this, uri, false);
             FileData fd = new FileData(this, uri, true);
             mApp.setSequential(fd.getRealSize() != 0);
             final Runnable r = () -> mLauncherOpen.processFileOpen(fd, null, addRecent);
             if (mUnDoRedo.isChanged()) {// a save operation is pending?
-                UIHelper.confirmFileChanged(this, mFileData, r, () -> new TaskSave(this, this).execute(new TaskSave.Request(mFileData, mPayloadHexHelper.getAdapter().getEntries().getItems(), r)));
+                UIHelper.confirmFileChanged(this, mFileData, r, () -> new TaskSave(this, this).execute(
+                        new TaskSave.Request(mFileData, mPayloadHexHelper.getAdapter().getEntries().getItems(), r)));
             } else {
                 r.run();
             }
@@ -363,7 +377,8 @@ public class ActMain extends ActAbstractBaseMain implements AdapterView.OnItemCl
      */
     private void updateEditEmptyMenu() {
         if (mEditEmptyMenu != null) {
-            mEditEmptyMenu.setVisible(!FileData.isEmpty(mFileData) && mPayloadHexHelper.getAdapter().getEntries().getItems().isEmpty());
+            mEditEmptyMenu.setVisible(
+                    !FileData.isEmpty(mFileData) && mPayloadHexHelper.getAdapter().getEntries().getItems().isEmpty());
             if (mEditEmptyMenu.isVisible()) {
                 mPayloadHexHelper.getAdapter().displayTitle();
             }
@@ -371,8 +386,10 @@ public class ActMain extends ActAbstractBaseMain implements AdapterView.OnItemCl
     }
 
     /**
-     * This is called for activities that set launchMode to "singleTop" in their package,
-     * or if a client used the Intent#FLAG_ACTIVITY_SINGLE_TOP flag when calling startActivity(Intent).
+     * This is called for activities that set launchMode to "singleTop" in their
+     * package,
+     * or if a client used the Intent#FLAG_ACTIVITY_SINGLE_TOP flag when calling
+     * startActivity(Intent).
      *
      * @param intent The new intent that was started for the activity.
      */
@@ -391,7 +408,8 @@ public class ActMain extends ActAbstractBaseMain implements AdapterView.OnItemCl
     @Override
     public void doSearch(String queryStr) {
         mSearchQuery = queryStr;
-        final AdtSearchableListArray laa = ((mPayloadPlainSwipe.isVisible()) ? mPayloadPlainSwipe.getAdapter() : mPayloadHexHelper.getAdapter());
+        final AdtSearchableListArray laa = ((mPayloadPlainSwipe.isVisible()) ? mPayloadPlainSwipe.getAdapter()
+                : mPayloadHexHelper.getAdapter());
         laa.getFilter().filter(queryStr);
     }
 
@@ -406,13 +424,16 @@ public class ActMain extends ActAbstractBaseMain implements AdapterView.OnItemCl
     public void onSaveResult(FileData fd, boolean success, final Runnable userRunnable) {
         if (success) {
             mUnDoRedo.refreshChange();
-            if (mFileData.isOpenFromAppIntent() && mPopup != null) mPopup.setSaveMenuEnable(true);
+            if (mFileData.isOpenFromAppIntent() && mPopup != null)
+                mPopup.setSaveMenuEnable(true);
             mFileData = fd;
             mFileData.clearOpenFromAppIntent();
             refreshTitle();
             mPayloadHexHelper.resetUpdateStatus();
-        } else mApp.getRecentlyOpened().remove(fd);
-        if (userRunnable != null) userRunnable.run();
+        } else
+            mApp.getRecentlyOpened().remove(fd);
+        if (userRunnable != null)
+            userRunnable.run();
     }
 
     /**
@@ -426,9 +447,11 @@ public class ActMain extends ActAbstractBaseMain implements AdapterView.OnItemCl
         setMenuVisible(mSearchMenu, success);
         boolean checked = mPopup != null && mPopup.getPlainText() != null && mPopup.getPlainText().setEnable(success);
         if (!FileData.isEmpty(mFileData) && mFileData.isOpenFromAppIntent()) {
-            if (mPopup != null) mPopup.setSaveMenuEnable(false);
+            if (mPopup != null)
+                mPopup.setSaveMenuEnable(false);
         } else {
-            if (mPopup != null) mPopup.setSaveMenuEnable(success);
+            if (mPopup != null)
+                mPopup.setSaveMenuEnable(success);
         }
         if (mPopup != null) {
             mPopup.setMenusEnable(success);
@@ -437,7 +460,8 @@ public class ActMain extends ActAbstractBaseMain implements AdapterView.OnItemCl
             mIdleView.setVisibility(View.GONE);
             mPayloadHexHelper.setVisible(!checked);
             mPayloadPlainSwipe.setVisible(checked);
-            if (fromOpen) mUnDoRedo.clear();
+            if (fromOpen)
+                mUnDoRedo.clear();
         } else {
             mIdleView.setVisibility(View.VISIBLE);
             mPayloadHexHelper.setVisible(false);
@@ -459,9 +483,9 @@ public class ActMain extends ActAbstractBaseMain implements AdapterView.OnItemCl
         updateEditEmptyMenu();
     }
 
-
     /**
-     * Called by the system when the device configuration changes while your activity is running.
+     * Called by the system when the device configuration changes while your
+     * activity is running.
      *
      * @param newConfig The new device configuration. This value cannot be null.
      */
@@ -471,7 +495,8 @@ public class ActMain extends ActAbstractBaseMain implements AdapterView.OnItemCl
         mApp.setConfiguration(newConfig);
         if (mPayloadPlainSwipe.isVisible()) {
             mPayloadPlainSwipe.refresh();
-        } else if (mPayloadHexHelper.isVisible()) mPayloadHexHelper.getAdapter().notifyDataSetChanged();
+        } else if (mPayloadHexHelper.isVisible())
+            mPayloadHexHelper.getAdapter().notifyDataSetChanged();
         // Checks the orientation of the screen
         if (!FileData.isEmpty(mFileData)) {
             refreshTitle();
@@ -490,7 +515,7 @@ public class ActMain extends ActAbstractBaseMain implements AdapterView.OnItemCl
             if (mApp.getRecentlyOpened().list().isEmpty()) {
                 UIHelper.toast(this, getString(R.string.no_data_available));
             } else {
-//                showAd();
+                // showAd();
                 AdMobManager.INSTANCE.showInterstitial(this, new Function1<Boolean, Unit>() {
                     @Override
                     public Unit invoke(Boolean aBoolean) {
@@ -506,7 +531,7 @@ public class ActMain extends ActAbstractBaseMain implements AdapterView.OnItemCl
         } else if (id == R.id.actionClose) {
             popupActionClose();
         } else if (id == R.id.actionSettings) {
-//            showAd();
+            // showAd();
             AdMobManager.INSTANCE.showInterstitial(this, new Function1<Boolean, Unit>() {
                 @Override
                 public Unit invoke(Boolean aBoolean) {
@@ -563,23 +588,27 @@ public class ActMain extends ActAbstractBaseMain implements AdapterView.OnItemCl
         if (id == R.id.menuActionMore) {
             mPopup.show(findViewById(R.id.menuActionMore));
         } else if (id == R.id.menuActionEditEmpty) {
-            mLauncherLineUpdate.startActivity(new ByteArrayOutputStream().toByteArray(), 0, 0, mFileData.getShiftOffset(), 0);
+            mLauncherLineUpdate.startActivity(new ByteArrayOutputStream().toByteArray(), 0, 0,
+                    mFileData.getShiftOffset(), 0);
         }
         return super.onOptionsItemSelected(item);
     }
 
     /**
-     * Callback method to be invoked when an item in this AdapterView has been clicked.
+     * Callback method to be invoked when an item in this AdapterView has been
+     * clicked.
      *
      * @param parent   The AdapterView where the click happened.
-     * @param view     The view within the AdapterView that was clicked (this will be a view provided by the adapter).
+     * @param view     The view within the AdapterView that was clicked (this will
+     *                 be a view provided by the adapter).
      * @param position The position of the view in the adapter.
      * @param id       The row id of the item that was clicked.
      */
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         LineEntry e = mPayloadHexHelper.getAdapter().getItem(position);
-        if (e == null) return;
+        if (e == null)
+            return;
         if (mPayloadPlainSwipe.isVisible()) {
             UIHelper.showErrorDialog(this, R.string.error_title, R.string.error_not_supported_in_plain_text);
             return;
@@ -588,7 +617,8 @@ public class ActMain extends ActAbstractBaseMain implements AdapterView.OnItemCl
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         for (Byte b : e.getRaw())
             byteArrayOutputStream.write(b);
-        mLauncherLineUpdate.startActivity(byteArrayOutputStream.toByteArray(), position, 1, mFileData.getShiftOffset(), mPayloadHexHelper.getAdapter().getCurrentLine(position));
+        mLauncherLineUpdate.startActivity(byteArrayOutputStream.toByteArray(), position, 1, mFileData.getShiftOffset(),
+                mPayloadHexHelper.getAdapter().getCurrentLine(position));
     }
 
     /**
@@ -598,7 +628,8 @@ public class ActMain extends ActAbstractBaseMain implements AdapterView.OnItemCl
     public void onExit() {
         if (mUnDoRedo.isChanged()) {// a save operation is pending?
             Runnable r = this::finish;
-            UIHelper.confirmFileChanged(this, mFileData, r, () -> new TaskSave(this, this).execute(new TaskSave.Request(mFileData, mPayloadHexHelper.getAdapter().getEntries().getItems(), r)));
+            UIHelper.confirmFileChanged(this, mFileData, r, () -> new TaskSave(this, this).execute(
+                    new TaskSave.Request(mFileData, mPayloadHexHelper.getAdapter().getEntries().getItems(), r)));
         } else {
             finish();
         }
@@ -708,8 +739,10 @@ public class ActMain extends ActAbstractBaseMain implements AdapterView.OnItemCl
             onOpenResult(false, false);
         };
         if (mUnDoRedo.isChanged()) {// a save operation is pending?
-            UIHelper.confirmFileChanged(this, mFileData, r, () -> new TaskSave(this, this).execute(new TaskSave.Request(mFileData, mPayloadHexHelper.getAdapter().getEntries().getItems(), r)));
-        } else r.run();
+            UIHelper.confirmFileChanged(this, mFileData, r, () -> new TaskSave(this, this).execute(
+                    new TaskSave.Request(mFileData, mPayloadHexHelper.getAdapter().getEntries().getItems(), r)));
+        } else
+            r.run();
     }
 
     /**
@@ -720,7 +753,8 @@ public class ActMain extends ActAbstractBaseMain implements AdapterView.OnItemCl
             UIHelper.showErrorDialog(this, R.string.error_title, getString(R.string.open_a_file_before));
             return;
         }
-        new TaskSave(this, this).execute(new TaskSave.Request(mFileData, mPayloadHexHelper.getAdapter().getEntries().getItems(), null));
+        new TaskSave(this, this)
+                .execute(new TaskSave.Request(mFileData, mPayloadHexHelper.getAdapter().getEntries().getItems(), null));
         refreshTitle();
     }
 
@@ -743,11 +777,13 @@ public class ActMain extends ActAbstractBaseMain implements AdapterView.OnItemCl
      * @param lineNumbers Line numbers checkbox.
      */
     private void popupActionPlainText(int id, PopupCheckboxHelper plainText, PopupCheckboxHelper lineNumbers) {
-        if (plainText.containsId(id, true)) plainText.toggleCheck();
+        if (plainText.containsId(id, true))
+            plainText.toggleCheck();
         boolean checked = plainText.isChecked();
         mPayloadPlainSwipe.setVisible(checked);
         mPayloadHexHelper.setVisible(!checked);
-        if (mSearchQuery != null && !mSearchQuery.isEmpty()) doSearch(mSearchQuery);
+        if (mSearchQuery != null && !mSearchQuery.isEmpty())
+            doSearch(mSearchQuery);
         refreshLineNumbers(lineNumbers);
     }
 
@@ -783,10 +819,12 @@ public class ActMain extends ActAbstractBaseMain implements AdapterView.OnItemCl
      * @param lineNumbers Line numbers checkbox.
      */
     private void popupActionLineNumbers(int id, PopupCheckboxHelper lineNumbers) {
-        if (lineNumbers.containsId(id, true)) lineNumbers.toggleCheck();
+        if (lineNumbers.containsId(id, true))
+            lineNumbers.toggleCheck();
         boolean checked = lineNumbers.isChecked();
         mApp.setLineNumber(checked);
-        if (mPayloadHexHelper.isVisible()) mPayloadHexHelper.refreshLineNumbers();
+        if (mPayloadHexHelper.isVisible())
+            mPayloadHexHelper.refreshLineNumbers();
         mPopup.refreshGoToName();
     }
 
@@ -799,20 +837,25 @@ public class ActMain extends ActAbstractBaseMain implements AdapterView.OnItemCl
             mPayloadPlainSwipe.getAdapter().clear();
             mPayloadHexHelper.getAdapter().clear();
             cancelSearch();
-//            findViewById(R.id.buttonRecentlyOpen).setEnabled(!mApp.getRecentlyOpened().list().isEmpty());
+            // findViewById(R.id.buttonRecentlyOpen).setEnabled(!mApp.getRecentlyOpened().list().isEmpty());
         };
         if (mUnDoRedo.isChanged()) {// a save operation is pending?
-            UIHelper.confirmFileChanged(this, mFileData, r, () -> new TaskSave(this, this).execute(new TaskSave.Request(mFileData, mPayloadHexHelper.getAdapter().getEntries().getItems(), r)));
-        } else r.run();
+            UIHelper.confirmFileChanged(this, mFileData, r, () -> new TaskSave(this, this).execute(
+                    new TaskSave.Request(mFileData, mPayloadHexHelper.getAdapter().getEntries().getItems(), r)));
+        } else
+            r.run();
     }
 
     /**
      * Action when the user clicks on the "go to xxx" menu.
      */
     private void popupActionGoTo() {
-        if (mPopup.getPlainText().isChecked()) setOrphanDialog(mGoToDialog.show(GoToDialog.Mode.LINE_PLAIN));
-        else if (mPopup.getLineNumbers().isChecked()) setOrphanDialog(mGoToDialog.show(GoToDialog.Mode.ADDRESS));
-        else setOrphanDialog(mGoToDialog.show(GoToDialog.Mode.LINE_HEX));
+        if (mPopup.getPlainText().isChecked())
+            setOrphanDialog(mGoToDialog.show(GoToDialog.Mode.LINE_PLAIN));
+        else if (mPopup.getLineNumbers().isChecked())
+            setOrphanDialog(mGoToDialog.show(GoToDialog.Mode.ADDRESS));
+        else
+            setOrphanDialog(mGoToDialog.show(GoToDialog.Mode.LINE_HEX));
     }
 
     @Override
@@ -850,70 +893,73 @@ public class ActMain extends ActAbstractBaseMain implements AdapterView.OnItemCl
 
     }
 
-//    private void showAd() {
-//        boolean enableAdInter = getString(R.string.EnableAdInter).equals("true");
-//        if (!enableAdInter) {
-//            return;
-//        }
-//        if (interstitialAd != null && interstitialAd.isReady()) {
-//            if (BuildConfig.DEBUG) {
-//                Toast.makeText(this, "Show ad FULL SUCCESSFULLY", Toast.LENGTH_SHORT).show();
-////                interstitialAd.showAd();
-//            } else {
-//                interstitialAd.showAd();
-//            }
-//        }
-//    }
+    // private void showAd() {
+    // boolean enableAdInter = getString(R.string.EnableAdInter).equals("true");
+    // if (!enableAdInter) {
+    // return;
+    // }
+    // if (interstitialAd != null && interstitialAd.isReady()) {
+    // if (BuildConfig.DEBUG) {
+    // Toast.makeText(this, "Show ad FULL SUCCESSFULLY", Toast.LENGTH_SHORT).show();
+    //// interstitialAd.showAd();
+    // } else {
+    // interstitialAd.showAd();
+    // }
+    // }
+    // }
 
-//    private void createAdInter() {
-//        boolean enableAdInter = getString(R.string.EnableAdInter).equals("true");
-//        if (!enableAdInter) {
-//            return;
-//        }
-//        String id = getString(R.string.INTER);
-//        if (id.isEmpty()) {
-//            return;
-//        }
-//        interstitialAd = new MaxInterstitialAd(id, this);
-//        interstitialAd.setListener(new MaxAdListener() {
-//            @Override
-//            public void onAdLoaded(@NonNull MaxAd maxAd) {
-////                retryAttempt = 0;
-//            }
-//
-//            @Override
-//            public void onAdDisplayed(@NonNull MaxAd maxAd) {
-//
-//            }
-//
-//            @Override
-//            public void onAdHidden(@NonNull MaxAd maxAd) {
-//                // Interstitial ad is hidden. Pre-load the next ad
-//                interstitialAd.loadAd();
-//            }
-//
-//            @Override
-//            public void onAdClicked(@NonNull MaxAd maxAd) {
-//
-//            }
-//
-//            @Override
-//            public void onAdLoadFailed(@NonNull String s, @NonNull MaxError maxError) {
-////                retryAttempt++;
-////                long delayMillis = TimeUnit.SECONDS.toMillis((long) Math.pow(2, Math.min(6, retryAttempt)));
-////
-////                new Handler().postDelayed(() -> interstitialAd.loadAd(), delayMillis);
-//            }
-//
-//            @Override
-//            public void onAdDisplayFailed(@NonNull MaxAd maxAd, @NonNull MaxError maxError) {
-//                // Interstitial ad failed to display. AppLovin recommends that you load the next ad.
-//                interstitialAd.loadAd();
-//            }
-//        });
-//
-//        // Load the first ad
-//        interstitialAd.loadAd();
-//    }
+    // private void createAdInter() {
+    // boolean enableAdInter = getString(R.string.EnableAdInter).equals("true");
+    // if (!enableAdInter) {
+    // return;
+    // }
+    // String id = getString(R.string.INTER);
+    // if (id.isEmpty()) {
+    // return;
+    // }
+    // interstitialAd = new MaxInterstitialAd(id, this);
+    // interstitialAd.setListener(new MaxAdListener() {
+    // @Override
+    // public void onAdLoaded(@NonNull MaxAd maxAd) {
+    //// retryAttempt = 0;
+    // }
+    //
+    // @Override
+    // public void onAdDisplayed(@NonNull MaxAd maxAd) {
+    //
+    // }
+    //
+    // @Override
+    // public void onAdHidden(@NonNull MaxAd maxAd) {
+    // // Interstitial ad is hidden. Pre-load the next ad
+    // interstitialAd.loadAd();
+    // }
+    //
+    // @Override
+    // public void onAdClicked(@NonNull MaxAd maxAd) {
+    //
+    // }
+    //
+    // @Override
+    // public void onAdLoadFailed(@NonNull String s, @NonNull MaxError maxError) {
+    //// retryAttempt++;
+    //// long delayMillis = TimeUnit.SECONDS.toMillis((long) Math.pow(2, Math.min(6,
+    // retryAttempt)));
+    ////
+    //// new Handler().postDelayed(() -> interstitialAd.loadAd(), delayMillis);
+    // }
+    //
+    // @Override
+    // public void onAdDisplayFailed(@NonNull MaxAd maxAd, @NonNull MaxError
+    // maxError) {
+    // // Interstitial ad failed to display. AppLovin recommends that you load the
+    // next ad.
+    // interstitialAd.loadAd();
+    // }
+    // });
+    //
+    // // Load the first ad
+    // interstitialAd.loadAd();
+    // }
 
 }

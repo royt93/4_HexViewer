@@ -125,4 +125,25 @@
     <string name="menu_delete">Delete</string>
     <string name="menu_edit">Edit</string>
     <string name="menu_copy">Copy</string>
+    <!-- File Hash Calculator -->
+    <string name="hash_title">文件哈希计算器</string>
+    <string name="hash_select_file_hint">点击选择文件</string>
+    <string name="hash_calculating">正在计算校验和...</string>
+    <string name="hash_algorithm">算法</string>
+    <string name="hash_copy_toast">哈希已复制到剪贴板</string>
+    <string name="hash_paste_compare_hint">在此粘贴哈希以进行验证</string>
+    <string name="hash_result_match">匹配 ✅</string>
+    <string name="hash_result_mismatch">不匹配 ❌</string>
+    <string name="hash_error_open_file">无法打开文件</string>
+    <string name="open_source_licenses_page">开源许可页面</string>
+    <string name="rate_app">应用评分</string>
+    <string name="more_apps">更多应用</string>
+    <string name="share_this_app">分享此应用</string>
+    <string name="source_code_original">源代码（原始版本）</string>
+    <string name="source_code_forked_version">源代码（分支版本）</string>
+    <string name="version">版本</string>
+    <string name="no_data_available">无数据</string>
+    <string name="about">关于</string>
+    <string name="changelog_text"><![CDATA[• UI改进，错误修复，性能优化\n• 集成LeakCanary用于内存泄漏检测\n• 添加ProGuard配置\n• 更新启动器图标\n• 添加功能：应用评分，更多应用，分享应用\n• 启用自适应120Hz刷新率支持\n• 修复字体缩放问题\n• 添加启动画面\n• 添加动画和装饰性Lottie效果\n• 修复全面屏渲染\n• 支持Android API 35\n• 许多其他错误修复和改进]]></string>
+    <string name="credits_attribution"><![CDATA[👥 鸣谢与归属]]></string>
 </resources>

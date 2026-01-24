@@ -125,4 +125,25 @@
     <string name="menu_delete">Borrar</string>
     <string name="menu_edit">Editar</string>
     <string name="menu_copy">Copiar</string>
+    <!-- File Hash Calculator -->
+    <string name="hash_title">Calculadora de Hash</string>
+    <string name="hash_select_file_hint">Toque para seleccionar un archivo</string>
+    <string name="hash_calculating">Calculando sumas de comprobación...</string>
+    <string name="hash_algorithm">Algoritmo</string>
+    <string name="hash_copy_toast">Hash copiado al portapapeles</string>
+    <string name="hash_paste_compare_hint">Pegue el hash aquí para verificar</string>
+    <string name="hash_result_match">COINCIDE ✅</string>
+    <string name="hash_result_mismatch">NO COINCIDE ❌</string>
+    <string name="hash_error_open_file">No se pudo abrir el archivo</string>
+    <string name="open_source_licenses_page">Página de licencias de código abierto</string>
+    <string name="rate_app">Calificar aplicación</string>
+    <string name="more_apps">Más aplicaciones</string>
+    <string name="share_this_app">Compartir esta aplicación</string>
+    <string name="source_code_original">Código fuente (Versión original)</string>
+    <string name="source_code_forked_version">Código fuente (Versión bifurcada)</string>
+    <string name="version">Versión</string>
+    <string name="no_data_available">No hay datos disponibles</string>
+    <string name="about">Acerca de</string>
+    <string name="changelog_text"><![CDATA[• Mejoras en la interfaz, corrección de errores, optimizaciones de rendimiento\n• LeakCanary integrado para detección de fugas de memoria\n• Configuración de ProGuard añadida\n• Icono del lanzador actualizado\n• Características añadidas: Calificar aplicación, Más aplicaciones, Compartir aplicación\n• Soporte habilitado para frecuencia de actualización adaptativa de 120Hz\n• Problemas de escala de fuente corregidos\n• Pantalla de inicio añadida\n• Animaciones y efectos decorativos Lottie añadidos\n• Renderizado de borde a borde corregido\n• Soporte para Android API 35\n• Muchas otras correcciones y mejoras]]></string>
+    <string name="credits_attribution"><![CDATA[👥 Créditos y Atribución]]></string>
 </resources>

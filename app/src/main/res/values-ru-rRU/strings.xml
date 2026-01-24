@@ -125,4 +125,25 @@
     <string name="menu_delete">Delete</string>
     <string name="menu_edit">Edit</string>
     <string name="menu_copy">Copy</string>
+    <!-- File Hash Calculator -->
+    <string name="hash_title">Калькулятор хешей файлов</string>
+    <string name="hash_select_file_hint">Нажмите для выбора файла</string>
+    <string name="hash_calculating">Вычисление контрольных сумм...</string>
+    <string name="hash_algorithm">Алгоритм</string>
+    <string name="hash_copy_toast">Хеш скопирован в буфер обмена</string>
+    <string name="hash_paste_compare_hint">Вставьте хеш сюда для проверки</string>
+    <string name="hash_result_match">СОВПАДАЕТ ✅</string>
+    <string name="hash_result_mismatch">НЕ СОВПАДАЕТ ❌</string>
+    <string name="hash_error_open_file">Не удалось открыть файл</string>
+    <string name="open_source_licenses_page">Страница лицензий с открытым исходным кодом</string>
+    <string name="rate_app">Оценить</string>
+    <string name="more_apps">Ещё приложения</string>
+    <string name="share_this_app">Поделиться</string>
+    <string name="source_code_original">Исходный код (Оригинал)</string>
+    <string name="source_code_forked_version">Исходный код (Форк)</string>
+    <string name="version">Версия</string>
+    <string name="no_data_available">Нет данных</string>
+    <string name="about">О приложении</string>
+    <string name="changelog_text"><![CDATA[• Улучшения интерфейса, исправления ошибок, оптимизация производительности\n• Интегрирован LeakCanary для обнаружения утечек памяти\n• Добавлена конфигурация ProGuard\n• Обновлен значок запуска\n• Добавлены функции: Оценить приложение, Еще приложения, Поделиться приложением\n• Включена поддержка адаптивной частоты обновления 120 Гц\n• Исправлены проблемы с масштабированием шрифтов\n• Добавлен экран заставки\n• Добавлены анимации и декоративные эффекты Lottie\n• Исправлен рендеринг от края до края\n• Поддержка Android API 35\n• Множество других исправлений ошибок и улучшений]]></string>
+    <string name="credits_attribution"><![CDATA[👥 Благодарности]]></string>
 </resources>

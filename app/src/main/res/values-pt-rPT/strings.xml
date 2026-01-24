@@ -125,4 +125,25 @@
     <string name="menu_delete">Delete</string>
     <string name="menu_edit">Edit</string>
     <string name="menu_copy">Copy</string>
+    <!-- File Hash Calculator -->
+    <string name="hash_title">Calculadora de Hash</string>
+    <string name="hash_select_file_hint">Toque para selecionar um ficheiro</string>
+    <string name="hash_calculating">A calcular checksums...</string>
+    <string name="hash_algorithm">Algoritmo</string>
+    <string name="hash_copy_toast">Hash copiado para a área de transferência</string>
+    <string name="hash_paste_compare_hint">Cole o hash aqui para verificar</string>
+    <string name="hash_result_match">CORRESPONDE ✅</string>
+    <string name="hash_result_mismatch">NÃO CORRESPONDE ❌</string>
+    <string name="hash_error_open_file">Não foi possível abrir o ficheiro</string>
+    <string name="open_source_licenses_page">Página de Licenças de Código Aberto</string>
+    <string name="rate_app">Avaliar app</string>
+    <string name="more_apps">Mais apps</string>
+    <string name="share_this_app">Partilhar app</string>
+    <string name="source_code_original">Código-fonte (Original)</string>
+    <string name="source_code_forked_version">Código-fonte (Forked)</string>
+    <string name="version">Versão</string>
+    <string name="no_data_available">Sem dados</string>
+    <string name="about">Sobre</string>
+    <string name="changelog_text"><![CDATA[• Melhorias na interface, correções de bugs, otimizações de desempenho\n• LeakCanary integrado para deteção de fugas de memória\n• Configuração do ProGuard adicionada\n• Ícone do launcher atualizado\n• Funcionalidades adicionadas: Avaliar app, Mais apps, Partilhar app\n• Suporte a taxa de atualização adaptável de 120Hz ativado\n• Problemas de escala de fonte corrigidos\n• Ecrã de splash adicionado\n• Animações e efeitos decorativos Lottie adicionados\n• Renderização de borda a borda corrigida\n• Suporte para Android API 35\n• Muitas outras correções de bugs e melhorias]]></string>
+    <string name="credits_attribution"><![CDATA[👥 Créditos e Atribuição]]></string>
 </resources>

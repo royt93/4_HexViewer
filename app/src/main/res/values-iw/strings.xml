@@ -125,4 +125,25 @@
     <string name="menu_delete">Delete</string>
     <string name="menu_edit">Edit</string>
     <string name="menu_copy">Copy</string>
+    <!-- File Hash Calculator -->
+    <string name="hash_title">מחשבון גיבוב קבצים</string>
+    <string name="hash_select_file_hint">לחץ לבחירת קובץ</string>
+    <string name="hash_calculating">מחשב בדיקות...</string>
+    <string name="hash_algorithm">אלגוריתם</string>
+    <string name="hash_copy_toast">ההאש הועתק ללוח</string>
+    <string name="hash_paste_compare_hint">הדבק האש כאן לאימות</string>
+    <string name="hash_result_match">תואם ✅</string>
+    <string name="hash_result_mismatch">לא תואם ❌</string>
+    <string name="hash_error_open_file">לא ניתן לפתוח את הקובץ</string>
+    <string name="open_source_licenses_page">דף רישיונות קוד פתוח</string>
+    <string name="rate_app">דרג את האפליקציה</string>
+    <string name="more_apps">עוד אפליקציות</string>
+    <string name="share_this_app">שתף את האפליקציה</string>
+    <string name="source_code_original">קוד מקור (גרסה מקורית)</string>
+    <string name="source_code_forked_version">קוד מקור (גרסה מפוצלת)</string>
+    <string name="version">גרסה</string>
+    <string name="no_data_available">אין נתונים זמינים</string>
+    <string name="about">אודות</string>
+    <string name="changelog_text"><![CDATA[• שיפורי ממשק משתמש, תיקוני באגים, אופטימיזציה לביצועים\n• שילוב LeakCanary לזיהוי דליפות זיכרון\n• נוספה תצורת ProGuard\n• סמל משגר מעודכן\n• תכונות נוספות: דרג את האפליקציה, עוד אפליקציות, שתף את האפליקציה\n• הופעלה תמיכה בקצב רענון אדפטיבי של 120Hz\n• תוקנו בעיות קנה מידה של גופנים\n• נוסף מסך פתיחה\n• נוספו אנימציות ואפקטים דקורטיביים של Lottie\n• תיקון רינדור מקצה לקצה\n• תמיכה ב- Android API 35\n• תיקוני באגים ושיפורים רבים אחרים]]></string>
+    <string name="credits_attribution"><![CDATA[👥 קרדיטים וייחוס]]></string>
 </resources>
