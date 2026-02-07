@@ -170,7 +170,11 @@ public class ActMain extends ActAbstractBaseMain implements AdapterView.OnItemCl
     public void onResume() {
         super.onResume();
         if (adView != null) {
-            adView.resume();
+            try {
+                adView.resume();
+            } catch (Exception e) {
+                // Ignore ad errors to prevent app crash
+            }
         }
         setRequestedOrientation(mApp.getScreenOrientation(null));
         if (mPopup != null)
@@ -190,7 +194,11 @@ public class ActMain extends ActAbstractBaseMain implements AdapterView.OnItemCl
     @Override
     protected void onPause() {
         if (adView != null) {
-            adView.pause();
+            try {
+                adView.pause();
+            } catch (Exception e) {
+                // Ignore ad errors
+            }
         }
         super.onPause();
     }
@@ -201,7 +209,11 @@ public class ActMain extends ActAbstractBaseMain implements AdapterView.OnItemCl
         // ApplovinUtils.destroyAdBanner(findViewById(R.id.flAd), adView);
         // }
         if (adView != null) {
-            adView.destroy();
+            try {
+                adView.destroy();
+            } catch (Exception e) {
+                // Ignore
+            }
             adView = null;
         }
         if (mPayloadPlainSwipe != null) {
