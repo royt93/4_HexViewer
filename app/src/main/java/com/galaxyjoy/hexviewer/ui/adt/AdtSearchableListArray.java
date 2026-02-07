@@ -170,14 +170,14 @@ public abstract class AdtSearchableListArray extends ArrayAdapter<LineEntry> imp
     @Override
     public void clear() {
         mLineEntries.clear();
-        notifyDataSetChanged();
+        safeNotifyDataSetChanged();
     }
 
     /**
      * Refreshes this adapter.
      */
     public void refresh() {
-        notifyDataSetChanged();
+        safeNotifyDataSetChanged();
     }
 
     /**
@@ -188,7 +188,7 @@ public abstract class AdtSearchableListArray extends ArrayAdapter<LineEntry> imp
     @Override
     public void addAll(@NonNull Collection<? extends LineEntry> collection) {
         mLineEntries.addAll(collection);
-        notifyDataSetChanged();
+        safeNotifyDataSetChanged();
     }
 
     /**
@@ -269,6 +269,20 @@ public abstract class AdtSearchableListArray extends ArrayAdapter<LineEntry> imp
         List<Integer> li = new ArrayList<>(tempList);
         Collections.sort(li);
         mLineEntries.setFilteredList(li);
-        notifyDataSetChanged();
+        safeNotifyDataSetChanged();
+    }
+
+    /**
+     * Safely calls notifyDataSetChanged(), catching IllegalStateException
+     * that may occur when ListView is in an inconsistent state (e.g., during
+     * touch/scroll).
+     */
+    private void safeNotifyDataSetChanged() {
+        try {
+            notifyDataSetChanged();
+        } catch (IllegalStateException e) {
+            // ListView is in inconsistent state during touch/scroll.
+            // The data change will be visible on the next layout pass.
+        }
     }
 }
