@@ -39,7 +39,7 @@
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:fontFamily="monospace"
-            android:textColor="?attr/colorOnSurface"
+            android:textColor="?attr/colorPrimary"
             android:textIsSelectable="true"
             android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="parent"

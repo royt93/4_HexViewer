@@ -100,7 +100,7 @@ public class AdtHashResult extends RecyclerView.Adapter<AdtHashResult.ViewHolder
                         .setCardBackgroundColor(0xFFFFFFFF);
                 ((com.google.android.material.card.MaterialCardView) holder.itemView).setStrokeWidth(0);
             }
-            holder.tvHashValue.setTextColor(holder.itemView.getContext().getColor(R.color.textColorPrimary));
+            holder.tvHashValue.setTextColor(holder.itemView.getContext().getColor(R.color.colorPrimary));
             holder.tvHashValue.setTypeface(null, android.graphics.Typeface.NORMAL);
         }
     }
