@@ -47,12 +47,10 @@ public class SearchableFilterFactory {
         mUserConfigPortrait = userConfigPortrait;
     }
 
-
     private void allIndexes(Set<Integer> indexes,
                             String input,
                             String query) {
-        for (int index = input.indexOf(query);
-             index >= 0; index = input.indexOf(query, index + 1)) {
+        for (int index = input.indexOf(query); index >= 0; index = input.indexOf(query, index + 1)) {
             indexes.add(index);
         }
     }
@@ -80,7 +78,7 @@ public class SearchableFilterFactory {
         boolean withSpaces = true;
         if (indexes.isEmpty()) {
             /* hex no space */
-            final String hexNoSpaces = plain.substring(0, hexLength).replace(" ", "");
+            final String hexNoSpaces = hex.replace(" ", "");
             allIndexes(indexes, hexNoSpaces.toLowerCase(loc), query);
             if (indexes.isEmpty()) {
                 /* plain text */
@@ -236,10 +234,12 @@ public class SearchableFilterFactory {
                                               final AtomicInteger index) {
         final int cfgNbPerLine = mApp.getNbBytesPerLine();
         if (sr.isWithSpaces()) {
-            nbPerLines.set(cfgNbPerLine == SysHelper.MAX_BY_ROW_16 ? SysHelper.MAX_BYTES_ROW_16 : SysHelper.MAX_BYTES_ROW_8);
+            nbPerLines.set(
+                    cfgNbPerLine == SysHelper.MAX_BY_ROW_16 ? SysHelper.MAX_BYTES_ROW_16 : SysHelper.MAX_BYTES_ROW_8);
             index.set(index.get() + (shiftOffset * 3));
         } else {
-            nbPerLines.set(cfgNbPerLine == SysHelper.MAX_BY_ROW_16 ? SysHelper.MAX_BY_ROW_16 * 2 : SysHelper.MAX_BY_ROW_8 * 2);
+            nbPerLines.set(
+                    cfgNbPerLine == SysHelper.MAX_BY_ROW_16 ? SysHelper.MAX_BY_ROW_16 * 2 : SysHelper.MAX_BY_ROW_8 * 2);
             index.set(index.get() + (shiftOffset * 2));
         }
     }
