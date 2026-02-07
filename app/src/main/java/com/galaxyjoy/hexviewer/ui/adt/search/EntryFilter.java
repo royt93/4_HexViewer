@@ -33,11 +33,11 @@ public class EntryFilter extends Filter {
     private final LineEntries mLineEntries;
 
     public EntryFilter(final Context context,
-                       ArrayAdapter<LineEntry> adapter,
-                       ISearchFrom searchFrom,
-                       LineEntries lineEntries,
-                       UserConfig userConfigPortrait,
-                       UserConfig userConfigLandscape) {
+            ArrayAdapter<LineEntry> adapter,
+            ISearchFrom searchFrom,
+            LineEntries lineEntries,
+            UserConfig userConfigPortrait,
+            UserConfig userConfigLandscape) {
         mAdapter = adapter;
         mLineEntries = lineEntries;
         mFilterFactory = new SearchableFilterFactory(context,
@@ -52,7 +52,9 @@ public class EntryFilter extends Filter {
         final Locale loc = Locale.getDefault();
         if (!clear)
             query = constraint.toString().toLowerCase(loc);
-        List<LineEntry> items = mLineEntries.getItems();
+        // Master-Level Fix: Use a thread-safe snapshot of the data.
+        // This avoids ConcurrentModificationException without needing try-catch.
+        List<LineEntry> items = mLineEntries.getSnapshot();
         final int length = items.size();
         for (int i = 0; i < length; i++) {
             LineEntry lineEntry = items.get(i);
@@ -88,7 +90,7 @@ public class EntryFilter extends Filter {
     @SuppressWarnings("unchecked")
     @Override
     protected void publishResults(CharSequence constraint,
-                                  FilterResults results) {
+            FilterResults results) {
         try {
             List<Integer> li = new ArrayList<>((Set<Integer>) results.values);
             Collections.sort(li);

@@ -28,8 +28,18 @@ public class LineEntries {
         mFilteredList = new ArrayList<>();
     }
 
-    public void setFilteredList(List<Integer> filteredList) {
+    public synchronized void setFilteredList(List<Integer> filteredList) {
         mFilteredList = filteredList;
+    }
+
+    /**
+     * Returns a thread-safe snapshot of the current entry list.
+     * Used for background filtering to prevent ConcurrentModificationException.
+     *
+     * @return A copy of the entry list.
+     */
+    public synchronized List<LineEntry> getSnapshot() {
+        return new ArrayList<>(mEntryList);
     }
 
     /**
@@ -37,7 +47,7 @@ public class LineEntries {
      *
      * @return List<ListData < T>>
      */
-    public List<LineEntry> getItems() {
+    public synchronized List<LineEntry> getItems() {
         return mEntryList;
     }
 
@@ -46,7 +56,7 @@ public class LineEntries {
      *
      * @return int
      */
-    public int getItemsCount() {
+    public synchronized int getItemsCount() {
         return mEntryList.size();
     }
 
@@ -55,7 +65,7 @@ public class LineEntries {
      *
      * @param start Start index.
      */
-    public void reloadAllIndexes(int start) {
+    public synchronized void reloadAllIndexes(int start) {
         Collections.sort(mFilteredList);
         for (int i = start; i < mEntryList.size(); i++) {
             mEntryList.get(i).setIndex(i);
@@ -73,7 +83,7 @@ public class LineEntries {
      * @param offset Offset.
      * @param plus   True=plus, False=minus
      */
-    public void moveIndexes(int start, int offset, boolean plus) {
+    public synchronized void moveIndexes(int start, int offset, boolean plus) {
         Collections.sort(mFilteredList);
         for (int i = start; i < mEntryList.size(); i++) {
             LineEntry le = mEntryList.get(i);
@@ -88,7 +98,7 @@ public class LineEntries {
      *
      * @param position The item position.
      */
-    public void removeItem(final int position) {
+    public synchronized void removeItem(final int position) {
         mEntryList.remove((int) mFilteredList.get(position));
         mFilteredList.remove((Integer) position);
     }
@@ -99,8 +109,8 @@ public class LineEntries {
      * @param position The item position.
      * @param le       The item.
      */
-    public void addItem(final int position,
-                        LineEntry le) {
+    public synchronized void addItem(final int position,
+                                     LineEntry le) {
         mFilteredList.add(position, le.getIndex());
         mEntryList.add(le.getIndex(), le);
     }
@@ -110,7 +120,7 @@ public class LineEntries {
      *
      * @param le The item.
      */
-    public void addItem(LineEntry le) {
+    public synchronized void addItem(LineEntry le) {
         mFilteredList.add(le.getIndex());
         mEntryList.add(le);
     }
@@ -120,14 +130,14 @@ public class LineEntries {
      *
      * @param position The item.
      */
-    public int getItemIndex(final int position) {
+    public synchronized int getItemIndex(final int position) {
         return mFilteredList.isEmpty() ? 0 : mFilteredList.get(position);
     }
 
     /**
      * Clears the update flag.
      */
-    public void clearFilteredUpdated() {
+    public synchronized void clearFilteredUpdated() {
         for (Integer index : mFilteredList) {
             mEntryList.get(index).setUpdated(false);
         }
@@ -138,7 +148,7 @@ public class LineEntries {
      *
      * @param collection The items to be added.
      */
-    public void addAll(@NonNull Collection<? extends LineEntry> collection) {
+    public synchronized void addAll(@NonNull Collection<? extends LineEntry> collection) {
         /* Here the list is already empty */
         try {
             int size = collection.size();
@@ -161,8 +171,8 @@ public class LineEntries {
 
                 if (estimatedMemoryNeeded > freeMemory * 0.8) {
                     throw new OutOfMemoryError("Insufficient memory to load " + size +
-                        " entries (need ~" + (estimatedMemoryNeeded / 1024 / 1024) +
-                        "MB, free: " + (freeMemory / 1024 / 1024) + "MB). Try opening a smaller file portion.");
+                            " entries (need ~" + (estimatedMemoryNeeded / 1024 / 1024) +
+                            "MB, free: " + (freeMemory / 1024 / 1024) + "MB). Try opening a smaller file portion.");
                 }
             }
 
@@ -184,17 +194,18 @@ public class LineEntries {
             // Clear partially added data and rethrow with context
             clear();
             throw new OutOfMemoryError("Failed to add " + collection.size() +
-                " entries to LineEntries. Consider opening a smaller file portion. " + oom.getMessage());
+                    " entries to LineEntries. Consider opening a smaller file portion. " + oom.getMessage());
         }
     }
 
     /**
      * Get the data item associated with the specified position in the data set.
      *
-     * @param position Position of the item whose data we want within the adapter's data set.
+     * @param position Position of the item whose data we want within the adapter's
+     *                 data set.
      * @return This value may be null.
      */
-    public LineEntry getItem(final int position) {
+    public synchronized LineEntry getItem(final int position) {
         if (mFilteredList != null && mFilteredList.size() > position) {
             final int pos = mFilteredList.get(position);
             if (mEntryList.size() > pos)
@@ -208,7 +219,7 @@ public class LineEntries {
      *
      * @return Count of items.
      */
-    public int getCount() {
+    public synchronized int getCount() {
         if (mFilteredList != null)
             return mFilteredList.size();
         return 0;
@@ -217,10 +228,11 @@ public class LineEntries {
     /**
      * Get the row id associated with the specified position in the list.
      *
-     * @param position The position of the item within the adapter's data set whose row id we want.
+     * @param position The position of the item within the adapter's data set whose
+     *                 row id we want.
      * @return The id of the item at the specified position.
      */
-    public long getItemId(int position) {
+    public synchronized long getItemId(int position) {
         if (mFilteredList != null)
             return mFilteredList.get(position).hashCode();
         return 0;
@@ -229,7 +241,7 @@ public class LineEntries {
     /**
      * Remove all elements from the list.
      */
-    public void clear() {
+    public synchronized void clear() {
         mFilteredList.clear();
         mEntryList.clear();
     }

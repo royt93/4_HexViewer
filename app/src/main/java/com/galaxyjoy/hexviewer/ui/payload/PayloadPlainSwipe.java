@@ -118,7 +118,6 @@ public class PayloadPlainSwipe {
         }
     }
 
-
     /**
      * Functions called to refresh the list.
      */
@@ -132,14 +131,13 @@ public class PayloadPlainSwipe {
                     mAdapterPlain.clear();
                     mAdapterPlain.addAll(list);
                     if (!mActivity.getSearchQuery().isEmpty())
-                        mAdapterPlain.manualFilterUpdate(mActivity.getSearchQuery());
+                        mAdapterPlain.getFilter().filter(mActivity.getSearchQuery());
                 });
             }
             mPayloadPlainSwipeRefreshLayout.setRefreshing(false);
             mCancelPayloadPlainSwipeRefresh.set(false);
         }, 100);
     }
-
 
     /**
      * Refreshes the plain text list according to the list of payload data.
@@ -156,7 +154,8 @@ public class PayloadPlainSwipe {
         boolean limitReached = false;
 
         // Process entries in streaming fashion to avoid creating giant ArrayList<Byte>
-        // This prevents OOM with large files by not loading all bytes into memory at once
+        // This prevents OOM with large files by not loading all bytes into memory at
+        // once
         List<LineEntry> hexEntries = mActivity.getPayloadHex().getAdapter().getEntries().getItems();
 
         outerLoop:
@@ -167,7 +166,8 @@ public class PayloadPlainSwipe {
 
             // Process raw bytes directly without intermediate ArrayList
             List<Byte> rawBytes = le.getRaw();
-            if (rawBytes == null) continue;
+            if (rawBytes == null)
+                continue;
 
             for (Byte b : rawBytes) {
                 if (cancel != null && cancel.get()) {
@@ -198,7 +198,8 @@ public class PayloadPlainSwipe {
 
         // If limit reached, add a warning message
         if (limitReached && list.size() > 0) {
-            list.add(new LineEntry("... (File too large, showing first " + MAX_PLAIN_TEXT_LINES + " lines only)", null));
+            list.add(
+                    new LineEntry("... (File too large, showing first " + MAX_PLAIN_TEXT_LINES + " lines only)", null));
         }
 
         return list;
