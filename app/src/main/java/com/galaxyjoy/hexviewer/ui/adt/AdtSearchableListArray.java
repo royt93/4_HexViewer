@@ -133,7 +133,8 @@ public abstract class AdtSearchableListArray extends ArrayAdapter<LineEntry> imp
     /**
      * Get the data item associated with the specified position in the data set.
      *
-     * @param position Position of the item whose data we want within the adapter's data set.
+     * @param position Position of the item whose data we want within the adapter's
+     *                 data set.
      * @return This value may be null.
      */
     @Override
@@ -154,7 +155,8 @@ public abstract class AdtSearchableListArray extends ArrayAdapter<LineEntry> imp
     /**
      * Get the row id associated with the specified position in the list.
      *
-     * @param position The position of the item within the adapter's data set whose row id we want.
+     * @param position The position of the item within the adapter's data set whose
+     *                 row id we want.
      * @return The id of the item at the specified position.
      */
     @Override
@@ -201,14 +203,16 @@ public abstract class AdtSearchableListArray extends ArrayAdapter<LineEntry> imp
      * Fills the view.
      *
      * @param v        This can't be null.
-     * @param position The position of the item within the adapter's data set of the item whose view we want.
+     * @param position The position of the item within the adapter's data set of the
+     *                 item whose view we want.
      */
     protected abstract void fillView(final @NonNull View v, final int position);
 
     /**
      * Get a View that displays the data at the specified position in the data set.
      *
-     * @param position    The position of the item within the adapter's data set of the item whose view we want.
+     * @param position    The position of the item within the adapter's data set of
+     *                    the item whose view we want.
      * @param convertView This value may be null.
      * @param parent      This value cannot be null.
      * @return This value cannot be null.
@@ -230,12 +234,14 @@ public abstract class AdtSearchableListArray extends ArrayAdapter<LineEntry> imp
         if (mUserConfigLandscape != null && cfg.orientation == Configuration.ORIENTATION_LANDSCAPE) {
             tv.setTextSize(mUserConfigLandscape.getFontSize());
             ViewGroup.LayoutParams lp = tv.getLayoutParams();
-            lp.height = mUserConfigLandscape.isRowHeightAuto() ? ViewGroup.LayoutParams.WRAP_CONTENT : mUserConfigLandscape.getRowHeight();
+            lp.height = mUserConfigLandscape.isRowHeightAuto() ? ViewGroup.LayoutParams.WRAP_CONTENT
+                    : mUserConfigLandscape.getRowHeight();
             tv.setLayoutParams(lp);
         } else if (mUserConfigPortrait != null) {
             tv.setTextSize(mUserConfigPortrait.getFontSize());
             ViewGroup.LayoutParams lp = tv.getLayoutParams();
-            lp.height = mUserConfigPortrait.isRowHeightAuto() ? ViewGroup.LayoutParams.WRAP_CONTENT : mUserConfigPortrait.getRowHeight();
+            lp.height = mUserConfigPortrait.isRowHeightAuto() ? ViewGroup.LayoutParams.WRAP_CONTENT
+                    : mUserConfigPortrait.getRowHeight();
             tv.setLayoutParams(lp);
         }
     }
@@ -263,5 +269,6 @@ public abstract class AdtSearchableListArray extends ArrayAdapter<LineEntry> imp
         List<Integer> li = new ArrayList<>(tempList);
         Collections.sort(li);
         mLineEntries.setFilteredList(li);
+        notifyDataSetChanged();
     }
 }
