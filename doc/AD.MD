@@ -38,6 +38,7 @@ AdMob IDs vẫn giữ trong `buildConfigFields` (reserve cho trường hợp swi
 | 5 | Nút "Recently Open" | Interstitial | `ActMain.java` | `onPopupItemClick(actionRecentlyOpen)` | ✅ |
 | 6 | Nút "Settings" | Interstitial | `ActMain.java` | `onPopupItemClick(actionSettings)` | ✅ |
 | 7 | Nút "Hash Calculator" | Interstitial | `ActMain.java` | `buttonHash.setOnClickListener` | ✅ |
+| 8 | Nút "File Info Analyzer" | Interstitial | `ActMain.java` | `buttonFileInfo.setOnClickListener` | ✅ |
 
 > ⚠️ **Không có Reward Ad** trong SDK `AdmobWrapper 1.1.1` — thay thế bằng Interstitial làm Gateway chờ tính nằng.
 

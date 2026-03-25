@@ -146,4 +146,11 @@
     <string name="about">Tentang</string>
     <string name="changelog_text"><![CDATA[• Perbaikan UI, perbaikan bug, optimalisasi kinerja\n• LeakCanary terintegrasi untuk deteksi kebocoran memori\n• Konfigurasi ProGuard ditambahkan\n• Ikon peluncur diperbarui\n• Fitur ditambahkan: Beri nilai aplikasi, Aplikasi lainnya, Bagikan aplikasi\n• Dukungan refresh rate adaptif 120Hz diaktifkan\n• Masalah skala font diperbaiki\n• Layar splash ditambahkan\n• Animasi dan efek dekoratif Lottie ditambahkan\n• Rendering edge-to-edge diperbaiki\n• Dukungan untuk Android API 35\n• Banyak perbaikan bug dan peningkatan lainnya]]></string>
     <string name="credits_attribution"><![CDATA[👥 Kredit & Atribusi]]></string>
+
+    <string name="file_info_title">Penganalisis Info File</string>
+    <string name="file_info_select_file_hint">Ketuk untuk memilih file</string>
+    <string name="file_info_magic_bytes">Byte Ajaib (Header)</string>
+    <string name="file_info_detected_type">Jenis File Terdeteksi</string>
+    <string name="file_info_unknown">Data Biner Tidak Dikenal</string>
+    <string name="file_info_analyzing">Menganalisis Header File...</string>
 </resources>

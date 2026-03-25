@@ -146,4 +146,11 @@
     <string name="about">के बारे में</string>
     <string name="changelog_text"><![CDATA[• यूआई सुधार, बग फिक्स, प्रदर्शन अनुकूलन\n• मेमोरी लीक डिटेक्शन के लिए LeakCanary एकीकृत\n• ProGuard कॉन्फ़िगरेशन जोड़ा गया\n• लॉन्चर आइकन अपडेट किया गया\n• जोड़ी गई सुविधाएँ: ऐप को रेट करें, अधिक ऐप्स, ऐप साझा करें\n• एडेप्टिव 120Hz रिफ्रेश रेट सपोर्ट सक्षम\n• फ़ॉन्ट स्केलिंग मुद्दे ठीक किए गए\n• स्पलैश स्क्रीन जोड़ी गई\n• एनिमेशन और सजावटी Lottie प्रभाव जोड़े गए\n• एज-टू-एज रेंडरिंग ठीक की गई\n• Android API 35 के लिए समर्थन\n• कई अन्य बग फिक्स और सुधार]]></string>
     <string name="credits_attribution"><![CDATA[👥 क्रेडिट और एट्रिब्यूशन]]></string>
+
+    <string name="file_info_title">फ़ाइल जानकारी विश्लेषक</string>
+    <string name="file_info_select_file_hint">एक फ़ाइल चुनें</string>
+    <string name="file_info_magic_bytes">जादुई बाइट्स (हेडर)</string>
+    <string name="file_info_detected_type">फ़ाइल का प्रकार</string>
+    <string name="file_info_unknown">अज्ञात डेटा</string>
+    <string name="file_info_analyzing">विश्लेषण कर रहा है...</string>
 </resources>

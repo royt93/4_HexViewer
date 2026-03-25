@@ -146,4 +146,11 @@
     <string name="about">Hakkında</string>
     <string name="changelog_text"><![CDATA[• UI iyileştirmeleri, hata düzeltmeleri, performans optimizasyonları\n• Bellek sızıntısı tespiti için LeakCanary entegre edildi\n• ProGuard yapılandırması eklendi\n• Başlatıcı simgesi güncellendi\n• Eklenen özellikler: Uygulamayı oyla, Daha fazla uygulama, Uygulamayı paylaş\n• Uyarlanabilir 120Hz yenileme hızı desteği etkinleştirildi\n• Yazı tipi ölçeklendirme sorunları düzeltildi\n• Açılış ekranı eklendi\n• Animasyonlar ve dekoratif Lottie efektleri eklendi\n• Uçtan uca işleme düzeltildi\n• Android API 35 desteği\n• Daha fazla hata düzeltmesi ve iyileştirme]]></string>
     <string name="credits_attribution"><![CDATA[👥 Krediler]]></string>
+
+    <string name="file_info_title">Dosya Bilgisi Analizcisi</string>
+    <string name="file_info_select_file_hint">Analiz edilecek dosyayı seç</string>
+    <string name="file_info_magic_bytes">Sihirli Baytlar (Başlık)</string>
+    <string name="file_info_detected_type">Algılanan Dosya Türü</string>
+    <string name="file_info_unknown">Bilinmeyen İkili Veri</string>
+    <string name="file_info_analyzing">Dosya başlığı inceleniyor...</string>
 </resources>

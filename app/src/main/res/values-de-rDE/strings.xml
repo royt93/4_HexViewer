@@ -146,4 +146,11 @@
     <string name="about">Über</string>
     <string name="changelog_text"><![CDATA[• UI-Verbesserungen, Fehlerkorrekturen, Leistungsoptimierungen\n• LeakCanary zur Speicherleckerkennung integriert\n• ProGuard-Konfiguration hinzugefügt\n• Launcher-Symbol aktualisiert\n• Hinzugefügte Funktionen: App bewerten, Mehr Apps, App teilen\n• Adaptive 120Hz-Bildwiederholfrequenz aktiviert\n• Probleme mit der Schriftskalierung behoben\n• Startbildschirm hinzugefügt\n• Animationen und dekorative Lottie-Effekte hinzugefügt\n• Edge-to-Edge-Rendering behoben\n• Unterstützung für Android API 35\n• Viele weitere Fehlerbehebungen und Verbesserungen]]></string>
     <string name="credits_attribution"><![CDATA[👥 Credits & Namensnennung]]></string>
+
+    <string name="file_info_title">Datei-Info-Analysator</string>
+    <string name="file_info_select_file_hint">Tippen Sie, um eine Datei auszuwählen</string>
+    <string name="file_info_magic_bytes">Magische Bytes (Header)</string>
+    <string name="file_info_detected_type">Erkannter Dateityp</string>
+    <string name="file_info_unknown">Unbekannte Binärdaten</string>
+    <string name="file_info_analyzing">Dateikopf wird analysiert...</string>
 </resources>

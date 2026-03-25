@@ -135,6 +135,12 @@ public class ActMain extends ActAbstractBaseMain implements AdapterView.OnItemCl
                 return null;
             });
         });
+        findViewById(R.id.buttonFileInfo).setOnClickListener(v -> {
+            AdManager.INSTANCE.showInterstitial(this, adShown -> {
+                startActivity(new Intent(this, ActFileInfo.class));
+                return null;
+            });
+        });
         // findViewById(R.id.buttonRecentlyOpen).setEnabled(!mApp.getRecentlyOpened().list().isEmpty());
         mPayloadHexHelper = new PayloadHexHelper();
         mPayloadHexHelper.onCreate(this);

@@ -146,4 +146,11 @@
     <string name="about">情報</string>
     <string name="changelog_text"><![CDATA[• UIの改善、バグ修正、パフォーマンスの最適化\n• メモリリーク検出のためのLeakCanaryの統合\n• ProGuard構成の追加\n• ランチャーアイコンの更新\n• 追加機能：アプリの評価、その他のアプリ、アプリの共有\n• アダプティブ120Hzリフレッシュレートのサポートを有効化\n• フォントスケーリングの問題を修正\n• スプラッシュ画面の追加\n• アニメーションと装飾的なLottieエフェクトの追加\n• エッジツーエッジレンダリングの修正\n• Android API 35のサポート\n• その他多数のバグ修正と改善]]></string>
     <string name="credits_attribution"><![CDATA[👥 クレジット]]></string>
+
+    <string name="file_info_title">ファイル情報アナライザ</string>
+    <string name="file_info_select_file_hint">タップしてファイルを選択</string>
+    <string name="file_info_magic_bytes">マジックバイト (ヘッダー)</string>
+    <string name="file_info_detected_type">検出されたタイプ</string>
+    <string name="file_info_unknown">不明なバイナリデータ</string>
+    <string name="file_info_analyzing">ヘッダーを分析中...</string>
 </resources>

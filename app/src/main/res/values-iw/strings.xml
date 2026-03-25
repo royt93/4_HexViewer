@@ -146,4 +146,11 @@
     <string name="about">אודות</string>
     <string name="changelog_text"><![CDATA[• שיפורי ממשק משתמש, תיקוני באגים, אופטימיזציה לביצועים\n• שילוב LeakCanary לזיהוי דליפות זיכרון\n• נוספה תצורת ProGuard\n• סמל משגר מעודכן\n• תכונות נוספות: דרג את האפליקציה, עוד אפליקציות, שתף את האפליקציה\n• הופעלה תמיכה בקצב רענון אדפטיבי של 120Hz\n• תוקנו בעיות קנה מידה של גופנים\n• נוסף מסך פתיחה\n• נוספו אנימציות ואפקטים דקורטיביים של Lottie\n• תיקון רינדור מקצה לקצה\n• תמיכה ב- Android API 35\n• תיקוני באגים ושיפורים רבים אחרים]]></string>
     <string name="credits_attribution"><![CDATA[👥 קרדיטים וייחוס]]></string>
+
+    <string name="file_info_title">מנתח מידע קובץ</string>
+    <string name="file_info_select_file_hint">הקש לבחירת קובץ לניתוח</string>
+    <string name="file_info_magic_bytes">בייטים של קסם (כותרת)</string>
+    <string name="file_info_detected_type">סוג קובץ שזוהה</string>
+    <string name="file_info_unknown">נתונים בינאריים לא ידועים</string>
+    <string name="file_info_analyzing">מנתח כותרת קובץ...</string>
 </resources>

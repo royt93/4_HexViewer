@@ -146,4 +146,11 @@
     <string name="about">О приложении</string>
     <string name="changelog_text"><![CDATA[• Улучшения интерфейса, исправления ошибок, оптимизация производительности\n• Интегрирован LeakCanary для обнаружения утечек памяти\n• Добавлена конфигурация ProGuard\n• Обновлен значок запуска\n• Добавлены функции: Оценить приложение, Еще приложения, Поделиться приложением\n• Включена поддержка адаптивной частоты обновления 120 Гц\n• Исправлены проблемы с масштабированием шрифтов\n• Добавлен экран заставки\n• Добавлены анимации и декоративные эффекты Lottie\n• Исправлен рендеринг от края до края\n• Поддержка Android API 35\n• Множество других исправлений ошибок и улучшений]]></string>
     <string name="credits_attribution"><![CDATA[👥 Благодарности]]></string>
+
+    <string name="file_info_title">Анализатор информации о файле</string>
+    <string name="file_info_select_file_hint">Нажмите, чтобы выбрать файл</string>
+    <string name="file_info_magic_bytes">Магические байты (заголовок)</string>
+    <string name="file_info_detected_type">Обнаруженный тип</string>
+    <string name="file_info_unknown">Неизвестные данные</string>
+    <string name="file_info_analyzing">Анализ заголовка...</string>
 </resources>

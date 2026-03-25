@@ -146,4 +146,11 @@
     <string name="about">Om</string>
     <string name="changelog_text"><![CDATA[• UI-forbedringer, feilrettinger, ytelsesoptimaliseringer\n• Integrert LeakCanary for deteksjon av minnelekkasjer\n• Lagt til ProGuard-konfigurasjon\n• Oppdatert oppstartsikon\n• Lagt til funksjoner: Vurder app, Flere apper, Del app\n• Aktivert støtte for adaptiv 120Hz oppdateringsfrekvens\n• Fikset problemer med skrifttypeskalering\n• Lagt til oppstartsskjerm\n• Lagt til animasjoner og dekorative Lottie-effekter\n• Fikset kant-til-kant gjengivelse\n• Støtte for Android API 35\n• Mange andre feilrettinger og forbedringer]]></string>
     <string name="credits_attribution"><![CDATA[👥 Kreditter og attribusjon]]></string>
+
+    <string name="file_info_title">Filinfo Analysator</string>
+    <string name="file_info_select_file_hint">Trykk for å velge en fil</string>
+    <string name="file_info_magic_bytes">Magiske Bytes (Header)</string>
+    <string name="file_info_detected_type">Oppdaget filtype</string>
+    <string name="file_info_unknown">Ukjente binærdata</string>
+    <string name="file_info_analyzing">Analyserer filhode...</string>
 </resources>

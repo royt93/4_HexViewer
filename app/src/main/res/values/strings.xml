@@ -188,4 +188,12 @@
     <string name="hash_result_match">MATCHED ✅</string>
     <string name="hash_result_mismatch">NO MATCH ❌</string>
     <string name="hash_error_open_file">Could not open file</string>
+
+    <!-- File Info Analyzer -->
+    <string name="file_info_title">File Info Analyzer</string>
+    <string name="file_info_select_file_hint">Tap to select a file to analyze</string>
+    <string name="file_info_magic_bytes">Magic Bytes (Header)</string>
+    <string name="file_info_detected_type">Detected File Type</string>
+    <string name="file_info_unknown">Unknown Binary Data</string>
+    <string name="file_info_analyzing">Analyzing File Header…</string>
 </resources>

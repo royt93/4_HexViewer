@@ -146,4 +146,11 @@
     <string name="about">Névjegy</string>
     <string name="changelog_text"><![CDATA[• UI fejlesztések, hibajavítások, teljesítmény optimalizálások\n• LeakCanary integrálása memóriaszivárgás észleléséhez\n• ProGuard konfiguráció hozzáadva\n• Indítóikon frissítve\n• Hozzáadott funkciók: Alkalmazás értékelése, További alkalmazások, Alkalmazás megosztása\n• Adaptív 120Hz frissítési gyakoriság támogatás engedélyezve\n• Betűméretezési problémák javítva\n• Splash képernyő hozzáadva\n• Animációk és dekoratív Lottie effektek hozzáadva\n• Edge-to-edge megjelenítés javítva\n• Android API 35 támogatás\n• Számos egyéb hibajavítás és fejlesztés]]></string>
     <string name="credits_attribution"><![CDATA[👥 Kreditek és Nevezetes]]></string>
+
+    <string name="file_info_title">Fájlinformáció Elemző</string>
+    <string name="file_info_select_file_hint">Koppintson egy fájl kiválasztásához</string>
+    <string name="file_info_magic_bytes">Mágikus bájtok (Fejléc)</string>
+    <string name="file_info_detected_type">Észlelt fájltípus</string>
+    <string name="file_info_unknown">Ismeretlen bináris adat</string>
+    <string name="file_info_analyzing">Fájlfejléc elemzése...</string>
 </resources>

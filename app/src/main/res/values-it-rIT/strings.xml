@@ -146,4 +146,11 @@
     <string name="about">Info</string>
     <string name="changelog_text"><![CDATA[• Miglioramenti UI, correzioni bug, ottimizzazioni prestazioni\n• LeakCanary integrato per rilevamento perdite di memoria\n• Aggiunta configurazione ProGuard\n• Icona launcher aggiornata\n• Funzionalità aggiunte: Valuta app, Altre app, Condividi app\n• Supporto refresh rate adattivo 120Hz abilitato\n• Risolti problemi di ridimensionamento font\n• Schermata splash aggiunta\n• Aggiunte animazioni ed effetti Lottie decorativi\n• Risolto rendering edge-to-edge\n• Supporto per Android API 35\n• Molte altre correzioni di bug e miglioramenti]]></string>
     <string name="credits_attribution"><![CDATA[👥 Crediti e Attribuzione]]></string>
+
+    <string name="file_info_title">Analizzatore info file</string>
+    <string name="file_info_select_file_hint">Tocca per selezionare un file</string>
+    <string name="file_info_magic_bytes">Byte magici (Intestazione)</string>
+    <string name="file_info_detected_type">Tipo di file rilevato</string>
+    <string name="file_info_unknown">Dati binari sconosciuti</string>
+    <string name="file_info_analyzing">Analisi dell\'intestazione...</string>
 </resources>

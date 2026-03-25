@@ -146,4 +146,11 @@
     <string name="about">حول</string>
     <string name="changelog_text"><![CDATA[• تحسينات الواجهة وإصلاحات الأخطاء وتحسينات الأداء\n• دمج LeakCanary لاكتشاف تسرب الذاكرة\n• إضافة تكوين ProGuard\n• تحديث أيقونة المشغل\n• إضافة ميزات: تقييم التطبيق، المزيد من التطبيقات، مشاركة التطبيق\n• تمكين دعم معدل التحديث التكيفي 120 هرتز\n• إصلاح مشكلات تحجيم الخط\n• إضافة شاشة البداية\n• إضافة رسوم متحركة وتأثيرات Lottie الزخرفية\n• إصلاح العرض من الحافة إلى الحافة\n• دعم Android API 35\n• العديد من إصلاحات الأخطاء والتحسينات الأخرى]]></string>
     <string name="credits_attribution"><![CDATA[👥 الحقوق والنسب]]></string>
+
+    <string name="file_info_title">محلل معلومات الملف</string>
+    <string name="file_info_select_file_hint">انقر لتحديد ملف للتحليل</string>
+    <string name="file_info_magic_bytes">بايتات سحرية (الرأس)</string>
+    <string name="file_info_detected_type">نوع الملف المكتشف</string>
+    <string name="file_info_unknown">بيانات ثنائية غير معروفة</string>
+    <string name="file_info_analyzing">جاري تحليل رأس الملف...</string>
 </resources>

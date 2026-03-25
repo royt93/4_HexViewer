@@ -146,4 +146,11 @@
     <string name="about">Acerca de</string>
     <string name="changelog_text"><![CDATA[• Mejoras en la interfaz, corrección de errores, optimizaciones de rendimiento\n• LeakCanary integrado para detección de fugas de memoria\n• Configuración de ProGuard añadida\n• Icono del lanzador actualizado\n• Características añadidas: Calificar aplicación, Más aplicaciones, Compartir aplicación\n• Soporte habilitado para frecuencia de actualización adaptativa de 120Hz\n• Problemas de escala de fuente corregidos\n• Pantalla de inicio añadida\n• Animaciones y efectos decorativos Lottie añadidos\n• Renderizado de borde a borde corregido\n• Soporte para Android API 35\n• Muchas otras correcciones y mejoras]]></string>
     <string name="credits_attribution"><![CDATA[👥 Créditos y Atribución]]></string>
+
+    <string name="file_info_title">Analizador de info de archivo</string>
+    <string name="file_info_select_file_hint">Toque para seleccionar un archivo</string>
+    <string name="file_info_magic_bytes">Bytes mágicos (Cabecera)</string>
+    <string name="file_info_detected_type">Tipo de archivo detectado</string>
+    <string name="file_info_unknown">Datos binarios desconocidos</string>
+    <string name="file_info_analyzing">Analizando cabecera del archivo...</string>
 </resources>

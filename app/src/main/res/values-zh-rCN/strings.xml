@@ -146,4 +146,11 @@
     <string name="about">关于</string>
     <string name="changelog_text"><![CDATA[• UI改进，错误修复，性能优化\n• 集成LeakCanary用于内存泄漏检测\n• 添加ProGuard配置\n• 更新启动器图标\n• 添加功能：应用评分，更多应用，分享应用\n• 启用自适应120Hz刷新率支持\n• 修复字体缩放问题\n• 添加启动画面\n• 添加动画和装饰性Lottie效果\n• 修复全面屏渲染\n• 支持Android API 35\n• 许多其他错误修复和改进]]></string>
     <string name="credits_attribution"><![CDATA[👥 鸣谢与归属]]></string>
+
+    <string name="file_info_title">文件信息分析器</string>
+    <string name="file_info_select_file_hint">点击选择要分析的文件</string>
+    <string name="file_info_magic_bytes">魔数 (文件头)</string>
+    <string name="file_info_detected_type">检测到的文件类型</string>
+    <string name="file_info_unknown">未知的二进制数据</string>
+    <string name="file_info_analyzing">正在分析文件头...</string>
 </resources>

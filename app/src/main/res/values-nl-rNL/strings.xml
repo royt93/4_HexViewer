@@ -146,4 +146,11 @@
     <string name="about">Over</string>
     <string name="changelog_text"><![CDATA[• UI-verbeteringen, bugfixes, prestatieoptimalisaties\n• Geïntegreerde LeakCanary voor detectie van geheugenlekken\n• ProGuard-configuratie toegevoegd\n• Launcher-pictogram bijgewerkt\n• Functies toegevoegd: App beoordelen, Meer apps, App delen\n• Ondersteuning voor adaptieve 120Hz-verversingssnelheid ingeschakeld\n• Problemen met lettertypeschaling opgelost\n• Splash-scherm toegevoegd\n• Animaties en decoratieve Lottie-effecten toegevoegd\n• Edge-to-edge weergave opgelost\n• Ondersteuning voor Android API 35\n• Vele andere bugfixes en verbeteringen]]></string>
     <string name="credits_attribution"><![CDATA[👥 Credits & Toeschrijving]]></string>
+
+    <string name="file_info_title">Bestandsinfo Analysator</string>
+    <string name="file_info_select_file_hint">Tik om een bestand te selecteren</string>
+    <string name="file_info_magic_bytes">Magische Bytes (Header)</string>
+    <string name="file_info_detected_type">Gedetecteerd bestandstype</string>
+    <string name="file_info_unknown">Onbekende binaire gegevens</string>
+    <string name="file_info_analyzing">Bestandsheader analyseren...</string>
 </resources>
