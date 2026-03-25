@@ -161,7 +161,7 @@ public class ActHashCalculator extends AppCompatActivity {
                 e.printStackTrace();
                 runOnUiThread(() -> {
                     if (!isDestroyed() && !isFinishing()) {
-                        Toast.makeText(this, R.string.hash_error_open_file, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ActHashCalculator.this, R.string.hash_error_open_file, Toast.LENGTH_SHORT).show();
                         mProgressIndicator.setVisibility(View.INVISIBLE);
                     }
                 });

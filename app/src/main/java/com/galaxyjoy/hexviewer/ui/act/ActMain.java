@@ -130,7 +130,10 @@ public class ActMain extends ActAbstractBaseMain implements AdapterView.OnItemCl
             onPopupItemClick(R.id.actionRecentlyOpen);
         });
         findViewById(R.id.buttonHash).setOnClickListener(v -> {
-            startActivity(new Intent(this, ActHashCalculator.class));
+            AdManager.INSTANCE.showInterstitial(this, adShown -> {
+                startActivity(new Intent(this, ActHashCalculator.class));
+                return null;
+            });
         });
         // findViewById(R.id.buttonRecentlyOpen).setEnabled(!mApp.getRecentlyOpened().list().isEmpty());
         mPayloadHexHelper = new PayloadHexHelper();

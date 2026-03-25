@@ -37,8 +37,9 @@ AdMob IDs vẫn giữ trong `buildConfigFields` (reserve cho trường hợp swi
 | 4 | ActRecentlyOpen | Banner | `ActRecentlyOpen.java` | `setupViews()` | ✅ |
 | 5 | Nút "Recently Open" | Interstitial | `ActMain.java` | `onPopupItemClick(actionRecentlyOpen)` | ✅ |
 | 6 | Nút "Settings" | Interstitial | `ActMain.java` | `onPopupItemClick(actionSettings)` | ✅ |
+| 7 | Nút "Hash Calculator" | Interstitial | `ActMain.java` | `buttonHash.setOnClickListener` | ✅ |
 
-> ⚠️ **Không có Reward Ad** trong app — không tích hợp mới.
+> ⚠️ **Không có Reward Ad** trong SDK `AdmobWrapper 1.1.1` — thay thế bằng Interstitial làm Gateway chờ tính nằng.
 
 ---
 
@@ -89,12 +90,12 @@ Activity.onCreate() → setupViews()
             └─ onDestroy() → AdManager.bannerDestroy(adView) → null listener → destroy()
 ```
 
-### Interstitial (Touchpoints #5, #6)
+### Interstitial (Touchpoints #5, #6, #7)
 ```
-ActMain.setupViews()
+ActMain.setupViews() / ActHashCalculator.onCreate()
   └─ AdManager.loadInterstitial(this) → MaxInterstitialAd.loadAd()
 
-User bấm nút → onPopupItemClick()
+User thao tác (bấm nút / chọn file) → gọi API
   └─ AdManager.showInterstitial(activity, adShown -> { action() })
        ├─ AdSafety: session/hourly/daily caps → skip nếu vượt
        ├─ loading overlay 1s → show MaxInterstitialAd
