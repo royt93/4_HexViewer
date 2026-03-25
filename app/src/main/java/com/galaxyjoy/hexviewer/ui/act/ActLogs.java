@@ -27,7 +27,7 @@ import com.galaxyjoy.hexviewer.BaseActivity;
 import com.galaxyjoy.hexviewer.BuildConfig;
 import com.galaxyjoy.hexviewer.MyApplication;
 import com.galaxyjoy.hexviewer.R;
-import com.galaxyjoy.hexviewer.sdkadbmob.UIUtils;
+import com.roy.sdkadbmob.UIUtils;
 
 import com.galaxyjoy.hexviewer.util.CircularLogBuffer;
 

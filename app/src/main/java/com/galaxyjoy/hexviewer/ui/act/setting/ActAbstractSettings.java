@@ -18,7 +18,7 @@ import androidx.appcompat.app.ActionBar;
 
 import com.galaxyjoy.hexviewer.BaseActivity;
 import com.galaxyjoy.hexviewer.R;
-import com.galaxyjoy.hexviewer.sdkadbmob.UIUtils;
+import com.roy.sdkadbmob.UIUtils;
 import com.galaxyjoy.hexviewer.ui.frm.FrmAbstractSettings;
 
 public abstract class ActAbstractSettings extends BaseActivity {

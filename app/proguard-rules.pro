@@ -106,7 +106,14 @@
 
 # Keep AdMob classes
 -keep class com.google.android.gms.ads.** { *; }
--keep class com.google.ads.mediation.** { *; }
+
+# Keep AppLovin MAX classes
+-keep class com.applovin.** { *; }
+-dontwarn com.applovin.**
+
+# Keep AdmobWrapper SDK (com.roy.sdkadbmob)
+-keep class com.roy.sdkadbmob.** { *; }
+-dontwarn com.roy.sdkadbmob.**
 
 # Keep Lottie
 -keep class com.airbnb.lottie.** { *; }

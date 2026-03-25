@@ -14,29 +14,16 @@ package com.galaxyjoy.hexviewer.ui.act;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
-import android.util.Log;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.animation.ObjectAnimator;
-import android.animation.AnimatorSet;
 import android.view.animation.AccelerateDecelerateInterpolator;
-import android.view.animation.LinearInterpolator;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.galaxyjoy.hexviewer.BuildConfig;
 import com.galaxyjoy.hexviewer.R;
-import com.galaxyjoy.hexviewer.sdkadbmob.AdMobManager;
-import com.galaxyjoy.hexviewer.sdkadbmob.UIUtils;
-
-import java.util.concurrent.atomic.AtomicBoolean;
+import com.roy.sdkadbmob.AdManager;
+import com.roy.sdkadbmob.UIUtils;
 
 import kotlin.Unit;
-import kotlin.jvm.functions.Function0;
-import kotlin.jvm.functions.Function1;
 
 @SuppressLint("CustomSplashScreen")
 public class SplashActivity extends AppCompatActivity {
@@ -140,12 +127,9 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     private void checkShowAd() {
-        AdMobManager.INSTANCE.initSplashScreen(this, new Function0<Unit>() {
-            @Override
-            public Unit invoke() {
-                goToMain();
-                return null;
-            }
+        AdManager.INSTANCE.initSplashScreen(this, () -> {
+            goToMain();
+            return null;
         });
     }
 
@@ -179,9 +163,6 @@ public class SplashActivity extends AppCompatActivity {
 
         // Clear all pending callbacks and messages
         getWindow().getDecorView().removeCallbacks(finishRunnable);
-        // Clear AdMob references before calling super.onDestroy()
-        // This ensures App Open Ad releases its WebView and Activity references
-        AdMobManager.INSTANCE.clearCurrentActivity();
         super.onDestroy();
     }
 }

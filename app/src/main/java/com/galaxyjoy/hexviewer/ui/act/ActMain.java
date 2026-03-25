@@ -35,8 +35,9 @@ import com.galaxyjoy.hexviewer.R;
 import com.galaxyjoy.hexviewer.ext.RoyUtils;
 import com.galaxyjoy.hexviewer.models.FileData;
 import com.galaxyjoy.hexviewer.models.LineEntry;
-import com.galaxyjoy.hexviewer.sdkadbmob.AdMobManager;
-import com.galaxyjoy.hexviewer.sdkadbmob.UIUtils;
+import com.roy.sdkadbmob.AdManager;
+import com.google.android.gms.ads.AdSize;
+import com.roy.sdkadbmob.UIUtils;
 import com.galaxyjoy.hexviewer.ui.act.setting.ActSettings;
 import com.galaxyjoy.hexviewer.ui.adt.AdtSearchableListArray;
 import com.galaxyjoy.hexviewer.ui.dlg.GoToDialog;
@@ -54,10 +55,6 @@ import com.galaxyjoy.hexviewer.ui.task.TaskSave;
 import com.galaxyjoy.hexviewer.ui.undoredo.UnDoRedo;
 import com.galaxyjoy.hexviewer.ui.util.UIHelper;
 import com.galaxyjoy.hexviewer.util.io.FileHelper;
-import com.google.android.gms.ads.AdError;
-import com.google.android.gms.ads.AdSize;
-import com.google.android.gms.ads.AdView;
-import com.google.android.gms.ads.LoadAdError;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -67,7 +64,7 @@ import kotlin.Unit;
 import kotlin.jvm.functions.Function1;
 
 public class ActMain extends ActAbstractBaseMain implements AdapterView.OnItemClickListener,
-        TaskOpen.OpenResultListener, TaskSave.SaveResultListener, AdMobManager.InterstitialAdListener {
+        TaskOpen.OpenResultListener, TaskSave.SaveResultListener {
     private FileData mFileData = null;
     private ConstraintLayout mIdleView = null;
     private MenuItem mSearchMenu = null;
@@ -85,7 +82,7 @@ public class ActMain extends ActAbstractBaseMain implements AdapterView.OnItemCl
     private GoToDialog mGoToDialog = null;
     // private MaxAdView adView;
     // private MaxInterstitialAd interstitialAd;
-    private AdView adView = null;
+    private View adView = null;
 
     /**
      * Called when the activity is created.
@@ -101,8 +98,6 @@ public class ActMain extends ActAbstractBaseMain implements AdapterView.OnItemCl
         MyApplication.addLog(this, "Main", "Application started with language: '"
                 + ((MyApplication) getApplicationContext()).getApplicationLanguage(this) + "'");
         setupViews(savedInstanceState);
-        AdMobManager.INSTANCE.setCurrentActivity(this);
-        AdMobManager.INSTANCE.setInterstitialListener(this);
     }
 
     @SuppressLint("SetTextI18n")
@@ -155,12 +150,13 @@ public class ActMain extends ActAbstractBaseMain implements AdapterView.OnItemCl
         if (savedInstanceState == null)
             handleIntent(getIntent());
 
-        adView = AdMobManager.INSTANCE.loadBanner(this,
-                BuildConfig.ADMOB_BANNER_ID,
-                findViewById(R.id.bannerContainer),
-                findViewById(R.id.tvLabelAd),
-                AdSize.FULL_BANNER);
-        AdMobManager.INSTANCE.loadInterstitial(this, BuildConfig.ADMOB_INTERSTITIAL_ID);
+        adView = AdManager.INSTANCE.loadBanner(
+                this,
+                (android.view.ViewGroup) findViewById(R.id.bannerContainer),
+                (android.widget.TextView) findViewById(R.id.tvLabelAd),
+                AdSize.BANNER
+        );
+        AdManager.INSTANCE.loadInterstitial(this);
     }
 
     /**
@@ -169,13 +165,7 @@ public class ActMain extends ActAbstractBaseMain implements AdapterView.OnItemCl
     @Override
     public void onResume() {
         super.onResume();
-        if (adView != null) {
-            try {
-                adView.resume();
-            } catch (Exception e) {
-                // Ignore ad errors to prevent app crash
-            }
-        }
+        AdManager.INSTANCE.bannerResume(adView);
         setRequestedOrientation(mApp.getScreenOrientation(null));
         if (mPopup != null)
             mPopup.dismiss();
@@ -193,29 +183,14 @@ public class ActMain extends ActAbstractBaseMain implements AdapterView.OnItemCl
 
     @Override
     protected void onPause() {
-        if (adView != null) {
-            try {
-                adView.pause();
-            } catch (Exception e) {
-                // Ignore ad errors
-            }
-        }
+        AdManager.INSTANCE.bannerPause(adView);
         super.onPause();
     }
 
     @Override
     protected void onDestroy() {
-        // if (adView != null) {
-        // ApplovinUtils.destroyAdBanner(findViewById(R.id.flAd), adView);
-        // }
-        if (adView != null) {
-            try {
-                adView.destroy();
-            } catch (Exception e) {
-                // Ignore
-            }
-            adView = null;
-        }
+        AdManager.INSTANCE.bannerDestroy(adView);
+        adView = null;
         if (mPayloadPlainSwipe != null) {
             mPayloadPlainSwipe.onDestroy();
         }
@@ -231,7 +206,6 @@ public class ActMain extends ActAbstractBaseMain implements AdapterView.OnItemCl
         if (mPopup != null) {
             mPopup.dismiss();
         }
-        AdMobManager.INSTANCE.clearCurrentActivity();
         super.onDestroy();
     }
 
@@ -527,13 +501,9 @@ public class ActMain extends ActAbstractBaseMain implements AdapterView.OnItemCl
             if (mApp.getRecentlyOpened().list().isEmpty()) {
                 UIHelper.toast(this, getString(R.string.no_data_available));
             } else {
-                // showAd();
-                AdMobManager.INSTANCE.showInterstitial(this, new Function1<Boolean, Unit>() {
-                    @Override
-                    public Unit invoke(Boolean aBoolean) {
-                        mLauncherRecentlyOpen.startActivity();
-                        return null;
-                    }
+                AdManager.INSTANCE.showInterstitial(this, adShown -> {
+                    mLauncherRecentlyOpen.startActivity();
+                    return null;
                 });
             }
         } else if (id == R.id.actionSave) {
@@ -543,13 +513,9 @@ public class ActMain extends ActAbstractBaseMain implements AdapterView.OnItemCl
         } else if (id == R.id.actionClose) {
             popupActionClose();
         } else if (id == R.id.actionSettings) {
-            // showAd();
-            AdMobManager.INSTANCE.showInterstitial(this, new Function1<Boolean, Unit>() {
-                @Override
-                public Unit invoke(Boolean aBoolean) {
-                    ActSettings.startActivity(ActMain.this, !FileData.isEmpty(mFileData), mUnDoRedo.isChanged());
-                    return null;
-                }
+            AdManager.INSTANCE.showInterstitial(this, adShown -> {
+                ActSettings.startActivity(ActMain.this, !FileData.isEmpty(mFileData), mUnDoRedo.isChanged());
+                return null;
             });
         } else if (id == R.id.actionUndo) {
             mUnDoRedo.undo();
@@ -868,41 +834,6 @@ public class ActMain extends ActAbstractBaseMain implements AdapterView.OnItemCl
             setOrphanDialog(mGoToDialog.show(GoToDialog.Mode.ADDRESS));
         else
             setOrphanDialog(mGoToDialog.show(GoToDialog.Mode.LINE_HEX));
-    }
-
-    @Override
-    public void onAdLoaded() {
-
-    }
-
-    @Override
-    public void onAdFailedToLoad(@NotNull LoadAdError error) {
-
-    }
-
-    @Override
-    public void onAdShowed() {
-
-    }
-
-    @Override
-    public void onAdDismissed() {
-
-    }
-
-    @Override
-    public void onAdClicked() {
-
-    }
-
-    @Override
-    public void onAdFailedToShow(@NotNull AdError error) {
-
-    }
-
-    @Override
-    public void onAdNotAvailable() {
-
     }
 
     // private void showAd() {

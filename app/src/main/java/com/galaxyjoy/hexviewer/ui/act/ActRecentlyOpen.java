@@ -33,11 +33,10 @@ import com.galaxyjoy.hexviewer.MyApplication;
 import com.galaxyjoy.hexviewer.R;
 import com.galaxyjoy.hexviewer.models.FileData;
 import com.galaxyjoy.hexviewer.models.UriData;
-import com.galaxyjoy.hexviewer.sdkadbmob.AdMobManager;
-import com.galaxyjoy.hexviewer.sdkadbmob.UIUtils;
-import com.galaxyjoy.hexviewer.ui.adt.AdtRecentlyOpenRecycler;
+import com.roy.sdkadbmob.AdManager;
 import com.google.android.gms.ads.AdSize;
-import com.google.android.gms.ads.AdView;
+import com.roy.sdkadbmob.UIUtils;
+import com.galaxyjoy.hexviewer.ui.adt.AdtRecentlyOpenRecycler;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,7 +47,7 @@ public class ActRecentlyOpen extends BaseActivity implements AdtRecentlyOpenRecy
     public static final String RESULT_END_OFFSET = "endOffset";
     public static final String RESULT_OLD_TO_STRING = "oldToString";
     //    private MaxAdView adView;
-    private AdView adView = null;
+    private View adView = null;
 
     /**
      * Starts an activity.
@@ -119,51 +118,30 @@ public class ActRecentlyOpen extends BaseActivity implements AdtRecentlyOpenRecy
 
         setTitle(getString(R.string.action_recently_open_title));
 
-//        adView = ApplovinUtils.createAdBanner(this,
-//                ActRecentlyOpen.class.getSimpleName(),
-//                Color.TRANSPARENT,
-//                findViewById(R.id.flAd),
-//                true);
-        adView = AdMobManager.INSTANCE.loadBanner(this,
-                BuildConfig.ADMOB_BANNER_ID,
-                findViewById(R.id.bannerContainer),
-                findViewById(R.id.tvLabelAd),
-                AdSize.LARGE_BANNER
+        adView = AdManager.INSTANCE.loadBanner(
+                this,
+                (android.view.ViewGroup) findViewById(R.id.bannerContainer),
+                (android.widget.TextView) findViewById(R.id.tvLabelAd),
+                AdSize.BANNER
         );
-
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        if (adView != null) {
-            adView.resume();
-        }
+        AdManager.INSTANCE.bannerResume(adView);
     }
 
     @Override
     protected void onPause() {
-        if (adView != null) {
-            adView.pause();
-        }
+        AdManager.INSTANCE.bannerPause(adView);
         super.onPause();
     }
 
     @Override
     protected void onDestroy() {
-//        if (adView != null) {
-//            ApplovinUtils.destroyAdBanner(findViewById(R.id.flAd), adView);
-//        }
-        if (adView != null) {
-            // Remove from parent first to break reference chain
-            android.view.ViewParent parent = adView.getParent();
-            if (parent instanceof android.view.ViewGroup) {
-                ((android.view.ViewGroup) parent).removeView(adView);
-            }
-            adView.destroy();
-            adView = null;
-        }
-        AdMobManager.INSTANCE.clearCurrentActivity();
+        AdManager.INSTANCE.bannerDestroy(adView);
+        adView = null;
         super.onDestroy();
     }
 

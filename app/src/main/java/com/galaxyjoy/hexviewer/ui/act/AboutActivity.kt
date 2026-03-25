@@ -6,7 +6,7 @@ import android.os.Bundle
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.galaxyjoy.hexviewer.R
-import com.galaxyjoy.hexviewer.sdkadbmob.UIUtils
+import com.roy.sdkadbmob.UIUtils
 
 class AboutActivity : AppCompatActivity() {
 

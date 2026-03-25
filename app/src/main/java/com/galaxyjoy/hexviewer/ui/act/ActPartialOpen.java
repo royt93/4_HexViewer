@@ -40,7 +40,7 @@ import com.galaxyjoy.hexviewer.BaseActivity;
 import com.galaxyjoy.hexviewer.MyApplication;
 import com.galaxyjoy.hexviewer.R;
 import com.galaxyjoy.hexviewer.models.FileData;
-import com.galaxyjoy.hexviewer.sdkadbmob.UIUtils;
+import com.roy.sdkadbmob.UIUtils;
 import com.galaxyjoy.hexviewer.ui.util.UIHelper;
 import com.galaxyjoy.hexviewer.util.SysHelper;
 import com.google.android.material.textfield.TextInputEditText;

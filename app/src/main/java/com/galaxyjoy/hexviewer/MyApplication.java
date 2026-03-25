@@ -27,8 +27,9 @@ import androidx.preference.PreferenceManager;
 import com.galaxyjoy.hexviewer.models.ListSettings;
 import com.galaxyjoy.hexviewer.models.RecentlyOpened;
 import com.galaxyjoy.hexviewer.models.SettingsKeys;
-import com.galaxyjoy.hexviewer.sdkadbmob.AdMobManager;
-import com.google.android.gms.ads.MobileAds;
+import com.roy.sdkadbmob.AdManager;
+import com.roy.sdkadbmob.AdSdkConfig;
+import com.applovin.sdk.AppLovinSdk;
 
 import com.galaxyjoy.hexviewer.util.CircularLogBuffer;
 
@@ -39,10 +40,6 @@ import java.util.Queue;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-import kotlin.Unit;
-import kotlin.jvm.functions.Function2;
-
-//TODO roy93~ firebase analytic
 //TODO roy93~ why you see ad
 
 //done mckimquyen
@@ -88,15 +85,13 @@ public class MyApplication extends Application {
     private String mDefaultMemoryThreshold;
     private boolean mDefaultPartialOpenButWholeFileIsOpened;
     private Configuration mConfiguration = null;
-    private Thread mAdMobInitThread = null;
 
     @Override
     public void onCreate() {
         super.onCreate();
         // Enable automatic dark mode following system settings
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
-//        ApplovinUtils.setupApplovinAd(this);
-        setupAdmob();
+        setupAd();
         setupApp();
         /* EmojiCompat */
         EmojiCompat.Config config = new BundledEmojiCompatConfig(this);
@@ -572,42 +567,43 @@ public class MyApplication extends Application {
         return context.createConfigurationContext(configuration);
     }
 
-    public void setupAdmob() {
-        // Create named thread with proper lifecycle management to prevent leaks
-        mAdMobInitThread = new Thread(() -> {
-            try {
-                // Check if thread was interrupted before initialization
-                if (Thread.currentThread().isInterrupted()) {
-                    return;
-                }
+    public void setupAd() {
+        AdSdkConfig adConfig = new AdSdkConfig(
+            /* isEnableAdmob       */ BuildConfig.IS_ENABLE_ADMOB,
+            /* isDebug             */ BuildConfig.DEBUG,
+            /* admobAppOpenId      */ BuildConfig.ADMOB_APP_OPEN_ID,
+            /* admobInterstitialId */ BuildConfig.ADMOB_INTERSTITIAL_ID,
+            /* admobBannerId       */ BuildConfig.ADMOB_BANNER_ID,
+            /* applovinAppOpenId   */ BuildConfig.APPLOVIN_APP_OPEN_ID,
+            /* applovinInterstitialId */ BuildConfig.APPLOVIN_INTERSTITIAL_ID,
+            /* applovinBannerId    */ BuildConfig.APPLOVIN_BANNER_ID
+        );
 
-                MobileAds.initialize(MyApplication.this, initializationStatus -> {
-                    // Không làm gì
-                });
+        // QUAN TRỌNG: Gọi đúng thứ tự 3 bước!
+        AdManager.INSTANCE.setConfig(adConfig);  // 1. Gắn config ngay (Main Thread)
+        AdManager.INSTANCE.earlyInit(this);       // 2. Khởi động AdSafety session clock sớm nhất
 
-                // Check again after initialization
-                if (Thread.currentThread().isInterrupted()) {
-                    return;
-                }
+        // 3. AppLovin init SDK trước, sau đó mới gọi AdManager.init
+        // AppLovin mode: init với AppLovinSdkInitializationConfiguration (chuẩn SDK)
+        com.applovin.sdk.AppLovinSdkInitializationConfiguration initConfig =
+            com.applovin.sdk.AppLovinSdkInitializationConfiguration.builder(
+                BuildConfig.APPLOVIN_SDK_KEY, this
+            )
+            .setMediationProvider(com.applovin.sdk.AppLovinMediationProvider.MAX)
+            .build();
 
-                AdMobManager.INSTANCE.init(this, new Function2<Boolean, String, Unit>() {
-                    @Override
-                    public Unit invoke(Boolean success, String gaidCurrent) {
-                        Log.d("roy93~", "AdMobManager init success " + success + ", gaidCurrent " + gaidCurrent);
-                        return null;
-                    }
-                });
-            } catch (Exception e) {
-                // Check if the exception was due to thread interruption
-                if (Thread.currentThread().isInterrupted() || e instanceof InterruptedException) {
-                    Log.d("roy93~", "AdMob initialization interrupted");
-                    Thread.currentThread().interrupt(); // Restore interrupt status
-                } else {
-                    Log.e("roy93~", "AdMob initialization error", e);
+        AppLovinSdk.getInstance(this).initialize(initConfig, sdkConfig -> {
+            AdManager.INSTANCE.init(this, adConfig, (success, gaid) -> {
+                Log.d("roy93~", "AdManager init success=" + success + ", gaid=" + gaid);
+                if (success) {
+                    // QUAN TRỌNG: Phải chạy trên Main Thread vì ProcessLifecycleOwner.addObserver yêu cầu
+                    new android.os.Handler(android.os.Looper.getMainLooper()).post(() ->
+                        AdManager.INSTANCE.registerAppOpenAdLifecycle(MyApplication.this)
+                    );
                 }
-            }
-        }, "AdMobInitThread");
-        mAdMobInitThread.start();
+                return null;
+            });
+        });
     }
 
     /**
@@ -617,56 +613,6 @@ public class MyApplication extends Application {
     @Override
     public void onTerminate() {
         super.onTerminate();
-        // Interrupt and join the AdMob initialization thread if it's still running
-        if (mAdMobInitThread != null && mAdMobInitThread.isAlive()) {
-            mAdMobInitThread.interrupt();
-            try {
-                // Wait up to 2 seconds for thread to finish
-                // This prevents memory leaks by ensuring thread is properly terminated
-                mAdMobInitThread.join(2000);
-            } catch (InterruptedException e) {
-                Log.d("roy93~", "AdMob thread join interrupted");
-                Thread.currentThread().interrupt(); // Restore interrupt status
-            }
-        }
     }
 
-    /* Commented out code for future use
-//        registerActivityLifecycleCallbacks(new AppLifecycleListener(new Function2<Boolean, Activity, Unit>() {
-//            @Override
-//            public Unit invoke(Boolean isForeground, Activity activity) {
-//                if (isForeground) {
-//                    Log.d("roy93~", "App moved to Foreground");
-////                    Log.d("roy93~", "activity.getClass().getSimpleName() " + activity.getClass().getSimpleName());
-////                    Log.d("roy93~", "SplashActivity.class.getSimpleName() " + SplashActivity.class.getSimpleName());
-//                    if (Objects.equals(activity.getClass().getSimpleName(), SplashActivity.class.getSimpleName())) {
-//                        //do nothing
-//                    } else {
-////                        AdMobManager.INSTANCE.showAppOpenAd(activity);
-//                    }
-//                } else {
-//                    Log.d("roy93~", "App moved to Background");
-//                }
-//                return null;
-//            }
-//        }, new Function1<Activity, Unit>() {
-//            @Override
-//            public Unit invoke(Activity activity) {
-//                Log.d("roy93~", "callbackActivityCreated");
-////                Log.d("roy93~", "activity.getClass().getSimpleName() " + activity.getClass().getSimpleName());
-////                Log.d("roy93~", "SplashActivity.class.getSimpleName() " + SplashActivity.class.getSimpleName());
-//                if (Objects.equals(activity.getClass().getSimpleName(), SplashActivity.class.getSimpleName())) {
-//                    //do nothing
-//                } else {
-////                    AdMobManager.INSTANCE.loadAppOpenAd(MyApplication.this, BuildConfig.ADMOB_APP_OPEN_ID, new Function0<Unit>() {
-////                        @Override
-////                        public Unit invoke() {
-////                            return null;
-////                        }
-////                    });
-//                }
-//                return null;
-//            }
-//        }));
-    */
 }

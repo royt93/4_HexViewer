@@ -33,7 +33,7 @@ import com.galaxyjoy.hexviewer.BaseActivity;
 import com.galaxyjoy.hexviewer.MyApplication;
 import com.galaxyjoy.hexviewer.R;
 import com.galaxyjoy.hexviewer.models.LineEntry;
-import com.galaxyjoy.hexviewer.sdkadbmob.UIUtils;
+import com.roy.sdkadbmob.UIUtils;
 import com.galaxyjoy.hexviewer.ui.adt.AdtLineUpdateHexArray;
 import com.galaxyjoy.hexviewer.ui.adt.holder.LineNumbersTitle;
 import com.galaxyjoy.hexviewer.ui.util.LineUpdateTextWatcher;
