@@ -100,9 +100,15 @@ public class TaskOpen extends ProgressTask<ContentResolver, FileData, TaskOpen.R
             UIHelper.showErrorDialog(mContext, R.string.error_title, mContext.getString(R.string.not_enough_memory));
         else if (isCancelled())
             UIHelper.toast(mContext, mContext.getString(R.string.operation_canceled));
-        else if (result.exception != null)
-            UIHelper.showErrorDialog(mContext, R.string.error_title, mContext.getString(R.string.exception) + ": " + result.exception);
-        else {
+        else if (result.exception != null) {
+            String lowercaseMessage = result.exception.toLowerCase(Locale.US);
+            if (lowercaseMessage.contains("com.android.externalstorage") && 
+                (lowercaseMessage.contains("has no access") || lowercaseMessage.contains("permission denial"))) {
+                UIHelper.showErrorDialog(mContext, R.string.error_system_storage_bug_title, mContext.getString(R.string.error_system_storage_bug_msg));
+            } else {
+                UIHelper.showErrorDialog(mContext, R.string.error_title, mContext.getString(R.string.exception) + ": " + result.exception);
+            }
+        } else {
             if (result.listHex != null) {
                 try {
                     mAdapter.setStartOffset(result.startOffset);

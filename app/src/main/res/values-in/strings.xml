@@ -153,4 +153,9 @@
     <string name="file_info_detected_type">Jenis File Terdeteksi</string>
     <string name="file_info_unknown">Data Biner Tidak Dikenal</string>
     <string name="file_info_analyzing">Menganalisis Header File...</string>
+
+
+    <!-- OS Storage Bug -->
+    <string name="error_system_storage_bug_title">Kesalahan Izin Sistem Terdeteksi</string>
+    <string name="error_system_storage_bug_msg">Komponen sistem memblokir akses ke file ini.\n\nUntuk memperbaiki ini:\n1. Buka Pengaturan > Aplikasi\n2. Buka \"Akses aplikasi khusus\" > \"Akses semua file\"\n3. Ketuk menu 3 titik > \"Tampilkan sistem\"\n4. Temukan \"Penyimpanan Eksternal\" (External Storage) dan aktifkan.\n5. Coba buka file lagi.</string>
 </resources>

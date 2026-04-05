@@ -153,4 +153,9 @@
     <string name="file_info_detected_type">نوع الملف المكتشف</string>
     <string name="file_info_unknown">بيانات ثنائية غير معروفة</string>
     <string name="file_info_analyzing">جاري تحليل رأس الملف...</string>
+
+
+    <!-- OS Storage Bug -->
+    <string name="error_system_storage_bug_title">اكتشاف خطأ في أذونات النظام</string>
+    <string name="error_system_storage_bug_msg">يمنع مكوّن النظام الوصول إلى هذا الملف.\n\nلإصلاح هذا على جهازك:\n1. افتح الإعدادات > التطبيقات\n2. انتقل إلى \"الوصول الخاص للتطبيقات\" > \"الوصول إلى جميع الملفات\"\n3. اضغط على قائمة الثلاث نقاط > \"إظهار النظام\"\n4. ابحث عن \"وحدة التخزين الخارجية\" (External Storage) وقم بتمكينه.\n5. حاول فتح الملف مرة أخرى.</string>
 </resources>

@@ -153,4 +153,9 @@
     <string name="file_info_detected_type">检测到的文件类型</string>
     <string name="file_info_unknown">未知的二进制数据</string>
     <string name="file_info_analyzing">正在分析文件头...</string>
+
+
+    <!-- OS Storage Bug -->
+    <string name="error_system_storage_bug_title">检测到系统权限错误</string>
+    <string name="error_system_storage_bug_msg">系统组件正在阻止访问此文件。\n\n要解决此问题：\n1. 打开“设置”>“应用”\n2. 转到“特殊应用权限”>“所有文件访问权限”\n3. 点击右上角的三点菜单 >“显示系统”\n4. 找到“外部存储”(External Storage)并启用它。\n5. 尝试重新打开文件。</string>
 </resources>

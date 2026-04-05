@@ -153,4 +153,9 @@
     <string name="file_info_detected_type">סוג קובץ שזוהה</string>
     <string name="file_info_unknown">נתונים בינאריים לא ידועים</string>
     <string name="file_info_analyzing">מנתח כותרת קובץ...</string>
+
+
+    <!-- OS Storage Bug -->
+    <string name="error_system_storage_bug_title">זוהתה שגיאת הרשאות מערכת</string>
+    <string name="error_system_storage_bug_msg">רכיב המערכת חוסם את הגישה לקובץ זה.\n\nכדי לתקן זאת:\n1. פתח את הגדרות > אפליקציות\n2. עבור אל \"גישה מיוחדת לאפליקציה\" > \"גישה לכל הקבצים\"\n3. הקש על תפריט 3 הנקודות > \"הצג מערכת\"\n4. מצא את \"אחסון חיצוני\" (External Storage) והפעל אותו.\n5. נסה לפתוח את הקובץ שוב.</string>
 </resources>

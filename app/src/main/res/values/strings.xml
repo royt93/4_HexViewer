@@ -196,4 +196,8 @@
     <string name="file_info_detected_type">Detected File Type</string>
     <string name="file_info_unknown">Unknown Binary Data</string>
     <string name="file_info_analyzing">Analyzing File Header…</string>
+
+    <!-- OS Storage Bug -->
+    <string name="error_system_storage_bug_title">System Permission Bug Detected</string>
+    <string name="error_system_storage_bug_msg">The system component is blocking access to this file.\n\nTo fix this on your device:\n1. Open Settings > Apps\n2. Go to \"Special App Access\" > \"All files access\"\n3. Tap the 3-dot menu > \"Show system\"\n4. Find \"External Storage\" and enable it.\n5. Try opening the file again.</string>
 </resources>

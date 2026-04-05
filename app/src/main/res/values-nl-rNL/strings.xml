@@ -153,4 +153,9 @@
     <string name="file_info_detected_type">Gedetecteerd bestandstype</string>
     <string name="file_info_unknown">Onbekende binaire gegevens</string>
     <string name="file_info_analyzing">Bestandsheader analyseren...</string>
+
+
+    <!-- OS Storage Bug -->
+    <string name="error_system_storage_bug_title">Systeemrechtenfout gedetecteerd</string>
+    <string name="error_system_storage_bug_msg">De systeemcomponent blokkeert de toegang tot dit bestand.\n\nOm dit op te lossen:\n1. Open Instellingen > Apps\n2. Ga naar \"Speciale app-toegang\" > \"Toegang tot alle bestanden\"\n3. Tik op het menu met 3 stippen > \"Systeem weergeven\"\n4. Zoek \"Externe opslag\" (External Storage) en schakel dit in.\n5. Probeer het bestand opnieuw te openen.</string>
 </resources>

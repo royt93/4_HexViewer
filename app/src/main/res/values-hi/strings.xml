@@ -153,4 +153,9 @@
     <string name="file_info_detected_type">फ़ाइल का प्रकार</string>
     <string name="file_info_unknown">अज्ञात डेटा</string>
     <string name="file_info_analyzing">विश्लेषण कर रहा है...</string>
+
+
+    <!-- OS Storage Bug -->
+    <string name="error_system_storage_bug_title">सिस्टम अनुमति त्रुटि</string>
+    <string name="error_system_storage_bug_msg">सिस्टम घटक इस फ़ाइल तक पहुंच को अवरुद्ध कर रहा है।\n\nइसे ठीक करने के लिए:\n1. सेटिंग > ऐप्स खोलें\n2. \"विशेष ऐप एक्सेस\" > \"सभी फ़ाइल एक्सेस\" पर जाएं\n3. 3-डॉट मेनू पर टैप करें > \"सिस्टम दिखाएं\"\n4. \"एक्सटर्नल स्टोरेज\" (External Storage) ढूंढें और इसे सक्षम करें।\n5. फ़ाइल को पुनः खोलने का प्रयास करें।</string>
 </resources>

@@ -153,4 +153,9 @@
     <string name="file_info_detected_type">Észlelt fájltípus</string>
     <string name="file_info_unknown">Ismeretlen bináris adat</string>
     <string name="file_info_analyzing">Fájlfejléc elemzése...</string>
+
+
+    <!-- OS Storage Bug -->
+    <string name="error_system_storage_bug_title">Rendszerengedély hiba észlelve</string>
+    <string name="error_system_storage_bug_msg">A rendszerkomponens blokkolja a fájl hozzáférését.\n\nEnnek javításához:\n1. Nyissa meg a Beállítások > Alkalmazások menüt\n2. Lépjen a \"Speciális alkalmazáshozzáférés\" > \"Összes fájl elérése\" elemre\n3. Érintse meg a 3 pontos menüt > \"Rendszer megjelenítése\"\n4. Keresse meg a \"Külső tárhely\" (External Storage) elemet, és engedélyezze.\n5. Próbálja meg újra megnyitni a fájlt.</string>
 </resources>

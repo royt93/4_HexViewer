@@ -153,4 +153,9 @@
     <string name="file_info_detected_type">Tipo di file rilevato</string>
     <string name="file_info_unknown">Dati binari sconosciuti</string>
     <string name="file_info_analyzing">Analisi dell\'intestazione...</string>
+
+
+    <!-- OS Storage Bug -->
+    <string name="error_system_storage_bug_title">Errore permessi di sistema</string>
+    <string name="error_system_storage_bug_msg">Il componente di sistema blocca l\'accesso a questo file.\n\nPer risolvere il problema:\n1. Apri Impostazioni > App\n2. Vai su \"Accesso speciale alle app\" > \"Accesso a tutti i file\"\n3. Tocca il menu a 3 punti > \"Mostra sistema\"\n4. Trova \"Memoria esterna\" (External Storage) e attivalo.\n5. Prova a riaprire il file.</string>
 </resources>

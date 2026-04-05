@@ -153,4 +153,9 @@
     <string name="file_info_detected_type">Erkannter Dateityp</string>
     <string name="file_info_unknown">Unbekannte Binärdaten</string>
     <string name="file_info_analyzing">Dateikopf wird analysiert...</string>
+
+
+    <!-- OS Storage Bug -->
+    <string name="error_system_storage_bug_title">Systemberechtigungsfehler erkannt</string>
+    <string name="error_system_storage_bug_msg">Die Systemkomponente blockiert den Zugriff auf diese Datei.\n\nUm dies zu beheben:\n1. Einstellungen > Apps öffnen\n2. Gehen Sie zu \"Spezieller App-Zugriff\" > \"Zugriff auf alle Dateien\"\n3. Tippen Sie auf das 3-Punkte-Menü > \"System anzeigen\"\n4. Suchen Sie nach \"Externer Speicher\" (External Storage) und aktivieren Sie ihn.\n5. Versuchen Sie erneut, die Datei zu öffnen.</string>
 </resources>

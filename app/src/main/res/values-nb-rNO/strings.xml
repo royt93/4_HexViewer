@@ -153,4 +153,9 @@
     <string name="file_info_detected_type">Oppdaget filtype</string>
     <string name="file_info_unknown">Ukjente binærdata</string>
     <string name="file_info_analyzing">Analyserer filhode...</string>
+
+
+    <!-- OS Storage Bug -->
+    <string name="error_system_storage_bug_title">Systemtillatelsesfeil oppdaget</string>
+    <string name="error_system_storage_bug_msg">Systemkomponenten blokkerer tilgangen til denne filen.\n\nFor å fikse dette:\n1. Åpne Innstillinger > Apper\n2. Gå til \"Spesiell app-tilgang\" > \"Tilgang til alle filer\"\n3. Trykk på 3-punktsmenyen > \"Vis system\"\n4. Finn \"Ekstern lagring\" (External Storage) og aktiver den.\n5. Prøv å åpne filen på nytt.</string>
 </resources>

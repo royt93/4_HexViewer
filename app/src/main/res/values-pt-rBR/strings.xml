@@ -153,4 +153,9 @@
     <string name="file_info_detected_type">Tipo de Arquivo Detectado</string>
     <string name="file_info_unknown">Dados Binários Desconhecidos</string>
     <string name="file_info_analyzing">Analisando cabeçalho...</string>
+
+
+    <!-- OS Storage Bug -->
+    <string name="error_system_storage_bug_title">Erro de permissão do sistema</string>
+    <string name="error_system_storage_bug_msg">O componente do sistema está bloqueando o acesso a este arquivo.\n\nPara corrigir isso:\n1. Abra Configurações > Aplicativos\n2. Vá para \"Acesso especial de apps\" > \"Acesso a todos os arquivos\"\n3. Toque no menu de 3 pontos > \"Mostrar sistema\"\n4. Encontre \"Armazenamento externo\" (External Storage) e ative-o.\n5. Tente abrir o arquivo novamente.</string>
 </resources>

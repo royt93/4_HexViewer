@@ -153,4 +153,9 @@
     <string name="file_info_detected_type">検出されたタイプ</string>
     <string name="file_info_unknown">不明なバイナリデータ</string>
     <string name="file_info_analyzing">ヘッダーを分析中...</string>
+
+
+    <!-- OS Storage Bug -->
+    <string name="error_system_storage_bug_title">システム権限エラーが検出されました</string>
+    <string name="error_system_storage_bug_msg">システムコンポーネントがこのファイルへのアクセスをブロックしています。\n\nこれを修正するには:\n1. 「設定」>「アプリ」を開く\n2. 「特別なアプリアクセス」>「すべてのファイルへのアクセス」に移動\n3. 3点メニューをタップ > 「システムを表示」\n4. 「外部ストレージ」(External Storage)を見つけて有効にする。\n5. ファイルをもう一度開いてみてください。</string>
 </resources>

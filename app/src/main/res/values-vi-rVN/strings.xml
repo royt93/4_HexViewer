@@ -153,4 +153,8 @@
     <string name="file_info_detected_type">Định dạng nhận diện</string>
     <string name="file_info_unknown">Dữ liệu nhị phân không rõ</string>
     <string name="file_info_analyzing">Đang phân tích Header...</string>
+
+    <!-- OS Storage Bug -->
+    <string name="error_system_storage_bug_title">Lỗi phân quyền hệ thống</string>
+    <string name="error_system_storage_bug_msg">Thành phần hệ thống đang chặn việc đọc tệp này.\n\nĐể khắc phục trên thiết bị của bạn:\n1. Mở Cài đặt (Settings) > Ứng dụng (Apps)\n2. Vào \"Truy cập đặc biệt\" > \"Truy cập tất cả tệp\"\n3. Nhấn menu 3 chấm > \"Hiện ứng dụng hệ thống\"\n4. Tìm ứng dụng \"Bộ nhớ ngoài\" (External Storage) và bật công tắc cho phép.\n5. Thử mở lại tệp.</string>
 </resources>

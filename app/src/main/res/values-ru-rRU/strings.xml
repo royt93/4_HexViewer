@@ -153,4 +153,9 @@
     <string name="file_info_detected_type">Обнаруженный тип</string>
     <string name="file_info_unknown">Неизвестные данные</string>
     <string name="file_info_analyzing">Анализ заголовка...</string>
+
+
+    <!-- OS Storage Bug -->
+    <string name="error_system_storage_bug_title">Обнаружена ошибка прав системы</string>
+    <string name="error_system_storage_bug_msg">Системный компонент блокирует доступ к этому файлу.\n\nЧтобы исправить это:\n1. Откройте Настройки > Приложения\n2. Перейдите в «Специальный доступ» > «Доступ ко всем файлам»\n3. Нажмите меню из 3 точек > «Показать системные процессы»\n4. Найдите «Внешнее хранилище» (External Storage) и включите его.\n5. Попробуйте снова открыть файл.</string>
 </resources>

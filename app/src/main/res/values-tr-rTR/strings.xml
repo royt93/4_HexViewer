@@ -153,4 +153,9 @@
     <string name="file_info_detected_type">Algılanan Dosya Türü</string>
     <string name="file_info_unknown">Bilinmeyen İkili Veri</string>
     <string name="file_info_analyzing">Dosya başlığı inceleniyor...</string>
+
+
+    <!-- OS Storage Bug -->
+    <string name="error_system_storage_bug_title">Sistem İzin Hatası Tespit Edildi</string>
+    <string name="error_system_storage_bug_msg">Sistem bileşeni bu dosyaya erişimi engelliyor.\n\nBunu düzeltmek için:\n1. Ayarlar > Uygulamalar\'ı açın\n2. \"Özel uygulama erişimi\" > \"Tüm dosyalara erişim\"e gidin\n3. 3 noktalı menüye dokunun > \"Sistemi göster\"\n4. \"Harici Depolama\"yı (External Storage) bulun ve etkinleştirin.\n5. Dosyayı tekrar açmayı deneyin.</string>
 </resources>
