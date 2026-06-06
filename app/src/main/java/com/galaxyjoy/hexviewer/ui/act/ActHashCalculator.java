@@ -1,12 +1,10 @@
 package com.galaxyjoy.hexviewer.ui.act;
 
-import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,13 +21,12 @@ import com.google.android.material.textfield.TextInputEditText;
 
 import com.galaxyjoy.hexviewer.R;
 import com.galaxyjoy.hexviewer.ui.adt.AdtHashResult;
+import com.galaxyjoy.hexviewer.ui.task.TaskHash;
+import com.galaxyjoy.hexviewer.util.SysHelper;
+import com.galaxyjoy.hexviewer.util.io.FileHelper;
 
-import java.io.InputStream;
-import java.security.MessageDigest;
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 public class ActHashCalculator extends AppCompatActivity {
 
@@ -38,20 +35,16 @@ public class ActHashCalculator extends AppCompatActivity {
     private LinearProgressIndicator mProgressIndicator;
     private TextView mTvFileName;
     private TextView mTvFileSize;
-    private ImageView mIvFileIcon;
     private TextView mTvMatchResult;
     private TextInputEditText mEtCompare;
 
-    // Executor for background tasks
-    private ExecutorService mExecutor;
+    /** Current background hash task — cancelled in onDestroy() to prevent leaks. */
+    private TaskHash mTaskHash;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.act_hash_calculator);
-
-        mExecutor = Executors.newSingleThreadExecutor();
-
         initViews();
         setupFilePicker();
         setupListeners();
@@ -60,9 +53,9 @@ public class ActHashCalculator extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (mExecutor != null) {
-            mExecutor.shutdownNow(); // Cancel running tasks
-            mExecutor = null;
+        if (mTaskHash != null) {
+            mTaskHash.cancel();   // TaskRunner.cancel() shuts down executor + posts onCancelled()
+            mTaskHash = null;
         }
     }
 
@@ -72,11 +65,10 @@ public class ActHashCalculator extends AppCompatActivity {
         toolbar.setNavigationOnClickListener(v -> finish());
 
         mProgressIndicator = findViewById(R.id.progressIndicator);
-        mTvFileName = findViewById(R.id.tvFileName);
-        mTvFileSize = findViewById(R.id.tvFileSize);
-        mIvFileIcon = findViewById(R.id.ivFileIcon);
-        mEtCompare = findViewById(R.id.etCompare);
-        mTvMatchResult = findViewById(R.id.tvMatchResult);
+        mTvFileName        = findViewById(R.id.tvFileName);
+        mTvFileSize        = findViewById(R.id.tvFileSize);
+        mEtCompare         = findViewById(R.id.etCompare);
+        mTvMatchResult     = findViewById(R.id.tvMatchResult);
 
         RecyclerView rvHashResults = findViewById(R.id.rvHashResults);
         rvHashResults.setLayoutManager(new LinearLayoutManager(this));
@@ -88,9 +80,7 @@ public class ActHashCalculator extends AppCompatActivity {
         mFilePickerLauncher = registerForActivityResult(
                 new ActivityResultContracts.OpenDocument(),
                 uri -> {
-                    if (uri != null) {
-                        handleSelectedFile(uri);
-                    }
+                    if (uri != null) handleSelectedFile(uri);
                 });
     }
 
@@ -98,33 +88,27 @@ public class ActHashCalculator extends AppCompatActivity {
         findViewById(R.id.cardFileSelection).setOnClickListener(v -> openFilePicker());
 
         mEtCompare.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
+            @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            @Override public void afterTextChanged(Editable s) {}
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 checkMatch(s.toString());
             }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-            }
         });
     }
 
     private void openFilePicker() {
-        mFilePickerLauncher.launch(new String[] { "*/*" });
+        mFilePickerLauncher.launch(new String[]{"*/*"});
     }
 
     private void handleSelectedFile(Uri uri) {
-        String fileName = getFileName(uri);
-        mTvFileName.setText(fileName);
+        String fileName = FileHelper.getFileName(this, uri);
+        mTvFileName.setText(fileName != null ? fileName : "Unknown File");
 
-        // Show file size
-        long size = com.galaxyjoy.hexviewer.util.io.FileHelper.getFileSize(this, getContentResolver(), uri);
+        long size = FileHelper.getFileSize(this, getContentResolver(), uri);
         if (size > 0) {
-            mTvFileSize.setText(com.galaxyjoy.hexviewer.util.SysHelper.sizeToHuman(this, size, true, true, false));
+            mTvFileSize.setText(SysHelper.sizeToHuman(this, size, true, true, false));
             mTvFileSize.setVisibility(View.VISIBLE);
         } else {
             mTvFileSize.setVisibility(View.GONE);
@@ -132,77 +116,46 @@ public class ActHashCalculator extends AppCompatActivity {
 
         mProgressIndicator.setVisibility(View.VISIBLE);
         mTvMatchResult.setVisibility(View.GONE);
-        mAdapter.setData(new ArrayList<>()); // Clear previous results
+        mAdapter.setData(new ArrayList<>());
 
-        mExecutor.execute(() -> {
-            try {
-                // OPTIMIZATION: Calculate ALL hashes in ONE pass
-                List<AdtHashResult.HashItem> results = calculateAllHashes(uri);
+        // Cancel any previous task
+        if (mTaskHash != null) {
+            mTaskHash.cancel();
+        }
 
-                runOnUiThread(() -> {
-                    if (!isDestroyed() && !isFinishing()) {
-                        mAdapter.setData(results);
-                        mProgressIndicator.setVisibility(View.INVISIBLE);
+        // Use WeakReference to avoid holding a strong reference to the Activity inside the lambda,
+        // preventing a memory leak if the task outlives the Activity.
+        final WeakReference<ActHashCalculator> weakThis = new WeakReference<>(this);
 
-                        // Show comparison input with animation if hidden
-                        View tilCompare = findViewById(R.id.tilCompare);
-                        if (tilCompare.getVisibility() != View.VISIBLE) {
-                            tilCompare.setAlpha(0f);
-                            tilCompare.setVisibility(View.VISIBLE);
-                            tilCompare.animate().alpha(1f).setDuration(300).start();
-                        }
+        mTaskHash = new TaskHash(result -> {
+            ActHashCalculator activity = weakThis.get();
+            if (activity == null || activity.isDestroyed() || activity.isFinishing()) return;
 
-                        if (mEtCompare.getText() != null) {
-                            checkMatch(mEtCompare.getText().toString());
-                        }
-                    }
-                });
-            } catch (Exception e) {
-                e.printStackTrace();
-                runOnUiThread(() -> {
-                    if (!isDestroyed() && !isFinishing()) {
-                        Toast.makeText(ActHashCalculator.this, R.string.hash_error_open_file, Toast.LENGTH_SHORT).show();
-                        mProgressIndicator.setVisibility(View.INVISIBLE);
-                    }
-                });
+            activity.mProgressIndicator.setVisibility(View.INVISIBLE);
+
+            if (!result.isSuccess()) {
+                if (!result.isCancelled()) {
+                    Toast.makeText(activity, R.string.hash_error_open_file, Toast.LENGTH_SHORT).show();
+                }
+                return;
+            }
+
+            activity.mAdapter.setData(result.items);
+
+            // Show comparison input with animation if hidden
+            View tilCompare = activity.findViewById(R.id.tilCompare);
+            if (tilCompare.getVisibility() != View.VISIBLE) {
+                tilCompare.setAlpha(0f);
+                tilCompare.setVisibility(View.VISIBLE);
+                tilCompare.animate().alpha(1f).setDuration(300).start();
+            }
+
+            if (activity.mEtCompare.getText() != null) {
+                activity.checkMatch(activity.mEtCompare.getText().toString());
             }
         });
-    }
 
-    private List<AdtHashResult.HashItem> calculateAllHashes(Uri uri) throws Exception {
-        InputStream inputStream = getContentResolver().openInputStream(uri);
-        if (inputStream == null)
-            throw new IllegalArgumentException("Stream is null");
-
-        MessageDigest md5 = MessageDigest.getInstance("MD5");
-        MessageDigest sha1 = MessageDigest.getInstance("SHA-1");
-        MessageDigest sha256 = MessageDigest.getInstance("SHA-256");
-        MessageDigest sha512 = MessageDigest.getInstance("SHA-512");
-
-        byte[] buffer = new byte[8192];
-        int bytesRead;
-        while ((bytesRead = inputStream.read(buffer)) != -1) {
-            md5.update(buffer, 0, bytesRead);
-            sha1.update(buffer, 0, bytesRead);
-            sha256.update(buffer, 0, bytesRead);
-            sha512.update(buffer, 0, bytesRead);
-        }
-        inputStream.close();
-
-        List<AdtHashResult.HashItem> list = new ArrayList<>();
-        list.add(new AdtHashResult.HashItem("MD5", bytesToHex(md5.digest())));
-        list.add(new AdtHashResult.HashItem("SHA-1", bytesToHex(sha1.digest())));
-        list.add(new AdtHashResult.HashItem("SHA-256", bytesToHex(sha256.digest())));
-        list.add(new AdtHashResult.HashItem("SHA-512", bytesToHex(sha512.digest())));
-        return list;
-    }
-
-    private String bytesToHex(byte[] bytes) {
-        StringBuilder sb = new StringBuilder();
-        for (byte b : bytes) {
-            sb.append(String.format("%02x", b));
-        }
-        return sb.toString();
+        mTaskHash.execute(new TaskHash.Request(getContentResolver(), uri));
     }
 
     private void checkMatch(String compareString) {
@@ -219,15 +172,5 @@ public class ActHashCalculator extends AppCompatActivity {
                 mTvMatchResult.setTextColor(getColor(R.color.colorResultError));
             }
         }
-    }
-
-    private String getFileName(Uri uri) {
-        String path = uri.getPath();
-        if (path == null)
-            return "Unknown File";
-        int lastSlash = path.lastIndexOf('/');
-        if (lastSlash != -1)
-            return path.substring(lastSlash + 1);
-        return path;
     }
 }

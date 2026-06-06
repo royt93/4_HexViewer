@@ -5,14 +5,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
-import android.util.Log;
 import android.widget.Toast;
 
-import com.google.android.play.core.review.ReviewException;
 import com.google.android.play.core.review.ReviewInfo;
 import com.google.android.play.core.review.ReviewManager;
 import com.google.android.play.core.review.ReviewManagerFactory;
-import com.google.android.play.core.review.model.ReviewErrorCode;
 
 import java.util.Calendar;
 
@@ -76,14 +73,16 @@ public class RoyUtils {
     }
 
     public static void getMoreApps(Context context) {
+        final String devName = "SAIGON PHANTOM LABS";
+        final String encodedDevName = Uri.encode(devName);
         try {
             // Mở trang của nhà phát triển McKimQuyen trên Google Play
-            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("market://search?q=pub:SAIGON PHANTOM LABS"));
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("market://search?q=pub:" + encodedDevName));
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(intent);
         } catch (android.content.ActivityNotFoundException e) {
             // Nếu Google Play không có, mở trên trình duyệt web
-            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/search?q=pub:SAIGON PHANTOM LABS"));
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/search?q=pub:" + encodedDevName));
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(intent);
         } catch (Exception e) {

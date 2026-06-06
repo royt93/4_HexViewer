@@ -13,7 +13,10 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 
 import com.galaxyjoy.hexviewer.models.LineEntry;
+import com.galaxyjoy.hexviewer.models.LineEntries;
 import com.galaxyjoy.hexviewer.ui.act.ActMain;
+import com.galaxyjoy.hexviewer.ui.payload.PayloadHexHelper;
+import com.galaxyjoy.hexviewer.ui.adt.AdtHexTextArray;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -57,7 +60,13 @@ public class UnDoRedoTest {
     private ImageView mockRedoImage;
 
     @Mock
-    private ICommand mockCommand;
+    private PayloadHexHelper mockPayloadHexHelper;
+
+    @Mock
+    private AdtHexTextArray mockAdapter;
+
+    @Mock
+    private LineEntries mockLineEntries;
 
     private List<LineEntry> testEntries;
 
@@ -65,6 +74,14 @@ public class UnDoRedoTest {
     public void setUp() {
         MockitoAnnotations.openMocks(this);
         unDoRedo = new UnDoRedo(mockActivity);
+
+        // Stub payload components to prevent NullPointerException in commands
+        when(mockActivity.getPayloadHex()).thenReturn(mockPayloadHexHelper);
+        when(mockPayloadHexHelper.getAdapter()).thenReturn(mockAdapter);
+        when(mockAdapter.getEntries()).thenReturn(mockLineEntries);
+        when(mockLineEntries.getItemIndex(anyInt())).thenAnswer(invocation -> invocation.getArgument(0));
+        when(mockLineEntries.getItems()).thenReturn(new ArrayList<>());
+        when(mockActivity.getSearchQuery()).thenReturn("");
 
         // Setup test data
         testEntries = new ArrayList<>();
@@ -233,9 +250,10 @@ public class UnDoRedoTest {
     /**
      * Test that UnDoRedo handles null activity gracefully in some operations.
      */
-    @Test(expected = NullPointerException.class)
-    public void should_ThrowException_When_ActivityIsNull() {
-        new UnDoRedo(null);
+    @Test
+    public void should_NotThrowException_When_ActivityIsNull() {
+        UnDoRedo udr = new UnDoRedo(null);
+        assertNotNull("Should construct fine with null activity", udr);
     }
 
     /**

@@ -80,8 +80,6 @@ public class ActMain extends ActAbstractBaseMain implements AdapterView.OnItemCl
     private MainPopupWindow mPopup = null;
     private PayloadHexHelper mPayloadHexHelper = null;
     private GoToDialog mGoToDialog = null;
-    // private MaxAdView adView;
-    // private MaxInterstitialAd interstitialAd;
     private View adView = null;
 
     /**
@@ -110,12 +108,6 @@ public class ActMain extends ActAbstractBaseMain implements AdapterView.OnItemCl
         LinearLayout mainLayout = findViewById(R.id.mainLayout);
         TextView tvVersion = findViewById(R.id.tvVersion);
         tvVersion.setText("Version " + BuildConfig.VERSION_NAME);
-
-        // LottieAnimationView lottieAnimationView =
-        // findViewById(R.id.lottieAnimationView);
-        // lottieAnimationView.setAnimation(R.raw.loading);
-        // lottieAnimationView.playAnimation();
-        // lottieAnimationView.setRepeatCount(LottieDrawable.INFINITE);
 
         mIdleView = findViewById(R.id.idleView);
         mIdleView.setVisibility(View.VISIBLE);
@@ -844,74 +836,5 @@ public class ActMain extends ActAbstractBaseMain implements AdapterView.OnItemCl
         else
             setOrphanDialog(mGoToDialog.show(GoToDialog.Mode.LINE_HEX));
     }
-
-    // private void showAd() {
-    // boolean enableAdInter = getString(R.string.EnableAdInter).equals("true");
-    // if (!enableAdInter) {
-    // return;
-    // }
-    // if (interstitialAd != null && interstitialAd.isReady()) {
-    // if (BuildConfig.DEBUG) {
-    // Toast.makeText(this, "Show ad FULL SUCCESSFULLY", Toast.LENGTH_SHORT).show();
-    //// interstitialAd.showAd();
-    // } else {
-    // interstitialAd.showAd();
-    // }
-    // }
-    // }
-
-    // private void createAdInter() {
-    // boolean enableAdInter = getString(R.string.EnableAdInter).equals("true");
-    // if (!enableAdInter) {
-    // return;
-    // }
-    // String id = getString(R.string.INTER);
-    // if (id.isEmpty()) {
-    // return;
-    // }
-    // interstitialAd = new MaxInterstitialAd(id, this);
-    // interstitialAd.setListener(new MaxAdListener() {
-    // @Override
-    // public void onAdLoaded(@NonNull MaxAd maxAd) {
-    //// retryAttempt = 0;
-    // }
-    //
-    // @Override
-    // public void onAdDisplayed(@NonNull MaxAd maxAd) {
-    //
-    // }
-    //
-    // @Override
-    // public void onAdHidden(@NonNull MaxAd maxAd) {
-    // // Interstitial ad is hidden. Pre-load the next ad
-    // interstitialAd.loadAd();
-    // }
-    //
-    // @Override
-    // public void onAdClicked(@NonNull MaxAd maxAd) {
-    //
-    // }
-    //
-    // @Override
-    // public void onAdLoadFailed(@NonNull String s, @NonNull MaxError maxError) {
-    //// retryAttempt++;
-    //// long delayMillis = TimeUnit.SECONDS.toMillis((long) Math.pow(2, Math.min(6,
-    // retryAttempt)));
-    ////
-    //// new Handler().postDelayed(() -> interstitialAd.loadAd(), delayMillis);
-    // }
-    //
-    // @Override
-    // public void onAdDisplayFailed(@NonNull MaxAd maxAd, @NonNull MaxError
-    // maxError) {
-    // // Interstitial ad failed to display. AppLovin recommends that you load the
-    // next ad.
-    // interstitialAd.loadAd();
-    // }
-    // });
-    //
-    // // Load the first ad
-    // interstitialAd.loadAd();
-    // }
 
 }
