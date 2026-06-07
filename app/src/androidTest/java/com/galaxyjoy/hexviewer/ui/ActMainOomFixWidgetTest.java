@@ -24,7 +24,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.rule.ActivityTestRule;
 
 import com.galaxyjoy.hexviewer.R;
-import com.galaxyjoy.hexviewer.ui.act.SplashActivity;
+import com.galaxyjoy.hexviewer.ui.act.ActMain;
 
 import org.junit.After;
 import org.junit.Rule;
@@ -48,7 +48,7 @@ import static org.junit.Assert.*;
 @RunWith(AndroidJUnit4.class)
 public class ActMainOomFixWidgetTest {
 
-    private ActivityScenario<SplashActivity> mScenario;
+    private ActivityScenario<ActMain> mScenario;
 
     @After
     public void tearDown() {
@@ -65,9 +65,9 @@ public class ActMainOomFixWidgetTest {
     @Test
     public void appLaunch_doesNotCrashWithOOM() {
         try {
-            mScenario = ActivityScenario.launch(SplashActivity.class);
-            // Wait a moment for the splash to finish
-            Thread.sleep(3000);
+            mScenario = ActivityScenario.launch(ActMain.class);
+            // Wait a moment for the layout to finish
+            Thread.sleep(1000);
             // If we reach here, no crash occurred
         } catch (OutOfMemoryError oom) {
             fail("OutOfMemoryError during app launch — OOM fix failed! " + oom.getMessage());
@@ -81,8 +81,8 @@ public class ActMainOomFixWidgetTest {
      */
     @Test
     public void idleScreen_openFileButton_isVisible() throws InterruptedException {
-        mScenario = ActivityScenario.launch(SplashActivity.class);
-        Thread.sleep(3000); // Wait for splash → ActMain transition
+        mScenario = ActivityScenario.launch(ActMain.class);
+        Thread.sleep(1000); // Wait for ActMain layout loading
 
         try {
             onView(withId(R.id.buttonOpenFile))
@@ -101,8 +101,8 @@ public class ActMainOomFixWidgetTest {
     @Test
     public void pauseResumeCycle_doesNotCrashWithOOM() throws InterruptedException {
         try {
-            mScenario = ActivityScenario.launch(SplashActivity.class);
-            Thread.sleep(2000);
+            mScenario = ActivityScenario.launch(ActMain.class);
+            Thread.sleep(1000);
 
             // Simulate going to background (pause)
             mScenario.moveToState(androidx.lifecycle.Lifecycle.State.STARTED);
@@ -128,8 +128,8 @@ public class ActMainOomFixWidgetTest {
      */
     @Test
     public void viewHierarchy_depth_isWithinSafeLimit() throws InterruptedException {
-        mScenario = ActivityScenario.launch(SplashActivity.class);
-        Thread.sleep(3000);
+        mScenario = ActivityScenario.launch(ActMain.class);
+        Thread.sleep(1000);
 
         mScenario.onActivity(activity -> {
             // Find the root view and measure its depth

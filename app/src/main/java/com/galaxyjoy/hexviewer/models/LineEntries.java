@@ -217,7 +217,7 @@ public class LineEntries {
      * @return This value may be null.
      */
     public synchronized LineEntry getItem(final int position) {
-        if (mFilteredList != null && mFilteredList.size() > position) {
+        if (mFilteredList != null && position >= 0 && mFilteredList.size() > position) {
             final int pos = mFilteredList.get(position);
             if (mEntryList.size() > pos)
                 return mEntryList.get(pos);
