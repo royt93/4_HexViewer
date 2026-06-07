@@ -19,7 +19,9 @@ import androidx.test.platform.app.InstrumentationRegistry;
 
 import com.galaxyjoy.hexviewer.R;
 import com.galaxyjoy.hexviewer.models.FileData;
+import com.galaxyjoy.hexviewer.models.LineEntry;
 import com.galaxyjoy.hexviewer.ui.act.ActMain;
+import java.util.List;
 
 import org.junit.After;
 import org.junit.Before;
@@ -34,6 +36,7 @@ import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.containsString;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
@@ -291,6 +294,91 @@ public class RealFileOomIntegrationTest {
         } finally {
             if (hugeFile.exists()) {
                 hugeFile.delete();
+            }
+        }
+    }
+
+    /**
+     * TEST 8: Open 50MB file sequentially, edit a byte in the first row, save,
+     * and verify that the file size remains exactly 50MB and the edit is persisted.
+     */
+    @Test
+    public void open50MBFile_sequentialMode_edit_save_verifySizeAndBytes() throws Exception {
+        Context context = InstrumentationRegistry.getInstrumentation().getTargetContext();
+        File test50MB = new File(context.getCacheDir(), "integration_50mb.bin");
+        
+        // 1. Create a 50MB file filled with 0x55 (85 in decimal)
+        byte[] initPattern = new byte[1024 * 1024]; // 1MB buffer
+        java.util.Arrays.fill(initPattern, (byte) 0x55);
+        try (FileOutputStream fos = new FileOutputStream(test50MB)) {
+            for (int i = 0; i < 50; i++) {
+                fos.write(initPattern);
+            }
+        }
+
+        try {
+            assertTrue("50MB file should exist and have size 50MB", test50MB.length() == 50 * 1024 * 1024L);
+
+            mScenario = ActivityScenario.launch(ActMain.class);
+            Thread.sleep(1000);
+
+            // 2. Open 50MB file sequentially (portion: 0 to 10MB)
+            mScenario.onActivity(activity -> {
+                FileData fd = new FileData(activity, Uri.fromFile(test50MB), false, 0L, 10 * 1024 * 1024);
+                activity.getLauncherOpen().processFileOpen(fd, null, false);
+            });
+
+            Thread.sleep(3000); // Wait for task to open
+
+            // 3. Edit the very first byte of the file from 0x55 to 0xAA (170 in decimal)
+            mScenario.onActivity(activity -> {
+                LineEntry entry = activity.getPayloadHex().getAdapter().getItem(0);
+                assertNotNull("First LineEntry must not be null", entry);
+                List<Byte> raw = entry.getRaw();
+                assertTrue("First LineEntry should have raw bytes", raw.size() > 0);
+                assertEquals("Byte 0 should be initialized to 0x55", (byte) 0x55, (byte) raw.get(0));
+                
+                // Perform edit
+                raw.set(0, (byte) 0xAA);
+                entry.setUpdated(true);
+            });
+
+            Thread.sleep(500);
+
+            // 4. Save changes
+            final java.util.concurrent.CountDownLatch latch = new java.util.concurrent.CountDownLatch(1);
+            final boolean[] saveSuccess = new boolean[1];
+            mScenario.onActivity(activity -> {
+                new com.galaxyjoy.hexviewer.ui.task.TaskSave(activity, (fd, success, userRunnable) -> {
+                    saveSuccess[0] = success;
+                    latch.countDown();
+                }).execute(new com.galaxyjoy.hexviewer.ui.task.TaskSave.Request(
+                        activity.getFileData(),
+                        activity.getPayloadHex().getAdapter().getEntries().getItems(),
+                        null
+                ));
+            });
+
+            boolean completed = latch.await(10, java.util.concurrent.TimeUnit.SECONDS);
+            assertTrue("Save task should complete", completed);
+            assertTrue("Save should report success", saveSuccess[0]);
+
+            // 5. Verify file size remains exactly 50MB (no truncation!)
+            assertEquals("File size must not change from 50MB", 50 * 1024 * 1024L, test50MB.length());
+
+            // 6. Read first byte of file directly to verify edit was persisted
+            try (java.io.FileInputStream fis = new java.io.FileInputStream(test50MB)) {
+                int firstByte = fis.read();
+                assertEquals("First byte must be edited to 0xAA (170)", 0xAA & 0xFF, firstByte);
+                
+                // Read another byte somewhere else to ensure it was not corrupted (should be 0x55)
+                fis.skip(1024 * 1024 - 2); // Skip 1MB - 2 bytes
+                int anotherByte = fis.read();
+                assertEquals("Other bytes must remain 0x55 (85)", 0x55 & 0xFF, anotherByte);
+            }
+        } finally {
+            if (test50MB.exists()) {
+                test50MB.delete();
             }
         }
     }
