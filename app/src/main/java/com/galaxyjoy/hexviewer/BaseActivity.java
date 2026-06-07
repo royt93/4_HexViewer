@@ -72,7 +72,11 @@ public class BaseActivity extends AppCompatActivity {
         Display display;
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            display = getDisplay(); // Sử dụng API mới
+            try {
+                display = getDisplay(); // Sử dụng API mới
+            } catch (Throwable t) {
+                display = wm != null ? wm.getDefaultDisplay() : null;
+            }
         } else {
             // Fallback cho API thấp hơn
             display = wm != null ? wm.getDefaultDisplay() : null;

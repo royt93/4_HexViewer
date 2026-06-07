@@ -53,8 +53,11 @@ public class LauncherLineUpdate {
                               final int nbLines,
                               final int shiftOffset,
                               final long startRow) {
+        ActLineUpdate.sBridgeTexts = texts;
         Intent intent = new Intent(mActivity, ActLineUpdate.class);
-        intent.putExtra(ActLineUpdate.ACTIVITY_EXTRA_TEXTS, texts);
+        if (texts != null && texts.length < 50000) {
+            intent.putExtra(ActLineUpdate.ACTIVITY_EXTRA_TEXTS, texts);
+        }
         intent.putExtra(ActLineUpdate.ACTIVITY_EXTRA_POSITION, position);
         intent.putExtra(ActLineUpdate.ACTIVITY_EXTRA_NB_LINES, nbLines);
         intent.putExtra(ActLineUpdate.ACTIVITY_EXTRA_FILENAME, mActivity.getFileData().getName());
@@ -67,8 +70,25 @@ public class LauncherLineUpdate {
 
     private void processIntentData(Intent data) {
         Bundle bundle = data.getExtras();
-        String refString = bundle.getString(ActLineUpdate.RESULT_REFERENCE_STRING);
-        String newString = bundle.getString(ActLineUpdate.RESULT_NEW_STRING);
+        String refString = ActLineUpdate.sBridgeResultReferenceString;
+        String newString = ActLineUpdate.sBridgeResultNewString;
+
+        if (refString == null && bundle != null) {
+            refString = bundle.getString(ActLineUpdate.RESULT_REFERENCE_STRING);
+        }
+        if (newString == null && bundle != null) {
+            newString = bundle.getString(ActLineUpdate.RESULT_NEW_STRING);
+        }
+
+        // Clean static references immediately
+        ActLineUpdate.sBridgeResultReferenceString = null;
+        ActLineUpdate.sBridgeResultNewString = null;
+
+        if (refString == null || newString == null) {
+            Log.e(getClass().getSimpleName(), "Error: refString or newString is null!");
+            return;
+        }
+
         int position = bundle.getInt(ActLineUpdate.RESULT_POSITION);
         int nbLines = bundle.getInt(ActLineUpdate.RESULT_NB_LINES);
 

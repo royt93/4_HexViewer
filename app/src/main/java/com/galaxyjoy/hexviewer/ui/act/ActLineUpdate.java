@@ -60,6 +60,12 @@ public class ActLineUpdate extends BaseActivity implements View.OnClickListener 
     public static final String RESULT_NEW_STRING = "RESULT_NEW_STRING";
     public static final String RESULT_POSITION = "RESULT_POSITION";
     public static final String RESULT_NB_LINES = "RESULT_NB_LINES";
+
+    // Static bridge to pass large payloads without TransactionTooLargeException
+    public static byte[] sBridgeTexts = null;
+    public static String sBridgeResultReferenceString = null;
+    public static String sBridgeResultNewString = null;
+
     private MyApplication mApp = null;
     private TextInputEditText mEtInputHex;
     private TextInputLayout mTilInputHex;
@@ -148,7 +154,14 @@ public class ActLineUpdate extends BaseActivity implements View.OnClickListener 
         int maxLengthWithPartial = 0;
         if (getIntent().getExtras() != null) {
             Bundle extras = getIntent().getExtras();
-            byte[] array = extras.getByteArray(ACTIVITY_EXTRA_TEXTS);
+            byte[] array = sBridgeTexts;
+            if (array == null) {
+                array = extras.getByteArray(ACTIVITY_EXTRA_TEXTS);
+            }
+            if (array == null) {
+                finish();
+                return;
+            }
             mRefLength = array.length;
             mShiftOffset = extras.getInt(ACTIVITY_EXTRA_SHIFT_OFFSET);
             mStartOffset = extras.getLong(ACTIVITY_EXTRA_START_OFFSET);
@@ -234,6 +247,11 @@ public class ActLineUpdate extends BaseActivity implements View.OnClickListener 
             mEtInputHex.removeTextChangedListener(mTextWatcher);
             mTextWatcher = null;
         }
+        if (isFinishing()) {
+            sBridgeTexts = null;
+            sBridgeResultReferenceString = null;
+            sBridgeResultNewString = null;
+        }
     }
 
     /**
@@ -301,11 +319,20 @@ public class ActLineUpdate extends BaseActivity implements View.OnClickListener 
                     return super.onOptionsItemSelected(item);
                 }
             }
+
+            sBridgeResultReferenceString = mHex.replace(" ", "");
+            sBridgeResultNewString = validate;
+
             Intent i = new Intent();
             i.putExtra(RESULT_POSITION, mPosition);
             i.putExtra(RESULT_NB_LINES, mNbLines);
-            i.putExtra(RESULT_REFERENCE_STRING, mHex.replace(" ", ""));
-            i.putExtra(RESULT_NEW_STRING, validate);
+            if (sBridgeResultReferenceString.length() < 50000) {
+                i.putExtra(RESULT_REFERENCE_STRING, sBridgeResultReferenceString);
+                i.putExtra(RESULT_NEW_STRING, sBridgeResultNewString);
+            } else {
+                i.putExtra(RESULT_REFERENCE_STRING, "");
+                i.putExtra(RESULT_NEW_STRING, "");
+            }
             setResult(RESULT_OK, i);
             finish();
             return true;
