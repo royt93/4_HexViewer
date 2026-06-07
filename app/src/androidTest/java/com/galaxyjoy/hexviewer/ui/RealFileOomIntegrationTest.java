@@ -169,4 +169,129 @@ public class RealFileOomIntegrationTest {
         onView(ViewMatchers.withText(containsString("File too large to open entirely")))
                 .check(ViewAssertions.matches(isDisplayed()));
     }
+
+    /**
+     * TEST 4: Open large file (35 MB) in sequential mode with range > 30MB.
+     * Must fail with "Selected portion is too large" dialog.
+     */
+    @Test
+    public void openLargeFile_sequentialMode_largeRange_failsWithWarningDialog() throws InterruptedException {
+        mScenario = ActivityScenario.launch(ActMain.class);
+        Thread.sleep(1000);
+
+        mScenario.onActivity(activity -> {
+            // Set offsets covering the entire 35MB (which exceeds 30MB limit)
+            FileData fd = new FileData(activity, Uri.fromFile(mLargeFile), false, 0L, 35 * 1024 * 1024);
+            activity.getLauncherOpen().processFileOpen(fd, null, false);
+        });
+
+        Thread.sleep(2000); // Wait for validation failure
+
+        Context targetContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
+        String expectedTitle = targetContext.getString(R.string.error_title);
+
+        // Assert Dialog Title is displayed
+        onView(withText(expectedTitle))
+                .check(ViewAssertions.matches(isDisplayed()));
+
+        // Assert Dialog Message containing portion limit warning is displayed
+        onView(ViewMatchers.withText(containsString("Selected portion is too large")))
+                .check(ViewAssertions.matches(isDisplayed()));
+    }
+
+    /**
+     * TEST 5: Open large file (35 MB) in sequential mode with a safe range <= 30MB.
+     * Must succeed completely and load the portion into the adapter.
+     */
+    @Test
+    public void openLargeFile_sequentialMode_smallRange_succeeds() throws InterruptedException {
+        mScenario = ActivityScenario.launch(ActMain.class);
+        Thread.sleep(1000);
+
+        mScenario.onActivity(activity -> {
+            // Set offsets covering only first 10MB (safe range)
+            FileData fd = new FileData(activity, Uri.fromFile(mLargeFile), false, 0L, 10 * 1024 * 1024);
+            activity.getLauncherOpen().processFileOpen(fd, null, false);
+        });
+
+        Thread.sleep(3000); // Wait for loading to complete
+
+        mScenario.onActivity(activity -> {
+            int count = activity.getPayloadHex().getAdapter().getCount();
+            assertTrue("Adapter should contain portion rows", count > 0);
+            assertTrue("FileData size should be set to portion size (10MB)", activity.getFileData().getSize() == 10 * 1024 * 1024);
+        });
+    }
+
+    /**
+     * TEST 6: Open huge file (130 MB) in sequential mode with a safe range <= 30MB.
+     * Must succeed completely and load the portion into the adapter.
+     */
+    @Test
+    public void openHugeFile_130MB_sequentialMode_smallRange_succeeds() throws Exception {
+        Context context = InstrumentationRegistry.getInstrumentation().getTargetContext();
+        File hugeFile = new File(context.getCacheDir(), "integration_130mb.bin");
+        writeFileOfSize(hugeFile, 130 * 1024 * 1024);
+
+        try {
+            mScenario = ActivityScenario.launch(ActMain.class);
+            Thread.sleep(1000);
+
+            mScenario.onActivity(activity -> {
+                // Open 130MB sequentially with a 20MB portion (0 to 20MB)
+                FileData fd = new FileData(activity, Uri.fromFile(hugeFile), false, 0L, 20 * 1024 * 1024);
+                activity.getLauncherOpen().processFileOpen(fd, null, false);
+            });
+
+            Thread.sleep(4000); // Wait for loading portion
+
+            mScenario.onActivity(activity -> {
+                int count = activity.getPayloadHex().getAdapter().getCount();
+                assertTrue("Adapter should contain portion rows", count > 0);
+                assertTrue("FileData size should be set to portion size (20MB)", activity.getFileData().getSize() == 20 * 1024 * 1024);
+            });
+        } finally {
+            if (hugeFile.exists()) {
+                hugeFile.delete();
+            }
+        }
+    }
+
+    /**
+     * TEST 7: Open huge file (130 MB) in sequential mode with a large range > 30MB.
+     * Must fail with "Selected portion is too large" dialog.
+     */
+    @Test
+    public void openHugeFile_130MB_sequentialMode_largeRange_failsWithWarningDialog() throws Exception {
+        Context context = InstrumentationRegistry.getInstrumentation().getTargetContext();
+        File hugeFile = new File(context.getCacheDir(), "integration_130mb.bin");
+        writeFileOfSize(hugeFile, 130 * 1024 * 1024);
+
+        try {
+            mScenario = ActivityScenario.launch(ActMain.class);
+            Thread.sleep(1000);
+
+            mScenario.onActivity(activity -> {
+                // Open 130MB sequentially with a 35MB portion (0 to 35MB - exceeding 30MB limit)
+                FileData fd = new FileData(activity, Uri.fromFile(hugeFile), false, 0L, 35 * 1024 * 1024);
+                activity.getLauncherOpen().processFileOpen(fd, null, false);
+            });
+
+            Thread.sleep(2000); // Wait for validation failure
+
+            String expectedTitle = context.getString(R.string.error_title);
+
+            // Assert Dialog Title is displayed
+            onView(withText(expectedTitle))
+                    .check(ViewAssertions.matches(isDisplayed()));
+
+            // Assert Dialog Message containing portion limit warning is displayed
+            onView(ViewMatchers.withText(containsString("Selected portion is too large")))
+                    .check(ViewAssertions.matches(isDisplayed()));
+        } finally {
+            if (hugeFile.exists()) {
+                hugeFile.delete();
+            }
+        }
+    }
 }

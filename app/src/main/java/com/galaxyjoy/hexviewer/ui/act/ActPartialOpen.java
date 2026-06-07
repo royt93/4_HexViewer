@@ -172,7 +172,8 @@ public class ActPartialOpen extends BaseActivity implements AdapterView.OnItemSe
             max = size;
         } else {
             start = 0;
-            end = mRealSize;
+            long maxNormalSize = com.galaxyjoy.hexviewer.constants.AppConstants.MAX_NORMAL_FILE_SIZE;
+            end = mRealSize < maxNormalSize ? mRealSize : maxNormalSize;
             max = end;
         }
         if (mSpUnit != null) {
@@ -272,8 +273,11 @@ public class ActPartialOpen extends BaseActivity implements AdapterView.OnItemSe
             Intent i = new Intent();
             long start = getValue(Objects.requireNonNull(mTietStart.getText()).toString(), null);
             long end = getValue(Objects.requireNonNull(mTietEnd.getText()).toString(), null);
-            if (((MyApplication) getApplicationContext()).isPartialOpenButWholeFileIsOpened() && start == 0L && end == mRealSize)
+            Log.d("roy93~", "ActPartialOpen.onOptionsItemSelected Done: start=" + start + ", end=" + end + ", mRealSize=" + mRealSize);
+            if (((MyApplication) getApplicationContext()).isPartialOpenButWholeFileIsOpened() && start == 0L && end == mRealSize) {
+                Log.d("roy93~", "ActPartialOpen: Whole file selected, converting endOffset to 0L");
                 end = 0L;
+            }
             i.putExtra(RESULT_START_OFFSET, start);
             i.putExtra(RESULT_END_OFFSET, end);
             setResult(RESULT_OK, i);
@@ -347,6 +351,12 @@ public class ActPartialOpen extends BaseActivity implements AdapterView.OnItemSe
             valid = false;
             setErrorMessage(mTilStart, R.string.error_less_than, end);
             setErrorMessage(mTilEnd, R.string.error_less_than, start);
+        } else if (end - start > com.galaxyjoy.hexviewer.constants.AppConstants.MAX_NORMAL_FILE_SIZE) {
+            valid = false;
+            String maxSizeStr = SysHelper.sizeToHuman(this, com.galaxyjoy.hexviewer.constants.AppConstants.MAX_NORMAL_FILE_SIZE);
+            String currentSizeStr = SysHelper.sizeToHuman(this, end - start);
+            Log.d("roy93~", "ActPartialOpen.checkValuesValidSize: portion too large! " + currentSizeStr + " > " + maxSizeStr);
+            setErrorMessage(mTilEnd, "Selected portion is too large: " + currentSizeStr + ". Maximum portion size is " + maxSizeStr);
         } else {
             setErrorMessage(mTilStart, null);
             setErrorMessage(mTilEnd, null);
