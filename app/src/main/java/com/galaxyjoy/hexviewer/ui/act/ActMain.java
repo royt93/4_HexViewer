@@ -55,6 +55,7 @@ import com.galaxyjoy.hexviewer.ui.task.TaskSave;
 import com.galaxyjoy.hexviewer.ui.undoredo.UnDoRedo;
 import com.galaxyjoy.hexviewer.ui.util.UIHelper;
 import com.galaxyjoy.hexviewer.util.io.FileHelper;
+import com.galaxyjoy.hexviewer.util.WebViewOomFix;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -188,6 +189,11 @@ public class ActMain extends ActAbstractBaseMain implements AdapterView.OnItemCl
     @Override
     protected void onPause() {
         stopPillAnimation();
+        // FIX: Pause AdView (WebView-based) rendering timers to stop the draw loop
+        // that triggers setRequestedFrameRate → Debug.getCallers → OOM on Android 14+
+        if (adView instanceof android.webkit.WebView) {
+            WebViewOomFix.pauseWebViewTimers((android.webkit.WebView) adView);
+        }
         super.onPause();
     }
 
@@ -195,6 +201,9 @@ public class ActMain extends ActAbstractBaseMain implements AdapterView.OnItemCl
     protected void onDestroy() {
         stopPillAnimation();
         if (adView != null) {
+            // FIX: Restore default frame rate before destroying to avoid
+            // any pending setRequestedFrameRate calls during teardown
+            WebViewOomFix.restoreWebViewFrameRate(adView);
             AdManager.INSTANCE.bannerDestroy(adView);
             adView = null;
         }
@@ -715,6 +724,8 @@ public class ActMain extends ActAbstractBaseMain implements AdapterView.OnItemCl
         }
         if (isVip) {
             if (adView != null) {
+                // FIX: Restore frame rate before destroying the ad view
+                WebViewOomFix.restoreWebViewFrameRate(adView);
                 AdManager.INSTANCE.bannerDestroy(adView);
                 adView = null;
             }
@@ -727,6 +738,14 @@ public class ActMain extends ActAbstractBaseMain implements AdapterView.OnItemCl
                         AdManager.INSTANCE.getAdaptiveBannerSize(this),
                         true
                 );
+                // FIX: Throttle AdView (WebView-based) frame-rate to 30fps on Android 14+.
+                // This halves the frequency of Debug.getCallers() allocations inside
+                // setRequestedFrameRate(), preventing OOM under low-heap conditions.
+                if (adView != null) {
+                    WebViewOomFix.throttleWebViewFrameRate(adView);
+                    // Use hardware layer to offload rendering from the CPU
+                    WebViewOomFix.setHardwareLayer(adView, true);
+                }
             }
         }
     }
@@ -961,6 +980,11 @@ public class ActMain extends ActAbstractBaseMain implements AdapterView.OnItemCl
             mFileData = null;
             UIHelper.setTitle(this, null, false);
             UIHelper.toast(this, getString(R.string.not_enough_memory));
+            // FIX: Trim AdView (WebView) caches to reclaim heap space
+            // This directly addresses OOM caused by setRequestedFrameRate on Android 14+
+            if (adView instanceof android.webkit.WebView) {
+                WebViewOomFix.trimWebViewMemory((android.webkit.WebView) adView);
+            }
             System.gc();
         }
     }
