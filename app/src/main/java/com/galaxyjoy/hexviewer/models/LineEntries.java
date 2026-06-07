@@ -13,6 +13,7 @@
 package com.galaxyjoy.hexviewer.models;
 
 import androidx.annotation.NonNull;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -164,10 +165,11 @@ public class LineEntries {
             long usedMemory = runtime.totalMemory() - runtime.freeMemory();
             long freeMemory = maxMemory - usedMemory;
 
-            // Estimate memory needed: each LineEntry has 2 Strings + List<Byte> ≈ 500 bytes
-            // LineEntry.plain string: ~50 chars, LineEntry.raw bytes list: ~16-32 entries
-            // Account for object overhead, char[] backing arrays, ArrayList overhead
-            long estimatedMemoryNeeded = size * 500L;
+            // Estimate memory needed: each optimized LineEntry needs ~120 bytes
+            long estimatedMemoryNeeded = size * 120L;
+            Log.d("roy93~", "LineEntries.addAll: size=" + size 
+                + ", estimated=" + (estimatedMemoryNeeded / 1024 / 1024) + "MB"
+                + ", free=" + (freeMemory / 1024 / 1024) + "MB");
 
             if (estimatedMemoryNeeded > freeMemory * 0.7) {
                 // Not enough memory, suggest GC
@@ -177,6 +179,8 @@ public class LineEntries {
                 freeMemory = maxMemory - usedMemory;
 
                 if (estimatedMemoryNeeded > freeMemory * 0.7) {
+                    Log.d("roy93~", "LineEntries.addAll: Throwing OOM! estimated=" + (estimatedMemoryNeeded / 1024 / 1024) 
+                        + "MB, free * 0.7=" + ((freeMemory * 0.7) / 1024 / 1024) + "MB");
                     throw new OutOfMemoryError("Insufficient memory to load " + size +
                             " entries (need ~" + (estimatedMemoryNeeded / 1024 / 1024) +
                             "MB, free: " + (freeMemory / 1024 / 1024) + "MB). Try opening a smaller file portion.");

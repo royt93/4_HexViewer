@@ -243,14 +243,6 @@ public class SysHelper {
         if (len > buffer.length)
             throw new IllegalArgumentException("length > buffer.length");
 
-        // Performance: Pre-allocate StringBuilders with proper capacity
-        // Each row: maxByRow * 3 chars for hex (e.g., "FF ") + maxByRow chars for ASCII
-        final int lineCapacity = maxByRow * 3;
-        final int endLineCapacity = maxByRow;
-
-        StringBuilder currentLine = new StringBuilder(lineCapacity);
-        StringBuilder currentEndLine = new StringBuilder(endLineCapacity);
-
         // Performance: Use primitive byte array instead of List<Byte> to avoid boxing
         byte[] currentLineRaw = new byte[maxByRow];
         int rawIndex = 0;
@@ -260,11 +252,6 @@ public class SysHelper {
 
         if (shiftOffset != 0) {
             currentIndex = shiftOffset;
-            // Performance: Append all at once instead of loop
-            for (int i = 0; i < shiftOffset; i++) {
-                currentLine.append("   ");
-                currentEndLine.append(" ");
-            }
         }
 
         while (len > 0) {
@@ -273,50 +260,35 @@ public class SysHelper {
 
             final byte c = buffer[bufferIndex++];
 
-            // Performance: Direct hex append without intermediate String allocation
-            appendHexByte(currentLine, c);
-            currentLine.append(' ');
-
             // Performance: No boxing - use primitive array
             currentLineRaw[rawIndex++] = c;
 
-            /* only the visible char */
-            currentEndLine.append((c >= 0x20 && c <= 0x7e) ? (char) c : (char) 0x2e); /* 0x2e = . */
-
-            /* Prepare the new index. If the index is equal to MAX_BY_ROW - 1, currentLine and currentEndLine will be added to the list and then deleted. */
             if (currentIndex >= maxByRow - 1) {
-                // Line complete - convert byte array to List<Byte> only when needed
-                List<Byte> lineRawList = new ArrayList<>(rawIndex);
-                for (int i = 0; i < rawIndex; i++) {
-                    lineRawList.add(currentLineRaw[i]);
-                }
+                // Line complete - slice primitive byte array directly
+                byte[] lineRaw = new byte[rawIndex];
+                System.arraycopy(currentLineRaw, 0, lineRaw, 0, rawIndex);
 
-                formatBufferPrepareLineComplete(lines, currentIndex, currentLine, currentEndLine, lineRawList, maxByRow);
+                lines.add(LineEntry.create(lineRaw, maxByRow));
 
-                // Reset for next line
-                currentLine.setLength(0);
-                currentEndLine.setLength(0);
                 rawIndex = 0;
                 currentIndex = 0;
             } else {
                 currentIndex++;
             }
 
-            /* next */
             len--;
         }
 
         if (cancel != null && cancel.get())
             return;
 
-        // Convert remaining bytes to list
-        List<Byte> finalLineRawList = new ArrayList<>(rawIndex);
-        for (int i = 0; i < rawIndex; i++) {
-            finalLineRawList.add(currentLineRaw[i]);
+        if (rawIndex > 0) {
+            // Slice remaining primitive bytes directly
+            byte[] finalLineRaw = new byte[rawIndex];
+            System.arraycopy(currentLineRaw, 0, finalLineRaw, 0, rawIndex);
+            lines.add(LineEntry.create(finalLineRaw, maxByRow));
         }
 
-        formatBufferAlign(lines, currentIndex, currentLine.toString(),
-                currentEndLine.toString(), finalLineRawList, maxByRow);
         if (!lines.isEmpty())
             lines.get(0).setShiftOffset(shiftOffset);
     }
@@ -384,60 +356,53 @@ public class SysHelper {
     }
 
     /**
-     * Prepare the new index. If the index is equal to MAX_BY_ROW - 1, currentLine and currentEndLine will be added to the list and then deleted.
+     * Formats a single line of raw bytes on-demand.
+     * Recreates the exact same String representation as formatBuffer would.
      *
-     * @param lines          The lines.
-     * @param currentIndex   The current index.
-     * @param currentLine    The current line.
-     * @param currentEndLine The end of the current line.
-     * @param currentLineRaw The current line in raw.
-     * @param maxByRow       Max bytes by row.
-     * @return The nex index.
+     * @param raw         The raw byte array.
+     * @param maxByRow    Max bytes by row (8 or 16).
+     * @param shiftOffset Offset used to shift text.
+     * @return Formatted string.
      */
-    private static int formatBufferPrepareLineComplete(final List<LineEntry> lines,
-                                                       final int currentIndex,
-                                                       final StringBuilder currentLine,
-                                                       final StringBuilder currentEndLine,
-                                                       final List<Byte> currentLineRaw,
-                                                       final int maxByRow) {
-        if (currentIndex == maxByRow - 1) {
-            lines.add(new LineEntry(currentLine + " " + currentEndLine,
-                    new ArrayList<>(currentLineRaw)));
-            currentEndLine.setLength(0);
-            currentLine.setLength(0);
-            currentLineRaw.clear();
-            return 0;
+    public static String formatSingleLine(final byte[] raw, final int maxByRow, final int shiftOffset) {
+        if (raw == null) return null;
+        if (raw.length == 0) return "";
+
+        final int lineCapacity = maxByRow * 3;
+        final int endLineCapacity = maxByRow;
+
+        StringBuilder currentLine = new StringBuilder(lineCapacity);
+        StringBuilder currentEndLine = new StringBuilder(endLineCapacity);
+
+        int currentIndex = 0;
+        if (shiftOffset != 0) {
+            currentIndex = shiftOffset;
+            for (int i = 0; i < shiftOffset; i++) {
+                currentLine.append("   ");
+                currentEndLine.append(" ");
+            }
         }
-        return currentIndex + 1;
-    }
 
+        for (byte c : raw) {
+            appendHexByte(currentLine, c);
+            currentLine.append(' ');
+            currentEndLine.append((c >= 0x20 && c <= 0x7e) ? (char) c : (char) 0x2e);
+            currentIndex++;
+        }
 
-    /**
-     * Alignment of the end of a line (if the line is not complete).
-     *
-     * @param lines          The lines.
-     * @param currentIndex   The current index.
-     * @param currentLine    The current line.
-     * @param currentEndLine The end of the current line.
-     * @param maxByRow       Max bytes by row.
-     */
-    private static void formatBufferAlign(final List<LineEntry> lines,
-                                          int currentIndex,
-                                          final String currentLine,
-                                          final String currentEndLine,
-                                          final List<Byte> currentLineRaw,
-                                          final int maxByRow) {
-        /* align 'line' */
-        int i = currentIndex;
-        if (i != 0 && (i < maxByRow || i <= currentLine.length())) {
+        // Handle alignment if incomplete line
+        if (currentIndex < maxByRow) {
+            int i = currentIndex;
             StringBuilder off = new StringBuilder();
             while (i++ <= maxByRow - 1)
-                off.append("   "); /* 3 spaces ex: "00 " */
-            off.append("  "); /* 1 or 2 spaces separator */
-            String s = currentLine;
+                off.append("   ");
+            off.append("  ");
+            String s = currentLine.toString();
             if (s.endsWith(" "))
                 s = s.substring(0, s.length() - 1);
-            lines.add(new LineEntry(s + off + currentEndLine.trim(), new ArrayList<>(currentLineRaw)));
+            return s + off + currentEndLine.toString().trim();
+        } else {
+            return currentLine.toString() + " " + currentEndLine.toString();
         }
     }
 

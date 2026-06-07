@@ -45,16 +45,21 @@ public final class AppConstants {
     public static final long MAX_EXTERNAL_INTENT_FILE_SIZE = 500L * 1024 * 1024;
 
     /**
-     * Maximum file size for sequential access mode (2 GB)
-     * Sequential mode loads entire file into memory
+     * Maximum file size for normal (full) open mode (30 MB)
+     * Files larger than this must be opened in sequential (partial) mode to prevent OOM
+     */
+    public static final long MAX_NORMAL_FILE_SIZE = 30L * 1024 * 1024;
+
+    /**
+     * Maximum file size for sequential access mode (partial open) (2 GB)
      */
     public static final long MAX_SEQUENTIAL_FILE_SIZE = 2L * 1024 * 1024 * 1024;
 
     /**
-     * Recommended maximum file size for normal operation (1 GB)
-     * Files larger than this will show a warning but can still be opened
+     * Recommended maximum file size for normal operation (30 MB)
+     * Files larger than this should be opened in sequential (partial) mode
      */
-    public static final long RECOMMENDED_MAX_FILE_SIZE = 1L * 1024 * 1024 * 1024;
+    public static final long RECOMMENDED_MAX_FILE_SIZE = 30L * 1024 * 1024;
 
     /**
      * Absolute maximum file size (4 GB - 1 byte)

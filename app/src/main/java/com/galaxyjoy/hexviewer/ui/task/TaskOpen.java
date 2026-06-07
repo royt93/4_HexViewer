@@ -13,6 +13,7 @@ import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.text.format.Formatter;
+import android.util.Log;
 
 import com.galaxyjoy.hexviewer.MyApplication;
 import com.galaxyjoy.hexviewer.R;
@@ -98,6 +99,9 @@ public class TaskOpen extends ProgressTask<ContentResolver, FileData, TaskOpen.R
     public void onPostExecute(final Result result) {
         super.onPostExecute(result);
         mMemoryMonitor.stop();
+        Log.d("roy93~", "TaskOpen.onPostExecute: mLowMemory=" + mLowMemory.get() 
+            + ", isCancelled=" + isCancelled() 
+            + ", exception=" + (result == null ? "null" : result.exception));
         if (mLowMemory.get())
             UIHelper.showErrorDialog(mContext, R.string.error_title, mContext.getString(R.string.not_enough_memory));
         else if (isCancelled())
@@ -114,8 +118,11 @@ public class TaskOpen extends ProgressTask<ContentResolver, FileData, TaskOpen.R
             if (result.listHex != null) {
                 try {
                     mAdapter.setStartOffset(result.startOffset);
+                    Log.d("roy93~", "TaskOpen.onPostExecute: calling mAdapter.addAll with " + result.listHex.size() + " items");
                     mAdapter.addAll(result.listHex);
+                    Log.d("roy93~", "TaskOpen.onPostExecute: mAdapter.addAll completed successfully");
                 } catch (OutOfMemoryError oom) {
+                    Log.e("roy93~", "TaskOpen.onPostExecute: mAdapter.addAll caught OutOfMemoryError!", oom);
                     // Handle OOM when adding to adapter
                     result.listHex.clear(); // Release memory
                     result.listHex = null;
@@ -168,7 +175,18 @@ public class TaskOpen extends ProgressTask<ContentResolver, FileData, TaskOpen.R
         boolean forceBreak = false;
         /* read data */
         ByteBuffer buffer = ByteBuffer.allocate(maxLength);
+        int loopCount = 0;
         while (!isCancelled() && (reads = mRandomAccessFileChannel.read(buffer)) != -1) {
+            loopCount++;
+            if (loopCount % 50 == 0 || loopCount < 5) {
+                Runtime rt = Runtime.getRuntime();
+                long usedHeap = rt.totalMemory() - rt.freeMemory();
+                long freeHeap = rt.maxMemory() - usedHeap;
+                Log.d("roy93~", "TaskOpen.processRead loop=" + loopCount 
+                    + ", reads=" + reads 
+                    + ", freeHeap=" + (freeHeap / 1024 / 1024) + "MB"
+                    + ", maxHeap=" + (rt.maxMemory() / 1024 / 1024) + "MB");
+            }
             try {
                 SysHelper.formatBuffer(list,
                         buffer.array(),
@@ -181,11 +199,14 @@ public class TaskOpen extends ProgressTask<ContentResolver, FileData, TaskOpen.R
                 publishProgress((long) reads);
                 if (fd.isSequential()) {
                     totalSequential += reads;
-                    if (totalSequential >= fd.getEndOffset())
+                    if (totalSequential >= fd.getEndOffset()) {
+                        Log.d("roy93~", "TaskOpen.processRead: sequential offset reached: " + totalSequential);
                         forceBreak = true;
+                    }
                 }
                 // ★ OOM Guard: kiểm tra MemoryMonitor báo low memory
                 if (mLowMemory.get()) {
+                    Log.d("roy93~", "TaskOpen.processRead: mLowMemory is true, breaking");
                     forceBreak = true;
                 } else {
                     // ★ Proactive heap check: dừng ngay nếu heap còn < 20 MB
@@ -194,19 +215,21 @@ public class TaskOpen extends ProgressTask<ContentResolver, FileData, TaskOpen.R
                     long usedHeap = rt.totalMemory() - rt.freeMemory();
                     long freeHeap = rt.maxMemory() - usedHeap;
                     if (freeHeap < 20L * 1024 * 1024) { // còn < 20 MB
+                        Log.d("roy93~", "TaskOpen.processRead: freeHeap < 20MB! " + (freeHeap / 1024 / 1024) + "MB, aborting");
                         mLowMemory.set(true);
                         mCancel.set(true);
                         forceBreak = true;
                     }
                 }
             } catch (OutOfMemoryError oom) {
-                // ★ Bắt OOM trực tiếp tại nơi xảy ra — giải phóng list ngay lập tức
+                Log.e("roy93~", "TaskOpen.processRead: Caught OutOfMemoryError!", oom);
                 list.clear();
                 System.gc();
                 mLowMemory.set(true);
                 mCancel.set(true);
                 forceBreak = true;
             } catch (IllegalArgumentException iae) {
+                Log.e("roy93~", "TaskOpen.processRead: IllegalArgumentException: " + iae.getMessage());
                 result.exception = iae.getMessage();
                 forceBreak = true;
             }
@@ -224,6 +247,12 @@ public class TaskOpen extends ProgressTask<ContentResolver, FileData, TaskOpen.R
      */
     @Override
     public Result doInBackground(ContentResolver contentResolver, FileData fd) {
+        Log.d("roy93~", "TaskOpen.doInBackground: Uri=" + fd.getUri()
+            + ", size=" + fd.getSize()
+            + ", realSize=" + fd.getRealSize()
+            + ", isSequential=" + fd.isSequential()
+            + ", startOffset=" + fd.getStartOffset()
+            + ", endOffset=" + fd.getEndOffset());
         final Result result = new Result();
         final List<LineEntry> list = new ArrayList<>();
         try {
@@ -233,6 +262,7 @@ public class TaskOpen extends ProgressTask<ContentResolver, FileData, TaskOpen.R
 
             // Validate file size before processing
             if (!validateFileSize(fd, result)) {
+                Log.d("roy93~", "TaskOpen.doInBackground: validateFileSize failed!");
                 return result; // result.exception already set
             }
 
@@ -291,13 +321,23 @@ public class TaskOpen extends ProgressTask<ContentResolver, FileData, TaskOpen.R
             return false;
         }
 
-        // Check sequential mode limit - stricter because it loads entire file
+        // Check normal mode limit - if file is larger than 30MB, ask user to use sequential (partial) mode
+        if (!fd.isSequential() && fileSize > com.galaxyjoy.hexviewer.constants.AppConstants.MAX_NORMAL_FILE_SIZE) {
+            String maxSizeStr = SysHelper.sizeToHuman(mContext,
+                com.galaxyjoy.hexviewer.constants.AppConstants.MAX_NORMAL_FILE_SIZE,
+                true, true, false);
+            result.exception = "File too large to open entirely: " + SysHelper.sizeToHuman(mContext, fileSize, true, true, false) +
+                ". Maximum for full open is: " + maxSizeStr + ". Please use 'Sequential opening' mode instead.";
+            return false;
+        }
+
+        // Check sequential mode limit (partial open maximum limit)
         if (fd.isSequential() && fileSize > com.galaxyjoy.hexviewer.constants.AppConstants.MAX_SEQUENTIAL_FILE_SIZE) {
             String maxSizeStr = SysHelper.sizeToHuman(mContext,
                 com.galaxyjoy.hexviewer.constants.AppConstants.MAX_SEQUENTIAL_FILE_SIZE,
                 true, true, false);
             result.exception = "File too large for sequential mode: " + SysHelper.sizeToHuman(mContext, fileSize, true, true, false) +
-                ". Maximum for sequential: " + maxSizeStr + ". Try normal mode instead.";
+                ". Maximum for sequential: " + maxSizeStr;
             return false;
         }
 
@@ -333,6 +373,9 @@ public class TaskOpen extends ProgressTask<ContentResolver, FileData, TaskOpen.R
     }
 
     public void onLowAppMemory(boolean disabled, MemoryInfo mi) {
+        Log.d("roy93~", "TaskOpen.onLowAppMemory: disabled=" + disabled 
+            + ", totalFreeMemory=" + mi.getTotalFreeMemory() 
+            + ", totalMemory=" + mi.getTotalMemory());
         MyApplication.addLog(mContext, "Open",
                 String.format(Locale.US, "Low memory %s, used: %s (%.02f%%), free: %s, max: %s",
                         disabled ? "disabled" : "detected",

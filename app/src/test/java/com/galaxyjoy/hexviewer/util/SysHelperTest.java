@@ -330,6 +330,23 @@ public class SysHelperTest {
         assertNotNull("Result should not be null", result);
     }
 
+    /**
+     * Test that formatSingleLine outputs match the expected formatted hex and ASCII output.
+     */
+    @Test
+    public void should_FormatSingleLineCorrectly_When_CalledWithVariousParams() {
+        byte[] raw = "Hello World!".getBytes();
+        // Normal formatting, maxByRow = 16, no shiftOffset
+        String result = SysHelper.formatSingleLine(raw, 16, 0);
+        assertThat(result).contains("48 65 6c 6c 6f");
+        assertThat(result).contains("Hello World!");
+
+        // Formatting with shift offset
+        String resultShifted = SysHelper.formatSingleLine(raw, 16, 4);
+        assertThat(resultShifted).startsWith("            "); // 4 * 3 = 12 spaces prefix
+        assertThat(resultShifted).contains("Hello World!");
+    }
+
     // ========== Size Conversion Tests ==========
 
     /**

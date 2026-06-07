@@ -72,10 +72,10 @@ public class LineEntryTest {
 
         // Verify it's a deep copy by modifying the original
         List<Byte> originalRaw = lineEntry.getRaw();
-        originalRaw.add((byte) 0x21); // Add exclamation mark
+        originalRaw.set(0, (byte) 0x99);
 
-        assertThat(copy.getRaw()).hasSize(5);
-        assertThat(lineEntry.getRaw()).hasSize(6);
+        assertEquals("Copy raw byte 0 should remain unchanged", (byte) 0x48, (byte) copy.getRaw().get(0));
+        assertEquals("Original raw byte 0 should be updated", (byte) 0x99, (byte) lineEntry.getRaw().get(0));
     }
 
     /**
@@ -265,5 +265,23 @@ public class LineEntryTest {
             lineEntry.setShiftOffset(offset);
             assertEquals("Shift offset should be " + offset, offset, lineEntry.getShiftOffset());
         }
+    }
+
+    /**
+     * Test lazy plain text generation with maxByRow and shift offset.
+     */
+    @Test
+    public void should_GeneratePlainLazily_When_CreatedWithMaxByRow() {
+        byte[] rawBytes = new byte[] { 0x48, 0x65, 0x6C, 0x6C, 0x6F }; // Hello
+        LineEntry lazyEntry = LineEntry.create(rawBytes, 8);
+
+        // mPlain is null initially, getPlain() generates it on-demand
+        String expectedPlain = "48 65 6c 6c 6f           Hello";
+        assertEquals("Plain string should be formatted lazily", expectedPlain, lazyEntry.getPlain());
+
+        // Test with shift offset
+        lazyEntry.setShiftOffset(2);
+        String expectedShifted = "      48 65 6c 6c 6f     Hello";
+        assertEquals("Plain string should be reformatted after shift offset change", expectedShifted, lazyEntry.getPlain());
     }
 }
