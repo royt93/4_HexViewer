@@ -934,4 +934,36 @@ public class ActMain extends ActAbstractBaseMain implements AdapterView.OnItemCl
             setOrphanDialog(mGoToDialog.show(GoToDialog.Mode.LINE_HEX));
     }
 
+    /**
+     * Called when the OS requests memory trimming.
+     *
+     * OOM root cause: MediaTek BoostFwk (FrameIdentify) runs on the main thread
+     * and fails to allocate an ArrayList during vsync because the heap is exhausted.
+     * The adapter holds the entire List<LineEntry> in memory — this is the largest
+     * single consumer of heap. Clearing it under pressure prevents the system OOM.
+     *
+     * Strategy:
+     * - TRIM_MEMORY_RUNNING_CRITICAL / COMPLETE: clear adapters immediately
+     * - Lower levels: let the Application-level handler (shrink log buffer) handle it
+     */
+    @Override
+    public void onTrimMemory(int level) {
+        super.onTrimMemory(level);
+        if (level >= TRIM_MEMORY_RUNNING_CRITICAL) {
+            // Heap gần cạn kiệt — giải phóng dữ liệu adapter ngay lập tức
+            // để main thread có đủ memory cho MediaTek BoostFwk hoạt động
+            if (mPayloadHexHelper != null && mPayloadHexHelper.getAdapter() != null) {
+                mPayloadHexHelper.getAdapter().clear();
+            }
+            if (mPayloadPlainSwipe != null && mPayloadPlainSwipe.getAdapter() != null) {
+                mPayloadPlainSwipe.getAdapter().clear();
+            }
+            mFileData = null;
+            UIHelper.setTitle(this, null, false);
+            UIHelper.toast(this, getString(R.string.not_enough_memory));
+            System.gc();
+        }
+    }
+
 }
+

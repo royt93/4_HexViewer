@@ -64,7 +64,9 @@ public class TaskOpen extends ProgressTask<ContentResolver, FileData, TaskOpen.R
                     final boolean addRecent) {
         super(activity, true);
         mApp = (MyApplication) activity.getApplicationContext();
-        mMemoryMonitor = new MemoryMonitor(mApp.getMemoryThreshold(), 2000);
+        // Kiểm tra memory mỗi 500ms thay vì 2000ms để phát hiện low memory nhanh hơn
+        // khi đang load file lớn trên thiết bị MediaTek RAM thấp
+        mMemoryMonitor = new MemoryMonitor(mApp.getMemoryThreshold(), 500);
         mContext = activity;
         mContentResolver = activity.getContentResolver();
         mAdapter = adapter;
@@ -120,6 +122,7 @@ public class TaskOpen extends ProgressTask<ContentResolver, FileData, TaskOpen.R
                     System.gc();
                     // Set exception so it's handled by the normal error flow
                     result.exception = "OutOfMemoryError: " + oom.getMessage();
+                    UIHelper.showErrorDialog(mContext, R.string.error_title, mContext.getString(R.string.not_enough_memory));
                 }
             }
         }
@@ -133,7 +136,6 @@ public class TaskOpen extends ProgressTask<ContentResolver, FileData, TaskOpen.R
         }
         if (mListener != null)
             mListener.onOpenResult(result.exception == null && !isCancelled() && !mLowMemory.get(), true);
-        super.onPostExecute(result);
     }
 
     /**
@@ -182,6 +184,28 @@ public class TaskOpen extends ProgressTask<ContentResolver, FileData, TaskOpen.R
                     if (totalSequential >= fd.getEndOffset())
                         forceBreak = true;
                 }
+                // ★ OOM Guard: kiểm tra MemoryMonitor báo low memory
+                if (mLowMemory.get()) {
+                    forceBreak = true;
+                } else {
+                    // ★ Proactive heap check: dừng ngay nếu heap còn < 20 MB
+                    // Ngăn MediaTek BoostFwk OOM trước khi MemoryMonitor kịp phản ứng
+                    Runtime rt = Runtime.getRuntime();
+                    long usedHeap = rt.totalMemory() - rt.freeMemory();
+                    long freeHeap = rt.maxMemory() - usedHeap;
+                    if (freeHeap < 20L * 1024 * 1024) { // còn < 20 MB
+                        mLowMemory.set(true);
+                        mCancel.set(true);
+                        forceBreak = true;
+                    }
+                }
+            } catch (OutOfMemoryError oom) {
+                // ★ Bắt OOM trực tiếp tại nơi xảy ra — giải phóng list ngay lập tức
+                list.clear();
+                System.gc();
+                mLowMemory.set(true);
+                mCancel.set(true);
+                forceBreak = true;
             } catch (IllegalArgumentException iae) {
                 result.exception = iae.getMessage();
                 forceBreak = true;
@@ -223,7 +247,7 @@ public class TaskOpen extends ProgressTask<ContentResolver, FileData, TaskOpen.R
                 evaluateShiftOffset(fd, totalSequential);
                 processRead(fd, list, result, totalSequential, maxLength);
                 /* prepare result */
-                if (result.exception == null) {
+                if (result.exception == null && !mLowMemory.get()) {
                     result.listHex = list;
                     if (!mCancel.get()) {
                         if (mOldToString != null)
@@ -233,6 +257,12 @@ public class TaskOpen extends ProgressTask<ContentResolver, FileData, TaskOpen.R
                     }
                 }
             }
+        } catch (OutOfMemoryError oom) {
+            // ★ Last-resort OOM catch: giải phóng list và báo lỗi
+            list.clear();
+            result.listHex = null;
+            System.gc();
+            mLowMemory.set(true);
         } catch (final Exception e) {
             result.exception = e.getMessage();
         } finally {

@@ -592,6 +592,63 @@ public class MyApplication extends Application {
     }
 
     /**
+     * Called when the operating system has determined that it is a good time
+     * for a process to trim unneeded memory.
+     * This is called on UI thread - free non-critical caches.
+     *
+     * Strategy (graduated response to avoid MediaTek BoostFwk OOM):
+     * - TRIM_MEMORY_RUNNING_LOW   : shrink log buffer to 100 entries
+     * - TRIM_MEMORY_RUNNING_CRITICAL: shrink to 50 entries
+     * - TRIM_MEMORY_COMPLETE / UI_HIDDEN / BACKGROUND: clear entire buffer
+     */
+    @Override
+    public void onTrimMemory(int level) {
+        super.onTrimMemory(level);
+        mLock.lock();
+        try {
+            if (mLogs instanceof CircularLogBuffer) {
+                CircularLogBuffer clb = (CircularLogBuffer) mLogs;
+                if (level >= TRIM_MEMORY_UI_HIDDEN) {
+                    // UI is no longer visible or system is under deep background memory pressure.
+                    // Safe to clear log buffer completely.
+                    clb.clear();
+                } else if (level >= TRIM_MEMORY_RUNNING_CRITICAL) {
+                    // Foreground app running critical: shrink to 50
+                    clb.shrink(50);
+                } else if (level >= TRIM_MEMORY_RUNNING_LOW) {
+                    // Foreground app running low: shrink to 100
+                    clb.shrink(100);
+                }
+            } else if (mLogs != null && level >= TRIM_MEMORY_RUNNING_LOW) {
+                mLogs.clear();
+            }
+        } finally {
+            mLock.unlock();
+        }
+        if (level >= TRIM_MEMORY_RUNNING_LOW) {
+            System.gc();
+        }
+    }
+
+    /**
+     * Called when the operating system is running low on memory.
+     * This is a last-resort signal: clear everything immediately.
+     */
+    @Override
+    public void onLowMemory() {
+        super.onLowMemory();
+        mLock.lock();
+        try {
+            if (mLogs != null) {
+                mLogs.clear();
+            }
+        } finally {
+            mLock.unlock();
+        }
+        System.gc();
+    }
+
+    /**
      * Called when the application is terminating.
      * Note: This is rarely called in production, but good practice to implement.
      */

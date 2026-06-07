@@ -39,7 +39,12 @@ public class LineEntries {
      * @return A copy of the entry list.
      */
     public synchronized List<LineEntry> getSnapshot() {
-        return new ArrayList<>(mEntryList);
+        try {
+            return new ArrayList<>(mEntryList);
+        } catch (OutOfMemoryError oom) {
+            // Return empty list rather than crashing - caller must handle gracefully
+            return new ArrayList<>();
+        }
     }
 
     /**
@@ -159,17 +164,19 @@ public class LineEntries {
             long usedMemory = runtime.totalMemory() - runtime.freeMemory();
             long freeMemory = maxMemory - usedMemory;
 
-            // Estimate memory needed: each LineEntry + Integer ≈ 200 bytes
-            long estimatedMemoryNeeded = size * 200L;
+            // Estimate memory needed: each LineEntry has 2 Strings + List<Byte> ≈ 500 bytes
+            // LineEntry.plain string: ~50 chars, LineEntry.raw bytes list: ~16-32 entries
+            // Account for object overhead, char[] backing arrays, ArrayList overhead
+            long estimatedMemoryNeeded = size * 500L;
 
-            if (estimatedMemoryNeeded > freeMemory * 0.8) {
+            if (estimatedMemoryNeeded > freeMemory * 0.7) {
                 // Not enough memory, suggest GC
                 System.gc();
                 // Re-check after GC
                 usedMemory = runtime.totalMemory() - runtime.freeMemory();
                 freeMemory = maxMemory - usedMemory;
 
-                if (estimatedMemoryNeeded > freeMemory * 0.8) {
+                if (estimatedMemoryNeeded > freeMemory * 0.7) {
                     throw new OutOfMemoryError("Insufficient memory to load " + size +
                             " entries (need ~" + (estimatedMemoryNeeded / 1024 / 1024) +
                             "MB, free: " + (freeMemory / 1024 / 1024) + "MB). Try opening a smaller file portion.");

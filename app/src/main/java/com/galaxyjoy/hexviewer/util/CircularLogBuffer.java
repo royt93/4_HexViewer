@@ -139,8 +139,20 @@ public class CircularLogBuffer implements Queue<String> {
     public java.util.Iterator<String> iterator() {
         lock.lock();
         try {
-            // Return copy to avoid concurrent modification
-            return new ArrayList<>(buffer).iterator();
+            // Snapshot the buffer to avoid concurrent modification.
+            // Guard against OOM on MediaTek devices (FrameIdentify monitors ArrayList.iterator)
+            // If snapshot fails, return empty iterator instead of throwing OOM.
+            if (buffer.isEmpty()) {
+                return java.util.Collections.<String>emptyList().iterator();
+            }
+            try {
+                String[] snapshot = buffer.toArray(new String[0]);
+                return java.util.Arrays.asList(snapshot).iterator();
+            } catch (OutOfMemoryError oom) {
+                // Free log entries immediately and return empty iterator
+                buffer.clear();
+                return java.util.Collections.<String>emptyList().iterator();
+            }
         } finally {
             lock.unlock();
         }
@@ -150,17 +162,26 @@ public class CircularLogBuffer implements Queue<String> {
     public Object[] toArray() {
         lock.lock();
         try {
-            return buffer.toArray();
+            try {
+                return buffer.toArray();
+            } catch (OutOfMemoryError oom) {
+                return new Object[0];
+            }
         } finally {
             lock.unlock();
         }
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public <T> T[] toArray(T[] a) {
         lock.lock();
         try {
-            return buffer.toArray(a);
+            try {
+                return buffer.toArray(a);
+            } catch (OutOfMemoryError oom) {
+                return (T[]) java.lang.reflect.Array.newInstance(a.getClass().getComponentType(), 0);
+            }
         } finally {
             lock.unlock();
         }
@@ -225,7 +246,34 @@ public class CircularLogBuffer implements Queue<String> {
     public List<String> getAll() {
         lock.lock();
         try {
-            return new ArrayList<>(buffer);
+            try {
+                return new ArrayList<>(buffer);
+            } catch (OutOfMemoryError oom) {
+                return java.util.Collections.emptyList();
+            }
+        } finally {
+            lock.unlock();
+        }
+    }
+
+    /**
+     * Aggressively shrink the buffer to free memory under pressure.
+     * Keeps only the most recent {@code keepCount} entries.
+     * Called by onTrimMemory/onLowMemory when TRIM_MEMORY_COMPLETE is received.
+     *
+     * @param keepCount Number of most-recent entries to retain (0 = clear all).
+     */
+    public void shrink(int keepCount) {
+        lock.lock();
+        try {
+            if (keepCount <= 0 || buffer.size() <= keepCount) {
+                if (keepCount <= 0) buffer.clear();
+                return;
+            }
+            // Remove oldest entries until only keepCount remain
+            while (buffer.size() > keepCount) {
+                buffer.removeFirst();
+            }
         } finally {
             lock.unlock();
         }

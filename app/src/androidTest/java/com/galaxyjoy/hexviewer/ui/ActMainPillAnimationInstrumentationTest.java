@@ -43,69 +43,77 @@ public class ActMainPillAnimationInstrumentationTest {
                 false, true,
                 "test_open", "test_inter", "test_banner", "test_reward",
                 "test_al_open", "test_al_inter", "test_al_banner", "test_al_reward",
-                AdSafetyLimits.TEST, VIP_SECRET_KEY, "test_sdk_key"
+                AdSafetyLimits.Companion.getTEST(), VIP_SECRET_KEY, "test_sdk_key"
         );
         AdManager.INSTANCE.setConfig(config);
-        AdManager.clearVipByKey();
+        AdManager.INSTANCE.clearVipByKey();
     }
 
     @Test
     public void pillAnimation_freeUser_animatorIsRunning() {
         assertFalse(AdManager.INSTANCE.isVipByKeyActive());
 
-        View pillView = new View(mContext);
-        AnimationController controller = new AnimationController(pillView);
-        controller.start();
+        androidx.test.platform.app.InstrumentationRegistry.getInstrumentation().runOnMainSync(() -> {
+            View pillView = new View(mContext);
+            AnimationController controller = new AnimationController(pillView);
+            controller.start();
 
-        assertTrue("Animator must be running for free user", controller.isRunning());
-        controller.stop();
+            assertTrue("Animator must be running for free user", controller.isRunning());
+            controller.stop();
+        });
     }
 
     @Test
     public void pillAnimation_vipUser_animatorIsRunning() {
-        AdManager.activateVipByKey(mContext, VIP_SECRET_KEY, 30);
+        AdManager.INSTANCE.activateVipByKey(mContext, VIP_SECRET_KEY, 30);
         assertTrue(AdManager.INSTANCE.isVipByKeyActive());
 
-        View pillView = new View(mContext);
-        AnimationController controller = new AnimationController(pillView);
-        controller.start();
+        androidx.test.platform.app.InstrumentationRegistry.getInstrumentation().runOnMainSync(() -> {
+            View pillView = new View(mContext);
+            AnimationController controller = new AnimationController(pillView);
+            controller.start();
 
-        // Key assertion: after the fix, VIP users also get the animation
-        assertTrue("Animator must be running for VIP user", controller.isRunning());
-        controller.stop();
+            // Key assertion: after the fix, VIP users also get the animation
+            assertTrue("Animator must be running for VIP user", controller.isRunning());
+            controller.stop();
+        });
     }
 
     @Test
     public void pillAnimation_stop_scaleResetsTo1() {
-        View pillView = new View(mContext);
-        pillView.setScaleX(1.06f);
-        pillView.setScaleY(1.06f);
+        androidx.test.platform.app.InstrumentationRegistry.getInstrumentation().runOnMainSync(() -> {
+            View pillView = new View(mContext);
+            pillView.setScaleX(1.06f);
+            pillView.setScaleY(1.06f);
 
-        AnimationController controller = new AnimationController(pillView);
-        controller.stop();
+            AnimationController controller = new AnimationController(pillView);
+            controller.stop();
 
-        assertEquals(1.0f, pillView.getScaleX(), 0.001f);
-        assertEquals(1.0f, pillView.getScaleY(), 0.001f);
+            assertEquals(1.0f, pillView.getScaleX(), 0.001f);
+            assertEquals(1.0f, pillView.getScaleY(), 0.001f);
+        });
     }
 
     @Test
     public void pillAnimation_vipStatusChangeMidSession_animationContinues() {
-        // Start animation as free user
-        View pillView = new View(mContext);
-        AnimationController controller = new AnimationController(pillView);
-        controller.start();
-        assertTrue(controller.isRunning());
+        androidx.test.platform.app.InstrumentationRegistry.getInstrumentation().runOnMainSync(() -> {
+            // Start animation as free user
+            View pillView = new View(mContext);
+            AnimationController controller = new AnimationController(pillView);
+            controller.start();
+            assertTrue(controller.isRunning());
 
-        // Simulate VIP activation mid-session (like onResume after VIP screen)
-        AdManager.activateVipByKey(mContext, VIP_SECRET_KEY, 30);
+            // Simulate VIP activation mid-session (like onResume after VIP screen)
+            AdManager.INSTANCE.activateVipByKey(mContext, VIP_SECRET_KEY, 30);
 
-        // Stop and restart as ActMain.onResume() would do
-        controller.stop();
-        controller.start();
+            // Stop and restart as ActMain.onResume() would do
+            controller.stop();
+            controller.start();
 
-        // Post-fix: animation must still start even with VIP active
-        assertTrue("Animation must continue after VIP activation", controller.isRunning());
-        controller.stop();
+            // Post-fix: animation must still start even with VIP active
+            assertTrue("Animation must continue after VIP activation", controller.isRunning());
+            controller.stop();
+        });
     }
 
     // Mirror of the private animation logic in ActMain for testing purposes
