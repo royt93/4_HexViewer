@@ -29,7 +29,7 @@ import com.galaxyjoy.hexviewer.models.RecentlyOpened;
 import com.galaxyjoy.hexviewer.models.SettingsKeys;
 import com.roy.sdkadbmob.AdManager;
 import com.roy.sdkadbmob.AdSdkConfig;
-import com.applovin.sdk.AppLovinSdk;
+import com.roy.sdkadbmob.AdSafetyLimits;
 
 import com.galaxyjoy.hexviewer.util.CircularLogBuffer;
 
@@ -574,35 +574,20 @@ public class MyApplication extends Application {
             /* admobAppOpenId      */ BuildConfig.ADMOB_APP_OPEN_ID,
             /* admobInterstitialId */ BuildConfig.ADMOB_INTERSTITIAL_ID,
             /* admobBannerId       */ BuildConfig.ADMOB_BANNER_ID,
+            /* admobRewardedId     */ BuildConfig.ADMOB_REWARDED_ID,
             /* applovinAppOpenId   */ BuildConfig.APPLOVIN_APP_OPEN_ID,
             /* applovinInterstitialId */ BuildConfig.APPLOVIN_INTERSTITIAL_ID,
-            /* applovinBannerId    */ BuildConfig.APPLOVIN_BANNER_ID
+            /* applovinBannerId    */ BuildConfig.APPLOVIN_BANNER_ID,
+            /* applovinRewardedId  */ BuildConfig.APPLOVIN_REWARDED_ID,
+            /* safety              */ BuildConfig.DEBUG ? AdSafetyLimits.Companion.getTEST() : new AdSafetyLimits(),
+            /* vipKeySecret        */ "9fA0q7eN!27cLx04@21993Y2u0I7#Q0",
+            /* applovinSdkKey      */ BuildConfig.APPLOVIN_SDK_KEY
         );
 
-        // QUAN TRỌNG: Gọi đúng thứ tự 3 bước!
-        AdManager.INSTANCE.setConfig(adConfig);  // 1. Gắn config ngay (Main Thread)
-        AdManager.INSTANCE.earlyInit(this);       // 2. Khởi động AdSafety session clock sớm nhất
-
-        // 3. AppLovin init SDK trước, sau đó mới gọi AdManager.init
-        // AppLovin mode: init với AppLovinSdkInitializationConfiguration (chuẩn SDK)
-        com.applovin.sdk.AppLovinSdkInitializationConfiguration initConfig =
-            com.applovin.sdk.AppLovinSdkInitializationConfiguration.builder(
-                BuildConfig.APPLOVIN_SDK_KEY, this
-            )
-            .setMediationProvider(com.applovin.sdk.AppLovinMediationProvider.MAX)
-            .build();
-
-        AppLovinSdk.getInstance(this).initialize(initConfig, sdkConfig -> {
-            AdManager.INSTANCE.init(this, adConfig, (success, gaid) -> {
-                Log.d("roy93~", "AdManager init success=" + success + ", gaid=" + gaid);
-                if (success) {
-                    // QUAN TRỌNG: Phải chạy trên Main Thread vì ProcessLifecycleOwner.addObserver yêu cầu
-                    new android.os.Handler(android.os.Looper.getMainLooper()).post(() ->
-                        AdManager.INSTANCE.registerAppOpenAdLifecycle(MyApplication.this)
-                    );
-                }
-                return null;
-            });
+        AdManager.INSTANCE.setConfig(adConfig);
+        AdManager.INSTANCE.initialize(this, (success, gaid) -> {
+            Log.d("roy93~", "AdManager init success=" + success + ", gaid=" + gaid);
+            return null;
         });
     }
 

@@ -82,6 +82,12 @@ public class ActMain extends ActAbstractBaseMain implements AdapterView.OnItemCl
     private GoToDialog mGoToDialog = null;
     private View adView = null;
 
+    private android.view.View mVipBadgeContainer = null;
+    private android.widget.ImageView mImgVipIcon = null;
+    private android.widget.TextView mTvVipLabel = null;
+    private android.animation.ObjectAnimator mPillAnimator = null;
+
+
     /**
      * Called when the activity is created.
      *
@@ -151,12 +157,7 @@ public class ActMain extends ActAbstractBaseMain implements AdapterView.OnItemCl
         if (savedInstanceState == null)
             handleIntent(getIntent());
 
-        adView = AdManager.INSTANCE.loadBanner(
-                this,
-                (android.view.ViewGroup) findViewById(R.id.bannerContainer),
-                (android.widget.TextView) findViewById(R.id.tvLabelAd),
-                AdSize.BANNER
-        );
+        refreshBannerState();
         AdManager.INSTANCE.loadInterstitial(this);
     }
 
@@ -166,7 +167,9 @@ public class ActMain extends ActAbstractBaseMain implements AdapterView.OnItemCl
     @Override
     public void onResume() {
         super.onResume();
-        AdManager.INSTANCE.bannerResume(adView);
+        refreshBannerState();
+        updateVipBadge(mVipBadgeContainer, mImgVipIcon, mTvVipLabel);
+        startPillAnimation(mVipBadgeContainer);
         setRequestedOrientation(mApp.getScreenOrientation(null));
         if (mPopup != null)
             mPopup.dismiss();
@@ -184,14 +187,17 @@ public class ActMain extends ActAbstractBaseMain implements AdapterView.OnItemCl
 
     @Override
     protected void onPause() {
-        AdManager.INSTANCE.bannerPause(adView);
+        stopPillAnimation();
         super.onPause();
     }
 
     @Override
     protected void onDestroy() {
-        AdManager.INSTANCE.bannerDestroy(adView);
-        adView = null;
+        stopPillAnimation();
+        if (adView != null) {
+            AdManager.INSTANCE.bannerDestroy(adView);
+            adView = null;
+        }
         if (mPayloadPlainSwipe != null) {
             mPayloadPlainSwipe.onDestroy();
         }
@@ -356,6 +362,20 @@ public class ActMain extends ActAbstractBaseMain implements AdapterView.OnItemCl
         mSearchMenu = menu.findItem(R.id.menuActionSearch);
         mSearchMenu.setVisible(false);
         setSearchView(mSearchMenu);
+
+        MenuItem vipItem = menu.findItem(R.id.menuActionVip);
+        if (vipItem != null && vipItem.getActionView() != null) {
+            View actionView = vipItem.getActionView();
+            mVipBadgeContainer = actionView.findViewById(R.id.layoutVipBadgeContainer);
+            mImgVipIcon = actionView.findViewById(R.id.imgVipIcon);
+            mTvVipLabel = actionView.findViewById(R.id.tvVipLabel);
+
+            View.OnClickListener vipClick = v -> openVipScreen();
+            if (mVipBadgeContainer != null) mVipBadgeContainer.setOnClickListener(vipClick);
+
+            updateVipBadge(mVipBadgeContainer, mImgVipIcon, mTvVipLabel);
+            startPillAnimation(mVipBadgeContainer);
+        }
         return true;
     }
 
@@ -632,6 +652,86 @@ public class ActMain extends ActAbstractBaseMain implements AdapterView.OnItemCl
      */
     public TextView getMenuRecentlyOpen() {
         return mPopup == null ? null : mPopup.getMenuRecentlyOpen();
+    }
+
+    private void openVipScreen() {
+        Intent intent = new Intent(this, com.galaxyjoy.hexviewer.feature.vip.ActVipManagement.class);
+        startActivity(intent);
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+            overrideActivityTransition(OVERRIDE_TRANSITION_OPEN, 0, 0);
+        } else {
+            overridePendingTransition(0, 0);
+        }
+    }
+
+    private void updateVipBadge(android.view.View container, android.widget.ImageView icon, android.widget.TextView label) {
+        if (container == null || icon == null || label == null) return;
+        boolean active = AdManager.INSTANCE.isVipByKeyActive();
+        if (active) {
+            container.setBackgroundResource(R.drawable.bg_pill_active);
+            icon.setImageTintList(android.content.res.ColorStateList.valueOf(android.graphics.Color.BLACK));
+            label.setText(R.string.vip_badge_text);
+            label.setTextColor(android.graphics.Color.BLACK);
+        } else {
+            container.setBackgroundResource(R.drawable.bg_pill_free);
+            int color = android.graphics.Color.WHITE;
+            icon.setImageTintList(android.content.res.ColorStateList.valueOf(color));
+            label.setText(R.string.vip_badge_get_vip);
+            label.setTextColor(color);
+        }
+    }
+
+    private void startPillAnimation(android.view.View pillView) {
+        if (pillView == null) return;
+        stopPillAnimation();
+        if (com.roy.sdkadbmob.AdManager.INSTANCE.isVipByKeyActive()) {
+            return;
+        }
+        mPillAnimator = android.animation.ObjectAnimator.ofPropertyValuesHolder(
+            pillView,
+            android.animation.PropertyValuesHolder.ofFloat(android.view.View.SCALE_X, 1.0f, 1.06f),
+            android.animation.PropertyValuesHolder.ofFloat(android.view.View.SCALE_Y, 1.0f, 1.06f)
+        );
+        mPillAnimator.setDuration(1300L);
+        mPillAnimator.setInterpolator(new android.view.animation.AccelerateDecelerateInterpolator());
+        mPillAnimator.setRepeatMode(android.animation.ValueAnimator.REVERSE);
+        mPillAnimator.setRepeatCount(android.animation.ValueAnimator.INFINITE);
+        mPillAnimator.start();
+    }
+
+    private void stopPillAnimation() {
+        if (mPillAnimator != null) {
+            mPillAnimator.cancel();
+            mPillAnimator = null;
+        }
+        if (mVipBadgeContainer != null) {
+            mVipBadgeContainer.setScaleX(1.0f);
+            mVipBadgeContainer.setScaleY(1.0f);
+        }
+    }
+
+    private void refreshBannerState() {
+        boolean isVip = AdManager.INSTANCE.isVipByKeyActive();
+        View adContainer = findViewById(R.id.layoutAdBanner);
+        if (adContainer != null) {
+            adContainer.setVisibility(isVip ? View.GONE : View.VISIBLE);
+        }
+        if (isVip) {
+            if (adView != null) {
+                AdManager.INSTANCE.bannerDestroy(adView);
+                adView = null;
+            }
+        } else {
+            if (adView == null) {
+                adView = AdManager.INSTANCE.loadBanner(
+                        this,
+                        (android.view.ViewGroup) findViewById(R.id.bannerContainer),
+                        (android.widget.TextView) findViewById(R.id.tvLabelAd),
+                        AdManager.INSTANCE.getAdaptiveBannerSize(this),
+                        true
+                );
+            }
+        }
     }
 
     /**

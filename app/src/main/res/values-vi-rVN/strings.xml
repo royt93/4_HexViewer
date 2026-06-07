@@ -157,4 +157,49 @@
     <!-- OS Storage Bug -->
     <string name="error_system_storage_bug_title">Lỗi phân quyền hệ thống</string>
     <string name="error_system_storage_bug_msg">Thành phần hệ thống đang chặn việc đọc tệp này.\n\nĐể khắc phục trên thiết bị của bạn:\n1. Mở Cài đặt (Settings) > Ứng dụng (Apps)\n2. Vào \"Truy cập đặc biệt\" > \"Truy cập tất cả tệp\"\n3. Nhấn menu 3 chấm > \"Hiện ứng dụng hệ thống\"\n4. Tìm ứng dụng \"Bộ nhớ ngoài\" (External Storage) và bật công tắc cho phép.\n5. Thử mở lại tệp.</string>
+
+    <!-- VIP -->
+    <string name="vip_active">VIP đang kích hoạt</string>
+    <string name="vip_free_user">Người dùng miễn phí</string>
+    <string name="vip_until">Đến %1$s</string>
+    <string name="vip_activated_at">Kích hoạt: %1$s</string>
+    <string name="vip_expires_at">Hết hạn: %1$s</string>
+    <string name="vip_remaining">%1$dd %2$02dh %3$02dm %4$02ds</string>
+    <string name="vip_redeem_label">Nhập mã VIP</string>
+    <string name="vip_redeem_hint">VD: LOITP_30</string>
+    <string name="vip_redeem_button">Kích hoạt</string>
+    <string name="vip_watch_ad_3d">Xem quảng cáo → 3 ngày VIP</string>
+    <string name="vip_buy_30d_locked">Mua VIP 30 ngày — sắp ra mắt</string>
+    <string name="vip_buy_90d_locked">Mua VIP 90 ngày — sắp ra mắt</string>
+    <string name="vip_buy_1y_locked">Mua VIP 1 năm — sắp ra mắt</string>
+    <string name="vip_buy_lifetime_locked">Mua VIP trọn đời — sắp ra mắt</string>
+    <string name="vip_restore_locked">Khôi phục mua hàng — sắp ra mắt</string>
+    <string name="vip_revoke_all_button">Thu hồi VIP</string>
+    <string name="vip_revoke_all_confirm_title">Xác nhận thu hồi</string>
+    <string name="vip_revoke_all_confirm_message">Bạn có chắc muốn thu hồi VIP và quay về tài khoản Free\?</string>
+    <string name="vip_entry_first_install">🎁 Quà tặng cài đặt mới</string>
+    <string name="vip_entry_redeemed">VIP %1$d ngày</string>
+    <string name="vip_verifying_title">Đang xác minh…</string>
+    <string name="vip_success_title">Thành công</string>
+    <string name="vip_failed_title">Thất bại</string>
+
+    <!-- Common -->
+    <string name="privacy_policy">Chính sách bảo mật</string>
+    <string name="confirm">Xác nhận</string>
+    <string name="ok">OK</string>
+
+    <!-- Extra VIP Strings -->
+    <string name="vip_premium_packages">Gói Premium</string>
+    <string name="vip_revoked_message">Đã thu hồi VIP</string>
+    <string name="vip_success_message">Kích hoạt VIP thành công %1$d ngày!</string>
+    <string name="vip_failed_message">Mã VIP không hợp lệ. Vui lòng thử lại.</string>
+    <string name="vip_open_link_error">Không thể mở liên kết</string>
+    <string name="vip_badge_text">VIP</string>
+
+    <!-- Extra VIP Title & Badge -->
+    <string name="vip_member_title">Thành viên VIP</string>
+    <string name="vip_badge_get_vip">NHẬN VIP</string>
+
+    <!-- Extra please wait -->
+    <string name="please_wait">Vui lòng đợi...</string>
 </resources>

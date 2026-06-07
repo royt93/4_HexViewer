@@ -196,8 +196,53 @@
     <string name="file_info_detected_type">Detected File Type</string>
     <string name="file_info_unknown">Unknown Binary Data</string>
     <string name="file_info_analyzing">Analyzing File Header…</string>
-
     <!-- OS Storage Bug -->
     <string name="error_system_storage_bug_title">System Permission Bug Detected</string>
     <string name="error_system_storage_bug_msg">The system component is blocking access to this file.\n\nTo fix this on your device:\n1. Open Settings > Apps\n2. Go to \"Special App Access\" > \"All files access\"\n3. Tap the 3-dot menu > \"Show system\"\n4. Find \"External Storage\" and enable it.\n5. Try opening the file again.</string>
+
+    <!-- VIP -->
+    <string name="vip_active">VIP Active</string>
+    <string name="vip_free_user">Free User</string>
+    <string name="vip_until">Expires: %1$s</string>
+    <string name="vip_activated_at">Activated: %1$s</string>
+    <string name="vip_expires_at">Expires: %1$s</string>
+    <string name="vip_remaining">%1$dd %2$02dh %3$02dm %4$02ds</string>
+    <string name="vip_redeem_label">Enter VIP Key</string>
+    <string name="vip_redeem_hint">e.g. LOITP_30</string>
+    <string name="vip_redeem_button">Activate</string>
+    <string name="vip_watch_ad_3d">Watch ad → 3 days VIP</string>
+    <string name="vip_buy_30d_locked">Buy 30-day VIP — Coming Soon</string>
+    <string name="vip_buy_90d_locked">Buy 90-day VIP — Coming Soon</string>
+    <string name="vip_buy_1y_locked">Buy 1-year VIP — Coming Soon</string>
+    <string name="vip_buy_lifetime_locked">Buy Lifetime VIP — Coming Soon</string>
+    <string name="vip_restore_locked">Restore Purchase — Coming Soon</string>
+    <string name="vip_revoke_all_button">Revoke VIP</string>
+    <string name="vip_revoke_all_confirm_title">Confirm Revocation</string>
+    <string name="vip_revoke_all_confirm_message">Are you sure you want to revoke VIP and return to a Free account?</string>
+    <string name="vip_entry_first_install">🎁 First Install Gift</string>
+    <string name="vip_entry_redeemed">VIP %1$d Days</string>
+    <string name="vip_verifying_title">Verifying…</string>
+    <string name="vip_success_title">Success</string>
+    <string name="vip_failed_title">Failed</string>
+
+    <!-- Common -->
+    <string name="privacy_policy">Privacy Policy</string>
+    <string name="confirm">Confirm</string>
+    <string name="ok">OK</string>
+
+    <!-- Extra VIP Strings -->
+    <string name="vip_premium_packages">Premium Packages</string>
+    <string name="vip_revoked_message">VIP Revoked</string>
+    <string name="vip_success_message">Successfully activated VIP for %1$d days!</string>
+    <string name="vip_failed_message">Invalid VIP Key. Please try again.</string>
+    <string name="vip_open_link_error">Unable to open link</string>
+    <string name="vip_badge_text">VIP</string>
+
+    <!-- Extra VIP Title & Badge -->
+    <string name="vip_member_title">VIP Member</string>
+    <string name="vip_badge_get_vip">GET VIP</string>
+
+    <!-- Extra please wait -->
+    <string name="please_wait">Please wait...</string>
 </resources>
+

@@ -158,4 +158,47 @@
     <!-- OS Storage Bug -->
     <string name="error_system_storage_bug_title">זוהתה שגיאת הרשאות מערכת</string>
     <string name="error_system_storage_bug_msg">רכיב המערכת חוסם את הגישה לקובץ זה.\n\nכדי לתקן זאת:\n1. פתח את הגדרות > אפליקציות\n2. עבור אל \"גישה מיוחדת לאפליקציה\" > \"גישה לכל הקבצים\"\n3. הקש על תפריט 3 הנקודות > \"הצג מערכת\"\n4. מצא את \"אחסון חיצוני\" (External Storage) והפעל אותו.\n5. נסה לפתוח את הקובץ שוב.</string>
+
+    <!-- VIP Strings -->
+    <string name="vip_active">חבר VIP פעיל</string>
+    <string name="vip_free_user">משתמש חינמי</string>
+    <string name="vip_until">עד: %1$s</string>
+    <string name="vip_activated_at">הופעל ב: %1$s</string>
+    <string name="vip_expires_at">פג תוקף ב: %1$s</string>
+    <string name="vip_remaining">%1$d ימים %2$02d שעות %3$02d דקות %4$02d שניות</string>
+    <string name="vip_redeem_label">הזן קוד VIP</string>
+    <string name="vip_redeem_hint">למשל: LOITP_30</string>
+    <string name="vip_redeem_button">הפעל</string>
+    <string name="vip_watch_ad_3d">צפה בפרסומת ← 3 ימי VIP</string>
+    <string name="vip_buy_30d_locked">רכישת 30 ימי VIP — בקרוב</string>
+    <string name="vip_buy_90d_locked">רכישת 90 ימי VIP — בקרוב</string>
+    <string name="vip_buy_1y_locked">רכישת VIP לשנה — בקרוב</string>
+    <string name="vip_buy_lifetime_locked">רכישת VIP לכל החיים — בקרוב</string>
+    <string name="vip_restore_locked">שחזור רכישות — בקרוב</string>
+    <string name="vip_revoke_all_button">בטל VIP</string>
+    <string name="vip_revoke_all_confirm_title">אישור ביטול</string>
+    <string name="vip_revoke_all_confirm_message">האם אתה בטוח שברצונך לבטל את ה-VIP ולחזור למשתמש חינמי\?</string>
+    <string name="vip_entry_first_install">🎁 מתנת התקנה ראשונה</string>
+    <string name="vip_entry_redeemed">VIP ל-%1$d ימים</string>
+    <string name="vip_verifying_title">מאמת קוד…</string>
+    <string name="vip_success_title">הצלחה</string>
+    <string name="vip_failed_title">שגיאה</string>
+    <string name="privacy_policy">מדיניות פרטיות</string>
+    <string name="confirm">אשר</string>
+    <string name="ok">אישור</string>
+
+    <!-- Extra VIP Strings -->
+    <string name="vip_premium_packages">חבילות פרימיום</string>
+    <string name="vip_revoked_message">חברות VIP בוטלה</string>
+    <string name="vip_success_message">חברות VIP הופעלה בהצלحة למשך %1$d ימים!</string>
+    <string name="vip_failed_message">קוד VIP לא תקין. אנא נסה שנית.</string>
+    <string name="vip_open_link_error">לא ניתן לפתוح את הקישור</string>
+    <string name="vip_badge_text">VIP</string>
+
+    <!-- Extra VIP Title & Badge -->
+    <string name="vip_member_title">חבר VIP</string>
+    <string name="vip_badge_get_vip">קבל VIP</string>
+
+    <!-- Extra please wait -->
+    <string name="please_wait">אנא המתן...</string>
 </resources>

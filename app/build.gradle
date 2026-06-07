@@ -31,6 +31,8 @@ android {
         buildConfigField "String", "APPLOVIN_BANNER_ID",       "\"aa53ac5866596140\""
         buildConfigField "String", "APPLOVIN_INTERSTITIAL_ID", "\"580476ed6f6e6d5b\""
         buildConfigField "String", "APPLOVIN_APP_OPEN_ID",     "\"2d9943cb1d30a275\""
+        buildConfigField "String", "APPLOVIN_REWARDED_ID",     "\"18d3030a0f4eec4b\""
+        buildConfigField "String", "PRIVACY_POLICY_URL",       "\"https://loitp.notion.site/Term-Privacy-Policy-Disclaimer-319b1cd8783942fa8923d2a3c9bce60f\""
     }
 
     // Enable ABI and Density splits for smaller APK sizes
@@ -88,6 +90,7 @@ android {
             buildConfigField "String", "ADMOB_BANNER_ID",       "\"ca-app-pub-3612191981543807/5282471019\""
             buildConfigField "String", "ADMOB_INTERSTITIAL_ID", "\"ca-app-pub-3612191981543807/2777620817\""
             buildConfigField "String", "ADMOB_APP_OPEN_ID",     "\"ca-app-pub-3612191981543807/4547973843\""
+            buildConfigField "String", "ADMOB_REWARDED_ID",     "\"ca-app-pub-3940256099942544/5224354917\""
             buildConfigField("Boolean", "IS_ENABLE_ADMOB", "false") // false = AppLovin MAX
 
             signingConfig signingConfigs.release
@@ -108,6 +111,7 @@ android {
             buildConfigField "String", "ADMOB_BANNER_ID",       "\"ca-app-pub-3940256099942544/6300978111\""
             buildConfigField "String", "ADMOB_INTERSTITIAL_ID", "\"ca-app-pub-3940256099942544/1033173712\""
             buildConfigField "String", "ADMOB_APP_OPEN_ID",     "\"ca-app-pub-3940256099942544/9257395921\""
+            buildConfigField "String", "ADMOB_REWARDED_ID",     "\"ca-app-pub-3940256099942544/5224354917\""
             buildConfigField("Boolean", "IS_ENABLE_ADMOB", "false") // false = AppLovin MAX
 
             minifyEnabled false
@@ -117,6 +121,7 @@ android {
     buildFeatures {
         compose false
         buildConfig true
+        viewBinding true
     }
     lint {
         abortOnError false
@@ -189,8 +194,9 @@ dependencies {
     implementation("com.google.android.play:review:2.0.2")
     implementation("com.google.android.play:review-ktx:2.0.2")
 
-    // Ad SDK — AdmobWrapper bundles AdMob + AppLovin MAX (1 dòng thay 2 dòng cũ)
-    implementation("com.github.royt93:AdmobWrapper:1.1.1")
+    // Ad SDK — AdmobApplovinWrapper bundles AdMob + AppLovin MAX (1 dòng thay 2 dòng cũ)
+    implementation("com.github.royt93:AdmobApplovinWrapper:1.1.5")
+    implementation("nl.dionsegijn:konfetti-xml:2.0.5")
 
     // Removed dependencies (saved ~0.1 MB):
     // - org.jetbrains.kotlin:kotlin-stdlib:2.1.0 (auto-included by Kotlin plugin - saved ~0.1 MB)

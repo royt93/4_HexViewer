@@ -43,7 +43,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Please wait..."
+        android:text="@string/please_wait"
         android:textColor="?attr/colorOnSurfaceVariant"
         android:textSize="14sp"
         android:gravity="center"

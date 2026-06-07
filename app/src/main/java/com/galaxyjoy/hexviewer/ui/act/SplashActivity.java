@@ -127,6 +127,17 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     private void checkShowAd() {
+        AdManager.INSTANCE.requestConsentInfoUpdate(this, false, canRequestAds -> {
+            if (canRequestAds) {
+                runSplashAdFlow();
+            } else {
+                goToMain();
+            }
+            return null;
+        });
+    }
+
+    private void runSplashAdFlow() {
         AdManager.INSTANCE.initSplashScreen(this, () -> {
             goToMain();
             return null;

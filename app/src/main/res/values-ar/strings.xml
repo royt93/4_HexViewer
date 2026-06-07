@@ -158,4 +158,47 @@
     <!-- OS Storage Bug -->
     <string name="error_system_storage_bug_title">اكتشاف خطأ في أذونات النظام</string>
     <string name="error_system_storage_bug_msg">يمنع مكوّن النظام الوصول إلى هذا الملف.\n\nلإصلاح هذا على جهازك:\n1. افتح الإعدادات > التطبيقات\n2. انتقل إلى \"الوصول الخاص للتطبيقات\" > \"الوصول إلى جميع الملفات\"\n3. اضغط على قائمة الثلاث نقاط > \"إظهار النظام\"\n4. ابحث عن \"وحدة التخزين الخارجية\" (External Storage) وقم بتمكينه.\n5. حاول فتح الملف مرة أخرى.</string>
+
+    <!-- VIP Strings -->
+    <string name="vip_active">عضوية VIP نشطة</string>
+    <string name="vip_free_user">مستخدم مجاني</string>
+    <string name="vip_until">صالح حتى: %1$s</string>
+    <string name="vip_activated_at">تم التفعيل: %1$s</string>
+    <string name="vip_expires_at">تنتهي الصلاحية: %1$s</string>
+    <string name="vip_remaining">%1$d يوم و %2$02d ساعة و %3$02d دقيقة و %4$02d ثانية</string>
+    <string name="vip_redeem_label">أدخل رمز VIP</string>
+    <string name="vip_redeem_hint">مثال: LOITP_30</string>
+    <string name="vip_redeem_button">تفعيل</string>
+    <string name="vip_watch_ad_3d">شاهد إعلانًا ← VIP لمدة 3 أيام</string>
+    <string name="vip_buy_30d_locked">شراء VIP لمدة 30 يومًا - قريبًا</string>
+    <string name="vip_buy_90d_locked">شراء VIP لمدة 90 يومًا - قريبًا</string>
+    <string name="vip_buy_1y_locked">شراء VIP لمدة عام - قريبًا</string>
+    <string name="vip_buy_lifetime_locked">شراء VIP مدى الحياة - قريبًا</string>
+    <string name="vip_restore_locked">استعادة المشتريات - قريبًا</string>
+    <string name="vip_revoke_all_button">إلغاء VIP</string>
+    <string name="vip_revoke_all_confirm_title">تأكيد الإلغاء</string>
+    <string name="vip_revoke_all_confirm_message">هل أنت متأكد أنك تريد إلغاء VIP والعودة إلى الحساب المجاني؟</string>
+    <string name="vip_entry_first_install">🎁 هدية التثبيت الأول</string>
+    <string name="vip_entry_redeemed">VIP %1$d أيام</string>
+    <string name="vip_verifying_title">جاري التحقق…</string>
+    <string name="vip_success_title">نجاح</string>
+    <string name="vip_failed_title">فشل</string>
+    <string name="privacy_policy">سياسة الخصوصية</string>
+    <string name="confirm">تأكيد</string>
+    <string name="ok">موافق</string>
+
+    <!-- Extra VIP Strings -->
+    <string name="vip_premium_packages">باقات بريميوم</string>
+    <string name="vip_revoked_message">تم إلغاء عضوية VIP</string>
+    <string name="vip_success_message">تم تفعيل VIP بنجاح لمدة %1$d يومًا!</string>
+    <string name="vip_failed_message">رمز VIP غير صالح. يرجى المحاولة مرة أخرى.</string>
+    <string name="vip_open_link_error">تعذر فتح الرابط</string>
+    <string name="vip_badge_text">VIP</string>
+
+    <!-- Extra VIP Title & Badge -->
+    <string name="vip_member_title">عضوية VIP</string>
+    <string name="vip_badge_get_vip">الحصول على VIP</string>
+
+    <!-- Extra please wait -->
+    <string name="please_wait">يرجى الانتظار...</string>
 </resources>

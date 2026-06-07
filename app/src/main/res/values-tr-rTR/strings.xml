@@ -158,4 +158,47 @@
     <!-- OS Storage Bug -->
     <string name="error_system_storage_bug_title">Sistem İzin Hatası Tespit Edildi</string>
     <string name="error_system_storage_bug_msg">Sistem bileşeni bu dosyaya erişimi engelliyor.\n\nBunu düzeltmek için:\n1. Ayarlar > Uygulamalar\'ı açın\n2. \"Özel uygulama erişimi\" > \"Tüm dosyalara erişim\"e gidin\n3. 3 noktalı menüye dokunun > \"Sistemi göster\"\n4. \"Harici Depolama\"yı (External Storage) bulun ve etkinleştirin.\n5. Dosyayı tekrar açmayı deneyin.</string>
+
+    <!-- VIP Strings -->
+    <string name="vip_active">VIP Aktif</string>
+    <string name="vip_free_user">Ücretsiz Kullanıcı</string>
+    <string name="vip_until">Son kullanma: %1$s</string>
+    <string name="vip_activated_at">Etkinleştirildi: %1$s</string>
+    <string name="vip_expires_at">Bitiş: %1$s</string>
+    <string name="vip_remaining">%1$dg %2$02ds %3$02dd %4$02ds</string>
+    <string name="vip_redeem_label">VIP Kodu Girin</string>
+    <string name="vip_redeem_hint">örn: LOITP_30</string>
+    <string name="vip_redeem_button">Etkinleştir</string>
+    <string name="vip_watch_ad_3d">Reklam izle → 3 günlük VIP</string>
+    <string name="vip_buy_30d_locked">30 günlük VIP satın al — Yakında</string>
+    <string name="vip_buy_90d_locked">90 günlük VIP satın al — Yakında</string>
+    <string name="vip_buy_1y_locked">1 yıllık VIP satın al — Yakında</string>
+    <string name="vip_buy_lifetime_locked">Ömür boyu VIP satın al — Yakında</string>
+    <string name="vip_restore_locked">Satın alımları geri yükle — Yakında</string>
+    <string name="vip_revoke_all_button">VIP Geri Al</string>
+    <string name="vip_revoke_all_confirm_title">Geri almayı onayla</string>
+    <string name="vip_revoke_all_confirm_message">VIP üyeliği iptal edip ücretsiz hesaba geri dönmek istediğinizden emin misiniz\?</string>
+    <string name="vip_entry_first_install">🎁 İlk Kurulum Hediyesi</string>
+    <string name="vip_entry_redeemed">VIP %1$d Gün</string>
+    <string name="vip_verifying_title">Doğrulanıyor…</string>
+    <string name="vip_success_title">Başarılı</string>
+    <string name="vip_failed_title">Başarısız</string>
+    <string name="privacy_policy">Gizlilik Politikası</string>
+    <string name="confirm">Onayla</string>
+    <string name="ok">Tamam</string>
+
+    <!-- Extra VIP Strings -->
+    <string name="vip_premium_packages">Premium Paketler</string>
+    <string name="vip_revoked_message">VIP iptal edildi</string>
+    <string name="vip_success_message">VIP %1$d günlük başarıyla etkinleştirildi!</string>
+    <string name="vip_failed_message">Geçersiz VIP Kodu. Lütfen tekrar deneyin.</string>
+    <string name="vip_open_link_error">Bağlantı açılamıyor</string>
+    <string name="vip_badge_text">VIP</string>
+
+    <!-- Extra VIP Title & Badge -->
+    <string name="vip_member_title">VIP Üye</string>
+    <string name="vip_badge_get_vip">VIP EDİN</string>
+
+    <!-- Extra please wait -->
+    <string name="please_wait">Lütfen bekleyin...</string>
 </resources>

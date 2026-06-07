@@ -1,163 +1,91 @@
-# 📊 AD SYSTEM — HEXVIEWER
+# 📊 AD SYSTEM — HEXVIEWER MIGRATION PLAN (v1.1.5)
 
-> **SDK:** `com.roy.sdkadbmob` (AdmobWrapper) | **JitPack:** `com.github.royt93:AdmobWrapper:1.1.1` | **Provider:** AppLovin MAX | **minSdk:** 24 | **Cập nhật:** 2026-03-25 | **Build:** ✅ SUCCESSFUL
-
----
-
-## 1. CẤU HÌNH AD IDs
-
-| Loại | Debug | Release |
-|---|---|---|
-| **Provider** | AppLovin MAX | AppLovin MAX |
-| **IS_ENABLE_ADMOB** | `false` | `false` |
-| **AdMob App ID** (Manifest) | `ca-app-pub-3612191981543807~2249113565` | (same) |
-| **AppLovin SDK Key** | `e75FnQfS9XTTqM1Kne69U7PW_MBgAnGQTFvtwVVui6kRPKs5L7ws9twr5IQWwVfzPKZ5pF2IfDa7lguMgGlCyt` | (same) |
-| **AppLovin Banner ID** | `aa53ac5866596140` | (same) |
-| **AppLovin Interstitial ID** | `580476ed6f6e6d5b` | (same) |
-| **AppLovin App Open ID** | `2d9943cb1d30a275` | (same) |
-| **AppLovin Reward ID** | `18d3030a0f4eec4b` | *(không dùng)* |
-
-AdMob IDs vẫn giữ trong `buildConfigFields` (reserve cho trường hợp switch về AdMob sau):
-
-| Loại | Debug (test) | Release |
-|---|---|---|
-| AdMob Banner | `ca-app-pub-3940256099942544/6300978111` | `ca-app-pub-3612191981543807/5282471019` |
-| AdMob Interstitial | `ca-app-pub-3940256099942544/1033173712` | `ca-app-pub-3612191981543807/2777620817` |
-| AdMob App Open | `ca-app-pub-3940256099942544/9257395921` | `ca-app-pub-3612191981543807/4547973843` |
+> **SDK:** `com.roy.sdkadbmob` (AdmobApplovinWrapper) | **JitPack:** `com.github.royt93:AdmobApplovinWrapper:1.1.5` | **Provider:** AppLovin MAX (Fallback AdMob) | **minSdk:** 24 | **Cập nhật:** 2026-06-07 | **Build:** ✅ READY
 
 ---
 
-## 2. TOUCHPOINTS ĐẦY ĐỦ (6 ĐIỂM)
+## 0. BỐI CẢNH (SECTION 0)
 
-| # | Touchpoint | Ad Type | File | Method | Trạng thái |
-|---|---|---|---|---|---|
-| 1 | Splash Screen | App Open | `SplashActivity.java` | `checkShowAd()` | ✅ |
-| 2 | Resume từ Background | App Open | `MyApplication.java` | `registerAppOpenAdLifecycle()` | ✅ |
-| 3 | ActMain | Banner | `ActMain.java` | `setupViews()` | ✅ |
-| 4 | ActRecentlyOpen | Banner | `ActRecentlyOpen.java` | `setupViews()` | ✅ |
-| 5 | Nút "Recently Open" | Interstitial | `ActMain.java` | `onPopupItemClick(actionRecentlyOpen)` | ✅ |
-| 6 | Nút "Settings" | Interstitial | `ActMain.java` | `onPopupItemClick(actionSettings)` | ✅ |
-| 7 | Nút "Hash Calculator" | Interstitial | `ActMain.java` | `buttonHash.setOnClickListener` | ✅ |
-| 8 | Nút "File Info Analyzer" | Interstitial | `ActMain.java` | `buttonFileInfo.setOnClickListener` | ✅ |
-
-> ⚠️ **Không có Reward Ad** trong SDK `AdmobWrapper 1.1.1` — thay thế bằng Interstitial làm Gateway chờ tính nằng.
-
----
-
-## 3. LUỒNG HOẠT ĐỘNG
-
-### App Open — Splash Screen (Touchpoint #1)
-```
-SplashActivity.onCreate()
-  └─ checkShowAd()
-       └─ AdManager.initSplashScreen(activity, onAdLoaded)
-            ├─ Chờ EventBus (SDK init xong)
-            ├─ loadAppOpenAd() → show AppOpenAd
-            ├─ Timeout 8s tối đa → force navigate nếu ad chưa load
-            └─ onAdDismiss → goToMain() → preload App Open kế tiếp
-```
-
-### App Open — Resume từ Background (Touchpoint #2)
-```
-MyApplication.setupAd()
-  └─ AdManager.setConfig(adConfig)   // Main Thread — trước mọi thứ
-  └─ AdManager.earlyInit(this)        // Main Thread — khởi AdSafety session clock sớm
-  └─ AppLovinSdkInitializationConfiguration.builder(APPLOVIN_SDK_KEY)
-       .setMediationProvider(MAX).build()
-  └─ AppLovinSdk.getInstance(this).initialize(initConfig) {
-       └─ AdManager.init(this, adConfig) { success, gaid ->
-            if (success):
-              Handler(Looper.getMainLooper()).post {  // PHẢI Main Thread!
-                AdManager.registerAppOpenAdLifecycle(application)
-                  └─ ProcessLifecycleOwner.addObserver(...)
-                       ├─ onStop()  → recordAppWentBackground() [AdSafety timestamp]
-                       └─ onStart() → canShowAppOpenOnResume()?
-                            ├─ skip: cold start / resume < 5s / SplashActivity
-                            ├─ ad ready → showAppOpenAd() → preload sau dismiss
-                            └─ no ad → loadAppOpenAd() (save for next resume)
-              }
-       }
-  }
-```
-
-### Banner (Touchpoints #3, #4)
-```
-Activity.onCreate() → setupViews()
-  └─ AdManager.loadBanner(this, bannerContainer, tvLabelAd, AdSize.BANNER)
-       ├─ AppLovin: tạo MaxAdView → loadAd() → auto show/hide container
-       └─ Lifecycle:
-            ├─ onResume()  → AdManager.bannerResume(adView)  → startAutoRefresh()
-            ├─ onPause()   → AdManager.bannerPause(adView)   → stopAutoRefresh()
-            └─ onDestroy() → AdManager.bannerDestroy(adView) → null listener → destroy()
-```
-
-### Interstitial (Touchpoints #5, #6, #7)
-```
-ActMain.setupViews() / ActHashCalculator.onCreate()
-  └─ AdManager.loadInterstitial(this) → MaxInterstitialAd.loadAd()
-
-User thao tác (bấm nút / chọn file) → gọi API
-  └─ AdManager.showInterstitial(activity, adShown -> { action() })
-       ├─ AdSafety: session/hourly/daily caps → skip nếu vượt
-       ├─ loading overlay 1s → show MaxInterstitialAd
-       ├─ onAdHidden → callback adShown=true → start activity
-       ├─ not ready  → callback adShown=false → start activity ngay
-       └─ auto-preload sau dismiss
-```
-
----
-
-## 4. MEMORY LEAK ANALYSIS ✅
-
-| Source | Potential Leak | Cách xử lý |
-|---|---|---|
-| `adView` Banner | Activity context nếu không destroy | `bannerDestroy()` null listener trước `destroy()`, `adView = null` ✅ |
-| Interstitial listener | Orphaned callback | `maxInterstitialAd.setListener(null)` + `destroy()` trước khi tạo mới ✅ |
-| App Open Activity ref | `currentActivity` giữ strong ref | SDK dùng `WeakReference<Activity>` + `registerActivityLifecycleCallbacks` tự update ✅ |
-| `splashScope` coroutine | Coroutine leak nếu Activity destroy | SDK dùng `WeakReference(activity)` + check `act.isFinishing` ✅ |
-| `splashTimeoutHandler` | Handler leak | `splashTimeoutHandler.removeCallbacksAndMessages(null)` khi điều hướng ✅ |
-| Loading overlay dialog | Dialog leak nếu Activity destroy | `WeakReference(activity)` + check `isFinishing` trước show ✅ |
-| `ProcessLifecycleOwner` | Không bao giờ leak | Application-level lifecycle, không bind vào Activity ✅ |
-| MaxAppOpenAd | Listener leak khi reload | `setListener(null)` + `maxAppOpenAd = null` trước khi tạo mới ✅ |
-
----
-
-## 5. FILES ĐÃ THAY ĐỔI
-
-| File | Thay đổi |
+| Field | Giá trị |
 |---|---|
-| `settings.gradle` | Thêm `maven { url "https://jitpack.io" }` |
-| `app/build.gradle` | AppLovin IDs + `IS_ENABLE_ADMOB=false` + `AdmobWrapper:1.1.1` + `minSdk 24` |
-| `AndroidManifest.xml` | Thêm `applovin.sdk.key` meta-data |
-| `MyApplication.java` | `setupAd()`: AppLovinSdk init → `AdManager.init()` → `registerAppOpenAdLifecycle()` |
-| `SplashActivity.java` | `AdManager.initSplashScreen()` thay `AdMobManager.initSplashScreen()` |
-| `ActMain.java` | Banner (4 lifecycle) + 2 Interstitial, xóa `InterstitialAdListener` |
-| `ActRecentlyOpen.java` | Banner (4 lifecycle) |
-| `sdkadbmob/UIUtils.kt` | Tái tạo sau khi `AdMobManager.kt` bị xóa (đã có 8 Activities dùng) |
-| `proguard-rules.pro` | AppLovin + AdmobWrapper keep rules |
-| `sdkadbmob/AdMobManager.kt` | **ĐÃ XÓA** ✅ |
+| Project hiện tại (cwd, absolute path) | `/Users/loitran/AndroidStudioProjects/@mckimquyen/@playstore/@prodution/@ad/260405_HexViewer` |
+| Lib reference (absolute path) | `/Users/loitran/AndroidStudioProjects/@mckimquyen/@playstore/@prodution/_AdmobWrapper` |
+| File spec gốc của lib | `/Users/loitran/AndroidStudioProjects/@mckimquyen/@playstore/@prodution/_AdmobWrapper/doc/AD.MD` |
+| Lib coordinate + version | `com.github.royt93:AdmobApplovinWrapper:1.1.5` |
+| Build variant phải xanh (debug) | `assembleDevDebug` |
+| Build variant phải xanh (release) | `assembleProductionRelease` |
+| Provider chính (active runtime) | `AppLovin MAX` |
+| Provider fallback | `AdMob` (chỉ active khi `BuildConfig.IS_ENABLE_ADMOB=true`) |
+| AppLovin SDK key | `e75FnQfS9XTTqM1Kne69U7PW_MBgAnGQTFvtwVVui6kRPKs5L7ws9twr5IQWwVfzPKZ5pF2IfDa7lguMgGlCyt` |
+| AppLovin banner ID | `aa53ac5866596140` |
+| AppLovin interstitial ID | `580476ed6f6e6d5b` |
+| AppLovin app open ID | `2d9943cb1d30a275` |
+| AppLovin rewarded ID | `18d3030a0f4eec4b` |
+| AdMob banner ID (Release) | `ca-app-pub-3612191981543807/5282471019` |
+| AdMob interstitial ID (Release) | `ca-app-pub-3612191981543807/2777620817` |
+| AdMob app open ID (Release) | `ca-app-pub-3612191981543807/4547973843` |
+| AdMob rewarded ID (Release) | `ca-app-pub-3940256099942544/5224354917` (dùng test ID theo yêu cầu) |
+| VIP key 30 ngày (plain) | `9fA0q7eN!27cLx04@21993Y2u0I7#Q0` |
+| VIP key 3 ngày (plain) | `eQ7@93L0f!2Y2707xN04021993u0I#2aK` |
+| Mức che giấu VIP key | Base64 hardcode (AI tự encode plain → Base64 khi compile vào code) |
+| Privacy Policy URL | `https://loitp.notion.site/Term-Privacy-Policy-Disclaimer-319b1cd8783942fa8923d2a3c9bce60f` |
 
 ---
 
-## 6. BUILD STATUS
+## 1. TOUCHPOINT TABLE
 
-```
-BUILD SUCCESSFUL in 9s
-70 actionable tasks: 10 executed, 60 up-to-date
-```
-
-> ✅ Debug build OK. Release build: cần test ProGuard với `assembleProductionRelease`.
+| Slot | File hiện tại | Trigger | API mới | API cũ thay thế |
+|---|---|---|---|---|
+| **Banner** | `ActMain.java`<br>`ActRecentlyOpen.java` | `setupViews()` | `AdManager.loadBanner` | `AdManager.INSTANCE.loadBanner` (cũ) |
+| **Interstitial** | `ActMain.java` | Click nút "Recently Open", "Settings", "Hash Calculator", "File Info Analyzer" | `AdManager.showInterstitial` | `AdManager.INSTANCE.showInterstitial` (cũ) |
+| **App Open** | `SplashActivity.java` + foreground resume | warmup ở splash + `ProcessLifecycleOwner` cho resume | `AdManager.awaitSplashComplete` | `AdManager.INSTANCE.initSplashScreen` (cũ) |
+| **Rewarded** | VIP Screen (`FVipManagement.kt`) | User click nút "Xem quảng cáo → 3 ngày VIP" | `AdManager.loadRewarded` + `showRewarded` | `(chưa có)` |
 
 ---
 
-## 7. ADSAFETY (TỰ ĐỘNG — KHÔNG CẦN CODE THÊM)
+## 2. STEP-BY-STEP MIGRATE PLAN
 
-| # | Guard | Mô tả |
+### Bước 1: Setup Dependencies
+- Cập nhật Gradle: Thay đổi coordinate từ `com.github.royt93:AdmobWrapper:1.1.1` sang `com.github.royt93:AdmobApplovinWrapper:1.1.5` trong [app/build.gradle](file:///Users/loitran/AndroidStudioProjects/@mckimquyen/@playstore/@prodution/@ad/260405_HexViewer/app/build.gradle).
+- Thêm thư viện confetti `nl.dionsegijn:konfetti-xml:2.0.5` cho VIP activation.
+- Đảm bảo `buildFeatures` bật `viewBinding = true`.
+
+### Bước 2: App Init & Consent Flow
+- Trong [MyApplication.java](file:///Users/loitran/AndroidStudioProjects/@mckimquyen/@playstore/@prodution/@ad/260405_HexViewer/app/src/main/java/com/galaxyjoy/hexviewer/MyApplication.java), thay đổi `setupAd()` để sử dụng constructor đầy đủ của `AdSdkConfig` (thêm các tham số rewarded ID, SDK key, vipKeySecret).
+- Đơn giản hóa quá trình khởi tạo sử dụng `AdManager.INSTANCE.initialize(this, (success, gaid) -> ...)` thay cho việc gọi AppLovin SDK initialization thủ công.
+- Trong [SplashActivity.java](file:///Users/loitran/AndroidStudioProjects/@mckimquyen/@playstore/@prodution/@ad/260405_HexViewer/app/src/main/java/com/galaxyjoy/hexviewer/ui/act/SplashActivity.java) (Java):
+  - Gọi `AdManager.INSTANCE.requestConsentInfoUpdate(this, false, canRequestAds -> ...)` tại `onCreate`.
+  - Nếu `canRequestAds == true`, tiếp tục chạy splash flow bằng cách gọi callback `AdManager.INSTANCE.initSplashScreen(this, () -> { goToMain(); return null; })`.
+  - Nếu user từ chối hoặc gặp lỗi, đi thẳng tới `goToMain()`.
+
+### Bước 3: Thiết lập màn hình VIP UI/UX (Fragment)
+- Tạo package `com.galaxyjoy.hexviewer.feature.vip` chứa các file:
+  - `FVipManagement.kt` (Fragment chứa 13 component giao diện và 5 hiệu ứng animation).
+  - `VipKeys.kt` (Xử lý Base64 mã hóa VIP key 3 ngày và 30 ngày).
+  - `VipPrefs.kt` (Lưu trữ thời điểm kích hoạt cục bộ để hiển thị Progress Bar).
+- Tạo layout `f_vip_management.xml` theo tiêu chuẩn Material 3.
+- Bổ sung tài nguyên drawable (`ic_workspace_premium`, `bg_vip_status_header_active`, v.v.) và animation (`slide_in_bottom`).
+- Thêm string resources tiếng Anh (default) vào `values/strings.xml` và tiếng Việt vào `values-vi-rVN/strings.xml`.
+
+### Bước 4: Tích hợp Banner & Lifecycle
+- Trong [ActMain.java](file:///Users/loitran/AndroidStudioProjects/@mckimquyen/@playstore/@prodution/@ad/260405_HexViewer/app/src/main/java/com/galaxyjoy/hexviewer/ui/act/ActMain.java) và [ActRecentlyOpen.java](file:///Users/loitran/AndroidStudioProjects/@mckimquyen/@playstore/@prodution/@ad/260405_HexViewer/app/src/main/java/com/galaxyjoy/hexviewer/ui/act/ActRecentlyOpen.java), loại bỏ việc gọi thủ công `bannerPause`, `bannerResume`, và `bannerDestroy` trong các phương thức lifecycle vì SDK 1.1.5 tự động quản lý qua `autoManageLifecycle = true` (mặc định).
+- Ẩn/hiện container Banner phụ thuộc vào trạng thái VIP: kiểm tra `AdManager.INSTANCE.isVipByKeyActive()` hoặc GAID whitelist.
+
+### Bước 5: Interstitial & Rewarded
+- Giữ nguyên call site Interstitial trong `ActMain.java`.
+- Bổ sung call site Rewarded trong `FVipManagement.kt` cho nút xem quảng cáo nhận 3 ngày VIP.
+
+---
+
+## 3. BẢNG SO SÁNH TRƯỚC / SAU MIGRATION
+
+| Tiêu chí | Trước migration (v1.1.1) | Sau migration (v1.1.5) |
 |---|---|---|
-| 1 | Session minimum | User phải ở app ≥ 10s trước impression đầu tiên |
-| 2 | Session cap | Tối đa 6 fullscreen/lần mở |
-| 3 | Hourly cap | Tối đa 3 fullscreen/giờ |
-| 4 | Daily cap | Tối đa 5 fullscreen/ngày |
-| 5 | Throttle | Cách nhau ≥ 60s giữa 2 fullscreen |
-| 6 | CTR Anomaly | CTR > 10% → flag suspicious |
-| 7 | Resume cooldown | App Open skip nếu resume < 5s hoặc cold start |
+| **Provider** | AppLovin MAX (AdMob fallback) | AppLovin MAX (AdMob fallback) |
+| **SDK Dependency** | `AdmobWrapper:1.1.1` | `AdmobApplovinWrapper:1.1.5` |
+| **UMP Consent (GDPR)** | Chưa tích hợp | Tích hợp hoàn toàn ở Splash screen |
+| **VIP Feature** | Không hỗ trợ | VIP bằng Key, Whitelist GAID, Auto 1-day Trial |
+| **Banner Lifecycle** | Gọi manual ở Activity | Auto-managed bằng SDK lifecycle tracker |
+| **Rewarded Ad** | Chưa hỗ trợ | Xem ad nhận 3 ngày VIP |
+| **Dialog Style** | AppCompat Dialog | Material You Dialog (Material 3) |
+| **Ad Safety Guard** | Base config | `AdSafetyLimits` linh hoạt (Debug vs Release) |

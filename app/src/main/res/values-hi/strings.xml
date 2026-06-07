@@ -158,4 +158,47 @@
     <!-- OS Storage Bug -->
     <string name="error_system_storage_bug_title">सिस्टम अनुमति त्रुटि</string>
     <string name="error_system_storage_bug_msg">सिस्टम घटक इस फ़ाइल तक पहुंच को अवरुद्ध कर रहा है।\n\nइसे ठीक करने के लिए:\n1. सेटिंग > ऐप्स खोलें\n2. \"विशेष ऐप एक्सेस\" > \"सभी फ़ाइल एक्सेस\" पर जाएं\n3. 3-डॉट मेनू पर टैप करें > \"सिस्टम दिखाएं\"\n4. \"एक्सटर्नल स्टोरेज\" (External Storage) ढूंढें और इसे सक्षम करें।\n5. फ़ाइल को पुनः खोलने का प्रयास करें।</string>
+
+    <!-- VIP Strings -->
+    <string name="vip_active">वीआईपी सक्रिय</string>
+    <string name="vip_free_user">मुफ़्त उपयोगकर्ता</string>
+    <string name="vip_until">वैधता: %1$s तक</string>
+    <string name="vip_activated_at">सक्रिय हुआ: %1$s</string>
+    <string name="vip_expires_at">समाप्ति: %1$s</string>
+    <string name="vip_remaining">%1$d दिन %2$02d घंटे %3$02d मिनट %4$02d सेकंड</string>
+    <string name="vip_redeem_label">वीआईपी कुंजी दर्ज करें</string>
+    <string name="vip_redeem_hint">जैसे LOITP_30</string>
+    <string name="vip_redeem_button">सक्रिय करें</string>
+    <string name="vip_watch_ad_3d">विज्ञापन देखें → 3 दिन वीआईपी</string>
+    <string name="vip_buy_30d_locked">30 दिन का वीआईपी खरीदें — जल्द ही आ रहा है</string>
+    <string name="vip_buy_90d_locked">90 दिन का वीआईपी खरीदें — जल्द ही आ रहा है</string>
+    <string name="vip_buy_1y_locked">1 साल का वीआईपी खरीदें — जल्द ही आ रहा है</string>
+    <string name="vip_buy_lifetime_locked">लाइफटाइम वीआईपी खरीदें — जल्द ही आ रहा है</string>
+    <string name="vip_restore_locked">खरीदारी पुनर्स्थापित करें — जल्द ही आ रहा है</string>
+    <string name="vip_revoke_all_button">वीआईपी वापस लें</string>
+    <string name="vip_revoke_all_confirm_title">पुष्टि करें</string>
+    <string name="vip_revoke_all_confirm_message">क्या आप वाकई वीआईपी वापस लेना चाहते हैं और मुफ़्त खाते पर जाना चाहते हैं\?</string>
+    <string name="vip_entry_first_install">🎁 पहली बार इंस्टॉल करने का उपहार</string>
+    <string name="vip_entry_redeemed">वीआईपी %1$d दिन</string>
+    <string name="vip_verifying_title">सत्यापन हो रहा है…</string>
+    <string name="vip_success_title">सफल</string>
+    <string name="vip_failed_title">अफल</string>
+    <string name="privacy_policy">गोपनीयता नीति</string>
+    <string name="confirm">पुष्टि करें</string>
+    <string name="ok">ठीक है</string>
+
+    <!-- Extra VIP Strings -->
+    <string name="vip_premium_packages">प्रीमियम पैकेज</string>
+    <string name="vip_revoked_message">वीआईपी वापस ले लिया गया</string>
+    <string name="vip_success_message">सफलतापूर्वक %1$d दिनों के लिए वीआईपी सक्रिय किया गया!</string>
+    <string name="vip_failed_message">अमान्य वीआईपी कुंजी। कृपया पुनः प्रयास करें।</string>
+    <string name="vip_open_link_error">लिंक खोलने में असमर्थ</string>
+    <string name="vip_badge_text">VIP</string>
+
+    <!-- Extra VIP Title & Badge -->
+    <string name="vip_member_title">वीआईपी सदस्य</string>
+    <string name="vip_badge_get_vip">वीआईपी प्राप्त करें</string>
+
+    <!-- Extra please wait -->
+    <string name="please_wait">कृपया प्रतीक्षा करें...</string>
 </resources>

@@ -158,4 +158,47 @@
     <!-- OS Storage Bug -->
     <string name="error_system_storage_bug_title">检测到系统权限错误</string>
     <string name="error_system_storage_bug_msg">系统组件正在阻止访问此文件。\n\n要解决此问题：\n1. 打开“设置”>“应用”\n2. 转到“特殊应用权限”>“所有文件访问权限”\n3. 点击右上角的三点菜单 >“显示系统”\n4. 找到“外部存储”(External Storage)并启用它。\n5. 尝试重新打开文件。</string>
+
+    <!-- VIP Strings -->
+    <string name="vip_active">VIP已激活</string>
+    <string name="vip_free_user">免费用户</string>
+    <string name="vip_until">至：%1$s</string>
+    <string name="vip_activated_at">激活于：%1$s</string>
+    <string name="vip_expires_at">过期于：%1$s</string>
+    <string name="vip_remaining">%1$d天 %2$02d小时 %3$02d分 %4$02d秒</string>
+    <string name="vip_redeem_label">输入 VIP 激活码</string>
+    <string name="vip_redeem_hint">例如: LOITP_30</string>
+    <string name="vip_redeem_button">激活</string>
+    <string name="vip_watch_ad_3d">观看广告 → 3天VIP</string>
+    <string name="vip_buy_30d_locked">购买30天VIP — 即将推出</string>
+    <string name="vip_buy_90d_locked">购买90天VIP — 即将推出</string>
+    <string name="vip_buy_1y_locked">购买1年VIP — 即将推出</string>
+    <string name="vip_buy_lifetime_locked">购买永久VIP — 即将推出</string>
+    <string name="vip_restore_locked">恢复购买 — 即将推出</string>
+    <string name="vip_revoke_all_button">撤销 VIP</string>
+    <string name="vip_revoke_all_confirm_title">确认撤销</string>
+    <string name="vip_revoke_all_confirm_message">您确定要撤销 VIP 并返回免费账户吗？</string>
+    <string name="vip_entry_first_install">🎁 首入礼包</string>
+    <string name="vip_entry_redeemed">VIP %1$d 天</string>
+    <string name="vip_verifying_title">验证中…</string>
+    <string name="vip_success_title">成功</string>
+    <string name="vip_failed_title">失败</string>
+    <string name="privacy_policy">隐私政策</string>
+    <string name="confirm">确认</string>
+    <string name="ok">确定</string>
+
+    <!-- Extra VIP Strings -->
+    <string name="vip_premium_packages">优质套餐</string>
+    <string name="vip_revoked_message">VIP已撤销</string>
+    <string name="vip_success_message">成功激活 VIP %1$d 天！</string>
+    <string name="vip_failed_message">VIP 激活码无效。请重试。</string>
+    <string name="vip_open_link_error">无法打开链接</string>
+    <string name="vip_badge_text">VIP</string>
+
+    <!-- Extra VIP Title & Badge -->
+    <string name="vip_member_title">VIP 会员</string>
+    <string name="vip_badge_get_vip">获取 VIP</string>
+
+    <!-- Extra please wait -->
+    <string name="please_wait">请稍候...</string>
 </resources>

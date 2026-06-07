@@ -158,4 +158,47 @@
     <!-- OS Storage Bug -->
     <string name="error_system_storage_bug_title">Systemberechtigungsfehler erkannt</string>
     <string name="error_system_storage_bug_msg">Die Systemkomponente blockiert den Zugriff auf diese Datei.\n\nUm dies zu beheben:\n1. Einstellungen > Apps öffnen\n2. Gehen Sie zu \"Spezieller App-Zugriff\" > \"Zugriff auf alle Dateien\"\n3. Tippen Sie auf das 3-Punkte-Menü > \"System anzeigen\"\n4. Suchen Sie nach \"Externer Speicher\" (External Storage) und aktivieren Sie ihn.\n5. Versuchen Sie erneut, die Datei zu öffnen.</string>
+
+    <!-- VIP Strings -->
+    <string name="vip_active">VIP Aktiv</string>
+    <string name="vip_free_user">Freier Benutzer</string>
+    <string name="vip_until">Gültig bis: %1$s</string>
+    <string name="vip_activated_at">Aktiviert am: %1$s</string>
+    <string name="vip_expires_at">Läuft ab am: %1$s</string>
+    <string name="vip_remaining">%1$dd %2$02dh %3$02dm %4$02ds</string>
+    <string name="vip_redeem_label">VIP-Schlüssel eingeben</string>
+    <string name="vip_redeem_hint">z.B. LOITP_30</string>
+    <string name="vip_redeem_button">Aktivieren</string>
+    <string name="vip_watch_ad_3d">Anzeige ansehen → 3 Tage VIP</string>
+    <string name="vip_buy_30d_locked">30 Tage VIP kaufen — Demnächst</string>
+    <string name="vip_buy_90d_locked">90 Tage VIP kaufen — Demnächst</string>
+    <string name="vip_buy_1y_locked">1 Jahr VIP kaufen — Demnächst</string>
+    <string name="vip_buy_lifetime_locked">Lebenslanges VIP kaufen — Demnächst</string>
+    <string name="vip_restore_locked">Kauf wiederherstellen — Demnächst</string>
+    <string name="vip_revoke_all_button">VIP entziehen</string>
+    <string name="vip_revoke_all_confirm_title">Entzug bestätigen</string>
+    <string name="vip_revoke_all_confirm_message">Sind Sie sicher, dass Sie VIP entziehen und zu einem kostenlosen Konto zurückkehren möchten\?</string>
+    <string name="vip_entry_first_install">🎁 Geschenk zur Erstinstallation</string>
+    <string name="vip_entry_redeemed">VIP %1$d Tage</string>
+    <string name="vip_verifying_title">Überprüfen…</string>
+    <string name="vip_success_title">Erfolgreich</string>
+    <string name="vip_failed_title">Fehlgeschlagen</string>
+    <string name="privacy_policy">Datenschutzerklärung</string>
+    <string name="confirm">Bestätigen</string>
+    <string name="ok">OK</string>
+
+    <!-- Extra VIP Strings -->
+    <string name="vip_premium_packages">Premium-Pakete</string>
+    <string name="vip_revoked_message">VIP entzogen</string>
+    <string name="vip_success_message">VIP erfolgreich für %1$d Tage aktiviert!</string>
+    <string name="vip_failed_message">Ungültiger VIP-Schlüssel. Bitte versuchen Sie es erneut.</string>
+    <string name="vip_open_link_error">Link kann nicht geöffnet werden</string>
+    <string name="vip_badge_text">VIP</string>
+
+    <!-- Extra VIP Title & Badge -->
+    <string name="vip_member_title">VIP-Mitglied</string>
+    <string name="vip_badge_get_vip">VIP HOLEN</string>
+
+    <!-- Extra please wait -->
+    <string name="please_wait">Bitte warten...</string>
 </resources>

@@ -15,6 +15,11 @@
         android:title="@null"
         app:showAsAction="always" />
     <item
+        android:id="@+id/menuActionVip"
+        android:title="VIP"
+        app:actionLayout="@layout/layout_toolbar_vip"
+        app:showAsAction="always" />
+    <item
         android:id="@+id/menuActionMore"
         android:icon="@drawable/ic_more"
         android:title="@null"

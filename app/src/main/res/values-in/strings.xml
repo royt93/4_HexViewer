@@ -158,4 +158,47 @@
     <!-- OS Storage Bug -->
     <string name="error_system_storage_bug_title">Kesalahan Izin Sistem Terdeteksi</string>
     <string name="error_system_storage_bug_msg">Komponen sistem memblokir akses ke file ini.\n\nUntuk memperbaiki ini:\n1. Buka Pengaturan > Aplikasi\n2. Buka \"Akses aplikasi khusus\" > \"Akses semua file\"\n3. Ketuk menu 3 titik > \"Tampilkan sistem\"\n4. Temukan \"Penyimpanan Eksternal\" (External Storage) dan aktifkan.\n5. Coba buka file lagi.</string>
+
+    <!-- VIP Strings -->
+    <string name="vip_active">VIP Aktif</string>
+    <string name="vip_free_user">Pengguna Gratis</string>
+    <string name="vip_until">Hingga: %1$s</string>
+    <string name="vip_activated_at">Diaktifkan: %1$s</string>
+    <string name="vip_expires_at">Kedaluwarsa: %1$s</string>
+    <string name="vip_remaining">%1$dh %2$02djam %3$02dmenit %4$02ddetit</string>
+    <string name="vip_redeem_label">Masukkan Kunci VIP</string>
+    <string name="vip_redeem_hint">misal: LOITP_30</string>
+    <string name="vip_redeem_button">Aktifkan</string>
+    <string name="vip_watch_ad_3d">Tonton iklan → 3 hari VIP</string>
+    <string name="vip_buy_30d_locked">Beli VIP 30 hari — Segera Hadir</string>
+    <string name="vip_buy_90d_locked">Beli VIP 90 hari — Segera Hadir</string>
+    <string name="vip_buy_1y_locked">Beli VIP 1 tahun — Segera Hadir</string>
+    <string name="vip_buy_lifetime_locked">Beli VIP Selamanya — Segera Hadir</string>
+    <string name="vip_restore_locked">Pulihkan Pembelian — Segera Hadir</string>
+    <string name="vip_revoke_all_button">Cabut VIP</string>
+    <string name="vip_revoke_all_confirm_title">Konfirmasi Pencabutan</string>
+    <string name="vip_revoke_all_confirm_message">Apakah Anda yakin ingin mencabut VIP dan kembali ke akun Gratis\?</string>
+    <string name="vip_entry_first_install">🎁 Hadiah Pemasangan Pertama</string>
+    <string name="vip_entry_redeemed">VIP %1$d Hari</string>
+    <string name="vip_verifying_title">Memverifikasi…</string>
+    <string name="vip_success_title">Berhasil</string>
+    <string name="vip_failed_title">Gagal</string>
+    <string name="privacy_policy">Kebijakan Privasi</string>
+    <string name="confirm">Konfirmasi</string>
+    <string name="ok">OK</string>
+
+    <!-- Extra VIP Strings -->
+    <string name="vip_premium_packages">Paket Premium</string>
+    <string name="vip_revoked_message">VIP dicabut</string>
+    <string name="vip_success_message">VIP berhasil diaktifkan selama %1$d hari!</string>
+    <string name="vip_failed_message">Kunci VIP tidak valid. Silakan coba lagi.</string>
+    <string name="vip_open_link_error">Gagal membuka tautan</string>
+    <string name="vip_badge_text">VIP</string>
+
+    <!-- Extra VIP Title & Badge -->
+    <string name="vip_member_title">Anggota VIP</string>
+    <string name="vip_badge_get_vip">DAPATKAN VIP</string>
+
+    <!-- Extra please wait -->
+    <string name="please_wait">Mohon tunggu...</string>
 </resources>

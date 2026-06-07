@@ -158,4 +158,47 @@
     <!-- OS Storage Bug -->
     <string name="error_system_storage_bug_title">Systeemrechtenfout gedetecteerd</string>
     <string name="error_system_storage_bug_msg">De systeemcomponent blokkeert de toegang tot dit bestand.\n\nOm dit op te lossen:\n1. Open Instellingen > Apps\n2. Ga naar \"Speciale app-toegang\" > \"Toegang tot alle bestanden\"\n3. Tik op het menu met 3 stippen > \"Systeem weergeven\"\n4. Zoek \"Externe opslag\" (External Storage) en schakel dit in.\n5. Probeer het bestand opnieuw te openen.</string>
+
+    <!-- VIP Strings -->
+    <string name="vip_active">VIP Actief</string>
+    <string name="vip_free_user">Gratis gebruiker</string>
+    <string name="vip_until">Vervalt op: %1$s</string>
+    <string name="vip_activated_at">Geactiveerd: %1$s</string>
+    <string name="vip_expires_at">Vervalt: %1$s</string>
+    <string name="vip_remaining">%1$dd %2$02du %3$02dm %4$02ds</string>
+    <string name="vip_redeem_label">VIP-sleutel invoeren</string>
+    <string name="vip_redeem_hint">bijv. LOITP_30</string>
+    <string name="vip_redeem_button">Activeren</string>
+    <string name="vip_watch_ad_3d">Advertentie bekijken → 3 dagen VIP</string>
+    <string name="vip_buy_30d_locked">Koop 30-dagen VIP — Binnenkort beschikbaar</string>
+    <string name="vip_buy_90d_locked">Koop 90-dagen VIP — Binnenkort beschikbaar</string>
+    <string name="vip_buy_1y_locked">Koop 1-jaar VIP — Binnenkort beschikbaar</string>
+    <string name="vip_buy_lifetime_locked">Koop Levenslang VIP — Binnenkort beschikbaar</string>
+    <string name="vip_restore_locked">Aankoop herstellen — Binnenkort beschikbaar</string>
+    <string name="vip_revoke_all_button">VIP intrekken</string>
+    <string name="vip_revoke_all_confirm_title">Intrekking bevestigen</string>
+    <string name="vip_revoke_all_confirm_message">Weet je zeker dat je VIP wilt intrekken en wilt terugkeren naar een gratis account\?</string>
+    <string name="vip_entry_first_install">🎁 Eerste installatie cadeau</string>
+    <string name="vip_entry_redeemed">VIP %1$d dagen</string>
+    <string name="vip_verifying_title">Verifiëren…</string>
+    <string name="vip_success_title">Succes</string>
+    <string name="vip_failed_title">Mislukt</string>
+    <string name="privacy_policy">Privacybeleid</string>
+    <string name="confirm">Bevestigen</string>
+    <string name="ok">OK</string>
+
+    <!-- Extra VIP Strings -->
+    <string name="vip_premium_packages">Premium-pakketten</string>
+    <string name="vip_revoked_message">VIP ingetrokken</string>
+    <string name="vip_success_message">VIP succesvol geactiveerd voor %1$d dagen!</string>
+    <string name="vip_failed_message">Ongeldige VIP-sleutel. Probeer het opnieuw.</string>
+    <string name="vip_open_link_error">Kan link niet openen</string>
+    <string name="vip_badge_text">VIP</string>
+
+    <!-- Extra VIP Title & Badge -->
+    <string name="vip_member_title">VIP-lid</string>
+    <string name="vip_badge_get_vip">VIP KRIJGEN</string>
+
+    <!-- Extra please wait -->
+    <string name="please_wait">Even geduld a.u.b....</string>
 </resources>

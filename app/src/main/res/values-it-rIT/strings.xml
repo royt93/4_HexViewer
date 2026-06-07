@@ -158,4 +158,47 @@
     <!-- OS Storage Bug -->
     <string name="error_system_storage_bug_title">Errore permessi di sistema</string>
     <string name="error_system_storage_bug_msg">Il componente di sistema blocca l\'accesso a questo file.\n\nPer risolvere il problema:\n1. Apri Impostazioni > App\n2. Vai su \"Accesso speciale alle app\" > \"Accesso a tutti i file\"\n3. Tocca il menu a 3 punti > \"Mostra sistema\"\n4. Trova \"Memoria esterna\" (External Storage) e attivalo.\n5. Prova a riaprire il file.</string>
+
+    <!-- VIP Strings -->
+    <string name="vip_active">VIP Attivo</string>
+    <string name="vip_free_user">Utente gratuito</string>
+    <string name="vip_until">Fino al: %1$s</string>
+    <string name="vip_activated_at">Attivato il: %1$s</string>
+    <string name="vip_expires_at">Scade il: %1$s</string>
+    <string name="vip_remaining">%1$dg %2$02dor %3$02dmin %4$02dsec</string>
+    <string name="vip_redeem_label">Inserisci codice VIP</string>
+    <string name="vip_redeem_hint">es. LOITP_30</string>
+    <string name="vip_redeem_button">Attiva</string>
+    <string name="vip_watch_ad_3d">Guarda un annuncio → 3 giorni VIP</string>
+    <string name="vip_buy_30d_locked">Acquista VIP 30 giorni — Prossimamente</string>
+    <string name="vip_buy_90d_locked">Acquista VIP 90 giorni — Prossimamente</string>
+    <string name="vip_buy_1y_locked">Acquista VIP 1 anno — Prossimamente</string>
+    <string name="vip_buy_lifetime_locked">Acquista VIP a vita — Prossimamente</string>
+    <string name="vip_restore_locked">Ripristina acquisti — Prossimamente</string>
+    <string name="vip_revoke_all_button">Revoca VIP</string>
+    <string name="vip_revoke_all_confirm_title">Conferma revoca</string>
+    <string name="vip_revoke_all_confirm_message">Sei sicuro di voler revocare il VIP e tornare a un account gratuito\?</string>
+    <string name="vip_entry_first_install">🎁 Regalo prima installazione</string>
+    <string name="vip_entry_redeemed">VIP %1$d giorni</string>
+    <string name="vip_verifying_title">Verifica in corso…</string>
+    <string name="vip_success_title">Successo</string>
+    <string name="vip_failed_title">Fallito</string>
+    <string name="privacy_policy">Informativa sulla privacy</string>
+    <string name="confirm">Conferma</string>
+    <string name="ok">OK</string>
+
+    <!-- Extra VIP Strings -->
+    <string name="vip_premium_packages">Pacchetti Premium</string>
+    <string name="vip_revoked_message">VIP revocato</string>
+    <string name="vip_success_message">VIP attivato con successo per %1$d giorni!</string>
+    <string name="vip_failed_message">Codice VIP non valido. Riprova.</string>
+    <string name="vip_open_link_error">Impossibile aprire il link</string>
+    <string name="vip_badge_text">VIP</string>
+
+    <!-- Extra VIP Title & Badge -->
+    <string name="vip_member_title">Membro VIP</string>
+    <string name="vip_badge_get_vip">OTTIENI VIP</string>
+
+    <!-- Extra please wait -->
+    <string name="please_wait">Attendere prego...</string>
 </resources>

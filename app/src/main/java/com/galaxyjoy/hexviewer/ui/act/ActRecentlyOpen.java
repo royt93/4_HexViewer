@@ -118,30 +118,26 @@ public class ActRecentlyOpen extends BaseActivity implements AdtRecentlyOpenRecy
 
         setTitle(getString(R.string.action_recently_open_title));
 
-        adView = AdManager.INSTANCE.loadBanner(
-                this,
-                (android.view.ViewGroup) findViewById(R.id.bannerContainer),
-                (android.widget.TextView) findViewById(R.id.tvLabelAd),
-                AdSize.BANNER
-        );
+        refreshBannerState();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        AdManager.INSTANCE.bannerResume(adView);
+        refreshBannerState();
     }
 
     @Override
     protected void onPause() {
-        AdManager.INSTANCE.bannerPause(adView);
         super.onPause();
     }
 
     @Override
     protected void onDestroy() {
-        AdManager.INSTANCE.bannerDestroy(adView);
-        adView = null;
+        if (adView != null) {
+            AdManager.INSTANCE.bannerDestroy(adView);
+            adView = null;
+        }
         super.onDestroy();
     }
 
@@ -170,6 +166,30 @@ public class ActRecentlyOpen extends BaseActivity implements AdtRecentlyOpenRecy
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void refreshBannerState() {
+        boolean isVip = AdManager.INSTANCE.isVipByKeyActive();
+        View adContainer = findViewById(R.id.layoutAdBanner);
+        if (adContainer != null) {
+            adContainer.setVisibility(isVip ? View.GONE : View.VISIBLE);
+        }
+        if (isVip) {
+            if (adView != null) {
+                AdManager.INSTANCE.bannerDestroy(adView);
+                adView = null;
+            }
+        } else {
+            if (adView == null) {
+                adView = AdManager.INSTANCE.loadBanner(
+                        this,
+                        (android.view.ViewGroup) findViewById(R.id.bannerContainer),
+                        (android.widget.TextView) findViewById(R.id.tvLabelAd),
+                        AdManager.INSTANCE.getAdaptiveBannerSize(this),
+                        true
+                );
+            }
+        }
     }
 
     /**
