@@ -266,23 +266,29 @@ public class LineUpdateTextWatcher implements TextWatcher {
 
     @NonNull
     public static String normalizeForEmoji(CharSequence charSequence) {
-        if (charSequence.length() == 0)
+        if (charSequence == null || charSequence.length() == 0)
             return "";
-        CharSequence processed = EmojiCompat.get().process(charSequence, 0, charSequence.length() - 1, Integer.MAX_VALUE, EmojiCompat.REPLACE_STRATEGY_ALL);
-        if (processed instanceof Spannable) {
-            Spannable spannable = (Spannable) processed;
-            EmojiSpan[] emojiSpans = spannable.getSpans(0, spannable.length() - 1, EmojiSpan.class);
-            StringBuilder sb = new StringBuilder();
-            int oldStart = 0;
-            for (EmojiSpan emojiSpan : emojiSpans) {
-                int spanEnd = spannable.getSpanEnd(emojiSpan);
-                sb.append(spannable.subSequence(oldStart, spanEnd));
-                oldStart = spanEnd;
+        try {
+            if (EmojiCompat.get().getLoadState() == EmojiCompat.LOAD_STATE_SUCCEEDED) {
+                CharSequence processed = EmojiCompat.get().process(charSequence, 0, charSequence.length() - 1, Integer.MAX_VALUE, EmojiCompat.REPLACE_STRATEGY_ALL);
+                if (processed instanceof Spannable) {
+                    Spannable spannable = (Spannable) processed;
+                    EmojiSpan[] emojiSpans = spannable.getSpans(0, spannable.length() - 1, EmojiSpan.class);
+                    StringBuilder sb = new StringBuilder();
+                    int oldStart = 0;
+                    for (EmojiSpan emojiSpan : emojiSpans) {
+                        int spanEnd = spannable.getSpanEnd(emojiSpan);
+                        sb.append(spannable.subSequence(oldStart, spanEnd));
+                        oldStart = spanEnd;
+                    }
+                    int len = charSequence.length();
+                    if (oldStart != len - emojiSpans.length)
+                        sb.append(spannable.subSequence(oldStart, len));
+                    return sb.toString();
+                }
             }
-            int len = charSequence.length();
-            if (oldStart != len - emojiSpans.length)
-                sb.append(spannable.subSequence(oldStart, len));
-            return sb.toString();
+        } catch (Throwable ignored) {
+            // Fallback in case EmojiCompat is not configured or not loaded yet
         }
         return charSequence.toString();
     }
