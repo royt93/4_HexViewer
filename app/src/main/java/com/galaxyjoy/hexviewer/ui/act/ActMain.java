@@ -684,9 +684,6 @@ public class ActMain extends ActAbstractBaseMain implements AdapterView.OnItemCl
     private void startPillAnimation(android.view.View pillView) {
         if (pillView == null) return;
         stopPillAnimation();
-        if (com.roy.sdkadbmob.AdManager.INSTANCE.isVipByKeyActive()) {
-            return;
-        }
         mPillAnimator = android.animation.ObjectAnimator.ofPropertyValuesHolder(
             pillView,
             android.animation.PropertyValuesHolder.ofFloat(android.view.View.SCALE_X, 1.0f, 1.06f),
