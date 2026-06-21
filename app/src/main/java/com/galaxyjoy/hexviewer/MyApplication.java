@@ -162,6 +162,8 @@ public class MyApplication extends Application {
         if (tag != null) head += "(" + tag + ") -> ";
         ctx.getLogBuffer().add(head + msg);
         ctx.mLock.unlock();
+        // Also emit to logcat so "roy93~" tag can be filtered in Android Studio / adb logcat
+        Log.d("roy93~", (tag != null ? "[" + tag + "] " : "") + msg);
     }
 
     /**

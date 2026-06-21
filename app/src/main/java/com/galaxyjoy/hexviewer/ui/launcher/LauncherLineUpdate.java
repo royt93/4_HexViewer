@@ -53,6 +53,10 @@ public class LauncherLineUpdate {
                               final int nbLines,
                               final int shiftOffset,
                               final long startRow) {
+        MyApplication.addLog(mActivity, "LauncherLineUpdate", "startActivity | textsLen="
+                + (texts != null ? texts.length : "null")
+                + " | position=" + position + " | nbLines=" + nbLines
+                + " | shiftOffset=" + shiftOffset + " | startRow=" + startRow);
         ActLineUpdate.sBridgeTexts = texts;
         Intent intent = new Intent(mActivity, ActLineUpdate.class);
         if (texts != null && texts.length < 50000) {
@@ -72,6 +76,9 @@ public class LauncherLineUpdate {
         Bundle bundle = data.getExtras();
         String refString = ActLineUpdate.sBridgeResultReferenceString;
         String newString = ActLineUpdate.sBridgeResultNewString;
+        MyApplication.addLog(mActivity, "LauncherLineUpdate", "processIntentData | bridgeRef="
+                + (refString != null ? "len=" + refString.length() : "null")
+                + " | bridgeNew=" + (newString != null ? "len=" + newString.length() : "null"));
 
         if (refString == null && bundle != null) {
             refString = bundle.getString(ActLineUpdate.RESULT_REFERENCE_STRING);
@@ -151,6 +158,8 @@ public class LauncherLineUpdate {
         activityResultLauncherLineUpdate = mActivity.registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
                 result -> {
+                    MyApplication.addLog(mActivity, "LauncherLineUpdate", "result | code=" + result.getResultCode()
+                            + " | hasData=" + (result.getData() != null));
                     if (result.getResultCode() == Activity.RESULT_OK) {
                         Intent data = result.getData();
                         if (data != null) {

@@ -172,6 +172,10 @@ public class ActMain extends ActAbstractBaseMain implements AdapterView.OnItemCl
     @Override
     public void onResume() {
         super.onResume();
+        MyApplication.addLog(this, "ActMain", "onResume | file=" + (mFileData == null ? "null" : mFileData.getName())
+                + " | isChanged=" + (mUnDoRedo != null && mUnDoRedo.isChanged())
+                + " | hexVisible=" + (mPayloadHexHelper != null && mPayloadHexHelper.isVisible())
+                + " | plainVisible=" + (mPayloadPlainSwipe != null && mPayloadPlainSwipe.isVisible()));
         refreshBannerState();
         updateVipBadge(mVipBadgeContainer, mImgVipIcon, mTvVipLabel);
         startPillAnimation(mVipBadgeContainer);
@@ -191,7 +195,22 @@ public class ActMain extends ActAbstractBaseMain implements AdapterView.OnItemCl
     }
 
     @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        MyApplication.addLog(this, "ActMain", "onSaveInstanceState | file=" + (mFileData == null ? "null" : mFileData.getName())
+                + " | isChanged=" + (mUnDoRedo != null && mUnDoRedo.isChanged()));
+    }
+
+    @Override
+    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        MyApplication.addLog(this, "ActMain", "onRestoreInstanceState called");
+    }
+
+    @Override
     protected void onPause() {
+        MyApplication.addLog(this, "ActMain", "onPause | file=" + (mFileData == null ? "null" : mFileData.getName())
+                + " | isChanged=" + (mUnDoRedo != null && mUnDoRedo.isChanged()));
         stopPillAnimation();
         // FIX: Pause AdView (WebView-based) rendering timers to stop the draw loop
         // that triggers setRequestedFrameRate → Debug.getCallers → OOM on Android 14+
@@ -464,6 +483,8 @@ public class ActMain extends ActAbstractBaseMain implements AdapterView.OnItemCl
      */
     @Override
     public void onOpenResult(boolean success, boolean fromOpen) {
+        MyApplication.addLog(this, "ActMain", "onOpenResult | success=" + success + " | fromOpen=" + fromOpen
+                + " | file=" + (mFileData == null ? "null" : mFileData.getName()));
         setMenuVisible(mSearchMenu, success);
         boolean checked = mPopup != null && mPopup.getPlainText() != null && mPopup.getPlainText().setEnable(success);
         if (!FileData.isEmpty(mFileData) && mFileData.isOpenFromAppIntent()) {
@@ -977,7 +998,13 @@ public class ActMain extends ActAbstractBaseMain implements AdapterView.OnItemCl
     @Override
     public void onTrimMemory(int level) {
         super.onTrimMemory(level);
-        if (level >= TRIM_MEMORY_RUNNING_CRITICAL) {
+        MyApplication.addLog(this, "ActMain", "onTrimMemory | level=" + level
+                + " | TRIM_MEMORY_UI_HIDDEN=20 | TRIM_MEMORY_COMPLETE=80"
+                + " | file=" + (mFileData == null ? "null" : mFileData.getName()));
+        // BUG FIX: dùng >= TRIM_MEMORY_COMPLETE (80) thay vì >= TRIM_MEMORY_RUNNING_CRITICAL (15).
+        // TRIM_MEMORY_UI_HIDDEN = 20 luôn được gọi khi app vào background bình thường (>= 15),
+        // khiến mFileData bị xóa dù không hết memory → mất state chỉnh sửa.
+        if (level >= TRIM_MEMORY_COMPLETE) {
             // Heap gần cạn kiệt — giải phóng dữ liệu adapter ngay lập tức
             // để main thread có đủ memory cho MediaTek BoostFwk hoạt động
             if (mPayloadHexHelper != null && mPayloadHexHelper.getAdapter() != null) {

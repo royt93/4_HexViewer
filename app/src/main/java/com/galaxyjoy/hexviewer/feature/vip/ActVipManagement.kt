@@ -23,6 +23,7 @@ import android.view.animation.DecelerateInterpolator
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.galaxyjoy.hexviewer.BuildConfig
+import com.galaxyjoy.hexviewer.MyApplication
 import com.galaxyjoy.hexviewer.R
 import com.galaxyjoy.hexviewer.databinding.FVipManagementBinding
 import com.galaxyjoy.hexviewer.ui.util.NetworkUtils
@@ -79,6 +80,9 @@ class ActVipManagement : AppCompatActivity() {
 
         vipPrefs = VipPrefs(this)
 
+        MyApplication.addLog(this, "ActVipManagement", "onCreate | windowSoftInputMode=${window.attributes.softInputMode}"
+                + " | isVip=${AdManager.isVipByKeyActive()}")
+
         setupToolbar()
         setupClickListeners()
         setupInputListeners()
@@ -88,6 +92,8 @@ class ActVipManagement : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
+        MyApplication.addLog(this, "ActVipManagement", "onResume | isVip=${AdManager.isVipByKeyActive()}"
+                + " | windowSoftInputMode=${window.attributes.softInputMode}")
         startLoopAnimations()
         bindUi() // Refresh state
         // Preload rewarded ad so it's ready when user taps "Watch ad → VIP"
@@ -95,6 +101,8 @@ class ActVipManagement : AppCompatActivity() {
     }
 
     override fun onPause() {
+        MyApplication.addLog(this, "ActVipManagement", "onPause | etVipKey focused=${binding.etVipKey.isFocused}"
+                + " | etVipKey text.len=${binding.etVipKey.text?.length ?: 0}")
         cancelLoopAnimations()
         super.onPause()
     }
@@ -109,6 +117,7 @@ class ActVipManagement : AppCompatActivity() {
         // Activate via key
         binding.btnActivate.setOnClickListener {
             val inputKey = binding.etVipKey.text?.toString()?.trim() ?: ""
+            MyApplication.addLog(this, "ActVipManagement", "btnActivate clicked | inputKey.len=${inputKey.length} | empty=${inputKey.isEmpty()}")
             if (inputKey.isEmpty()) {
                 binding.tilVipKey.error = getString(R.string.vip_redeem_hint)
                 return@setOnClickListener
@@ -116,6 +125,7 @@ class ActVipManagement : AppCompatActivity() {
             binding.tilVipKey.error = null
 
             val days = VipKeys.lookupDays(inputKey)
+            MyApplication.addLog(this, "ActVipManagement", "lookupDays | result=$days | inputKey='${inputKey.take(8)}…'")
             if (days != null) {
                 // Show verifying dialog
                 val progressDialog = MaterialAlertDialogBuilder(this)
@@ -133,6 +143,7 @@ class ActVipManagement : AppCompatActivity() {
 
                     val secretKey = AdManager.adConfig.vipKeySecret
                     val success = AdManager.activateVipByKey(this, secretKey, days)
+                    MyApplication.addLog(this, "ActVipManagement", "activateVipByKey | success=$success | days=$days")
                     if (success) {
                         vipPrefs.saveGrantedAtMs(System.currentTimeMillis())
                         vipPrefs.markUserRedeemed()
@@ -206,6 +217,16 @@ class ActVipManagement : AppCompatActivity() {
         // Disable activate button initially if key is empty
         val initialKey = binding.etVipKey.text?.toString()?.trim() ?: ""
         binding.btnActivate.isEnabled = initialKey.isNotEmpty()
+
+        // Debug: track focus + keyboard visibility to diagnose keyboard-overlaps-edittext bug
+        binding.etVipKey.setOnFocusChangeListener { v, hasFocus ->
+            val rootInsets = androidx.core.view.ViewCompat.getRootWindowInsets(v)
+            val imeVisible = rootInsets?.isVisible(androidx.core.view.WindowInsetsCompat.Type.ime()) ?: false
+            val imeHeight = rootInsets?.getInsets(androidx.core.view.WindowInsetsCompat.Type.ime())?.bottom ?: 0
+            MyApplication.addLog(this, "ActVipManagement", "etVipKey focusChange | hasFocus=$hasFocus"
+                    + " | imeVisible=$imeVisible | imeHeight=$imeHeight"
+                    + " | windowSoftInputMode=${window.attributes.softInputMode}")
+        }
 
         binding.etVipKey.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}

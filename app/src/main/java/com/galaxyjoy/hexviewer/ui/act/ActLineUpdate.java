@@ -184,6 +184,10 @@ public class ActLineUpdate extends BaseActivity implements View.OnClickListener 
             }
             maxLengthWithPartial = array.length;
         }
+        MyApplication.addLog(mApp, "ActLineUpdate", "setupViews | position=" + mPosition
+                + " | nbLines=" + mNbLines + " | file=" + mFile + " | change=" + mChange
+                + " | sequential=" + mSequential + " | refLength=" + mRefLength
+                + " | shiftOffset=" + mShiftOffset);
         mAdapterSource = new AdtLineUpdateHexArray(this, lvSource, titleSource, list);
         mAdapterResult = new AdtLineUpdateHexArray(this, lvResult, titleResult, new ArrayList<>(list));
         mAdapterSource.setStartOffset(mStartOffset);
@@ -223,6 +227,11 @@ public class ActLineUpdate extends BaseActivity implements View.OnClickListener 
     @Override
     public void onResume() {
         super.onResume();
+        MyApplication.addLog(mApp, "ActLineUpdate", "onResume | position=" + mPosition
+                + " | change=" + mChange
+                + " | currentInput=" + (mEtInputHex != null && mEtInputHex.getText() != null
+                        ? mEtInputHex.getText().toString().substring(0, Math.min(mEtInputHex.getText().length(), 40))
+                        : "null"));
         mMemoryMonitor.start(null, false);
     }
 
@@ -231,6 +240,10 @@ public class ActLineUpdate extends BaseActivity implements View.OnClickListener 
      */
     @Override
     public void onPause() {
+        MyApplication.addLog(mApp, "ActLineUpdate", "onPause | position=" + mPosition
+                + " | currentInput=" + (mEtInputHex != null && mEtInputHex.getText() != null
+                        ? mEtInputHex.getText().toString().substring(0, Math.min(mEtInputHex.getText().length(), 40))
+                        : "null"));
         super.onPause();
         mMemoryMonitor.stop();
     }
@@ -240,6 +253,10 @@ public class ActLineUpdate extends BaseActivity implements View.OnClickListener 
      */
     @Override
     public void onDestroy() {
+        MyApplication.addLog(mApp, "ActLineUpdate", "onDestroy | isFinishing=" + isFinishing()
+                + " | bridgeTexts=" + (sBridgeTexts != null ? "len=" + sBridgeTexts.length : "null")
+                + " | bridgeRef=" + (sBridgeResultReferenceString != null ? "len=" + sBridgeResultReferenceString.length() : "null")
+                + " | bridgeNew=" + (sBridgeResultNewString != null ? "len=" + sBridgeResultNewString.length() : "null"));
         super.onDestroy();
         mMemoryMonitor.stop();
         // Remove TextWatcher to prevent memory leaks
@@ -322,6 +339,12 @@ public class ActLineUpdate extends BaseActivity implements View.OnClickListener 
 
             sBridgeResultReferenceString = mHex.replace(" ", "");
             sBridgeResultNewString = validate;
+
+            MyApplication.addLog(mApp, "ActLineUpdate", "Done -> setResult(RESULT_OK)"
+                    + " | position=" + mPosition + " | nbLines=" + mNbLines
+                    + " | refLen=" + sBridgeResultReferenceString.length()
+                    + " | newLen=" + sBridgeResultNewString.length()
+                    + " | via=" + (sBridgeResultReferenceString.length() < 50000 ? "intent" : "bridge"));
 
             Intent i = new Intent();
             i.putExtra(RESULT_POSITION, mPosition);
