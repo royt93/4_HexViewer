@@ -41,6 +41,11 @@ public class SplashActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // App already running (user tapped icon while ActMain is active) — skip splash entirely
+        if (!isTaskRoot()) {
+            finish();
+            return;
+        }
         UIUtils.INSTANCE.setupEdgeToEdge1(getWindow());
         setContentView(R.layout.activity_splash);
         UIUtils.INSTANCE.setupEdgeToEdge2(findViewById(R.id.layoutRoot), true, true);
