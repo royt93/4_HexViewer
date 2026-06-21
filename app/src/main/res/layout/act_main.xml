@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="?attr/colorPrimary"
+    android:keepScreenOn="true"
     android:layoutDirection="ltr">
 
     <LinearLayout
@@ -30,20 +31,6 @@
                 android:visibility="gone"
                 tools:visibility="visible">
 
-                <TextView
-                    android:id="@+id/pleaseOpenFile"
-                    android:layout_width="wrap_content"
-                    android:layout_height="0dp"
-                    android:gravity="bottom"
-                    android:text="@string/please_open_file"
-                    android:textSize="@dimen/activity_main_please_open_file_textSize"
-                    android:textColor="?attr/colorOnSurface"
-                    android:textStyle="bold"
-                    app:layout_constraintBottom_toTopOf="@+id/linearLayout"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
                 <LinearLayout
                     android:id="@+id/linearLayout"
                     android:layout_width="match_parent"
@@ -51,83 +38,125 @@
                     android:gravity="center"
                     android:orientation="vertical"
                     android:padding="8dp"
-                    app:layout_constraintBottom_toBottomOf="parent">
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.55">
+
+                    <!-- Label trên cùng, bên trong group để tránh overflow -->
+                    <TextView
+                        android:id="@+id/pleaseOpenFile"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="12dp"
+                        android:text="@string/please_open_file"
+                        android:textSize="@dimen/activity_main_please_open_file_textSize"
+                        android:textColor="?attr/colorOnSurface"
+                        android:textStyle="bold" />
 
                     <com.airbnb.lottie.LottieAnimationView
                         android:id="@+id/lottieAnimationView"
-                        android:layout_width="160dp"
-                        android:layout_height="160dp"
-                        android:layout_marginBottom="16dp"
+                        android:layout_width="120dp"
+                        android:layout_height="120dp"
+                        android:layout_marginBottom="12dp"
                         app:lottie_autoPlay="true"
                         app:lottie_loop="true"
                         app:lottie_rawRes="@raw/loading" />
 
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/buttonOpenFile"
-                        style="@style/Widget.Material3.Button.TonalButton"
+                    <!-- Grid row 1: Open + Partial — fixed height đảm bảo same size -->
+                    <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:paddingTop="16dp"
-                        android:paddingBottom="16dp"
-                        android:text="@string/action_open_title_button"
-                        android:textSize="@dimen/activity_main_buttons_textSize"
-                        app:icon="@drawable/baseline_navigate_next_24"
-                        app:iconGravity="end"
-                        app:cornerRadius="12dp" />
+                        android:layout_height="64dp"
+                        android:orientation="horizontal"
+                        android:layout_marginBottom="8dp">
 
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/buttonPartialOpenFile"
-                        style="@style/Widget.Material3.Button.TonalButton"
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/buttonOpenFile"
+                            style="@style/Widget.Material3.Button.TonalButton"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:layout_marginEnd="4dp"
+                            android:insetTop="0dp"
+                            android:insetBottom="0dp"
+                            android:maxLines="2"
+                            android:ellipsize="end"
+                            android:text="@string/action_open_title_button"
+                            android:textSize="11sp"
+                            app:icon="@drawable/baseline_navigate_next_24"
+                            app:iconGravity="end"
+                            app:cornerRadius="12dp" />
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/buttonPartialOpenFile"
+                            style="@style/Widget.Material3.Button.TonalButton"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:layout_marginStart="4dp"
+                            android:insetTop="0dp"
+                            android:insetBottom="0dp"
+                            android:maxLines="2"
+                            android:ellipsize="end"
+                            android:text="@string/action_open_sequential_title_button"
+                            android:textSize="11sp"
+                            app:icon="@drawable/baseline_navigate_next_24"
+                            app:iconGravity="end"
+                            app:cornerRadius="12dp" />
+                    </LinearLayout>
+
+                    <!-- Grid row 2: Recently opened + Hash Calculator — same 64dp -->
+                    <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="12dp"
-                        android:paddingTop="16dp"
-                        android:paddingBottom="16dp"
-                        android:text="@string/action_open_sequential_title_button"
-                        android:textSize="@dimen/activity_main_buttons_textSize"
-                        app:icon="@drawable/baseline_navigate_next_24"
-                        app:iconGravity="end"
-                        app:cornerRadius="12dp" />
+                        android:layout_height="64dp"
+                        android:orientation="horizontal"
+                        android:layout_marginBottom="8dp">
 
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/buttonRecentlyOpen"
-                        style="@style/Widget.Material3.Button.TonalButton"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="12dp"
-                        android:layout_marginBottom="16dp"
-                        android:paddingTop="16dp"
-                        android:paddingBottom="16dp"
-                        android:text="@string/action_recently_open_title"
-                        android:textSize="@dimen/activity_main_buttons_textSize"
-                        app:icon="@drawable/baseline_navigate_next_24"
-                        app:iconGravity="end"
-                        app:cornerRadius="12dp" />
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/buttonRecentlyOpen"
+                            style="@style/Widget.Material3.Button.TonalButton"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:layout_marginEnd="4dp"
+                            android:insetTop="0dp"
+                            android:insetBottom="0dp"
+                            android:maxLines="2"
+                            android:ellipsize="end"
+                            android:text="@string/action_recently_open_title"
+                            android:textSize="11sp"
+                            app:icon="@drawable/baseline_navigate_next_24"
+                            app:iconGravity="end"
+                            app:cornerRadius="12dp" />
 
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/buttonHash"
-                        style="@style/Widget.Material3.Button.TonalButton"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="12dp"
-                        android:paddingTop="16dp"
-                        android:paddingBottom="16dp"
-                        android:text="@string/hash_title"
-                        android:textSize="@dimen/activity_main_buttons_textSize"
-                        app:icon="@drawable/baseline_navigate_next_24"
-                        app:iconGravity="end"
-                        app:cornerRadius="12dp" />
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/buttonHash"
+                            style="@style/Widget.Material3.Button.TonalButton"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:layout_marginStart="4dp"
+                            android:insetTop="0dp"
+                            android:insetBottom="0dp"
+                            android:maxLines="2"
+                            android:ellipsize="end"
+                            android:text="@string/hash_title"
+                            android:textSize="11sp"
+                            app:icon="@drawable/baseline_navigate_next_24"
+                            app:iconGravity="end"
+                            app:cornerRadius="12dp" />
+                    </LinearLayout>
 
+                    <!-- Row 3: File Info Analyzer — same 64dp height, full-width -->
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/buttonFileInfo"
                         style="@style/Widget.Material3.Button.TonalButton"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="16dp"
-                        android:paddingTop="16dp"
-                        android:paddingBottom="16dp"
+                        android:layout_height="64dp"
+                        android:layout_marginBottom="8dp"
+                        android:insetTop="0dp"
+                        android:insetBottom="0dp"
                         android:text="@string/file_info_title"
-                        android:textSize="@dimen/activity_main_buttons_textSize"
+                        android:textSize="12sp"
                         app:icon="@drawable/baseline_navigate_next_24"
                         app:iconGravity="end"
                         app:cornerRadius="12dp" />
@@ -137,11 +166,11 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginBottom="16dp"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginBottom="4dp"
                         android:text="@string/version"
                         android:textAlignment="center"
-                        android:textSize="@dimen/activity_main_please_open_file_textSize"
+                        android:textSize="10sp"
                         android:textColor="?attr/colorOnSurfaceVariant" />
                 </LinearLayout>
 

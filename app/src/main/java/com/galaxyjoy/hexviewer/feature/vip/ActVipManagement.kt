@@ -49,6 +49,8 @@ class ActVipManagement : AppCompatActivity() {
     private var countUpAnimator: ValueAnimator? = null
     private var slideInAnimator: ValueAnimator? = null
 
+    private var activateRunnable: Runnable? = null
+
     private var lastMinute: Int? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -121,8 +123,9 @@ class ActVipManagement : AppCompatActivity() {
                 progressDialog.show()
 
                 // Simulating network or verification latency for better UX
-                binding.root.postDelayed({
-                    if (isFinishing) return@postDelayed
+                activateRunnable?.let { binding.root.removeCallbacks(it) }
+                activateRunnable = Runnable {
+                    if (isFinishing) return@Runnable
                     progressDialog.dismiss()
 
                     val secretKey = AdManager.adConfig.vipKeySecret
@@ -134,7 +137,9 @@ class ActVipManagement : AppCompatActivity() {
                     } else {
                         showActivationFailed()
                     }
-                }, 1000)
+                    activateRunnable = null
+                }
+                binding.root.postDelayed(activateRunnable!!, 1000)
             } else {
                 showActivationFailed()
             }
@@ -162,10 +167,10 @@ class ActVipManagement : AppCompatActivity() {
                 if (earned) {
                     grantVipFromAd()
                 } else {
-                    // Fallback to Interstitial
+                    // Fallback to Interstitial — only grant if ad actually shown
                     AdManager.showInterstitial(this) { shown ->
                         if (isFinishing) return@showInterstitial
-                        grantVipFromAd()
+                        if (shown) grantVipFromAd()
                     }
                 }
             }
@@ -474,6 +479,8 @@ class ActVipManagement : AppCompatActivity() {
     }
 
     override fun onDestroy() {
+        activateRunnable?.let { binding.root.removeCallbacks(it) }
+        activateRunnable = null
         stopCountdown()
         cancelLoopAnimations()
         slideInAnimator?.cancel()

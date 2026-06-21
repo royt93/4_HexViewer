@@ -12,7 +12,12 @@
 package com.galaxyjoy.hexviewer.ui.act;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkCapabilities;
+import android.net.NetworkInfo;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
@@ -28,6 +33,9 @@ import kotlin.Unit;
 @SuppressLint("CustomSplashScreen")
 public class SplashActivity extends AppCompatActivity {
     private final Runnable finishRunnable = this::finish;
+    private boolean hasNavigated = false;
+    private final Runnable consentTimeoutRunnable = () -> { if (!hasNavigated) goToMain(); };
+
     // Store animated view references to cancel animations in onDestroy
     private View mAppName = null;
     private View mProgressContainer = null;
@@ -127,7 +135,19 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     private void checkShowAd() {
+        // Offline: skip consent entirely, go straight to main
+        if (!isNetworkAvailable()) {
+            goToMain();
+            return;
+        }
+
+        // Online: post 5s timeout so splash never hangs if consent callback stalls
+        getWindow().getDecorView().postDelayed(consentTimeoutRunnable, 5000);
+
         AdManager.INSTANCE.requestConsentInfoUpdate(this, false, canRequestAds -> {
+            // Bug #4: guard against callback firing after activity is destroyed
+            if (isFinishing() || isDestroyed()) return null;
+            getWindow().getDecorView().removeCallbacks(consentTimeoutRunnable);
             if (canRequestAds) {
                 runSplashAdFlow();
             } else {
@@ -135,6 +155,21 @@ public class SplashActivity extends AppCompatActivity {
             }
             return null;
         });
+    }
+
+    private boolean isNetworkAvailable() {
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (cm == null) return false;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            NetworkCapabilities nc = cm.getNetworkCapabilities(cm.getActiveNetwork());
+            return nc != null && (nc.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)
+                    || nc.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)
+                    || nc.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET));
+        } else {
+            @SuppressWarnings("deprecation")
+            NetworkInfo ni = cm.getActiveNetworkInfo();
+            return ni != null && ni.isConnected();
+        }
     }
 
     private void runSplashAdFlow() {
@@ -145,9 +180,11 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     private void goToMain() {
+        if (hasNavigated) return;
+        hasNavigated = true;
+        getWindow().getDecorView().removeCallbacks(consentTimeoutRunnable);
         Intent intent = new Intent(SplashActivity.this, ActMain.class);
         startActivity(intent);
-//        finish(); // Close SplashActivity so the user can't go back to it
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
         getWindow().getDecorView().postDelayed(finishRunnable, 300);
     }
@@ -174,6 +211,7 @@ public class SplashActivity extends AppCompatActivity {
 
         // Clear all pending callbacks and messages
         getWindow().getDecorView().removeCallbacks(finishRunnable);
+        getWindow().getDecorView().removeCallbacks(consentTimeoutRunnable);
         super.onDestroy();
     }
 }

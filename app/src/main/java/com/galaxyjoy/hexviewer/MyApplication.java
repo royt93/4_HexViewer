@@ -580,7 +580,7 @@ public class MyApplication extends Application {
             /* applovinBannerId    */ BuildConfig.APPLOVIN_BANNER_ID,
             /* applovinRewardedId  */ BuildConfig.APPLOVIN_REWARDED_ID,
             /* safety              */ BuildConfig.DEBUG ? AdSafetyLimits.Companion.getTEST() : new AdSafetyLimits(),
-            /* vipKeySecret        */ "9fA0q7eN!27cLx04@21993Y2u0I7#Q0",
+            /* vipKeySecret        */ com.galaxyjoy.hexviewer.feature.vip.VipKeys.INSTANCE.getVIP_30D_KEY(),
             /* applovinSdkKey      */ BuildConfig.APPLOVIN_SDK_KEY
         );
 
