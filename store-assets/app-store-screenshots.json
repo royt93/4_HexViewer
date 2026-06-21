@@ -1,0 +1,433 @@
+{
+  "schemaVersion": 2,
+  "appName": "Hex Viewer",
+  "themeId": "dark-bold",
+  "connectedCanvas": false,
+  "locales": [
+    "en"
+  ],
+  "locale": "en",
+  "device": "ipad",
+  "orientation": "portrait",
+  "appIcon": "/app-icon.png",
+  "slidesByDevice": {
+    "iphone": [
+      {
+        "id": "iphone_01",
+        "layout": "split-landscape",
+        "label": {
+          "en": "HERO"
+        },
+        "headline": {
+          "en": "See every\nbyte."
+        },
+        "screenshot": "/screenshots/apple/iphone/en/01.png",
+        "transforms": {
+          "device": {
+            "x": 472.1228534484945,
+            "y": 401.52,
+            "width": 1013.6355043227666,
+            "height": 2064.96,
+            "rotation": 0,
+            "zIndex": 3
+          }
+        }
+      },
+      {
+        "id": "iphone_02",
+        "layout": "hero",
+        "label": {
+          "en": "HEX VIEW"
+        },
+        "headline": {
+          "en": "Raw data.\nCrystal clear."
+        },
+        "screenshot": "/screenshots/apple/iphone/en/04.png"
+      },
+      {
+        "id": "iphone_03",
+        "layout": "device-top",
+        "label": {
+          "en": "HASH CHECK"
+        },
+        "headline": {
+          "en": "Verify files\nin seconds."
+        },
+        "screenshot": "/screenshots/apple/iphone/en/02.png"
+      },
+      {
+        "id": "iphone_04",
+        "layout": "device-bottom",
+        "label": {
+          "en": "FILE TYPE"
+        },
+        "headline": {
+          "en": "Know what's\ninside instantly."
+        },
+        "screenshot": "/screenshots/apple/iphone/en/03.png",
+        "inverted": true
+      },
+      {
+        "id": "iphone_05",
+        "layout": "split-landscape",
+        "label": {
+          "en": "TEXT VIEW"
+        },
+        "headline": {
+          "en": "Switch views.\nNo extra steps."
+        },
+        "screenshot": "/screenshots/apple/iphone/en/08.png",
+        "transforms": {
+          "device": {
+            "x": 648.7445543282611,
+            "y": 401.52,
+            "width": 1013.6355043227666,
+            "height": 2064.96,
+            "rotation": 0,
+            "zIndex": 3
+          }
+        }
+      },
+      {
+        "id": "iphone_06",
+        "layout": "device-top",
+        "label": {
+          "en": "FEATURES"
+        },
+        "headline": {
+          "en": "Every tool\nyou need."
+        },
+        "screenshot": "/screenshots/apple/iphone/en/05.png"
+      },
+      {
+        "id": "iphone_07",
+        "layout": "two-devices",
+        "label": {
+          "en": "CUSTOMIZE"
+        },
+        "headline": {
+          "en": "Your rules.\nYour way."
+        },
+        "screenshot": "/screenshots/apple/iphone/en/07.png",
+        "inverted": true,
+        "transforms": {
+          "device": {
+            "x": 474.312210332384,
+            "y": 674.6276129032241,
+            "width": 912.27195389049,
+            "height": 1858.4640000000002,
+            "rotation": 0,
+            "zIndex": 3
+          },
+          "deviceSecondary": {
+            "x": -205.35835777126118,
+            "y": 1252.587103660813,
+            "width": 871.2,
+            "height": 1774.7929549902153,
+            "rotation": 0,
+            "zIndex": 2
+          }
+        },
+        "screenshotSecondary": "/screenshots/apple/iphone/en/07.png"
+      },
+      {
+        "id": "iphone_08",
+        "layout": "split-landscape",
+        "label": {
+          "en": "VIP"
+        },
+        "headline": {
+          "en": "Unlock\neverything."
+        },
+        "screenshot": "/screenshots/apple/iphone/en/06.png",
+        "inverted": true,
+        "transforms": {
+          "device": {
+            "x": 665.5656686977619,
+            "y": 401.52,
+            "width": 1013.6355043227666,
+            "height": 2064.96,
+            "rotation": 0,
+            "zIndex": 3
+          }
+        }
+      }
+    ],
+    "android": [
+      {
+        "id": "android_01",
+        "layout": "hero",
+        "label": {
+          "en": "HERO"
+        },
+        "headline": {
+          "en": "See every\nbyte."
+        },
+        "screenshot": "/screenshots/android/phone/en/01.png",
+        "transforms": {
+          "device": {
+            "x": 221,
+            "y": 677,
+            "width": 678.6,
+            "height": 1470.3,
+            "rotation": 0,
+            "zIndex": 3
+          }
+        }
+      },
+      {
+        "id": "android_02",
+        "layout": "device-bottom",
+        "label": {
+          "en": "HEX VIEW"
+        },
+        "headline": {
+          "en": "Raw data.\nCrystal clear."
+        },
+        "screenshot": "/screenshots/android/phone/en/04.png"
+      },
+      {
+        "id": "android_03",
+        "layout": "device-bottom",
+        "label": {
+          "en": "HASH CHECK"
+        },
+        "headline": {
+          "en": "Verify files\nin seconds."
+        },
+        "screenshot": "/screenshots/android/phone/en/02.png"
+      },
+      {
+        "id": "android_04",
+        "layout": "device-top",
+        "label": {
+          "en": "FILE TYPE"
+        },
+        "headline": {
+          "en": "Know what's\ninside instantly."
+        },
+        "screenshot": "/screenshots/android/phone/en/03.png",
+        "inverted": true
+      },
+      {
+        "id": "android_05",
+        "layout": "device-bottom",
+        "label": {
+          "en": "TEXT VIEW"
+        },
+        "headline": {
+          "en": "Switch views.\nNo extra steps."
+        },
+        "screenshot": "/screenshots/android/phone/en/08.png"
+      },
+      {
+        "id": "android_06",
+        "layout": "device-bottom",
+        "label": {
+          "en": "FEATURES"
+        },
+        "headline": {
+          "en": "Every tool\nyou need."
+        },
+        "screenshot": "/screenshots/android/phone/en/05.png"
+      },
+      {
+        "id": "android_07",
+        "layout": "device-top",
+        "label": {
+          "en": "CUSTOMIZE"
+        },
+        "headline": {
+          "en": "Your rules.\nYour way."
+        },
+        "screenshot": "/screenshots/android/phone/en/07.png",
+        "inverted": true
+      },
+      {
+        "id": "android_08",
+        "layout": "hero",
+        "label": {
+          "en": "VIP"
+        },
+        "headline": {
+          "en": "Unlock\neverything."
+        },
+        "screenshot": "/screenshots/android/phone/en/06.png",
+        "inverted": true
+      }
+    ],
+    "ipad": [
+      {
+        "id": "ipad_01",
+        "layout": "two-devices",
+        "label": {
+          "en": "HERO"
+        },
+        "headline": {
+          "en": "See every\nbyte."
+        },
+        "screenshot": "/screenshots/apple/ipad/en/01.png",
+        "transforms": {
+          "deviceSecondary": {
+            "x": -164.19190615835856,
+            "y": 1022.2290741516526,
+            "width": 1238.3999999999999,
+            "height": 1608.3116883116882,
+            "rotation": 0,
+            "zIndex": 2
+          }
+        },
+        "screenshotSecondary": "/screenshots/apple/ipad/en/01.png"
+      },
+      {
+        "id": "ipad_02",
+        "layout": "device-bottom",
+        "label": {
+          "en": "HEX VIEW"
+        },
+        "headline": {
+          "en": "Raw data.\nCrystal clear."
+        },
+        "screenshot": "/screenshots/apple/ipad/en/04.png",
+        "transforms": {
+          "device": {
+            "x": 269.14560000000006,
+            "y": 715.5200000000002,
+            "width": 1525.7087999999999,
+            "height": 1981.4399999999998,
+            "rotation": 0,
+            "zIndex": 3
+          },
+          "caption": {
+            "x": 169.15519061583578,
+            "y": 103.13947214076262,
+            "width": 1733.76,
+            "height": 770.5600000000001,
+            "rotation": 0,
+            "zIndex": 4
+          }
+        }
+      },
+      {
+        "id": "ipad_03",
+        "layout": "device-top",
+        "label": {
+          "en": "HASH CHECK"
+        },
+        "headline": {
+          "en": "Verify files\nin seconds."
+        },
+        "screenshot": "/screenshots/apple/ipad/en/02.png"
+      },
+      {
+        "id": "ipad_04",
+        "layout": "split-landscape",
+        "label": {
+          "en": "FILE TYPE"
+        },
+        "headline": {
+          "en": "Know what's\ninside instantly."
+        },
+        "screenshot": "/screenshots/apple/ipad/en/03.png",
+        "inverted": true,
+        "transforms": {
+          "device": {
+            "x": 866.5337806451616,
+            "y": 381.2448093841643,
+            "width": 1525.7087999999999,
+            "height": 1981.4399999999998,
+            "rotation": 0,
+            "zIndex": 3
+          }
+        }
+      },
+      {
+        "id": "ipad_05",
+        "layout": "device-bottom",
+        "label": {
+          "en": "TEXT VIEW"
+        },
+        "headline": {
+          "en": "Switch views.\nNo extra steps."
+        },
+        "screenshot": "/screenshots/apple/ipad/en/08.png",
+        "transforms": {
+          "device": {
+            "x": 269.14560000000006,
+            "y": 812.3645747800583,
+            "width": 1525.7087999999999,
+            "height": 1981.4399999999998,
+            "rotation": 0,
+            "zIndex": 3
+          }
+        }
+      },
+      {
+        "id": "ipad_06",
+        "layout": "hero",
+        "label": {
+          "en": "FEATURES"
+        },
+        "headline": {
+          "en": "Every tool\nyou need."
+        },
+        "screenshot": "/screenshots/apple/ipad/en/05.png"
+      },
+      {
+        "id": "ipad_07",
+        "layout": "device-top",
+        "label": {
+          "en": "CUSTOMIZE"
+        },
+        "headline": {
+          "en": "Your rules.\nYour way."
+        },
+        "screenshot": "/screenshots/apple/ipad/en/07.png",
+        "inverted": true
+      },
+      {
+        "id": "ipad_08",
+        "layout": "split-landscape",
+        "label": {
+          "en": "VIP"
+        },
+        "headline": {
+          "en": "Unlock\neverything."
+        },
+        "screenshot": "/screenshots/apple/ipad/en/06.png",
+        "inverted": true,
+        "transforms": {
+          "device": {
+            "x": 947.237592961877,
+            "y": 377.2096187683285,
+            "width": 1525.7087999999999,
+            "height": 1981.4399999999998,
+            "rotation": 0,
+            "zIndex": 3
+          }
+        }
+      }
+    ],
+    "android-7": [],
+    "android-10": [],
+    "feature-graphic": [
+      {
+        "id": "fg_01",
+        "layout": "feature-graphic",
+        "label": {},
+        "headline": {
+          "en": "Hex Viewer — See every byte."
+        },
+        "screenshot": "/screenshots/android/phone/en/04.png"
+      }
+    ]
+  },
+  "crossScreenMockupsByDevice": {
+    "iphone": [],
+    "ipad": [],
+    "android": [],
+    "android-7": [],
+    "android-10": [],
+    "feature-graphic": []
+  }
+}
