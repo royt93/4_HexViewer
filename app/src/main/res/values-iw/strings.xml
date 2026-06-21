@@ -201,4 +201,6 @@
 
     <!-- Extra please wait -->
     <string name="please_wait">אנא המתן...</string>
+    <string name="vip_no_ad_title">אין מודעה זמינה</string>
+    <string name="vip_no_ad_message">אין כרגע מודעה זמינה. בדוק את חיבור האינטרנט שלך ונסה שוב מאוחר יותר.</string>
 </resources>

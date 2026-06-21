@@ -201,4 +201,6 @@
 
     <!-- Extra please wait -->
     <string name="please_wait">Kérjük, várjon...</string>
+    <string name="vip_no_ad_title">Nincs elérhető hirdetés</string>
+    <string name="vip_no_ad_message">Jelenleg nincs elérhető hirdetés. Kérjük, ellenőrizze az internetkapcsolatát, és próbálja meg később újra.</string>
 </resources>

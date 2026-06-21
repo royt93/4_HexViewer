@@ -2,7 +2,7 @@
 <resources>
     <!-- activity_main.xml -->
     <dimen name="activity_main_please_open_file_textSize">14sp</dimen>
-    <dimen name="activity_main_buttons_textSize">14sp</dimen>
+    <dimen name="activity_main_buttons_textSize">15sp</dimen>
     <dimen name="activity_main_payload_view_textSize">12sp</dimen>
     <dimen name="activity_main_payload_plain_swipe_refresh_layout_textSize">12sp</dimen>
 

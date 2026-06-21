@@ -25,6 +25,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.galaxyjoy.hexviewer.BuildConfig
 import com.galaxyjoy.hexviewer.R
 import com.galaxyjoy.hexviewer.databinding.FVipManagementBinding
+import com.galaxyjoy.hexviewer.ui.util.NetworkUtils
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.roy.sdkadbmob.AdManager
 import com.roy.sdkadbmob.AppPreferences
@@ -89,6 +90,8 @@ class ActVipManagement : AppCompatActivity() {
         super.onResume()
         startLoopAnimations()
         bindUi() // Refresh state
+        // Preload rewarded ad so it's ready when user taps "Watch ad → VIP"
+        AdManager.requestPreloadRewarded()
     }
 
     override fun onPause() {
@@ -162,6 +165,11 @@ class ActVipManagement : AppCompatActivity() {
 
         // Watch Ad to get 3-day VIP
         binding.btnWatchAd.setOnClickListener {
+            // Offline: no ad can ever load — give immediate feedback instead of doing nothing
+            if (!NetworkUtils.isNetworkAvailable(this)) {
+                showNoAdDialog()
+                return@setOnClickListener
+            }
             AdManager.showRewarded(this) { earned ->
                 if (isFinishing) return@showRewarded
                 if (earned) {
@@ -170,7 +178,13 @@ class ActVipManagement : AppCompatActivity() {
                     // Fallback to Interstitial — only grant if ad actually shown
                     AdManager.showInterstitial(this) { shown ->
                         if (isFinishing) return@showInterstitial
-                        if (shown) grantVipFromAd()
+                        if (shown) {
+                            grantVipFromAd()
+                        } else {
+                            // Neither rewarded nor interstitial was available
+                            // (offline or no-fill) — inform the user instead of doing nothing
+                            showNoAdDialog()
+                        }
                     }
                 }
             }
@@ -474,6 +488,16 @@ class ActVipManagement : AppCompatActivity() {
         MaterialAlertDialogBuilder(this)
             .setTitle(R.string.vip_failed_title)
             .setMessage(R.string.vip_failed_message)
+            .setPositiveButton(R.string.ok, null)
+            .show()
+    }
+
+    /** Shown when no rewarded/interstitial ad is available (offline or no-fill). */
+    private fun showNoAdDialog() {
+        if (isFinishing) return
+        MaterialAlertDialogBuilder(this)
+            .setTitle(R.string.vip_no_ad_title)
+            .setMessage(R.string.vip_no_ad_message)
             .setPositiveButton(R.string.ok, null)
             .show()
     }

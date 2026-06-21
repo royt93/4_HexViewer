@@ -237,6 +237,8 @@
     <string name="vip_failed_message">Invalid VIP Key. Please try again.</string>
     <string name="vip_open_link_error">Unable to open link</string>
     <string name="vip_badge_text">VIP</string>
+    <string name="vip_no_ad_title">No Ad Available</string>
+    <string name="vip_no_ad_message">No ad is available right now. Please check your internet connection and try again later.</string>
 
     <!-- Extra VIP Title & Badge -->
     <string name="vip_member_title">VIP Member</string>

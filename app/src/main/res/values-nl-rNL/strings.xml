@@ -201,4 +201,6 @@
 
     <!-- Extra please wait -->
     <string name="please_wait">Even geduld a.u.b....</string>
+    <string name="vip_no_ad_title">Geen advertentie beschikbaar</string>
+    <string name="vip_no_ad_message">Er is op dit moment geen advertentie beschikbaar. Controleer je internetverbinding en probeer het later opnieuw.</string>
 </resources>

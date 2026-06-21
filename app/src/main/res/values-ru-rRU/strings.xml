@@ -201,4 +201,6 @@
 
     <!-- Extra please wait -->
     <string name="please_wait">Пожалуйста, подождите...</string>
+    <string name="vip_no_ad_title">Реклама недоступна</string>
+    <string name="vip_no_ad_message">Сейчас нет доступной рекламы. Проверьте подключение к интернету и повторите попытку позже.</string>
 </resources>

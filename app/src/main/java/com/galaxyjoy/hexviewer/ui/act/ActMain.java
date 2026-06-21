@@ -130,12 +130,16 @@ public class ActMain extends ActAbstractBaseMain implements AdapterView.OnItemCl
         });
         findViewById(R.id.buttonHash).setOnClickListener(v -> {
             AdManager.INSTANCE.showInterstitial(this, adShown -> {
+                // Guard: SDK may fire this callback while the activity is being destroyed
+                // (e.g. during a recreate), when launchers/navigation are no longer valid.
+                if (isFinishing() || isDestroyed()) return null;
                 startActivity(new Intent(this, ActHashCalculator.class));
                 return null;
             });
         });
         findViewById(R.id.buttonFileInfo).setOnClickListener(v -> {
             AdManager.INSTANCE.showInterstitial(this, adShown -> {
+                if (isFinishing() || isDestroyed()) return null;
                 startActivity(new Intent(this, ActFileInfo.class));
                 return null;
             });
@@ -532,6 +536,10 @@ public class ActMain extends ActAbstractBaseMain implements AdapterView.OnItemCl
                 UIHelper.toast(this, getString(R.string.no_data_available));
             } else {
                 AdManager.INSTANCE.showInterstitial(this, adShown -> {
+                    // Guard: SDK may fire this callback during activity destroy/recreate.
+                    // Launching via an ActivityResultLauncher then crashes with
+                    // "unregistered ActivityResultLauncher".
+                    if (isFinishing() || isDestroyed()) return null;
                     mLauncherRecentlyOpen.startActivity();
                     return null;
                 });
@@ -544,6 +552,7 @@ public class ActMain extends ActAbstractBaseMain implements AdapterView.OnItemCl
             popupActionClose();
         } else if (id == R.id.actionSettings) {
             AdManager.INSTANCE.showInterstitial(this, adShown -> {
+                if (isFinishing() || isDestroyed()) return null;
                 ActSettings.startActivity(ActMain.this, !FileData.isEmpty(mFileData), mUnDoRedo.isChanged());
                 return null;
             });

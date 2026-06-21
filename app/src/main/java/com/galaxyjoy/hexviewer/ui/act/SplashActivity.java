@@ -12,12 +12,7 @@
 package com.galaxyjoy.hexviewer.ui.act;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.Intent;
-import android.net.ConnectivityManager;
-import android.net.NetworkCapabilities;
-import android.net.NetworkInfo;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
@@ -25,6 +20,7 @@ import android.view.animation.AccelerateDecelerateInterpolator;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.galaxyjoy.hexviewer.R;
+import com.galaxyjoy.hexviewer.ui.util.NetworkUtils;
 import com.roy.sdkadbmob.AdManager;
 import com.roy.sdkadbmob.UIUtils;
 
@@ -136,7 +132,7 @@ public class SplashActivity extends AppCompatActivity {
 
     private void checkShowAd() {
         // Offline: skip consent entirely, go straight to main
-        if (!isNetworkAvailable()) {
+        if (!NetworkUtils.isNetworkAvailable(this)) {
             goToMain();
             return;
         }
@@ -155,21 +151,6 @@ public class SplashActivity extends AppCompatActivity {
             }
             return null;
         });
-    }
-
-    private boolean isNetworkAvailable() {
-        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        if (cm == null) return false;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            NetworkCapabilities nc = cm.getNetworkCapabilities(cm.getActiveNetwork());
-            return nc != null && (nc.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)
-                    || nc.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)
-                    || nc.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET));
-        } else {
-            @SuppressWarnings("deprecation")
-            NetworkInfo ni = cm.getActiveNetworkInfo();
-            return ni != null && ni.isConnected();
-        }
     }
 
     private void runSplashAdFlow() {

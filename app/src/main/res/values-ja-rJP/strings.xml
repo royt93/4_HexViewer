@@ -201,4 +201,6 @@
 
     <!-- Extra please wait -->
     <string name="please_wait">お待ちください...</string>
+    <string name="vip_no_ad_title">広告がありません</string>
+    <string name="vip_no_ad_message">現在、表示できる広告がありません。インターネット接続を確認して、後でもう一度お試しください。</string>
 </resources>

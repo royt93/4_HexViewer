@@ -201,4 +201,6 @@
 
     <!-- Extra please wait -->
     <string name="please_wait">Vennligst vent...</string>
+    <string name="vip_no_ad_title">Ingen annonse tilgjengelig</string>
+    <string name="vip_no_ad_message">Ingen annonse er tilgjengelig akkurat nå. Sjekk internettforbindelsen din og prøv igjen senere.</string>
 </resources>

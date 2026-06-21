@@ -201,4 +201,6 @@
 
     <!-- Extra please wait -->
     <string name="please_wait">Lütfen bekleyin...</string>
+    <string name="vip_no_ad_title">Reklam Yok</string>
+    <string name="vip_no_ad_message">Şu anda kullanılabilir reklam yok. Lütfen internet bağlantınızı kontrol edip daha sonra tekrar deneyin.</string>
 </resources>

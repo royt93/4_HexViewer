@@ -195,6 +195,8 @@
     <string name="vip_failed_message">Mã VIP không hợp lệ. Vui lòng thử lại.</string>
     <string name="vip_open_link_error">Không thể mở liên kết</string>
     <string name="vip_badge_text">VIP</string>
+    <string name="vip_no_ad_title">Không có quảng cáo</string>
+    <string name="vip_no_ad_message">Hiện chưa có quảng cáo khả dụng. Vui lòng kiểm tra kết nối mạng và thử lại sau.</string>
 
     <!-- Extra VIP Title & Badge -->
     <string name="vip_member_title">Thành viên VIP</string>

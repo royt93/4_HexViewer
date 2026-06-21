@@ -201,4 +201,6 @@
 
     <!-- Extra please wait -->
     <string name="please_wait">请稍候...</string>
+    <string name="vip_no_ad_title">暂无广告</string>
+    <string name="vip_no_ad_message">当前没有可用的广告。请检查您的网络连接，稍后再试。</string>
 </resources>

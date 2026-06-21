@@ -201,4 +201,6 @@
 
     <!-- Extra please wait -->
     <string name="please_wait">Por favor, espere...</string>
+    <string name="vip_no_ad_title">No hay anuncios disponibles</string>
+    <string name="vip_no_ad_message">No hay ningún anuncio disponible en este momento. Comprueba tu conexión a Internet e inténtalo de nuevo más tarde.</string>
 </resources>

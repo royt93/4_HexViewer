@@ -201,4 +201,6 @@
 
     <!-- Extra please wait -->
     <string name="please_wait">Mohon tunggu...</string>
+    <string name="vip_no_ad_title">Tidak Ada Iklan</string>
+    <string name="vip_no_ad_message">Saat ini tidak ada iklan yang tersedia. Silakan periksa koneksi internet Anda dan coba lagi nanti.</string>
 </resources>

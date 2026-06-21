@@ -492,9 +492,38 @@ public class MyApplication extends Application {
         String cfg = getApplicationLanguage(this);
         /* hack for indonesian */
         if (cfg.equals("in")) cfg = "in_ID";
-        String cfgLang = cfg.replace('-', '_');
-        Locale locale = Locale.getDefault();
-        if (!locale.toString().equals(cfgLang)) activity.recreate();
+        // Desired language/region from config (accept either '-' or '_' separator)
+        String[] want = cfg.replace('_', '-').split("-");
+        String wantLang = normalizeLang(want[0]);
+        String wantRegion = want.length > 1 ? want[1] : "";
+
+        // IMPORTANT: compare against the locale actually applied to THIS activity
+        // (set in attachBaseContext), NOT Locale.getDefault(). Other activities/SDKs
+        // (e.g. the AppLovin fullscreen ad activity) can reset Locale.getDefault() to
+        // the system locale, which used to make this method recreate() on every resume
+        // — an endless recreate loop (and a re-shown App Open ad each time).
+        Locale current = activity.getResources().getConfiguration().getLocales().get(0);
+        boolean sameLang = normalizeLang(current.getLanguage()).equals(wantLang);
+        boolean sameRegion = wantRegion.isEmpty()
+                || current.getCountry().equalsIgnoreCase(wantRegion)
+                || current.getCountry().isEmpty(); // device locale has no country → treat as match
+
+        if (!(sameLang && sameRegion)) activity.recreate();
+    }
+
+    /** Normalizes legacy ISO language codes so comparisons stay stable across Android versions. */
+    private static String normalizeLang(String lang) {
+        if (lang == null) return "";
+        switch (lang.toLowerCase(Locale.ROOT)) {
+            case "in":
+                return "id"; // Indonesian
+            case "iw":
+                return "he"; // Hebrew
+            case "ji":
+                return "yi"; // Yiddish
+            default:
+                return lang.toLowerCase(Locale.ROOT);
+        }
     }
 
     /**
