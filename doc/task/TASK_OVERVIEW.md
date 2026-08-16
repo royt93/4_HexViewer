@@ -1,6 +1,8 @@
 # TASK OVERVIEW — HexViewer Feature Roadmap
 
-> **Cập nhật:** 2026-06-21 | **Trạng thái:** Lên plan, chưa code
+> **Cập nhật:** 2026-08-16 | **Trạng thái:** Lên plan, chưa code
+
+> ⚠️ **Xem [BACKLOG.md](BACKLOG.md) trước khi bắt đầu code bất kỳ task nào bên dưới.** Backlog đó liệt kê 3 bug P0 gây mất dữ liệu user + vô hiệu hoá VIP, cần fix ở Sprint 0 trước khi build feature mới lên trên.
 
 ## Tổng quan
 
