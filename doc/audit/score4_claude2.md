@@ -44,9 +44,9 @@
 | Tiêu chí | Điểm /10 | Lý do ngắn |
 |---|---|---|
 | Correctness | 8.5 | Logic app (VIP activation, redeem code, grantVipDays, bindUi single-source-of-truth) đối chiếu đúng với API SDK thật tag 1.6.16 (đọc trực tiếp `AdManager.kt` qua `gh api`) — `activateVipByKey(ctx, key, 0)`, `grantVipDays`, `getVipGrantedAtMs` đều dùng đúng contract. Trừ điểm vì `forkEvery=1` (fix C1 vòng 3) chưa giải quyết triệt để flaky — đổi sang 1 loại flaky khác (xem trên), tự thân là 1 correctness bug ở build script chưa qua audit hết. |
-| Security | 2.0 | **CRITICAL, không liên quan trực tiếp tới diff hiện tại nhưng ảnh hưởng quyết định push**: repo `github.com/royt93/4_HexViewer` đang **PUBLIC**, và keystore ký release thật (`app/key/keystore.jks`, alias `mckimquyen`, cert 2024-2049, xác nhận bằng `keytool -list`) CÙNG mật khẩu plaintext của nó (`keystore.properties`: `storePassword=27072000`, khớp với hardcoded fallback `"27072000"` trong `app/build.gradle`) đã **push lên `origin/dev` từ commit `5f0c7af`** — đang lộ công khai ngay lúc này, ai cũng clone lấy được khoá ký app Play Store thật. Đây không phải rủi ro "nếu push" mà là sự cố ĐANG XẢY RA. Riêng phần diff/secret mới trong vòng này (VIP_KEY_SECRET đọc từ `local.properties`, không hardcode) làm đúng, cộng thêm điểm nhưng không đủ bù. |
+| Security | 2.0 | **CRITICAL, không liên quan trực tiếp tới diff hiện tại nhưng ảnh hưởng quyết định push**: repo `github.com/royt93/4_HexViewer` đang **PUBLIC**, và keystore ký release thật (`app/key/keystore.jks`, alias `mckimquyen`, cert 2024-2049, xác nhận bằng `keytool -list`) CÙNG mật khẩu plaintext của nó (`keystore.properties`: `storePassword=[REDACTED]`, khớp với hardcoded fallback đã redact trong `app/build.gradle`) đã **push lên `origin/dev` từ commit `5f0c7af`**. Credential cũ phải được coi là compromised. |
 | Policy compliance (F12) | 9.0 | Đọc kỹ `ActVipManagement.kt`: nhánh Interstitial fallback (`showInterstitial { shown -> if (shown) showNoRewardDialog() else showNoAdDialog() }`) xác nhận KHÔNG gọi `grantVipFromAd()` dù `shown=true` — đúng yêu cầu chính sách Rewarded. `grantVipFromAd()` chỉ được gọi từ nhánh `earned=true` của `showRewarded`. Đối chiếu `AdManager.showRewarded` (SDK thật) — callback `onRewardEarned` phản ánh đúng reward thật (không phải chỉ "đã show"). Trừ nhẹ vì thiếu test tự động cho đúng path này (xem Test coverage). |
-| Code quality | 8.0 | Refactor `VipKeys`/`VipPrefs` sạch, xoá đúng dead state (`grantedAtMs` tự lưu trùng SDK), comment giải thích rõ audit trail (F13/F14/F18/F22). `settings.gradle` gate `mavenLocal()` đúng điều kiện. Vẫn còn nợ: hardcoded fallback password `"27072000"` trong `signingConfigs.release` (pre-existing, không thuộc diff này nhưng đọc thấy khi audit — nên dọn luôn nhân tiện vì cùng chủ đề bảo mật). |
+| Code quality | 8.0 | Refactor `VipKeys`/`VipPrefs` sạch, xoá đúng dead state (`grantedAtMs` tự lưu trùng SDK), comment giải thích rõ audit trail (F13/F14/F18/F22). `settings.gradle` gate `mavenLocal()` đúng điều kiện. Hardcoded signing fallback cũ đã được redact và loại bỏ khỏi cấu hình hiện hành. |
 | Test coverage | 6.5 | `ActVipManagementTest`/`AdIntegrationTest` cover activate-by-key, redeem code, `grantVipDays` path, revoke. **Thiếu**: không có test nào bấm `btnWatchAd`, giả lập `earned=false` + interstitial `shown=true`, rồi assert VIP KHÔNG được cấp (`showNoRewardDialog` hiện, không phải `showActivationSuccess`) — tức là chính path F12 (path policy-critical nhất) không có regression test tự động, dù logic đã tự đọc-verify đúng bằng tay. |
 
 ## ĐIỂM TỔNG: 5.5/10
@@ -58,7 +58,7 @@ kéo điểm tổng xuống dưới ngưỡng an toàn, dù 4/5 tiêu chí còn 
 
 1. **[CRITICAL — bảo mật, KHÔNG thuộc diff hiện tại nhưng phải xử lý trước/song song push]**
    `app/key/keystore.jks` (khoá ký release thật, alias `mckimquyen`) và `keystore.properties`
-   (password plaintext `27072000`, khớp fallback hardcode trong `app/build.gradle` dòng 116-118) đang
+   (password plaintext `[REDACTED]`, từng khớp fallback hardcode trong `app/build.gradle`) đang
    được track trong git và đã có mặt trên `origin/dev` (repo **public**). Bất kỳ ai cũng tải về được
    khoá ký ứng dụng thật trên Play Store. Đề xuất xử lý (ngoài phạm vi code diff, cần quyết định của
    chủ repo):
@@ -69,7 +69,7 @@ kéo điểm tổng xuống dưới ngưỡng an toàn, dù 4/5 tiêu chí còn 
    - Rotate khoá (nếu dùng Play App Signing) hoặc ít nhất đổi mọi mật khẩu liên quan.
    - Xoá khỏi git history (`git filter-repo`/BFG) — biết rằng dữ liệu đã có thể bị cache/fork/index bởi
      bên thứ 3, xoá history chỉ ngăn rò thêm chứ không thu hồi bản đã lộ.
-   - Xoá luôn hardcoded fallback `"27072000"` trong `signingConfigs.release` — comment ngay phía trên
+   - Xoá luôn hardcoded password fallback trong `signingConfigs.release` — comment ngay phía trên
      nó ("Security: Use environment variables instead of hardcoded passwords") đã tự mâu thuẫn với chính
      dòng code bên dưới.
 

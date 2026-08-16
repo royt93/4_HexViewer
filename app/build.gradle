@@ -17,6 +17,15 @@ if (localPropsFile.exists()) {
 def vipKeySecretValue = localProps.getProperty("vip.key.secret") ?: System.getenv("VIP_KEY_SECRET") ?: "TPLdev0402dev@"
 def umpDebugGeographyValue = localProps.getProperty("ump.debug.geography") ?: ""
 def umpTestDeviceHashValue = localProps.getProperty("ump.test.device.hash") ?: ""
+def signingProps = new Properties()
+def signingPropsFile = rootProject.file("keystore.properties")
+if (signingPropsFile.exists()) {
+    signingPropsFile.withInputStream { signingProps.load(it) }
+}
+def releaseStoreFileValue = signingProps.getProperty("storeFile") ?: localProps.getProperty("release.store.file") ?: System.getenv("RELEASE_STORE_FILE")
+def releaseStorePasswordValue = signingProps.getProperty("storePassword") ?: localProps.getProperty("release.store.password") ?: System.getenv("RELEASE_STORE_PASSWORD")
+def releaseKeyAliasValue = signingProps.getProperty("keyAlias") ?: localProps.getProperty("release.key.alias") ?: System.getenv("RELEASE_KEY_ALIAS")
+def releaseKeyPasswordValue = signingProps.getProperty("keyPassword") ?: localProps.getProperty("release.key.password") ?: System.getenv("RELEASE_KEY_PASSWORD")
 
 android {
     namespace 'com.galaxyjoy.hexviewer'
@@ -64,12 +73,9 @@ android {
         buildConfigField "String", "TEST_DEVICE_GAID_1", "\"\""
         buildConfigField "String", "TEST_DEVICE_GAID_2", "\"\""
 
-        // QC-only: ép UMP báo geography giả để test consent form EEA không cần VPN (AD_PROMPT_AOS.MD
-        // mục 8.3). Khai ở defaultConfig (không chỉ debug) vì AdSetup.kt tham chiếu BuildConfig field
-        // này không điều kiện biên dịch — release cũng cần symbol tồn tại, dù runtime luôn rỗng vì
-        // AdSetup.kt tự gate bằng BuildConfig.DEBUG trước khi dùng giá trị.
-        buildConfigField "String", "UMP_DEBUG_GEOGRAPHY", "\"${umpDebugGeographyValue}\""
-        buildConfigField "String", "UMP_TEST_DEVICE_HASH", "\"${umpTestDeviceHashValue}\""
+        // Symbols exist for every variant; only debug overrides them with local QC values below.
+        buildConfigField "String", "UMP_DEBUG_GEOGRAPHY", "\"\""
+        buildConfigField "String", "UMP_TEST_DEVICE_HASH", "\"\""
     }
 
     // Enable ABI and Density splits for smaller APK sizes
@@ -96,34 +102,20 @@ android {
     }
     signingConfigs {
         release {
-            // Keystore nằm trong repo private royt93/myKeyStore, clone ngoài project hiện tại.
-            // Có thể override đường dẫn/credential bằng keystore.properties (gitignored) hoặc env CI.
-            // RELEASE_STORE_FILE=/path/to/myKeyStore/com.galaxyjoy.hexviewer/keystore.jks
-            // RELEASE_STORE_PASSWORD=your_password
-            // RELEASE_KEY_ALIAS=mckimquyen
-            // RELEASE_KEY_PASSWORD=your_password
-
-            def keystorePropertiesFile = rootProject.file("keystore.properties")
-            def keystoreProperties = new Properties()
-
-            def defaultExternalStoreFile = "/Users/loitran/AndroidStudioProjects/@mckimquyen/myKeyStore/com.galaxyjoy.hexviewer/keystore.jks"
-            if (keystorePropertiesFile.exists()) {
-                keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
-                storeFile file(keystoreProperties['storeFile'] ?: defaultExternalStoreFile)
-                storePassword keystoreProperties['storePassword']
-                keyAlias keystoreProperties['keyAlias']
-                keyPassword keystoreProperties['keyPassword']
-            } else {
-                // Không có credential mặc định trong source control.
-                storeFile file(System.getenv("RELEASE_STORE_FILE") ?: defaultExternalStoreFile)
-                storePassword System.getenv("RELEASE_STORE_PASSWORD")
-                keyAlias System.getenv("RELEASE_KEY_ALIAS")
-                keyPassword System.getenv("RELEASE_KEY_PASSWORD")
-            }
+            // Credentials come only from keystore.properties/local.properties (both gitignored)
+            // or CI environment.
+            // No repository-relative or developer-specific fallback is allowed.
+            if (releaseStoreFileValue) storeFile file(releaseStoreFileValue)
+            storePassword releaseStorePasswordValue
+            keyAlias releaseKeyAliasValue
+            keyPassword releaseKeyPasswordValue
         }
     }
     buildTypes {
         release {
+            // Never package forced-EEA/test-device identifiers in a release artifact.
+            buildConfigField "String", "UMP_DEBUG_GEOGRAPHY", "\"\""
+            buildConfigField "String", "UMP_TEST_DEVICE_HASH", "\"\""
             // AdMob ID production thật — user cung cấp 2026-08-16 (doc/ad/ad.md), publisher
             // ca-app-pub-3004713799155145. App ID tương ứng đã cập nhật ở AndroidManifest.xml.
             buildConfigField "String", "ADMOB_BANNER_ID",       "\"ca-app-pub-3004713799155145/1141740550\""
@@ -151,6 +143,10 @@ android {
             }
         }
         debug {
+            // QC-only: force UMP geography/test device without VPN. Values live in ignored
+            // local.properties and are never inherited by release variants.
+            buildConfigField "String", "UMP_DEBUG_GEOGRAPHY", "\"${umpDebugGeographyValue}\""
+            buildConfigField "String", "UMP_TEST_DEVICE_HASH", "\"${umpTestDeviceHashValue}\""
             buildConfigField "String", "ADMOB_BANNER_ID",       "\"ca-app-pub-3940256099942544/6300978111\""
             buildConfigField "String", "ADMOB_INTERSTITIAL_ID", "\"ca-app-pub-3940256099942544/1033173712\""
             buildConfigField "String", "ADMOB_APP_OPEN_ID",     "\"ca-app-pub-3940256099942544/9257395921\""
@@ -205,6 +201,25 @@ android {
             // finding C1 — full suite fail không ổn định tuỳ thứ tự class dù mỗi class riêng lẻ pass).
             all {
                 it.forkEvery = 1
+            }
+        }
+    }
+}
+
+// Fail release signing with an actionable message instead of an opaque AGP null/path error.
+tasks.configureEach { task ->
+    if (task.name == "validateSigningProductionRelease") {
+        task.doFirst {
+            def missing = []
+            if (!releaseStoreFileValue) missing << "storeFile / RELEASE_STORE_FILE"
+            if (!releaseStorePasswordValue) missing << "storePassword / RELEASE_STORE_PASSWORD"
+            if (!releaseKeyAliasValue) missing << "keyAlias / RELEASE_KEY_ALIAS"
+            if (!releaseKeyPasswordValue) missing << "keyPassword / RELEASE_KEY_PASSWORD"
+            if (!missing.isEmpty()) {
+                throw new GradleException("Missing release signing values: ${missing.join(', ')}. Configure ignored keystore.properties/local.properties or CI secrets.")
+            }
+            if (!file(releaseStoreFileValue).isFile()) {
+                throw new GradleException("Release keystore does not exist: ${releaseStoreFileValue}")
             }
         }
     }

@@ -17,8 +17,8 @@
 ```gradle
 signingConfigs {
     release {
-        storePassword "27072000"  // ❌ HARDCODED!
-        keyPassword "27072000"    // ❌ HARDCODED!
+        storePassword "[REDACTED]"  // ❌ HARDCODED!
+        keyPassword "[REDACTED]"    // ❌ HARDCODED!
     }
 }
 ```
@@ -253,8 +253,8 @@ public class CircularLogBuffer implements Queue<String> {
 
 ### Before:
 ```gradle
-storePassword "27072000"  // ❌ Exposed in Git
-keyPassword "27072000"    // ❌ Visible to everyone
+storePassword "[REDACTED]"  // ❌ Exposed in Git
+keyPassword "[REDACTED]"    // ❌ Visible to everyone
 ```
 
 ### After:

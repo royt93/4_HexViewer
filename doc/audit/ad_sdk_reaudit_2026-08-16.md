@@ -87,3 +87,20 @@ Không chấm 10 vì chưa có test double trực tiếp cho callback bất đ�
 - `assembleProductionRelease` chạy lại sau cấu hình test: BUILD SUCCESSFUL, gồm lint-vital, R8 và signing validation.
 
 **Ad SDK scoped score: 10/10.** Forced-EEA gap đã được đóng bằng bằng chứng trên thiết bị thật cho cả accept/reject. Failure còn lại của `ActLineUpdateInstrumentationTest` thuộc feature khác và không làm thay đổi kết luận scoped này.
+
+## Current release/security verdict
+
+Re-audit sau hardening:
+
+- Forced-EEA geography và UMP test-device hash chỉ tồn tại trong debug BuildConfig; production release chứa chuỗi rỗng.
+- Release signing không còn absolute path theo máy developer; chỉ đọc `keystore.properties`/`local.properties` bị ignore hoặc CI environment.
+- Password signing cũ đã redact khỏi current tree; không phát hiện private-key block trong tracked source.
+- `SplashAdCoordinator.start()` có exactly-once guard và regression test gọi lặp.
+- 331 unit/Robolectric tests pass; production debug lint không có issue.
+- Production release AAB pass R8, resource shrinking và signing.
+- Ad/VIP instrumentation 2/2 pass trên Samsung S24 Ultra Android 16.
+- Full instrumentation 35/35 pass trên S24U. `ActLineUpdateInstrumentationTest` đã bỏ per-key
+  IME injection dễ race trên Samsung, đóng soft keyboard trước Done và assert payload nhỏ qua
+  `ActivityResult` Intent—theo contract thật—thay vì static bridge bị clear trong `onDestroy()`.
+
+**Code release gate: PASS. Security release gate: PENDING EXTERNAL ACTION.** Certificate đang ký AAB có SHA-256 `84:9E:3B:A0:B1:EA:65:B8:92:C1:99:78:68:E7:07:99:73:67:1F:AF:B7:0C:8D:B1:50:C3:28:34:96:BF:C5:16`. Cần đối chiếu với Upload/App signing certificate trong Play Console và rotate đúng credential đã từng xuất hiện trong public Git history. Theo quyết định của user, remote history không được rewrite nên key rotation là biện pháp vô hiệu hóa bắt buộc.

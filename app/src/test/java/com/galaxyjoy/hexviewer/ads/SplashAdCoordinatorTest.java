@@ -89,6 +89,15 @@ public class SplashAdCoordinatorTest {
     }
 
     @Test
+    public void duplicateStart_requestsConsentExactlyOnce() {
+        coordinator.start(true);
+        coordinator.start(true);
+        assertEquals(1, consentRequests.get());
+        consentCallback.onResult(false);
+        assertEquals(1, navigations.get());
+    }
+
+    @Test
     public void consentCallbackAfterActivityDestroyed_isIgnored() {
         coordinator.start(true);
         alive.set(false);

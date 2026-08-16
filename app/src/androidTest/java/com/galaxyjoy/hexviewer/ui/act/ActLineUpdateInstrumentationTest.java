@@ -1,6 +1,7 @@
 package com.galaxyjoy.hexviewer.ui.act;
 
 import android.app.Activity;
+import android.app.Instrumentation.ActivityResult;
 import android.content.Intent;
 import androidx.test.core.app.ActivityScenario;
 import androidx.test.core.app.ApplicationProvider;
@@ -16,7 +17,8 @@ import org.junit.runner.RunWith;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.clearText;
-import static androidx.test.espresso.action.ViewActions.typeText;
+import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
+import static androidx.test.espresso.action.ViewActions.replaceText;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
@@ -71,8 +73,10 @@ public class ActLineUpdateInstrumentationTest {
             // Verify input field exists and is displayed
             onView(withId(R.id.tilInputHex)).check(matches(isDisplayed()));
 
-            // Clear existing contents and type new hex
-            onView(withId(R.id.etInputHex)).perform(clearText(), typeText("aabbccdd"));
+            // Replace as one edit transaction. Per-key injection is IME/device dependent and can
+            // race this field's smart-input watcher on Samsung keyboards, leaving the field empty.
+            onView(withId(R.id.etInputHex)).perform(
+                    clearText(), replaceText("aabbccdd"), closeSoftKeyboard());
 
             // Verify TextWatcher automatically formats input since smartInput is enabled
             // (ASCII characters 'a','a','b','b','c','c','d','d' are formatted to their hex values '61 61 62 62 63 63 64 64')
@@ -81,9 +85,14 @@ public class ActLineUpdateInstrumentationTest {
             // Trigger "Done" action
             onView(withId(R.id.menuActionDone)).perform(click());
 
-            // Check that the output is set in the bridge and the activity closes successfully
-            assertEquals("6161626263636464", ActLineUpdate.sBridgeResultNewString);
-            assertEquals(Activity.RESULT_OK, scenario.getResult().getResultCode());
+            // Small payloads are returned through the result Intent. The Activity deliberately
+            // clears its static bridge in onDestroy(), so asserting that implementation detail is
+            // lifecycle-racy when this test runs as part of the full suite.
+            ActivityResult result = scenario.getResult();
+            assertEquals(Activity.RESULT_OK, result.getResultCode());
+            assertNotNull(result.getResultData());
+            assertEquals("6161626263636464",
+                    result.getResultData().getStringExtra(ActLineUpdate.RESULT_NEW_STRING));
         }
     }
 }

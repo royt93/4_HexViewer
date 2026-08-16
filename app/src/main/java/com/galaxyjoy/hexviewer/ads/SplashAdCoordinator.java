@@ -16,6 +16,7 @@ public final class SplashAdCoordinator {
     private final SplashRunner splashRunner;
     private final Runnable navigator;
     private final AliveChecker aliveChecker;
+    private final AtomicBoolean started = new AtomicBoolean(false);
     private final AtomicBoolean navigationStarted = new AtomicBoolean(false);
     private final AtomicBoolean consentHandled = new AtomicBoolean(false);
 
@@ -32,6 +33,7 @@ public final class SplashAdCoordinator {
     }
 
     public void start(boolean online) {
+        if (!started.compareAndSet(false, true)) return;
         if (!online) {
             navigateOnce();
             return;
