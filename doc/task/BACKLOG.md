@@ -3,21 +3,26 @@
 > **Cập nhật:** 2026-08-16 | **Nguồn:** đọc toàn bộ source (~16.3k LOC) + 4 review độc lập song song (Claude nội bộ, `codex exec`, `agy`/Gemini, `claude --dangerously-skip-permissions` fresh instance).
 > **Cách đọc "Nguồn":** số nguồn đồng ý càng cao = độ tin cậy càng cao. 3-4/4 = gần như chắc chắn đúng, nên ưu tiên verify+fix trước.
 > Roadmap 4 feature đã lên plan trước đó (Data Inspector, File Diff, Bookmarks, Pattern Search) vẫn giữ nguyên ở [TASK_OVERVIEW.md](TASK_OVERVIEW.md) — backlog này bổ sung phần **fix bug**, **trả nợ kỹ thuật**, **feature mới chưa có trong plan**, **ý tưởng sản phẩm**, và **tính năng độc quyền**.
+>
+> **Mỗi item bên dưới đã có task card riêng** trong [`todo/`](todo/) (file `<ID>_<slug>.md`, vd `todo/BUG-001_cancel-save-deletes-file.md`) — bảng ở đây là index tổng quan, mở file card để xem mô tả đầy đủ + acceptance criteria. Khi bắt đầu code 1 task, di chuyển file card từ `todo/` → `inprogress/`; khi merge xong, chuyển tiếp sang `done/`. **Chưa code gì ở giai đoạn này — toàn bộ 62 item hiện đang nằm trong `todo/`.**
+>
+> **Quyết định của chủ dự án (2026-08-16):** BUG-003 / PI-001 (VIP key bị crack) **tạm chưa xử lý**, ưu tiên các việc khác trước. Task card vẫn giữ nguyên trong backlog để không quên, nhưng không đưa vào sprint hiện tại.
 
 ---
 
 ## 0. Sprint 0 đề xuất — "Stop the bleeding" (làm TRƯỚC mọi feature mới)
 
-Lý do: 2 bug P0 gây **mất dữ liệu thật của user** (BUG-001, BUG-002) và 1 bug P0 làm **vô hiệu hoàn toàn mô hình kinh doanh VIP** (BUG-003). Build feature mới lên trên nền này là xây nhà trên cát.
+Lý do: 2 bug P0 gây **mất dữ liệu thật của user** (BUG-001, BUG-002). Build feature mới lên trên nền này là xây nhà trên cát.
 
 | ID | Việc | Điểm |
 |----|------|------|
-| BUG-001 | Fix mất file khi cancel Save | 5 |
+| BUG-001 | Fix mất file khi cancel Save (gộp chung NF-002 Safe Save) | 5 |
 | BUG-002 | Fix corrupt index khi xoá dòng lúc đang filter/search | 5 |
-| BUG-003 | Vá VIP key bị crack được (tối thiểu: xoá key khỏi APK / chuyển server-side) | 8 |
 | BUG-004 | Fix race onException/onCancel trong TaskRunner (dialog treo) | 3 |
 
-**Tổng Sprint 0: 21 điểm**, ước lượng 3-4 ngày 1 dev senior.
+**Tổng Sprint 0: 13 điểm**, ước lượng 2-3 ngày 1 dev senior.
+
+> BUG-003 (VIP key bị crack, 8 điểm) đã được lấy ra khỏi Sprint 0 theo quyết định của chủ dự án — xem ghi chú ở đầu file.
 
 ---
 
