@@ -20,6 +20,7 @@ import android.view.animation.AccelerateDecelerateInterpolator;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.galaxyjoy.hexviewer.R;
+import com.galaxyjoy.hexviewer.ads.SplashAdCoordinator;
 import com.galaxyjoy.hexviewer.ui.util.NetworkUtils;
 import com.roy.sdkadbmob.AdManager;
 import com.roy.sdkadbmob.UIUtils;
@@ -30,7 +31,6 @@ import kotlin.Unit;
 public class SplashActivity extends AppCompatActivity {
     private final Runnable finishRunnable = this::finish;
     private boolean hasNavigated = false;
-    private final Runnable consentTimeoutRunnable = () -> { if (!hasNavigated) goToMain(); };
 
     // Store animated view references to cancel animations in onDestroy
     private View mAppName = null;
@@ -136,39 +136,24 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     private void checkShowAd() {
-        // Offline: skip consent entirely, go straight to main
-        if (!NetworkUtils.isNetworkAvailable(this)) {
-            goToMain();
-            return;
-        }
-
-        // Online: post 5s timeout so splash never hangs if consent callback stalls
-        getWindow().getDecorView().postDelayed(consentTimeoutRunnable, 5000);
-
-        AdManager.INSTANCE.requestConsentInfoUpdate(this, false, canRequestAds -> {
-            // Bug #4: guard against callback firing after activity is destroyed
-            if (isFinishing() || isDestroyed()) return null;
-            getWindow().getDecorView().removeCallbacks(consentTimeoutRunnable);
-            if (canRequestAds) {
-                runSplashAdFlow();
-            } else {
-                goToMain();
-            }
-            return null;
-        });
-    }
-
-    private void runSplashAdFlow() {
-        AdManager.INSTANCE.initSplashScreen(this, () -> {
-            goToMain();
-            return null;
-        });
+        SplashAdCoordinator coordinator = new SplashAdCoordinator(
+                callback -> AdManager.INSTANCE.requestConsentInfoUpdate(this, false, canRequestAds -> {
+                    callback.onResult(canRequestAds);
+                    return null;
+                }),
+                onComplete -> AdManager.INSTANCE.initSplashScreen(this, () -> {
+                    onComplete.run();
+                    return null;
+                }),
+                this::goToMain,
+                () -> !isFinishing() && !isDestroyed()
+        );
+        coordinator.start(NetworkUtils.isNetworkAvailable(this));
     }
 
     private void goToMain() {
         if (hasNavigated) return;
         hasNavigated = true;
-        getWindow().getDecorView().removeCallbacks(consentTimeoutRunnable);
         Intent intent = new Intent(SplashActivity.this, ActMain.class);
         startActivity(intent);
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
@@ -197,7 +182,6 @@ public class SplashActivity extends AppCompatActivity {
 
         // Clear all pending callbacks and messages
         getWindow().getDecorView().removeCallbacks(finishRunnable);
-        getWindow().getDecorView().removeCallbacks(consentTimeoutRunnable);
         super.onDestroy();
     }
 }

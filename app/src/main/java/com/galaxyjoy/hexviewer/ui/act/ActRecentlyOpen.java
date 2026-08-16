@@ -30,6 +30,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.galaxyjoy.hexviewer.BaseActivity;
 import com.galaxyjoy.hexviewer.BuildConfig;
 import com.galaxyjoy.hexviewer.MyApplication;
+import com.galaxyjoy.hexviewer.ads.BannerLifecyclePolicy;
 import com.galaxyjoy.hexviewer.R;
 import com.galaxyjoy.hexviewer.models.FileData;
 import com.galaxyjoy.hexviewer.models.UriData;
@@ -121,14 +122,17 @@ public class ActRecentlyOpen extends BaseActivity implements AdtRecentlyOpenRecy
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        refreshBannerState();
+    protected void onPause() {
+        if (adView != null) AdManager.INSTANCE.bannerPause(adView);
+        super.onPause();
     }
 
     @Override
-    protected void onPause() {
-        super.onPause();
+    protected void onResume() {
+        super.onResume();
+        if (BannerLifecyclePolicy.isDetached(adView)) adView = null;
+        if (adView != null) AdManager.INSTANCE.bannerResume(adView);
+        refreshBannerState();
     }
 
     @Override
@@ -185,7 +189,7 @@ public class ActRecentlyOpen extends BaseActivity implements AdtRecentlyOpenRecy
                         (android.view.ViewGroup) findViewById(R.id.bannerContainer),
                         (android.widget.TextView) findViewById(R.id.tvLabelAd),
                         AdManager.INSTANCE.getAdaptiveBannerSize(this),
-                        true
+                        false
                 );
             }
         }

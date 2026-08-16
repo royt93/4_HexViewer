@@ -30,6 +30,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.view.MenuCompat;
 
 import com.galaxyjoy.hexviewer.BuildConfig;
+import com.galaxyjoy.hexviewer.ads.BannerLifecyclePolicy;
 import com.galaxyjoy.hexviewer.MyApplication;
 import com.galaxyjoy.hexviewer.R;
 import com.galaxyjoy.hexviewer.ext.RoyUtils;
@@ -171,6 +172,10 @@ public class ActMain extends ActAbstractBaseMain implements AdapterView.OnItemCl
     @Override
     public void onResume() {
         super.onResume();
+        // Privacy Options có thể khiến SDK invalidate/destroy banner khi Activity này đang paused.
+        // View bị detach nhưng host vẫn giữ reference cũ; reset để refreshBannerState() load lại.
+        if (BannerLifecyclePolicy.isDetached(adView)) adView = null;
+        if (adView != null) AdManager.INSTANCE.bannerResume(adView);
         MyApplication.addLog(this, "ActMain", "onResume | file=" + (mFileData == null ? "null" : mFileData.getName())
                 + " | isChanged=" + (mUnDoRedo != null && mUnDoRedo.isChanged())
                 + " | hexVisible=" + (mPayloadHexHelper != null && mPayloadHexHelper.isVisible())
@@ -216,6 +221,7 @@ public class ActMain extends ActAbstractBaseMain implements AdapterView.OnItemCl
         if (adView instanceof android.webkit.WebView) {
             WebViewOomFix.pauseWebViewTimers((android.webkit.WebView) adView);
         }
+        if (adView != null) AdManager.INSTANCE.bannerPause(adView);
         super.onPause();
     }
 
@@ -765,7 +771,7 @@ public class ActMain extends ActAbstractBaseMain implements AdapterView.OnItemCl
                         (android.view.ViewGroup) findViewById(R.id.bannerContainer),
                         (android.widget.TextView) findViewById(R.id.tvLabelAd),
                         AdManager.INSTANCE.getAdaptiveBannerSize(this),
-                        true
+                        false
                 );
                 // FIX: Throttle AdView (WebView-based) frame-rate to 30fps on Android 14+.
                 // This halves the frequency of Debug.getCallers() allocations inside
@@ -1025,4 +1031,3 @@ public class ActMain extends ActAbstractBaseMain implements AdapterView.OnItemCl
     }
 
 }
-

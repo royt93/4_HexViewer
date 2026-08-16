@@ -227,6 +227,7 @@
 
     <!-- Common -->
     <string name="privacy_policy">Privacy Policy</string>
+    <string name="privacy_choices">Privacy choices</string>
     <string name="confirm">Confirm</string>
     <string name="ok">OK</string>
 
@@ -251,4 +252,3 @@
     <!-- Extra please wait -->
     <string name="please_wait">Please wait...</string>
 </resources>
-

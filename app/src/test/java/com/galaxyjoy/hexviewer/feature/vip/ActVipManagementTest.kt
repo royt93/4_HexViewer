@@ -85,6 +85,10 @@ class ActVipManagementTest {
                 // Watch ad button should be enabled for free users
                 val btnWatchAd = activity.findViewById<View>(R.id.btnWatchAd)
                 assertTrue(btnWatchAd.isEnabled)
+
+                val privacyChoices = activity.findViewById<View>(R.id.tvPrivacyChoices)
+                assertEquals(View.VISIBLE, privacyChoices.visibility)
+                assertTrue(privacyChoices.isClickable)
             }
         }
     }

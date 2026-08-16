@@ -15,6 +15,8 @@ if (localPropsFile.exists()) {
     localPropsFile.withInputStream { localProps.load(it) }
 }
 def vipKeySecretValue = localProps.getProperty("vip.key.secret") ?: System.getenv("VIP_KEY_SECRET") ?: "TPLdev0402dev@"
+def umpDebugGeographyValue = localProps.getProperty("ump.debug.geography") ?: ""
+def umpTestDeviceHashValue = localProps.getProperty("ump.test.device.hash") ?: ""
 
 android {
     namespace 'com.galaxyjoy.hexviewer'
@@ -66,8 +68,8 @@ android {
         // mục 8.3). Khai ở defaultConfig (không chỉ debug) vì AdSetup.kt tham chiếu BuildConfig field
         // này không điều kiện biên dịch — release cũng cần symbol tồn tại, dù runtime luôn rỗng vì
         // AdSetup.kt tự gate bằng BuildConfig.DEBUG trước khi dùng giá trị.
-        buildConfigField "String", "UMP_DEBUG_GEOGRAPHY", "\"\""
-        buildConfigField "String", "UMP_TEST_DEVICE_HASH", "\"\""
+        buildConfigField "String", "UMP_DEBUG_GEOGRAPHY", "\"${umpDebugGeographyValue}\""
+        buildConfigField "String", "UMP_TEST_DEVICE_HASH", "\"${umpTestDeviceHashValue}\""
     }
 
     // Enable ABI and Density splits for smaller APK sizes
@@ -94,9 +96,9 @@ android {
     }
     signingConfigs {
         release {
-            // Security: Use environment variables instead of hardcoded passwords
-            // Set these in ~/.gradle/gradle.properties or CI/CD environment:
-            // RELEASE_STORE_FILE=key/keystore.jks
+            // Keystore nằm trong repo private royt93/myKeyStore, clone ngoài project hiện tại.
+            // Có thể override đường dẫn/credential bằng keystore.properties (gitignored) hoặc env CI.
+            // RELEASE_STORE_FILE=/path/to/myKeyStore/com.galaxyjoy.hexviewer/keystore.jks
             // RELEASE_STORE_PASSWORD=your_password
             // RELEASE_KEY_ALIAS=mckimquyen
             // RELEASE_KEY_PASSWORD=your_password
@@ -104,18 +106,19 @@ android {
             def keystorePropertiesFile = rootProject.file("keystore.properties")
             def keystoreProperties = new Properties()
 
+            def defaultExternalStoreFile = "/Users/loitran/AndroidStudioProjects/@mckimquyen/myKeyStore/com.galaxyjoy.hexviewer/keystore.jks"
             if (keystorePropertiesFile.exists()) {
                 keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
-                storeFile file(keystoreProperties['storeFile'] ?: "key/keystore.jks")
+                storeFile file(keystoreProperties['storeFile'] ?: defaultExternalStoreFile)
                 storePassword keystoreProperties['storePassword']
                 keyAlias keystoreProperties['keyAlias']
                 keyPassword keystoreProperties['keyPassword']
             } else {
-                // Fallback to environment variables
-                storeFile file(System.getenv("RELEASE_STORE_FILE") ?: "key/keystore.jks")
-                storePassword System.getenv("RELEASE_STORE_PASSWORD") ?: "27072000"
-                keyAlias System.getenv("RELEASE_KEY_ALIAS") ?: "mckimquyen"
-                keyPassword System.getenv("RELEASE_KEY_PASSWORD") ?: "27072000"
+                // Không có credential mặc định trong source control.
+                storeFile file(System.getenv("RELEASE_STORE_FILE") ?: defaultExternalStoreFile)
+                storePassword System.getenv("RELEASE_STORE_PASSWORD")
+                keyAlias System.getenv("RELEASE_KEY_ALIAS")
+                keyPassword System.getenv("RELEASE_KEY_PASSWORD")
             }
         }
     }

@@ -68,6 +68,12 @@ class ActVipManagementInstrumentationTest {
             
             // Verify activate button is disabled initially
             onView(withId(R.id.btnActivate)).check(matches(not(isEnabled())))
+
+            // Compliance: user luôn có entry point mở lại UMP/MAX privacy options.
+            onView(withId(R.id.tvPrivacyChoices))
+                .perform(scrollTo())
+                .check(matches(isDisplayed()))
+                .check(matches(isClickable()))
         }
     }
 

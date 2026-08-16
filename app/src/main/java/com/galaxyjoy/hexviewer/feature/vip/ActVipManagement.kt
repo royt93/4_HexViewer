@@ -217,6 +217,13 @@ class ActVipManagement : AppCompatActivity() {
                 Toast.makeText(this, R.string.vip_open_link_error, Toast.LENGTH_SHORT).show()
             }
         }
+
+        // UMP/MAX privacy-options entry point: cho phép user mở lại lựa chọn consent sau lần đầu.
+        binding.tvPrivacyChoices.setOnClickListener {
+            AdManager.showConsentFormIfAvailable(this) {
+                if (!isFinishing) bindUi()
+            }
+        }
     }
 
     private fun setupInputListeners() {

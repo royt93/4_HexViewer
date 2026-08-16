@@ -185,6 +185,7 @@
 
     <!-- Common -->
     <string name="privacy_policy">Chính sách bảo mật</string>
+    <string name="privacy_choices">Lựa chọn quyền riêng tư</string>
     <string name="confirm">Xác nhận</string>
     <string name="ok">OK</string>
 
