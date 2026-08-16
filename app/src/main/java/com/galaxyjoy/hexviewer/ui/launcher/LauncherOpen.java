@@ -21,6 +21,7 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import java.util.Locale;
 
 import com.galaxyjoy.hexviewer.models.FileData;
+import com.galaxyjoy.hexviewer.streaming.SeekableDataSourceFactory;
 import com.galaxyjoy.hexviewer.ui.act.ActMain;
 import com.galaxyjoy.hexviewer.ui.task.TaskOpen;
 import com.galaxyjoy.hexviewer.ui.util.UIHelper;
@@ -96,7 +97,17 @@ public class LauncherOpen {
      */
     public void processFileOpen(final FileData fd, final String oldToString, final boolean addRecent) {
         if (fd != null && fd.getUri() != null && fd.getUri().getPath() != null) {
+            if (fd.isStreaming() && !fd.isSequential() && !fd.isSizeUnknown()) {
+                long end = Math.min(fd.getRealSize(),
+                        com.galaxyjoy.hexviewer.constants.AppConstants.STREAMING_WINDOW_SIZE);
+                fd.setStreamingWindow(0L, end);
+            }
             final FileData previous = mActivity.getFileData();
+            // A top-level reopen must not reuse a retained spool whose provider content
+            // may have changed while keeping the same URI and length.
+            if (previous != null && previous.getUri() != null) {
+                SeekableDataSourceFactory.releaseContentUri(previous.getUri());
+            }
             mActivity.setFileData(fd);
             Runnable r = () -> {
                 mActivity.getUnDoRedo().clear();

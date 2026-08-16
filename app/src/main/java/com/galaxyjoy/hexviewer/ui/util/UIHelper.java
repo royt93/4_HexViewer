@@ -439,6 +439,14 @@ public class UIHelper {
                                           final FileData fd,
                                           final Runnable runnable,
                                           final Runnable runnableSave) {
+        confirmFileChanged(c, fd, runnable, runnableSave, null);
+    }
+
+    public static void confirmFileChanged(final Context c,
+                                          final FileData fd,
+                                          final Runnable runnable,
+                                          final Runnable runnableSave,
+                                          final Runnable runnableCancel) {
         if (FileData.isEmpty(fd)) {
             runnable.run();
             return;
@@ -454,7 +462,13 @@ public class UIHelper {
                     runnable.run();
                     dialog.dismiss();
                 })
-                .setNeutralButton(R.string.cancel, (dialog, which) -> dialog.dismiss())
+                .setNeutralButton(R.string.cancel, (dialog, which) -> {
+                    if (runnableCancel != null) runnableCancel.run();
+                    dialog.dismiss();
+                })
+                .setOnCancelListener(dialog -> {
+                    if (runnableCancel != null) runnableCancel.run();
+                })
                 .show();
     }
 }

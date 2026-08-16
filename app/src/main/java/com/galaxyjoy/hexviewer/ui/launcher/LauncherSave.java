@@ -118,8 +118,27 @@ public class LauncherSave {
                     mActivity.getString(R.string.confirm_overwrite),
                     view -> {
                         FileData fd = new FileData(mActivity, f.getUri(), false);
-                        new TaskSave(mActivity, mActivity).execute(new TaskSave.Request(fd,
-                                mActivity.getPayloadHex().getAdapter().getEntries().getItems(), null));
+                        FileData source = mActivity.getFileData();
+                        boolean sameSource = source.getUri().equals(fd.getUri());
+                        TaskSave.Request request;
+                        if (source.isStreaming() && !sameSource) {
+                            DocumentFile staging = createTemporary(sourceDir, "stage");
+                            DocumentFile backup = createTemporary(sourceDir, "backup");
+                            if (staging == null || backup == null) {
+                                deleteQuietly(staging);
+                                deleteQuietly(backup);
+                                UIHelper.showErrorDialog(mActivity, R.string.error_title,
+                                        mActivity.getString(R.string.uri_exception));
+                                return;
+                            }
+                            request = new TaskSave.Request(fd,
+                                    mActivity.getPayloadHex().getAdapter().getEntries().getItems(),
+                                    null, source, staging.getUri(), backup.getUri(), false);
+                        } else {
+                            request = new TaskSave.Request(sameSource ? source : fd,
+                                    mActivity.getPayloadHex().getAdapter().getEntries().getItems(), null);
+                        }
+                        new TaskSave(mActivity, mActivity).execute(request);
                         mActivity.refreshTitle();
                     });
         } else {
@@ -130,15 +149,45 @@ public class LauncherSave {
                 Log.e(getClass().getSimpleName(), "2 - Uri exception: '" + uri + "', filename: '" + filename + "'");
             } else {
                 FileData fd = new FileData(mActivity, dFile.getUri(), false);
-                mActivity.setFileData(fd);
+                FileData source = mActivity.getFileData();
                 MyApplication.addLog(mActivity,
                         "Save",
                         String.format(Locale.US, "Save file: '%s'", mActivity.getFileData()));
-                new TaskSave(mActivity, mActivity).execute(new TaskSave.Request(mActivity.getFileData(),
-                        mActivity.getPayloadHex().getAdapter().getEntries().getItems(),
-                        null));
+                TaskSave.Request request = source.isStreaming()
+                        ? createNewDestinationStreamingRequest(sourceDir, dFile, fd, source)
+                        : new TaskSave.Request(fd,
+                        mActivity.getPayloadHex().getAdapter().getEntries().getItems(), null);
+                if (request == null) return;
+                new TaskSave(mActivity, mActivity).execute(request);
                 mActivity.refreshTitle();
             }
+        }
+    }
+
+    private TaskSave.Request createNewDestinationStreamingRequest(DocumentFile directory,
+                                                                   DocumentFile destination,
+                                                                   FileData destinationData,
+                                                                   FileData source) {
+        DocumentFile staging = createTemporary(directory, "stage");
+        if (staging == null) {
+            deleteQuietly(destination);
+            UIHelper.showErrorDialog(mActivity, R.string.error_title,
+                    mActivity.getString(R.string.uri_exception));
+            return null;
+        }
+        return new TaskSave.Request(destinationData,
+                mActivity.getPayloadHex().getAdapter().getEntries().getItems(), null, source,
+                staging.getUri(), null, true);
+    }
+
+    private DocumentFile createTemporary(DocumentFile directory, String role) {
+        String name = ".hexviewer-" + role + "-" + Long.toHexString(System.nanoTime()) + ".tmp";
+        return directory.createFile("application/octet-stream", name);
+    }
+
+    private void deleteQuietly(DocumentFile file) {
+        if (file != null && file.exists() && !file.delete()) {
+            Log.w(getClass().getSimpleName(), "Unable to delete temporary file: " + file.getUri());
         }
     }
 }

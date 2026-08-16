@@ -82,6 +82,13 @@ public class ActMain extends ActAbstractBaseMain implements AdapterView.OnItemCl
     private PayloadHexHelper mPayloadHexHelper = null;
     private GoToDialog mGoToDialog = null;
     private View adView = null;
+    private boolean mStreamingWindowLoading = false;
+    private int mStreamingPendingSelection = -1;
+    private boolean mStreamingDecisionPending = false;
+    private long mStreamingRollbackStart = -1L;
+    private long mStreamingRollbackEnd = -1L;
+    private final java.util.concurrent.atomic.AtomicLong mStreamingSearchGeneration =
+            new java.util.concurrent.atomic.AtomicLong();
 
     private android.view.View mVipBadgeContainer = null;
     private android.widget.ImageView mImgVipIcon = null;
@@ -227,6 +234,11 @@ public class ActMain extends ActAbstractBaseMain implements AdapterView.OnItemCl
 
     @Override
     protected void onDestroy() {
+        mStreamingSearchGeneration.incrementAndGet();
+        if (mFileData != null && mFileData.getUri() != null) {
+            com.galaxyjoy.hexviewer.streaming.SeekableDataSourceFactory
+                    .releaseContentUri(mFileData.getUri());
+        }
         stopPillAnimation();
         if (adView != null) {
             // FIX: Restore default frame rate before destroying to avoid
@@ -320,23 +332,8 @@ public class ActMain extends ActAbstractBaseMain implements AdapterView.OnItemCl
             return false;
         }
 
-        // Additional validation: Check file size if possible
-        try {
-            long fileSize = com.galaxyjoy.hexviewer.util.io.FileHelper.getFileSize(this, getContentResolver(), uri);
-            if (fileSize > com.galaxyjoy.hexviewer.constants.AppConstants.MAX_EXTERNAL_INTENT_FILE_SIZE) {
-                String maxSizeStr = com.galaxyjoy.hexviewer.util.SysHelper.sizeToHuman(this,
-                        com.galaxyjoy.hexviewer.constants.AppConstants.MAX_EXTERNAL_INTENT_FILE_SIZE,
-                        true, true, false);
-                UIHelper.showErrorDialog(this, getString(R.string.error_title),
-                        "File too large (max " + maxSizeStr
-                                + " for external files). Use Open File menu for larger files.");
-                return false;
-            }
-        } catch (Exception e) {
-            // If we can't get file size, allow but log
-            android.util.Log.w("ActMain", "Could not validate file size: " + e.getMessage());
-        }
-
+        // Size is intentionally not rejected here. The normal open pipeline selects
+        // bounded-memory streaming for large sources, including external intents.
         return true;
     }
 
@@ -373,7 +370,9 @@ public class ActMain extends ActAbstractBaseMain implements AdapterView.OnItemCl
             } else
                 addRecent = FileHelper.takeUriPermissions(this, uri, false);
             FileData fd = new FileData(this, uri, true);
-            mApp.setSequential(fd.getRealSize() != 0);
+            // External files use the same transparent FULL/STREAMING policy as files
+            // selected from the Open menu. Sequential remains an explicit legacy mode.
+            mApp.setSequential(false);
             final Runnable r = () -> mLauncherOpen.processFileOpen(fd, null, addRecent);
             if (mUnDoRedo.isChanged()) {// a save operation is pending?
                 UIHelper.confirmFileChanged(this, mFileData, r, () -> new TaskSave(this, this).execute(
@@ -452,9 +451,64 @@ public class ActMain extends ActAbstractBaseMain implements AdapterView.OnItemCl
     @Override
     public void doSearch(String queryStr) {
         mSearchQuery = queryStr;
+        if (queryStr == null || queryStr.isEmpty()) {
+            mStreamingSearchGeneration.incrementAndGet();
+        } else if (mFileData != null && mFileData.isStreaming()) {
+            if (mUnDoRedo.isChanged()) {
+                mStreamingSearchGeneration.incrementAndGet();
+                UIHelper.toast(this, getString(R.string.action_save_title));
+                return;
+            }
+            searchStreamingFile(queryStr);
+            return;
+        }
         final AdtSearchableListArray laa = ((mPayloadPlainSwipe.isVisible()) ? mPayloadPlainSwipe.getAdapter()
                 : mPayloadHexHelper.getAdapter());
         laa.getFilter().filter(queryStr);
+    }
+
+    private void searchStreamingFile(String query) {
+        final long token = mStreamingSearchGeneration.incrementAndGet();
+        final FileData fd = mFileData;
+        final String trimmed = query.trim();
+        final boolean hexQuery = !mPayloadPlainSwipe.isVisible()
+                && trimmed.matches("(?i)^(?:[0-9a-f]{2})(?:\\s*[0-9a-f]{2})*$");
+        final byte[] pattern = hexQuery
+                ? com.galaxyjoy.hexviewer.util.SysHelper.hex2bin(trimmed)
+                : trimmed.toLowerCase(java.util.Locale.ROOT)
+                .getBytes(java.nio.charset.StandardCharsets.UTF_8);
+        new Thread(() -> {
+            try (com.galaxyjoy.hexviewer.streaming.SeekableDataSource source =
+                         com.galaxyjoy.hexviewer.streaming.SeekableDataSourceFactory.openContentUri(
+                                 getContentResolver(), fd.getUri(), getCacheDir(), fd.getRealSize())) {
+                com.galaxyjoy.hexviewer.streaming.search.StreamingSearcher searcher =
+                        new com.galaxyjoy.hexviewer.streaming.search.StreamingSearcher();
+                com.galaxyjoy.hexviewer.streaming.search.StreamingSearcher.RandomAccessReader reader =
+                        (position, destination, offset, length) -> {
+                            int read = source.readAt(position, destination, offset, length);
+                            if (!hexQuery && read > 0) {
+                                for (int i = offset; i < offset + read; i++) {
+                                    int value = destination[i] & 0xff;
+                                    if (value >= 'A' && value <= 'Z') destination[i] = (byte) (value + 32);
+                                }
+                            }
+                            return read;
+                        };
+                java.util.OptionalLong found = searcher.findNext(
+                        reader, 0L, fd.getRealSize(), pattern,
+                        () -> token != mStreamingSearchGeneration.get());
+                runOnUiThread(() -> {
+                    if (token != mStreamingSearchGeneration.get() || isFinishing()) return;
+                    if (found.isPresent()) goToStreamingOffset(found.getAsLong());
+                    else UIHelper.toast(this, getString(R.string.error_not_available));
+                });
+            } catch (Exception error) {
+                runOnUiThread(() -> {
+                    if (token == mStreamingSearchGeneration.get() && !isFinishing())
+                        UIHelper.showErrorDialog(this, R.string.error_title, error.getMessage());
+                });
+            }
+        }, "hex-stream-search").start();
     }
 
     /**
@@ -466,17 +520,31 @@ public class ActMain extends ActAbstractBaseMain implements AdapterView.OnItemCl
      */
     @Override
     public void onSaveResult(FileData fd, boolean success, final Runnable userRunnable) {
+        if (!success) mStreamingDecisionPending = false;
         if (success) {
+            boolean destinationChanged = fd != mFileData;
+            boolean sourceWasStreaming = mFileData != null && mFileData.isStreaming();
+            long sourceWindowStart = sourceWasStreaming ? mFileData.getStartOffset() : 0L;
+            long sourceWindowEnd = sourceWasStreaming ? mFileData.getEndOffset() : 0L;
             mUnDoRedo.refreshChange();
             if (mFileData.isOpenFromAppIntent() && mPopup != null)
                 mPopup.setSaveMenuEnable(true);
-            mFileData = fd;
+            mFileData = destinationChanged
+                    ? new FileData(this, fd.getUri(), false)
+                    : fd;
+            if (destinationChanged && sourceWasStreaming && mFileData.isStreaming()) {
+                long end = Math.min(mFileData.getRealSize(), sourceWindowEnd);
+                long start = Math.min(sourceWindowStart, end);
+                mFileData.setStreamingWindow(start, end);
+            }
             mFileData.clearOpenFromAppIntent();
             refreshTitle();
             mPayloadHexHelper.resetUpdateStatus();
         } else
             mApp.getRecentlyOpened().remove(fd);
-        if (userRunnable != null)
+        // Follow-up actions such as changing a streaming window must never run
+        // after a failed/cancelled save, otherwise unsaved data disappears.
+        if (success && userRunnable != null)
             userRunnable.run();
     }
 
@@ -490,6 +558,23 @@ public class ActMain extends ActAbstractBaseMain implements AdapterView.OnItemCl
     public void onOpenResult(boolean success, boolean fromOpen) {
         MyApplication.addLog(this, "ActMain", "onOpenResult | success=" + success + " | fromOpen=" + fromOpen
                 + " | file=" + (mFileData == null ? "null" : mFileData.getName()));
+        if (!success && mFileData != null && mFileData.isStreaming()
+                && mStreamingRollbackStart >= 0L) {
+            long restoreStart = mStreamingRollbackStart;
+            long restoreEnd = mStreamingRollbackEnd;
+            mStreamingRollbackStart = -1L;
+            mStreamingRollbackEnd = -1L;
+            mStreamingPendingSelection = -1;
+            mStreamingWindowLoading = true;
+            mFileData.setStreamingWindow(restoreStart, restoreEnd);
+            new TaskOpen(this, mPayloadHexHelper.getAdapter(), this, null, false)
+                    .execute(mFileData);
+            return;
+        }
+        if (success) {
+            mStreamingRollbackStart = -1L;
+            mStreamingRollbackEnd = -1L;
+        }
         setMenuVisible(mSearchMenu, success);
         boolean checked = mPopup != null && mPopup.getPlainText() != null && mPopup.getPlainText().setEnable(success);
         if (!FileData.isEmpty(mFileData) && mFileData.isOpenFromAppIntent()) {
@@ -508,6 +593,13 @@ public class ActMain extends ActAbstractBaseMain implements AdapterView.OnItemCl
             mPayloadPlainSwipe.setVisible(checked);
             if (fromOpen)
                 mUnDoRedo.clear();
+            if (mStreamingPendingSelection >= 0) {
+                int last = Math.max(0, mPayloadHexHelper.getAdapter().getCount() - 1);
+                mPayloadHexHelper.getListView().setSelection(
+                        Math.min(last, mStreamingPendingSelection));
+                mPayloadPlainSwipe.setPendingStreamingByteSelection(
+                        mStreamingPendingSelection * Math.max(1, mApp.getNbBytesPerLine()));
+            }
         } else {
             mIdleView.setVisibility(View.VISIBLE);
             mPayloadHexHelper.setVisible(false);
@@ -515,8 +607,90 @@ public class ActMain extends ActAbstractBaseMain implements AdapterView.OnItemCl
             mFileData = null;
             mUnDoRedo.clear();
         }
+        mStreamingPendingSelection = -1;
+        mStreamingWindowLoading = false;
         updateEditEmptyMenu();
         refreshTitle();
+    }
+
+    /**
+     * Loads the neighboring resident range for transparent large-file streaming.
+     * The ranges overlap so the visible anchor remains understandable after a swap.
+     */
+    public void requestStreamingWindow(boolean forward, int visibleRows) {
+        FileData fd = mFileData;
+        if (mStreamingWindowLoading || mStreamingDecisionPending || fd == null
+                || !fd.isStreaming() || !fd.isSequential()) return;
+
+        final int bytesPerLine = Math.max(1, mApp.getNbBytesPerLine());
+        final long overlap = 64L * bytesPerLine;
+        final long currentStart = fd.getStartOffset();
+        final long currentEnd = fd.getEndOffset();
+        long nextStart;
+        if (forward) {
+            if (currentEnd >= fd.getRealSize()) return;
+            nextStart = Math.max(0L, currentEnd - overlap);
+            mStreamingPendingSelection = (int) (overlap / bytesPerLine);
+        } else {
+            if (currentStart <= 0L) return;
+            nextStart = Math.max(0L, currentStart
+                    - (com.galaxyjoy.hexviewer.constants.AppConstants.STREAMING_WINDOW_SIZE - overlap));
+            int rows = com.galaxyjoy.hexviewer.constants.AppConstants.STREAMING_WINDOW_SIZE / bytesPerLine;
+            mStreamingPendingSelection = Math.max(0, rows - (int) (overlap / bytesPerLine) - visibleRows);
+        }
+        nextStart -= nextStart % bytesPerLine;
+        long nextEnd = Math.min(fd.getRealSize(), nextStart
+                + com.galaxyjoy.hexviewer.constants.AppConstants.STREAMING_WINDOW_SIZE);
+        if (nextStart == currentStart && nextEnd == currentEnd) return;
+
+        loadStreamingWindow(nextStart, nextEnd, mStreamingPendingSelection);
+    }
+
+    /** Loads and selects the streaming window containing an absolute byte offset. */
+    public void goToStreamingOffset(long absoluteOffset) {
+        FileData fd = mFileData;
+        if (fd == null || !fd.isStreaming() || mStreamingWindowLoading || mStreamingDecisionPending
+                || absoluteOffset < 0L || absoluteOffset >= fd.getRealSize()) return;
+        int bytesPerLine = Math.max(1, mApp.getNbBytesPerLine());
+        if (absoluteOffset >= fd.getStartOffset() && absoluteOffset < fd.getEndOffset()) {
+            int row = (int) ((absoluteOffset - fd.getStartOffset()) / bytesPerLine);
+            mPayloadHexHelper.getListView().setSelection(row);
+            return;
+        }
+        long half = com.galaxyjoy.hexviewer.constants.AppConstants.STREAMING_WINDOW_SIZE / 2L;
+        long start = Math.max(0L, absoluteOffset - half);
+        start -= start % bytesPerLine;
+        long maxStart = Math.max(0L, fd.getRealSize()
+                - com.galaxyjoy.hexviewer.constants.AppConstants.STREAMING_WINDOW_SIZE);
+        start = Math.min(start, maxStart - (maxStart % bytesPerLine));
+        long end = Math.min(fd.getRealSize(), start
+                + com.galaxyjoy.hexviewer.constants.AppConstants.STREAMING_WINDOW_SIZE);
+        loadStreamingWindow(start, end,
+                (int) ((absoluteOffset - start) / bytesPerLine));
+    }
+
+    private void loadStreamingWindow(long start, long end, int selection) {
+        FileData fd = mFileData;
+        if (fd == null || mStreamingWindowLoading) return;
+        Runnable load = () -> {
+            mStreamingDecisionPending = false;
+            mStreamingPendingSelection = selection;
+            mStreamingWindowLoading = true;
+            mStreamingRollbackStart = fd.getStartOffset();
+            mStreamingRollbackEnd = fd.getEndOffset();
+            fd.setStreamingWindow(start, end);
+            new TaskOpen(this, mPayloadHexHelper.getAdapter(), this, null, false).execute(fd);
+        };
+        if (!mUnDoRedo.isChanged()) {
+            load.run();
+            return;
+        }
+        mStreamingDecisionPending = true;
+        UIHelper.confirmFileChanged(this, fd,
+                load,
+                () -> new TaskSave(this, this).execute(new TaskSave.Request(fd,
+                        mPayloadHexHelper.getAdapter().getEntries().getItems(), load)),
+                () -> mStreamingDecisionPending = false);
     }
 
     /**

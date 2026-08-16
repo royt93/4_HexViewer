@@ -50,6 +50,9 @@ public final class AppConstants {
      */
     public static final long MAX_NORMAL_FILE_SIZE = 30L * 1024 * 1024;
 
+    /** Bytes materialized as rows for one transparent streaming viewport. */
+    public static final int STREAMING_WINDOW_SIZE = 128 * 1024;
+
     /**
      * Maximum file size for sequential access mode (partial open) (2 GB)
      */

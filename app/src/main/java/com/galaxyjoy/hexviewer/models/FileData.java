@@ -24,6 +24,7 @@ import java.util.Locale;
 
 public class FileData {
     protected static final String SEQUENTIAL_SEP = "^";
+    protected static final String STREAMING_PREFIX = "@streaming@";
     private final String mName;
     private final Uri mUri;
     private boolean mOpenFromAppIntent;
@@ -32,8 +33,10 @@ public class FileData {
     private long mSize;
     private long mRealSize;
     private boolean mIsNotFound;
-    private final boolean mIsAccessError;
+    private boolean mIsAccessError;
+    private boolean mIsSizeUnknown;
     private int mShiftOffset;
+    private boolean mStreaming;
 
     public FileData(final Context ctx,
                     final Uri uri,
@@ -57,13 +60,18 @@ public class FileData {
         mEndOffset = endOffset;
         mOpenFromAppIntent = openFromAppIntent;
         mRealSize = FileHelper.getFileSize(ctx, ctx.getContentResolver(), mUri);
+        mIsSizeUnknown = mRealSize == FileHelper.FILE_SIZE_UNKNOWN;
+        mStreaming = startOffset == 0L && endOffset == 0L
+                && (mIsSizeUnknown
+                || mRealSize > com.galaxyjoy.hexviewer.constants.AppConstants.MAX_NORMAL_FILE_SIZE);
         if (isSequential())
             mSize = Math.abs(mEndOffset - mStartOffset);
         else
             mSize = mRealSize;
 
         /* We assume that if the file sizes are not <= 0, the file exists. */
-        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.Q && (mSize <= 0 || mRealSize <= 0)) {
+        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.Q && !mIsSizeUnknown
+                && (mSize <= 0 || mRealSize <= 0)) {
             DocumentFile sourceFile = DocumentFile.fromSingleUri(ctx, mUri);
             mIsNotFound = (sourceFile == null || !sourceFile.exists());
         }
@@ -72,12 +80,12 @@ public class FileData {
             mRealSize = 0;
             mSize = 0;
         } else {
-            if (mRealSize == -1) {
+            if (mRealSize == FileHelper.FILE_SIZE_NOT_FOUND) {
                 mIsAccessError = false;
                 mIsNotFound = true;
                 mRealSize = 0;
                 mSize = 0;
-            } else if (mRealSize == -2) {
+            } else if (mRealSize == FileHelper.FILE_SIZE_ACCESS_ERROR) {
                 mIsAccessError = true;
                 mIsNotFound = false;
                 mRealSize = 0;
@@ -85,6 +93,7 @@ public class FileData {
             } else {
                 mIsAccessError = false;
                 mIsNotFound = false;
+                if (mIsSizeUnknown) mSize = 0L;
             }
         }
         MyApplication.addLog(ctx,
@@ -127,6 +136,31 @@ public class FileData {
      */
     public boolean isAccessError() {
         return mIsAccessError;
+    }
+
+    /** Returns true when the provider opened successfully but did not expose a size. */
+    public boolean isSizeUnknown() {
+        return mIsSizeUnknown;
+    }
+
+    /** Applies a size discovered by a seekable channel or completed spool operation. */
+    public void setResolvedRealSize(long resolvedSize) {
+        if (resolvedSize < 0L) throw new IllegalArgumentException("resolvedSize must be >= 0");
+        boolean transparentCandidate = mStreaming || !isSequential();
+        mRealSize = resolvedSize;
+        mIsSizeUnknown = false;
+        mIsNotFound = false;
+        mIsAccessError = false;
+        if (!isSequential()) mSize = resolvedSize;
+        mStreaming = transparentCandidate
+                && resolvedSize > com.galaxyjoy.hexviewer.constants.AppConstants.MAX_NORMAL_FILE_SIZE;
+    }
+
+    /** Restores an auto-streaming recent item without restoring its transient resident window. */
+    public static FileData restoreStreaming(Context context, Uri uri, boolean openFromAppIntent) {
+        FileData result = new FileData(context, uri, openFromAppIntent);
+        result.mStreaming = true;
+        return result;
     }
 
     /**
@@ -175,6 +209,7 @@ public class FileData {
 
     @NonNull
     public String toString() {
+        if (mStreaming) return STREAMING_PREFIX + mUri;
         String ret = mStartOffset + SEQUENTIAL_SEP + mEndOffset + SEQUENTIAL_SEP;
         ret += mUri.toString();
         return ret;
@@ -187,6 +222,22 @@ public class FileData {
      */
     public boolean isSequential() {
         return mStartOffset != 0L || mEndOffset != 0L;
+    }
+
+    /** Returns whether this file was transparently switched to bounded-memory streaming. */
+    public boolean isStreaming() {
+        return mStreaming;
+    }
+
+    /**
+     * Selects the resident range for a streaming file. Offsets are end-exclusive.
+     */
+    public void setStreamingWindow(long startOffset, long endOffset) {
+        if (startOffset < 0L || endOffset < startOffset || endOffset > mRealSize) {
+            throw new IllegalArgumentException("Invalid streaming window: " + startOffset + ".." + endOffset);
+        }
+        mStreaming = true;
+        setOffsets(startOffset, endOffset, true);
     }
 
     /**

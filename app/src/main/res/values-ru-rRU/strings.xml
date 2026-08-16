@@ -165,7 +165,7 @@
     <string name="vip_until">До: %1$s</string>
     <string name="vip_activated_at">Активировано: %1$s</string>
     <string name="vip_expires_at">Истекает: %1$s</string>
-    <string name="vip_remaining">%1$dд %2$02дч %3$02дм %4$02дс</string>
+    <string name="vip_remaining">%1$dд %2$02dч %3$02dм %4$02dс</string>
     <string name="vip_redeem_label">Введите VIP ключ</string>
     <string name="vip_redeem_hint">напр. LOITP_30</string>
     <string name="vip_redeem_button">Активировать</string>

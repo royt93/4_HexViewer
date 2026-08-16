@@ -91,6 +91,10 @@ public class EntryFilter extends Filter {
     @Override
     protected void publishResults(CharSequence constraint,
             FilterResults results) {
+        // Android may publish a cancelled/stale filter request with no values while
+        // the user switches between hex and plain adapters. Ignore that callback;
+        // the newer request owns the visible result set.
+        if (results == null || !(results.values instanceof Set)) return;
         try {
             List<Integer> li = new ArrayList<>((Set<Integer>) results.values);
             Collections.sort(li);

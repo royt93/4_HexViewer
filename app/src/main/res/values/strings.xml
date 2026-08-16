@@ -227,7 +227,7 @@
 
     <!-- Common -->
     <string name="privacy_policy">Privacy Policy</string>
-    <string name="privacy_choices">Privacy choices</string>
+    <string name="privacy_choices" translatable="false">Privacy choices</string>
     <string name="confirm">Confirm</string>
     <string name="ok">OK</string>
 
@@ -235,15 +235,15 @@
     <string name="vip_premium_packages">Premium Packages</string>
     <string name="vip_revoked_message">VIP Revoked</string>
     <string name="vip_success_message">Successfully activated VIP for %1$d days!</string>
-    <string name="vip_success_message_until">VIP activated! Active until %1$s.</string>
+    <string name="vip_success_message_until" translatable="false">VIP activated! Active until %1$s.</string>
     <string name="vip_failed_message">Invalid VIP Key. Please try again.</string>
     <string name="vip_open_link_error">Unable to open link</string>
     <string name="vip_badge_text">VIP</string>
     <string name="vip_no_ad_title">No Ad Available</string>
     <string name="vip_no_ad_message">No ad is available right now. Please check your internet connection and try again later.</string>
-    <string name="attribution_ads_label">Ad Networks (AdMob / AppLovin MAX)</string>
-    <string name="vip_no_reward_title">No Reward This Time</string>
-    <string name="vip_no_reward_message">A rewarded video wasn\'t available, so no VIP days were granted. Please try \"Watch ad\" again in a moment.</string>
+    <string name="attribution_ads_label" translatable="false">Ad Networks (AdMob / AppLovin MAX)</string>
+    <string name="vip_no_reward_title" translatable="false">No Reward This Time</string>
+    <string name="vip_no_reward_message" translatable="false">A rewarded video wasn\'t available, so no VIP days were granted. Please try \"Watch ad\" again in a moment.</string>
 
     <!-- Extra VIP Title & Badge -->
     <string name="vip_member_title">VIP Member</string>

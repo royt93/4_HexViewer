@@ -64,6 +64,10 @@ public class RecentlyOpened {
     }
 
     public static FileData decode(final Context ctx, final String str) {
+        if (str.startsWith(FileData.STREAMING_PREFIX)) {
+            return FileData.restoreStreaming(ctx,
+                    Uri.parse(str.substring(FileData.STREAMING_PREFIX.length())), false);
+        }
         String[] split = str.split("\\" + FileData.SEQUENTIAL_SEP);
         if (split.length == 1)
             return new FileData(ctx,

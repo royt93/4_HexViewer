@@ -81,7 +81,7 @@ public final class WebViewOomFix {
 
     /**
      * Throttle the frame-rate of any View (typically a WebView or AdView) to
-     * {@value #THROTTLED_FRAME_RATE_FPS} fps on Android 14+ (API 34+).
+     * {@value #THROTTLED_FRAME_RATE_FPS} fps on Android 15+ (API 35+).
      *
      * <p>This is the primary fix for the OOM crash. Call it once after the
      * view is attached to a window (e.g., in {@code onResume} or after the ad
@@ -92,7 +92,7 @@ public final class WebViewOomFix {
      */
     public static void throttleWebViewFrameRate(@Nullable View view) {
         if (view == null) return;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.VANILLA_ICE_CREAM) {
             try {
                 view.setRequestedFrameRate(THROTTLED_FRAME_RATE_FPS);
                 Log.d(TAG, "throttleWebViewFrameRate: set to " + THROTTLED_FRAME_RATE_FPS + " fps");
@@ -103,13 +103,13 @@ public final class WebViewOomFix {
     }
 
     /**
-     * Restore the default (unrestricted) frame-rate for a View on Android 14+.
+     * Restore the default (unrestricted) frame-rate for a View on Android 15+.
      *
      * @param view The view to restore. May be null.
      */
     public static void restoreWebViewFrameRate(@Nullable View view) {
         if (view == null) return;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.VANILLA_ICE_CREAM) {
             try {
                 view.setRequestedFrameRate(DEFAULT_FRAME_RATE_FPS);
                 Log.d(TAG, "restoreWebViewFrameRate: restored to default");

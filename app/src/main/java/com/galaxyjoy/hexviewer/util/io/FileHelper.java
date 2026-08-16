@@ -26,12 +26,17 @@ import com.galaxyjoy.hexviewer.MyApplication;
 import com.galaxyjoy.hexviewer.util.SysHelper;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.nio.channels.FileChannel;
 import java.util.List;
 import java.util.Locale;
 
 public class FileHelper {
+    public static final long FILE_SIZE_NOT_FOUND = -1L;
+    public static final long FILE_SIZE_ACCESS_ERROR = -2L;
+    public static final long FILE_SIZE_UNKNOWN = -3L;
     private static final String FILE_HELPER_TAG = "FileHelper";
     private static final String EXCEPTION_TAG = "Exception: ";
     private static final String BUCKET_ID = "?bucketId=";
@@ -213,7 +218,8 @@ public class FileHelper {
      * @param ctx Android context.
      * @param cr  ContentResolver
      * @param uri Uri
-     * @return long (-1 = FileNotFoundException, -2 = other errors)
+     * @return size, {@link #FILE_SIZE_NOT_FOUND}, {@link #FILE_SIZE_ACCESS_ERROR}, or
+     * {@link #FILE_SIZE_UNKNOWN} when the source exists but exposes no length
      */
     public static long getFileSize(Context ctx, ContentResolver cr, Uri uri) {
         ParcelFileDescriptor pfd = null;
@@ -223,14 +229,31 @@ public class FileHelper {
         long size;
         try {
             pfd = cr.openFileDescriptor(uri, "r");
-            long sz = pfd.getStatSize();
-            pfd.close();
-            size = sz;
+            long statSize = pfd.getStatSize();
+            if (statSize >= 0L) {
+                size = statSize;
+            } else {
+                size = queryFileSize(cr, uri);
+                if (size == FILE_SIZE_UNKNOWN) {
+                    // A regular seekable descriptor can still report its size even when statSize
+                    // is unavailable. Pipe-backed providers fail position() with ESPIPE and remain
+                    // explicitly UNKNOWN so the streaming factory can spool them.
+                    try {
+                        FileInputStream stream = new FileInputStream(pfd.getFileDescriptor());
+                        FileChannel channel = stream.getChannel();
+                        channel.position(channel.position());
+                        size = channel.size();
+                    } catch (IOException | RuntimeException ignored) {
+                        size = FILE_SIZE_UNKNOWN;
+                    }
+                }
+            }
         } catch (Exception e) {
             Log.e(SysHelper.class.getSimpleName(), EXCEPTION_TAG + e.getMessage()/*, e*/);
             MyApplication.addLog(ctx, FILE_HELPER_TAG,
                     String.format(Locale.US, "Get file size exception0: '%s'", e.getMessage()));
-            size = e instanceof FileNotFoundException ? -1 : -2;
+            size = e instanceof FileNotFoundException
+                    ? FILE_SIZE_NOT_FOUND : FILE_SIZE_ACCESS_ERROR;
         } finally {
             if (pfd != null)
                 try {
@@ -244,6 +267,22 @@ public class FileHelper {
         MyApplication.addLog(ctx, FILE_HELPER_TAG,
                 String.format(Locale.US, "Get file size: '%d'", size));
         return size;
+    }
+
+    private static long queryFileSize(ContentResolver resolver, Uri uri) {
+        try (Cursor cursor = resolver.query(uri,
+                new String[]{OpenableColumns.SIZE}, null, null, null)) {
+            if (cursor != null && cursor.moveToFirst()) {
+                int index = cursor.getColumnIndex(OpenableColumns.SIZE);
+                if (index >= 0 && !cursor.isNull(index)) {
+                    long value = cursor.getLong(index);
+                    if (value >= 0L) return value;
+                }
+            }
+        } catch (Exception ignored) {
+            // Metadata is optional for DocumentProvider implementations.
+        }
+        return FILE_SIZE_UNKNOWN;
     }
 
     /**

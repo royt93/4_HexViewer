@@ -10,6 +10,7 @@ package com.galaxyjoy.hexviewer.ui;
 
 import android.content.Context;
 import android.net.Uri;
+import android.os.SystemClock;
 
 import androidx.test.core.app.ActivityScenario;
 import androidx.test.espresso.assertion.ViewAssertions;
@@ -18,6 +19,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.platform.app.InstrumentationRegistry;
 
 import com.galaxyjoy.hexviewer.R;
+import com.galaxyjoy.hexviewer.constants.AppConstants;
 import com.galaxyjoy.hexviewer.models.FileData;
 import com.galaxyjoy.hexviewer.models.LineEntry;
 import com.galaxyjoy.hexviewer.ui.act.ActMain;
@@ -33,6 +35,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.containsString;
@@ -146,31 +149,36 @@ public class RealFileOomIntegrationTest {
     }
 
     /**
-     * TEST 3: Open large file (35 MB) in normal mode.
-     * Must fail immediately and show warning dialog.
+     * TEST 3: Open large file (35 MB) through the normal flow.
+     * Must transparently load a bounded window without the legacy warning dialog.
      */
     @Test
-    public void openLargeFile_normalMode_failsWithWarningDialog() throws InterruptedException {
+    public void openLargeFile_normalMode_autoStreamsWithoutOOM() {
         mScenario = ActivityScenario.launch(ActMain.class);
-        Thread.sleep(1000);
-
         mScenario.onActivity(activity -> {
             FileData fd = new FileData(activity, Uri.fromFile(mLargeFile), false);
             activity.getLauncherOpen().processFileOpen(fd, null, false);
         });
 
-        Thread.sleep(2000); // Wait for validation failure
-
-        Context targetContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
-        String expectedTitle = targetContext.getString(R.string.error_title);
-
-        // Assert Dialog Title is displayed
-        onView(withText(expectedTitle))
-                .check(ViewAssertions.matches(isDisplayed()));
-
-        // Assert Dialog Message containing limit instructions is displayed
+        final boolean[] loaded = {false};
+        long deadline = SystemClock.elapsedRealtime() + 15_000L;
+        while (!loaded[0] && SystemClock.elapsedRealtime() < deadline) {
+            mScenario.onActivity(activity -> {
+                if (activity.getPayloadHex().getAdapter().getCount() == 0) return;
+                FileData opened = activity.getFileData();
+                assertTrue("Large normal open should select streaming", opened.isStreaming());
+                assertEquals(35L * 1024 * 1024, opened.getRealSize());
+                assertEquals(AppConstants.STREAMING_WINDOW_SIZE, opened.getSize());
+                assertTrue("Only one bounded window should be resident",
+                        activity.getPayloadHex().getAdapter().getCount()
+                                <= AppConstants.STREAMING_WINDOW_SIZE / 8 + 1);
+                loaded[0] = true;
+            });
+            if (!loaded[0]) SystemClock.sleep(50L);
+        }
+        assertTrue("Timed out waiting for auto-streamed rows", loaded[0]);
         onView(ViewMatchers.withText(containsString("File too large to open entirely")))
-                .check(ViewAssertions.matches(isDisplayed()));
+                .check(doesNotExist());
     }
 
     /**

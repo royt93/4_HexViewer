@@ -176,7 +176,15 @@ public class TaskOpen extends ProgressTask<ContentResolver, FileData, TaskOpen.R
         /* read data */
         ByteBuffer buffer = ByteBuffer.allocate(maxLength);
         int loopCount = 0;
-        while (!isCancelled() && (reads = mRandomAccessFileChannel.read(buffer)) != -1) {
+        while (!isCancelled()) {
+            buffer.clear();
+            if (fd.isSequential()) {
+                long remaining = fd.getEndOffset() - totalSequential;
+                if (remaining <= 0L) break;
+                buffer.limit((int) Math.min(buffer.capacity(), remaining));
+            }
+            reads = mRandomAccessFileChannel.read(buffer);
+            if (reads == -1) break;
             loopCount++;
             if (loopCount % 50 == 0 || loopCount < 5) {
                 Runtime rt = Runtime.getRuntime();
@@ -195,7 +203,6 @@ public class TaskOpen extends ProgressTask<ContentResolver, FileData, TaskOpen.R
                         mApp.getNbBytesPerLine(),
                         first ? fd.getShiftOffset() : 0);
                 first = false;
-                buffer.clear();
                 publishProgress((long) reads);
                 if (fd.isSequential()) {
                     totalSequential += reads;
@@ -260,13 +267,50 @@ public class TaskOpen extends ProgressTask<ContentResolver, FileData, TaskOpen.R
             /* Size + stream */
             mTotalSize = fd.getSize();
 
-            // Validate file size before processing
+            publishProgress(0L);
+
+            if (fd.isStreaming()) {
+                try (com.galaxyjoy.hexviewer.streaming.StreamingSession session =
+                             new com.galaxyjoy.hexviewer.streaming.StreamingSession(
+                                     com.galaxyjoy.hexviewer.streaming.SeekableDataSourceFactory.openContentUri(
+                                             contentResolver, fd.getUri(), mContext.getCacheDir(),
+                                             fd.getRealSize(),
+                                             (copied, expected) -> publishProgress(copied),
+                                             this::isCancelled))) {
+                    if (fd.isSizeUnknown()) {
+                        fd.setResolvedRealSize(session.size());
+                        long end = Math.min(fd.getRealSize(),
+                                com.galaxyjoy.hexviewer.constants.AppConstants.STREAMING_WINDOW_SIZE);
+                        fd.setStreamingWindow(0L, end);
+                        mTotalSize = fd.getSize();
+                    }
+                    result.startOffset = fd.getStartOffset();
+                    if (!validateFileSize(fd, result)) return result;
+                    com.galaxyjoy.hexviewer.streaming.WindowRange range =
+                            new com.galaxyjoy.hexviewer.streaming.WindowRange(
+                                    fd.getStartOffset(), fd.getEndOffset());
+                    byte[] resident = session.read(range);
+                    evaluateShiftOffset(fd, fd.getStartOffset());
+                    SysHelper.formatBuffer(list, resident, resident.length, mCancel,
+                            mApp.getNbBytesPerLine(), fd.getShiftOffset());
+                    publishProgress((long) resident.length);
+                    if (!mCancel.get()) {
+                        result.listHex = list;
+                        if (mOldToString != null)
+                            mApp.getRecentlyOpened().remove(mOldToString);
+                        if (mAddRecent)
+                            mApp.getRecentlyOpened().add(fd);
+                    }
+                }
+                return result;
+            }
+
+            // Validate legacy full/partial opens before allocating their buffers.
             if (!validateFileSize(fd, result)) {
                 Log.d("roy93~", "TaskOpen.doInBackground: validateFileSize failed!");
                 return result; // result.exception already set
             }
 
-            publishProgress(0L);
             mRandomAccessFileChannel = RandomAccessFileChannel.openForReadOnly(contentResolver, fd.getUri());
 
             int maxLength = moveCursorIfSequential(fd, result);
@@ -311,8 +355,9 @@ public class TaskOpen extends ProgressTask<ContentResolver, FileData, TaskOpen.R
     private boolean validateFileSize(FileData fd, Result result) {
         long fileSize = fd.getSize();
 
-        // Check absolute maximum (Android limitation)
-        if (fileSize > com.galaxyjoy.hexviewer.constants.AppConstants.ABSOLUTE_MAX_FILE_SIZE) {
+        // Legacy full/partial modes retain their historical bound. Streaming uses
+        // long offsets and is limited by the provider instead of an arbitrary 2 GiB cap.
+        if (!fd.isStreaming() && fileSize > com.galaxyjoy.hexviewer.constants.AppConstants.ABSOLUTE_MAX_FILE_SIZE) {
             String maxSizeStr = SysHelper.sizeToHuman(mContext,
                 com.galaxyjoy.hexviewer.constants.AppConstants.ABSOLUTE_MAX_FILE_SIZE,
                 true, true, false);
@@ -322,7 +367,7 @@ public class TaskOpen extends ProgressTask<ContentResolver, FileData, TaskOpen.R
         }
 
         // Check normal mode limit - if file is larger than 30MB, ask user to use sequential (partial) mode
-        if (!fd.isSequential() && fileSize > com.galaxyjoy.hexviewer.constants.AppConstants.MAX_NORMAL_FILE_SIZE) {
+        if (!fd.isStreaming() && !fd.isSequential() && fileSize > com.galaxyjoy.hexviewer.constants.AppConstants.MAX_NORMAL_FILE_SIZE) {
             String maxSizeStr = SysHelper.sizeToHuman(mContext,
                 com.galaxyjoy.hexviewer.constants.AppConstants.MAX_NORMAL_FILE_SIZE,
                 true, true, false);
@@ -333,7 +378,7 @@ public class TaskOpen extends ProgressTask<ContentResolver, FileData, TaskOpen.R
         }
 
         // Check sequential mode portion size limit (must be <= 30MB)
-        if (fd.isSequential() && fileSize > com.galaxyjoy.hexviewer.constants.AppConstants.MAX_NORMAL_FILE_SIZE) {
+        if (!fd.isStreaming() && fd.isSequential() && fileSize > com.galaxyjoy.hexviewer.constants.AppConstants.MAX_NORMAL_FILE_SIZE) {
             String maxSizeStr = SysHelper.sizeToHuman(mContext,
                 com.galaxyjoy.hexviewer.constants.AppConstants.MAX_NORMAL_FILE_SIZE,
                 true, true, false);
@@ -344,7 +389,7 @@ public class TaskOpen extends ProgressTask<ContentResolver, FileData, TaskOpen.R
         }
 
         // Check sequential mode absolute file limit (real file size must be <= 2GB)
-        if (fd.isSequential() && fd.getRealSize() > com.galaxyjoy.hexviewer.constants.AppConstants.MAX_SEQUENTIAL_FILE_SIZE) {
+        if (!fd.isStreaming() && fd.isSequential() && fd.getRealSize() > com.galaxyjoy.hexviewer.constants.AppConstants.MAX_SEQUENTIAL_FILE_SIZE) {
             String maxSizeStr = SysHelper.sizeToHuman(mContext,
                 com.galaxyjoy.hexviewer.constants.AppConstants.MAX_SEQUENTIAL_FILE_SIZE,
                 true, true, false);

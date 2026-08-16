@@ -75,6 +75,24 @@ public class PayloadHexHelper {
         mPayloadHex.setChoiceMode(AbsListView.CHOICE_MODE_MULTIPLE_MODAL);
         mHexMultiChoiceCallback = new HexMultiChoiceCallback(activity, mPayloadHex, mAdapterHex);
         mPayloadHex.setMultiChoiceModeListener(mHexMultiChoiceCallback);
+        mPayloadHex.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+                // Window changes are triggered from onScroll so keyboard/accessibility
+                // navigation receives the same behavior as touch scrolling.
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem,
+                                 int visibleItemCount, int totalItemCount) {
+                if (totalItemCount == 0 || visibleItemCount == 0) return;
+                if (firstVisibleItem <= 4) {
+                    mActivity.requestStreamingWindow(false, visibleItemCount);
+                } else if (firstVisibleItem + visibleItemCount >= totalItemCount - 4) {
+                    mActivity.requestStreamingWindow(true, visibleItemCount);
+                }
+            }
+        });
     }
 
     /**

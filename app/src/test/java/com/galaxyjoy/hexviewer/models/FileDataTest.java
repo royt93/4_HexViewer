@@ -49,6 +49,19 @@ public class FileDataTest {
         assertFalse("Should not be from app intent", fileData.isOpenFromAppIntent());
     }
 
+    @Test
+    public void should_ResolveUnknownSizeWithoutMarkingFileMissing() {
+        FileData fileData = FileData.restoreStreaming(context, testUri, false);
+
+        fileData.setResolvedRealSize(64L * 1024L * 1024L);
+
+        assertFalse(fileData.isSizeUnknown());
+        assertFalse(fileData.isNotFound());
+        assertFalse(fileData.isAccessError());
+        assertTrue(fileData.isStreaming());
+        assertEquals(64L * 1024L * 1024L, fileData.getRealSize());
+    }
+
     /**
      * Test FileData creation with offset parameters.
      */

@@ -130,6 +130,28 @@ public class GoToDialog implements View.OnClickListener {
     }
 
     private boolean processPosition(final String text) {
+        if (mMode == Mode.ADDRESS && mActivity.getFileData() != null
+                && mActivity.getFileData().isStreaming()) {
+            if (!HEXADECIMAL_PATTERN.matcher(text).matches()) {
+                displayError(mActivity.getString(R.string.error_not_available));
+                return false;
+            }
+            try {
+                long absoluteOffset = Long.parseLong(text, 16);
+                if (absoluteOffset < 0L
+                        || absoluteOffset >= mActivity.getFileData().getRealSize()) {
+                    displayError(String.format(mActivity.getString(R.string.error_cant_exceed_xxx),
+                            Long.toHexString(Math.max(0L,
+                                    mActivity.getFileData().getRealSize() - 1L)).toUpperCase()));
+                    return false;
+                }
+                mActivity.goToStreamingOffset(absoluteOffset);
+                return true;
+            } catch (NumberFormatException error) {
+                displayError(mActivity.getString(R.string.error_not_available));
+                return false;
+            }
+        }
         ListView lv = (mMode == Mode.ADDRESS || mMode == Mode.LINE_HEX) ?
                 mActivity.getPayloadHex().getListView() : mActivity.getPayloadPlain().getListView();
         AdtSearchableListArray adapter = ((AdtSearchableListArray) lv.getAdapter());

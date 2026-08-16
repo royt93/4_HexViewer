@@ -229,6 +229,23 @@ public class RecentlyOpenedTest {
         assertEquals("End offset should be 2000", 2000L, decoded.getEndOffset());
     }
 
+    @Test
+    public void should_RestoreTransparentStreamingWithoutPersistingResidentOffsets() {
+        FileData streaming = FileData.restoreStreaming(context, testUri, false);
+        streaming.setResolvedRealSize(64L * 1024L * 1024L);
+        streaming.setStreamingWindow(4_096L, 8_192L);
+
+        String encoded = streaming.toString();
+        FileData decoded = RecentlyOpened.decode(context, encoded);
+
+        assertTrue(encoded.startsWith(FileData.STREAMING_PREFIX));
+        assertTrue(decoded.isStreaming());
+        assertFalse(decoded.isSequential());
+        assertEquals(0L, decoded.getStartOffset());
+        assertEquals(0L, decoded.getEndOffset());
+        assertEquals(testUri, decoded.getUri());
+    }
+
     /**
      * Test persistence across instances.
      */

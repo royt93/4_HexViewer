@@ -45,6 +45,7 @@ public class PayloadPlainSwipe {
     private UserConfigLandscape mUserConfigLandscape;
     private Handler mRefreshHandler;
     private PlainMultiChoiceCallback mPlainMultiChoiceCallback = null;
+    private int mPendingStreamingByteSelection = -1;
 
     /**
      * Called when the activity is created.
@@ -75,6 +76,24 @@ public class PayloadPlainSwipe {
         mPayloadPlain.setChoiceMode(AbsListView.CHOICE_MODE_MULTIPLE_MODAL);
         mPlainMultiChoiceCallback = new PlainMultiChoiceCallback(activity, mPayloadPlain, mAdapterPlain);
         mPayloadPlain.setMultiChoiceModeListener(mPlainMultiChoiceCallback);
+        mPayloadPlain.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+                // Trigger from onScroll so touch, keyboard and accessibility navigation
+                // all receive the same transparent window switching behavior.
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem,
+                                 int visibleItemCount, int totalItemCount) {
+                if (totalItemCount == 0 || visibleItemCount == 0) return;
+                if (firstVisibleItem <= 4) {
+                    mActivity.requestStreamingWindow(false, visibleItemCount);
+                } else if (firstVisibleItem + visibleItemCount >= totalItemCount - 4) {
+                    mActivity.requestStreamingWindow(true, visibleItemCount);
+                }
+            }
+        });
     }
 
     /**
@@ -130,6 +149,14 @@ public class PayloadPlainSwipe {
                 mActivity.runOnUiThread(() -> {
                     mAdapterPlain.clear();
                     mAdapterPlain.addAll(list);
+                    if (mPendingStreamingByteSelection >= 0) {
+                        int maxByLine = Math.max(1, UIHelper.getMaxByLine(
+                                mActivity, mUserConfigLandscape, mUserConfigPortrait));
+                        int selection = mPendingStreamingByteSelection / maxByLine;
+                        mPayloadPlain.setSelection(Math.min(
+                                Math.max(0, mAdapterPlain.getCount() - 1), selection));
+                        mPendingStreamingByteSelection = -1;
+                    }
                     if (!mActivity.getSearchQuery().isEmpty())
                         mAdapterPlain.getFilter().filter(mActivity.getSearchQuery());
                 });
@@ -212,6 +239,11 @@ public class PayloadPlainSwipe {
      */
     public ListView getListView() {
         return mPayloadPlain;
+    }
+
+    /** Keeps a programmatic streaming window load anchored in the plain view. */
+    public void setPendingStreamingByteSelection(int byteSelection) {
+        mPendingStreamingByteSelection = Math.max(0, byteSelection);
     }
 
     /**
