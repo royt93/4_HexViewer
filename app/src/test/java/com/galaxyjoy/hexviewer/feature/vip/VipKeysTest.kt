@@ -10,28 +10,24 @@ import org.robolectric.RobolectricTestRunner
 class VipKeysTest {
 
     @Test
-    fun testLookupDays_withValid30DaysKey() {
-        val key30Days = VipKeys.VIP_30D_KEY
-        assertEquals("9fA0q7eN!27cLx04@21993Y2u0I7#Q0", key30Days)
-        assertEquals(30, VipKeys.lookupDays(key30Days))
+    fun testVip30DKey_decodesToExpectedPlaintext() {
+        assertEquals("9fA0q7eN!27cLx04@21993Y2u0I7#Q0", VipKeys.VIP_30D_KEY)
     }
 
     @Test
-    fun testLookupDays_withValid3DaysKey() {
-        val key3Days = VipKeys.VIP_3D_KEY
-        assertEquals("eQ7@93L0f!2Y2707xN04021993u0I#2aK", key3Days)
-        assertEquals(3, VipKeys.lookupDays(key3Days))
+    fun testVip3DKey_decodesToExpectedPlaintext() {
+        assertEquals("eQ7@93L0f!2Y2707xN04021993u0I#2aK", VipKeys.VIP_3D_KEY)
     }
 
     @Test
-    fun testLookupDays_withTrimAndCaseSensitivity() {
-        val key30Days = VipKeys.VIP_30D_KEY
-        assertEquals(30, VipKeys.lookupDays("  $key30Days  "))
+    fun testRedeemCodes_mapsKeysToCorrectDays() {
+        assertEquals(30, VipKeys.REDEEM_CODES[VipKeys.VIP_30D_KEY])
+        assertEquals(3, VipKeys.REDEEM_CODES[VipKeys.VIP_3D_KEY])
     }
 
     @Test
-    fun testLookupDays_withInvalidKeys() {
-        assertNull(VipKeys.lookupDays("invalid_key"))
-        assertNull(VipKeys.lookupDays(""))
+    fun testRedeemCodes_unknownKeyReturnsNull() {
+        assertNull(VipKeys.REDEEM_CODES["invalid_key"])
+        assertNull(VipKeys.REDEEM_CODES[""])
     }
 }

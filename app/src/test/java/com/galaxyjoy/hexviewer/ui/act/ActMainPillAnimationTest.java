@@ -32,8 +32,6 @@ import static org.junit.Assert.*;
 @RunWith(RobolectricTestRunner.class)
 public class ActMainPillAnimationTest {
 
-    private static final String VIP_SECRET_KEY = "9fA0q7eN!27cLx04@21993Y2u0I7#Q0";
-
     @Before
     public void setUp() {
         // Use Kotlin companion-object style from Java: AdManager.INSTANCE.xxx()
@@ -60,7 +58,10 @@ public class ActMainPillAnimationTest {
     @Test
     public void pillAnimation_startsDuring_vipActiveState() {
         android.content.Context ctx = ApplicationProvider.getApplicationContext();
-        AdManager.INSTANCE.activateVipByKey(ctx, VIP_SECRET_KEY, 30);
+        // grantVipDays = nguồn tin cậy nội bộ, không qua verify key/token (audit F13/F22) — khớp
+        // đúng đường code thật `grantVipFromAd()` dùng, và không cần giả lập network như
+        // activateVipByKey (V-03 network gate).
+        AdManager.INSTANCE.grantVipDays(ctx, 30);
         assertTrue("Pre-condition: VIP must be active", AdManager.INSTANCE.isVipByKeyActive());
 
         View pillView = new View(ApplicationProvider.getApplicationContext());

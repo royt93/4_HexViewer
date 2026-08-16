@@ -9,7 +9,6 @@ import androidx.test.filters.MediumTest;
 
 import com.galaxyjoy.hexviewer.R;
 import com.roy.sdkadbmob.AdManager;
-import com.roy.sdkadbmob.AdSafetyLimits;
 import com.roy.sdkadbmob.AdSdkConfig;
 
 import org.junit.Before;
@@ -33,18 +32,14 @@ import static org.junit.Assert.*;
 @MediumTest
 public class ActMainPillAnimationInstrumentationTest {
 
-    private static final String VIP_SECRET_KEY = "9fA0q7eN!27cLx04@21993Y2u0I7#Q0";
+    // Secret chống-tamper prefs — KHÔNG còn liên quan tới verify VIP key/token (audit F2/F22).
+    private static final String VIP_KEY_SECRET = "test_vip_key_secret_1234567890";
     private Context mContext;
 
     @Before
     public void setUp() {
         mContext = ApplicationProvider.getApplicationContext();
-        AdSdkConfig config = new AdSdkConfig(
-                false, true,
-                "test_open", "test_inter", "test_banner", "test_reward",
-                "test_al_open", "test_al_inter", "test_al_banner", "test_al_reward",
-                AdSafetyLimits.Companion.getTEST(), VIP_SECRET_KEY, "test_sdk_key"
-        );
+        AdSdkConfig config = TestAdSdkConfigFactory.create(VIP_KEY_SECRET);
         AdManager.INSTANCE.setConfig(config);
         AdManager.INSTANCE.clearVipByKey();
     }
@@ -65,7 +60,7 @@ public class ActMainPillAnimationInstrumentationTest {
 
     @Test
     public void pillAnimation_vipUser_animatorIsRunning() {
-        AdManager.INSTANCE.activateVipByKey(mContext, VIP_SECRET_KEY, 30);
+        AdManager.INSTANCE.grantVipDays(mContext, 30);
         assertTrue(AdManager.INSTANCE.isVipByKeyActive());
 
         androidx.test.platform.app.InstrumentationRegistry.getInstrumentation().runOnMainSync(() -> {
@@ -104,7 +99,7 @@ public class ActMainPillAnimationInstrumentationTest {
             assertTrue(controller.isRunning());
 
             // Simulate VIP activation mid-session (like onResume after VIP screen)
-            AdManager.INSTANCE.activateVipByKey(mContext, VIP_SECRET_KEY, 30);
+            AdManager.INSTANCE.grantVipDays(mContext, 30);
 
             // Stop and restart as ActMain.onResume() would do
             controller.stop();

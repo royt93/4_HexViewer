@@ -34,7 +34,6 @@ import com.galaxyjoy.hexviewer.R;
 import com.galaxyjoy.hexviewer.models.FileData;
 import com.galaxyjoy.hexviewer.models.UriData;
 import com.roy.sdkadbmob.AdManager;
-import com.google.android.gms.ads.AdSize;
 import com.roy.sdkadbmob.UIUtils;
 import com.galaxyjoy.hexviewer.ui.adt.AdtRecentlyOpenRecycler;
 

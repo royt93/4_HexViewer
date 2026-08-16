@@ -26,8 +26,6 @@ import java.util.concurrent.TimeUnit
 @RunWith(RobolectricTestRunner::class)
 class ActVipManagementTest {
 
-    private val vipSecretKey = "9fA0q7eN!27cLx04@21993Y2u0I7#Q0"
-
     @Before
     fun setUp() {
         val context = ApplicationProvider.getApplicationContext<Context>()
@@ -43,14 +41,19 @@ class ActVipManagementTest {
             applovinBannerId = "test_applovin_banner",
             applovinRewardedId = "test_applovin_reward",
             safety = AdSafetyLimits.TEST,
-            vipKeySecret = vipSecretKey,
+            // Secret chống-tamper prefs — KHÔNG còn liên quan tới verify VIP key/token (audit F2/F22).
+            vipKeySecret = "test_vip_key_secret_1234567890",
+            // "Thẻ cào" — SDK tự resolve qua activateVipByKey(ctx, input, 0) (audit F18).
+            vipRedeemCodes = VipKeys.REDEEM_CODES,
             applovinSdkKey = "test_sdk_key"
         )
         AdManager.setConfig(config)
         AdManager.clearVipByKey()
+        // activateVipByKey (redeem code/token) yêu cầu có mạng (V-03) — Robolectric mặc định
+        // active network không có NET_CAPABILITY_INTERNET/VALIDATED.
+        TestNetworkUtils.simulateConnected(context)
 
         // Clear local preferences
-        VipPrefs(context).clearGrantedAtMs()
         context.getSharedPreferences("vip_screen_prefs", Context.MODE_PRIVATE)
             .edit()
             .clear()
@@ -134,8 +137,8 @@ class ActVipManagementTest {
                 val etKey = activity.findViewById<EditText>(R.id.etVipKey)
                 val btnActivate = activity.findViewById<View>(R.id.btnActivate)
 
-                // Use the valid 30-day key
-                etKey.setText("9fA0q7eN!27cLx04@21993Y2u0I7#Q0")
+                // Use the valid 30-day redeem code
+                etKey.setText(VipKeys.VIP_30D_KEY)
                 btnActivate.performClick()
             }
 
@@ -160,10 +163,10 @@ class ActVipManagementTest {
 
     @Test
     fun testRevokeVipButton_clearsVipState() {
-        // Activate VIP beforehand
+        // Activate VIP beforehand — grantVipDays = nguồn tin cậy nội bộ, không qua verify key/token
+        // (audit F13/F22), khớp đúng đường code thật `grantVipFromAd()` dùng.
         val context = ApplicationProvider.getApplicationContext<Context>()
-        AdManager.activateVipByKey(context, vipSecretKey, 30)
-        VipPrefs(context).saveGrantedAtMs(System.currentTimeMillis())
+        AdManager.grantVipDays(context, 30)
 
         ActivityScenario.launch(ActVipManagement::class.java).use { scenario ->
             scenario.onActivity { activity ->

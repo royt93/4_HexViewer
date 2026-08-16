@@ -24,12 +24,10 @@ import androidx.emoji.bundled.BundledEmojiCompatConfig;
 import androidx.emoji.text.EmojiCompat;
 import androidx.preference.PreferenceManager;
 
+import com.galaxyjoy.hexviewer.ads.AdSetup;
 import com.galaxyjoy.hexviewer.models.ListSettings;
 import com.galaxyjoy.hexviewer.models.RecentlyOpened;
 import com.galaxyjoy.hexviewer.models.SettingsKeys;
-import com.roy.sdkadbmob.AdManager;
-import com.roy.sdkadbmob.AdSdkConfig;
-import com.roy.sdkadbmob.AdSafetyLimits;
 
 import com.galaxyjoy.hexviewer.util.CircularLogBuffer;
 
@@ -39,8 +37,6 @@ import java.util.Locale;
 import java.util.Queue;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
-
-//TODO roy93~ why you see ad
 
 //done mckimquyen
 //admob
@@ -599,27 +595,7 @@ public class MyApplication extends Application {
     }
 
     public void setupAd() {
-        AdSdkConfig adConfig = new AdSdkConfig(
-            /* isEnableAdmob       */ BuildConfig.IS_ENABLE_ADMOB,
-            /* isDebug             */ BuildConfig.DEBUG,
-            /* admobAppOpenId      */ BuildConfig.ADMOB_APP_OPEN_ID,
-            /* admobInterstitialId */ BuildConfig.ADMOB_INTERSTITIAL_ID,
-            /* admobBannerId       */ BuildConfig.ADMOB_BANNER_ID,
-            /* admobRewardedId     */ BuildConfig.ADMOB_REWARDED_ID,
-            /* applovinAppOpenId   */ BuildConfig.APPLOVIN_APP_OPEN_ID,
-            /* applovinInterstitialId */ BuildConfig.APPLOVIN_INTERSTITIAL_ID,
-            /* applovinBannerId    */ BuildConfig.APPLOVIN_BANNER_ID,
-            /* applovinRewardedId  */ BuildConfig.APPLOVIN_REWARDED_ID,
-            /* safety              */ BuildConfig.DEBUG ? AdSafetyLimits.Companion.getTEST() : new AdSafetyLimits(),
-            /* vipKeySecret        */ com.galaxyjoy.hexviewer.feature.vip.VipKeys.INSTANCE.getVIP_30D_KEY(),
-            /* applovinSdkKey      */ BuildConfig.APPLOVIN_SDK_KEY
-        );
-
-        AdManager.INSTANCE.setConfig(adConfig);
-        AdManager.INSTANCE.initialize(this, (success, gaid) -> {
-            Log.d("roy93~", "AdManager init success=" + success + ", gaid=" + gaid);
-            return null;
-        });
+        AdSetup.init(this);
     }
 
     /**

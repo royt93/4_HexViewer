@@ -5,12 +5,36 @@ pluginManagement {
     gradlePluginPortal()
   }
 }
+// AdmobApplovinWrapper (com.github.royt93) hiện là repo GitHub PRIVATE — JitPack trả 401 (Basic
+// realm="JitPack") nếu không có token, xem chính settings.gradle.kts của repo đó (audit 2026-08-16).
+// jitpackToken: đọc local.properties `jitpack.token=` hoặc biến môi trường JITPACK_TOKEN (lấy tại
+// jitpack.io → account settings → "Private repos"). KHÔNG commit token vào file tracked.
+def jitpackTokenProps = new Properties()
+def jitpackLocalProps = new File(rootDir, "local.properties")
+if (jitpackLocalProps.exists()) {
+  jitpackLocalProps.withInputStream { jitpackTokenProps.load(it) }
+}
+def jitpackToken = jitpackTokenProps.getProperty("jitpack.token") ?: System.getenv("JITPACK_TOKEN")
+
 dependencyResolutionManagement {
   repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
   repositories {
     google()
     mavenCentral()
-    maven { url "https://jitpack.io" }
+    maven {
+      url "https://jitpack.io"
+      if (jitpackToken != null) {
+        credentials { username = jitpackToken }
+      }
+    }
+    // mavenLocal() CHỈ khi chưa có jitpack.token — build từ artifact đã `publishToMavenLocal` cục bộ
+    // (xem doc/AD.MD mục "AdmobApplovinWrapper là repo private"). Audit vòng 3 (claude2): đặt
+    // mavenLocal() TRƯỚC jitpack vô điều kiện (bản cũ) khiến build ÂM THẦM ưu tiên cache local ngay
+    // cả khi đã có token thật — không có checksum ràng buộc 2 nguồn phải khớp nhau, rủi ro dùng nhầm
+    // artifact cũ/tamper trên máy dev mà không ai biết. Gate đúng theo điều kiện đã ghi trong comment.
+    if (jitpackToken == null) {
+      mavenLocal()
+    }
   }
 }
 

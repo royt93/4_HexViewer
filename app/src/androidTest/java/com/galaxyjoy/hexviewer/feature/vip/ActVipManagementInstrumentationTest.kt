@@ -22,8 +22,6 @@ import org.junit.runner.RunWith
 @LargeTest
 class ActVipManagementInstrumentationTest {
 
-    private val vipSecretKey = "9fA0q7eN!27cLx04@21993Y2u0I7#Q0"
-
     @Before
     fun setUp() {
         val context = ApplicationProvider.getApplicationContext<Context>()
@@ -39,14 +37,15 @@ class ActVipManagementInstrumentationTest {
             applovinBannerId = "test_applovin_banner",
             applovinRewardedId = "test_applovin_reward",
             safety = AdSafetyLimits.TEST,
-            vipKeySecret = vipSecretKey,
+            // Secret chống-tamper prefs — KHÔNG còn liên quan tới verify VIP key/token (audit F2/F22).
+            vipKeySecret = "test_vip_key_secret_1234567890",
+            vipRedeemCodes = VipKeys.REDEEM_CODES,
             applovinSdkKey = "test_sdk_key"
         )
         AdManager.setConfig(config)
         AdManager.clearVipByKey()
 
         // Reset preferences
-        VipPrefs(context).clearGrantedAtMs()
         context.getSharedPreferences("vip_screen_prefs", Context.MODE_PRIVATE)
             .edit()
             .clear()

@@ -41,6 +41,11 @@ import java.util.concurrent.TimeUnit
 
 class ActVipManagement : AppCompatActivity() {
 
+    companion object {
+        /** Số ngày VIP cấp cho mỗi lần "Xem quảng cáo" — khớp label `vip_watch_ad_3d` trong strings.xml. */
+        private const val REWARD_VIP_DAYS = 3
+    }
+
     private lateinit var binding: FVipManagementBinding
     private lateinit var vipPrefs: VipPrefs
 
@@ -52,6 +57,7 @@ class ActVipManagement : AppCompatActivity() {
     private var slideInAnimator: ValueAnimator? = null
 
     private var activateRunnable: Runnable? = null
+    private var activateProgressDialog: androidx.appcompat.app.AlertDialog? = null
 
     private var lastMinute: Int? = null
 
@@ -124,39 +130,43 @@ class ActVipManagement : AppCompatActivity() {
             }
             binding.tilVipKey.error = null
 
-            val days = VipKeys.lookupDays(inputKey)
-            MyApplication.addLog(this, "ActVipManagement", "lookupDays | result=$days | inputKey='${inputKey.take(8)}…'")
-            if (days != null) {
-                // Show verifying dialog
-                val progressDialog = MaterialAlertDialogBuilder(this)
-                    .setTitle(R.string.vip_verifying_title)
-                    .setView(R.layout.v_progress_dialog)
-                    .setCancelable(false)
-                    .create()
-                progressDialog.show()
+            // Chặn double-tap: disable ngay lúc bấm — nếu không, tap thứ 2 trong lúc dialog cũ đang
+            // hiện sẽ show thêm 1 dialog verifying nữa mà không dismiss dialog cũ (dialog cũ
+            // setCancelable(false) nên kẹt màn hình vĩnh viễn tới khi Activity recreate/destroy).
+            binding.btnActivate.isEnabled = false
 
-                // Simulating network or verification latency for better UX
-                activateRunnable?.let { binding.root.removeCallbacks(it) }
-                activateRunnable = Runnable {
-                    if (isFinishing) return@Runnable
-                    progressDialog.dismiss()
+            // Show verifying dialog — lưu ở field (không phải local val) để onDestroy dismiss được
+            // nếu user thoát màn hình giữa lúc đang chờ (chống WindowLeaked, audit smoke2 #3).
+            activateProgressDialog?.dismiss()
+            activateProgressDialog = MaterialAlertDialogBuilder(this)
+                .setTitle(R.string.vip_verifying_title)
+                .setView(R.layout.v_progress_dialog)
+                .setCancelable(false)
+                .create()
+                .also { it.show() }
 
-                    val secretKey = AdManager.adConfig.vipKeySecret
-                    val success = AdManager.activateVipByKey(this, secretKey, days)
-                    MyApplication.addLog(this, "ActVipManagement", "activateVipByKey | success=$success | days=$days")
-                    if (success) {
-                        vipPrefs.saveGrantedAtMs(System.currentTimeMillis())
-                        vipPrefs.markUserRedeemed()
-                        showActivationSuccess(days)
-                    } else {
-                        showActivationFailed()
-                    }
-                    activateRunnable = null
+            // Simulating network or verification latency for better UX
+            activateRunnable?.let { binding.root.removeCallbacks(it) }
+            activateRunnable = Runnable {
+                if (isFinishing) return@Runnable
+                activateProgressDialog?.dismiss()
+                activateProgressDialog = null
+                binding.btnActivate.isEnabled = binding.etVipKey.text?.isNotEmpty() == true
+
+                // SDK tự resolve: thử token ECDSA trước, rồi vipRedeemCodes (AdSdkConfig.vipRedeemCodes)
+                // — app không tự lookup/validate nữa (audit F13/F18/F22: gọi cũ truyền lại
+                // adConfig.vipKeySecret khiến verify của SDK thành no-op).
+                val success = AdManager.activateVipByKey(this, inputKey, 0)
+                MyApplication.addLog(this, "ActVipManagement", "activateVipByKey | success=$success")
+                if (success) {
+                    vipPrefs.markUserRedeemed()
+                    showActivationSuccess()
+                } else {
+                    showActivationFailed()
                 }
-                binding.root.postDelayed(activateRunnable!!, 1000)
-            } else {
-                showActivationFailed()
+                activateRunnable = null
             }
+            binding.root.postDelayed(activateRunnable!!, 1000)
         }
 
         // Revoke VIP
@@ -167,7 +177,6 @@ class ActVipManagement : AppCompatActivity() {
                 .setNegativeButton(R.string.cancel, null)
                 .setPositiveButton(R.string.confirm) { _, _ ->
                     AdManager.clearVipByKey()
-                    vipPrefs.clearGrantedAtMs()
                     bindUi()
                     Toast.makeText(this, R.string.vip_revoked_message, Toast.LENGTH_SHORT).show()
                 }
@@ -186,16 +195,13 @@ class ActVipManagement : AppCompatActivity() {
                 if (earned) {
                     grantVipFromAd()
                 } else {
-                    // Fallback to Interstitial — only grant if ad actually shown
+                    // Fallback Interstitial: CHỈ để bù đắp doanh thu khi rewarded không có sẵn.
+                    // TUYỆT ĐỐI KHÔNG cấp VIP ở đây dù ad có shown hay không — cấp reward cho ad
+                    // non-rewarded vi phạm thẳng chính sách Google/AppLovin Rewarded (Step 7 rule 6,
+                    // audit F12: bug cũ cấp VIP qua nhánh này, rủi ro ban account).
                     AdManager.showInterstitial(this) { shown ->
                         if (isFinishing) return@showInterstitial
-                        if (shown) {
-                            grantVipFromAd()
-                        } else {
-                            // Neither rewarded nor interstitial was available
-                            // (offline or no-fill) — inform the user instead of doing nothing
-                            showNoAdDialog()
-                        }
+                        if (shown) showNoRewardDialog() else showNoAdDialog()
                     }
                 }
             }
@@ -239,12 +245,13 @@ class ActVipManagement : AppCompatActivity() {
     }
 
     private fun grantVipFromAd() {
-        val secretKey = AdManager.adConfig.vipKeySecret
-        val success = AdManager.activateVipByKey(this, secretKey, 3)
+        // grantVipDays = nguồn TIN CẬY nội bộ (reward đã earned), KHÔNG qua verify key/token, chạy cả
+        // release (audit F13/F22: đường cũ gọi activateVipByKey(vipKeySecret) fail im lặng vì nhánh
+        // legacy plaintext mặc định TẮT). KHÔNG markUserRedeemed() ở đây — flag đó chỉ dành cho user
+        // tự nhập key/token, không phải VIP cấp từ xem quảng cáo (audit F15).
+        val success = AdManager.grantVipDays(this, REWARD_VIP_DAYS)
         if (success) {
-            vipPrefs.saveGrantedAtMs(System.currentTimeMillis())
-            vipPrefs.markUserRedeemed()
-            showActivationSuccess(3)
+            showActivationSuccess(daysGranted = REWARD_VIP_DAYS)
         } else {
             showActivationFailed()
         }
@@ -253,7 +260,9 @@ class ActVipManagement : AppCompatActivity() {
     private fun bindUi() {
         val isVip = AdManager.isVipByKeyActive()
         val expiryMs = AdManager.getVipByKeyExpiry()
-        val grantedAtMs = vipPrefs.getGrantedAtMs()
+        // Single source of truth = SDK (audit F14) — tự lưu riêng sẽ sai khi VIP cấp qua auto-trial/
+        // grantVipDays mà VipPrefs không biết.
+        val grantedAtMs = AdManager.getVipGrantedAtMs()
 
         if (isVip && expiryMs > System.currentTimeMillis()) {
             // Active VIP state
@@ -493,14 +502,29 @@ class ActVipManagement : AppCompatActivity() {
         }
     }
 
-    private fun showActivationSuccess(days: Int) {
+    /**
+     * @param daysGranted Số ngày CHÍNH XÁC vừa cấp, nếu caller biết chắc (vd reward = luôn đúng 3).
+     * Để `null` khi không biết trước (redeem code/token) — SDK CỘNG DỒN vào hạn hiện có và ghi đè
+     * `grantedAtMs` bằng thời điểm activate hiện tại (audit smoke2 #2, codex + claude2 cùng xác nhận
+     * qua source `AppPreferences.kt`), nên back-calculate `expiry − grantedAtMs` sẽ SAI (hiện tổng số
+     * ngày còn lại thay vì số ngày vừa cộng) nếu user redeem lúc đang có VIP còn hạn — dùng ngày hết
+     * hạn thay vì đoán số ngày.
+     */
+    private fun showActivationSuccess(daysGranted: Int? = null) {
         triggerSuccessEffect()
         // Clear VIP Key edit text
         binding.etVipKey.text?.clear()
         bindUi()
+        val message = if (daysGranted != null) {
+            getString(R.string.vip_success_message, daysGranted)
+        } else {
+            val formattedExpiry = SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault())
+                .format(Date(AdManager.getVipByKeyExpiry()))
+            getString(R.string.vip_success_message_until, formattedExpiry)
+        }
         MaterialAlertDialogBuilder(this)
             .setTitle(R.string.vip_success_title)
-            .setMessage(getString(R.string.vip_success_message, days))
+            .setMessage(message)
             .setPositiveButton(R.string.ok, null)
             .show()
     }
@@ -523,9 +547,26 @@ class ActVipManagement : AppCompatActivity() {
             .show()
     }
 
+    /**
+     * Shown when the Interstitial fallback ran (rewarded unavailable) but — correctly — granted NO
+     * VIP reward. Non-rewarded ad formats must never credit a reward (Google/AppLovin policy).
+     */
+    private fun showNoRewardDialog() {
+        if (isFinishing) return
+        MaterialAlertDialogBuilder(this)
+            .setTitle(R.string.vip_no_reward_title)
+            .setMessage(R.string.vip_no_reward_message)
+            .setPositiveButton(R.string.ok, null)
+            .show()
+    }
+
     override fun onDestroy() {
         activateRunnable?.let { binding.root.removeCallbacks(it) }
         activateRunnable = null
+        // Chống WindowLeaked nếu user thoát màn hình trong lúc dialog verifying đang chờ
+        // activateRunnable chạy (audit smoke2 #3).
+        activateProgressDialog?.dismiss()
+        activateProgressDialog = null
         stopCountdown()
         cancelLoopAnimations()
         slideInAnimator?.cancel()

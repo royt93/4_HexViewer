@@ -17,33 +17,16 @@ class VipPrefsTest {
     @Before
     fun setUp() {
         context = ApplicationProvider.getApplicationContext()
-        vipPrefs = VipPrefs(context)
-        vipPrefs.clearGrantedAtMs()
-        // Manually clear the redeemed flag by accessing sharedPreferences directly
         context.getSharedPreferences("vip_screen_prefs", Context.MODE_PRIVATE)
             .edit()
             .clear()
             .commit()
+        vipPrefs = VipPrefs(context)
     }
 
     @Test
-    fun testDefaultValues() {
-        assertEquals(0L, vipPrefs.getGrantedAtMs())
+    fun testDefaultValue() {
         assertFalse(vipPrefs.userRedeemedAtLeastOnce())
-    }
-
-    @Test
-    fun testSaveAndGetGrantedAtMs() {
-        val testMs = 123456789L
-        vipPrefs.saveGrantedAtMs(testMs)
-        assertEquals(testMs, vipPrefs.getGrantedAtMs())
-    }
-
-    @Test
-    fun testClearGrantedAtMs() {
-        vipPrefs.saveGrantedAtMs(99999L)
-        vipPrefs.clearGrantedAtMs()
-        assertEquals(0L, vipPrefs.getGrantedAtMs())
     }
 
     @Test
