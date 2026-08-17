@@ -290,6 +290,7 @@ public class TaskOpen extends ProgressTask<ContentResolver, FileData, TaskOpen.R
                             new com.galaxyjoy.hexviewer.streaming.WindowRange(
                                     fd.getStartOffset(), fd.getEndOffset());
                     byte[] resident = session.read(range);
+                    fd.setStreamingWindowOriginal(resident);
                     evaluateShiftOffset(fd, fd.getStartOffset());
                     SysHelper.formatBuffer(list, resident, resident.length, mCancel,
                             mApp.getNbBytesPerLine(), fd.getShiftOffset());

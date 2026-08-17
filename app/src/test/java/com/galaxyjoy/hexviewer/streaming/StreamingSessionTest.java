@@ -64,6 +64,33 @@ public class StreamingSessionTest {
     }
 
     @Test
+    public void emptyWindowReadReturnsEmptyArrayWithoutTouchingSource() throws Exception {
+        ShortReadSource source = new ShortReadSource(new byte[]{1, 2, 3}, 3);
+        StreamingSession session = new StreamingSession(source, 8, 16);
+
+        byte[] result = session.read(new WindowRange(2, 2));
+
+        assertEquals(0, result.length);
+        assertEquals(0, source.readCalls);
+    }
+
+    @Test
+    public void readExactlyAtPageBoundaryDoesNotOverlapNeighboringPages() throws Exception {
+        byte[] bytes = new byte[32];
+        for (int i = 0; i < bytes.length; i++) bytes[i] = (byte) i;
+        ShortReadSource source = new ShortReadSource(bytes, 32);
+        // pageSize = 8: pages are [0,8) [8,16) [16,24) [24,32)
+        StreamingSession session = new StreamingSession(source, 8, 32);
+
+        // A window that starts and ends exactly on page boundaries, spanning 3 full pages.
+        assertArrayEquals(Arrays.copyOfRange(bytes, 8, 32), session.read(new WindowRange(8, 32)));
+        // A single byte read straddling the very last page boundary is still correct.
+        byte[] lastByte = new byte[1];
+        assertEquals(1, session.readAt(31, lastByte, 0, 1));
+        assertEquals(bytes[31], lastByte[0]);
+    }
+
+    @Test
     public void zeroProgressSourceFailsInsteadOfLooping() throws Exception {
         SeekableDataSource source = new SeekableDataSource() {
             @Override public long size() { return 2; }

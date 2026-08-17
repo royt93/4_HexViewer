@@ -12,6 +12,7 @@ import android.os.ParcelFileDescriptor;
 import android.os.SystemClock;
 
 import androidx.test.core.app.ActivityScenario;
+import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import com.galaxyjoy.hexviewer.constants.AppConstants;
@@ -111,6 +112,104 @@ public class StreamingSaveAsIntegrationTest {
                     "A newly-created failed destination must be deleted",
                     StreamingTestContentProvider.backingFileExists(activity, destination)));
         }
+    }
+
+    /**
+     * Regression test: an unknown-size content:// pipe that resolves to exactly 0 bytes must
+     * still be a valid Save As source. Today TaskSave.saveStreamingCopy() builds a single
+     * whole-window DirtyRange out of the resident window's bytes; for a genuinely empty
+     * window (original.length == replacement.length == 0) the DirtyRange constructor throws
+     * IllegalArgumentException("dirty ranges must be non-empty and fixed-length"), which
+     * doInBackground() reports as a generic save failure instead of writing an empty
+     * destination file. See DirtyRangeTest#constructor_rejectsEmptyRanges for the underlying
+     * validation that trips this up.
+     */
+    @Test
+    public void emptyUnknownSizeStreamingSource_saveAsShouldSucceedWithEmptyDestination()
+            throws Exception {
+        Uri source = StreamingTestContentProvider.uri("unknown", "empty-source.bin", 0);
+        Uri destination = StreamingTestContentProvider.uri("writable", "empty-destination.bin", 0);
+        Uri staging = StreamingTestContentProvider.uri("writable", "empty-stage.bin", 0);
+
+        try (ActivityScenario<ActMain> scenario = openEmptyUnknownSizeStreamingSource(source)) {
+            SaveOutcome outcome = save(scenario, destination, staging, null, true);
+
+            assertTrue("Save As of a genuinely empty streaming window should succeed, not fail "
+                    + "with a DirtyRange 'non-empty and fixed-length' error", outcome.success);
+            scenario.onActivity(activity -> assertEquals(0L,
+                    statSize(activity.getContentResolver(), destination)));
+        }
+    }
+
+    /**
+     * Regression test: TaskSave.saveStreamingCopy() used to re-read "original" bytes from the
+     * source right before the copy started, so it only ever caught an external write racing the
+     * copy itself. An external write that lands between window-load time and the moment the user
+     * taps Save (the whole duration they were editing) went undetected and would have been
+     * silently baked into the destination as if it were the pre-edit content. FileData now
+     * captures a window-load-time snapshot (see FileData#setStreamingWindowOriginal) that
+     * TaskSave compares against instead, so this must now be caught as a conflict.
+     */
+    @Test
+    public void externalWriteDuringEditSession_beforeSaveClicked_isDetectedAsConflict() throws Exception {
+        long size = LARGE_SIZE;
+        Uri source = StreamingTestContentProvider.uri("writable", "conflict-source.bin", 0);
+        Uri destination = StreamingTestContentProvider.uri("writable", "conflict-destination.bin", 0);
+        Uri staging = StreamingTestContentProvider.uri("writable", "conflict-stage.bin", 0);
+        ContentResolver bootstrapResolver =
+                ApplicationProvider.<android.content.Context>getApplicationContext().getContentResolver();
+        writePattern(bootstrapResolver, source, size, -1L, (byte) 0);
+
+        try (ActivityScenario<ActMain> scenario = openStreamingSource(source)) {
+            // The window (and its original-bytes snapshot) is now loaded. Simulate another
+            // process/app modifying the source file while the user is still editing, i.e. well
+            // before Save is tapped.
+            scenario.onActivity(activity ->
+                    writePattern(activity.getContentResolver(), source, size, 3L, (byte) 0x7E));
+
+            SaveOutcome outcome = save(scenario, destination, staging, null, true);
+            assertFalse("An external write made during the edit session (before Save was tapped) "
+                    + "must be detected as a conflict, not silently overwritten", outcome.success);
+        }
+    }
+
+    private static void writePattern(ContentResolver resolver, Uri uri, long size,
+                                     long overrideOffset, byte overrideValue) {
+        try (OutputStream output = resolver.openOutputStream(uri, "wt")) {
+            assertNotNull(output);
+            byte[] buffer = new byte[64 * 1024];
+            long position = 0;
+            while (position < size) {
+                int count = (int) Math.min(buffer.length, size - position);
+                for (int i = 0; i < count; i++) {
+                    long absolute = position + i;
+                    buffer[i] = absolute == overrideOffset
+                            ? overrideValue : PatternFileFactory.expectedByte(absolute);
+                }
+                output.write(buffer, 0, count);
+                position += count;
+            }
+        } catch (Exception failure) {
+            throw new AssertionError("Unable to write provider fixture pattern", failure);
+        }
+    }
+
+    private static ActivityScenario<ActMain> openEmptyUnknownSizeStreamingSource(Uri source) {
+        ActivityScenario<ActMain> scenario = ActivityScenario.launch(ActMain.class);
+        scenario.onActivity(activity -> activity.getLauncherOpen().processFileOpen(
+                new FileData(activity, source, false), null, false));
+        AtomicBoolean loaded = new AtomicBoolean(false);
+        long deadline = SystemClock.elapsedRealtime() + 15_000L;
+        while (!loaded.get() && SystemClock.elapsedRealtime() < deadline) {
+            scenario.onActivity(activity -> {
+                FileData data = activity.getFileData();
+                loaded.set(data != null && data.isStreaming() && data.getRealSize() == 0L
+                        && !data.isSizeUnknown());
+            });
+            if (!loaded.get()) SystemClock.sleep(50L);
+        }
+        assertTrue("Timed out opening empty unknown-size streaming source", loaded.get());
+        return scenario;
     }
 
     private static ActivityScenario<ActMain> openStreamingSource(Uri source) {

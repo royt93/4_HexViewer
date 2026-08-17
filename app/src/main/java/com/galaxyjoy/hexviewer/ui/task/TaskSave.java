@@ -224,16 +224,25 @@ public class TaskSave extends ProgressTask<ContentResolver, TaskSave.Request, Ta
         if (replacement.length != source.getSize()) {
             throw new IOException("Resident streaming window size changed");
         }
-        byte[] original;
-        try (com.galaxyjoy.hexviewer.streaming.SeekableDataSource dataSource =
-                     com.galaxyjoy.hexviewer.streaming.SeekableDataSourceFactory.openContentUri(
-                             resolver, source.getUri(), mContext.getCacheDir(), source.getRealSize())) {
-            original = new byte[replacement.length];
-            readFullyAt(dataSource, source.getStartOffset(), original);
+        List<com.galaxyjoy.hexviewer.streaming.edit.DirtyRange> ranges;
+        if (replacement.length == 0) {
+            ranges = Collections.emptyList();
+        } else {
+            // Prefer the snapshot captured when the window was loaded: it widens conflict
+            // detection to the whole edit session instead of only the instant before this copy.
+            byte[] original = source.getStreamingWindowOriginal();
+            if (original == null || original.length != replacement.length) {
+                try (com.galaxyjoy.hexviewer.streaming.SeekableDataSource dataSource =
+                             com.galaxyjoy.hexviewer.streaming.SeekableDataSourceFactory.openContentUri(
+                                     resolver, source.getUri(), mContext.getCacheDir(), source.getRealSize())) {
+                    original = new byte[replacement.length];
+                    readFullyAt(dataSource, source.getStartOffset(), original);
+                }
+            }
+            ranges = Collections.singletonList(
+                    new com.galaxyjoy.hexviewer.streaming.edit.DirtyRange(
+                            source.getStartOffset(), original, replacement));
         }
-        com.galaxyjoy.hexviewer.streaming.edit.DirtyRange range =
-                new com.galaxyjoy.hexviewer.streaming.edit.DirtyRange(
-                        source.getStartOffset(), original, replacement);
         mTotalSize = source.getRealSize();
         boolean committed = false;
         try {
@@ -241,7 +250,7 @@ public class TaskSave extends ProgressTask<ContentResolver, TaskSave.Request, Ta
                  OutputStream output = resolver.openOutputStream(request.mStagingUri, "wt")) {
                 if (input == null || output == null) throw new IOException("Unable to open Save As streams");
                 com.galaxyjoy.hexviewer.streaming.edit.StreamingCopyHelper.copyAndApply(
-                        input, output, source.getRealSize(), Collections.singletonList(range),
+                        input, output, source.getRealSize(), ranges,
                         com.galaxyjoy.hexviewer.streaming.edit.StreamingCopyHelper.DEFAULT_BUFFER_SIZE,
                         this::isCancelled,
                         (copied, total) -> publishProgress(copied));

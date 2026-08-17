@@ -87,6 +87,49 @@ public class StreamingSearchWidgetTest {
         }
     }
 
+    /**
+     * Regression test: a background streaming search thread was only ever cancelled by an empty
+     * query, closing the Activity, or starting another search on the SAME file. If the user
+     * opened a DIFFERENT file while a search on the previous file was still in flight, the stale
+     * search's generation token was never invalidated, so a late hit could still call
+     * goToStreamingOffset() and jump the now-unrelated new file to an offset that has nothing to
+     * do with it. ActMain#setFileData() now bumps the generation on every file switch.
+     */
+    @Test
+    public void openingDifferentFile_whileSearchInFlight_doesNotNavigateNewFile() {
+        long size = AppConstants.MAX_NORMAL_FILE_SIZE + 1;
+        try (ActivityScenario<ActMain> scenario = ActivityScenario.launch(ActMain.class)) {
+            Uri fileA = StreamingTestContentProvider.uri("slowpipe", "switch-a.bin", size);
+            scenario.onActivity(activity -> activity.getLauncherOpen().processFileOpen(
+                    new FileData(activity, fileA, false), null, false));
+            waitForWindowContaining(scenario, 0L, 45_000L);
+
+            scenario.onActivity(activity -> activity.doSearch("late-target"));
+            // Give the slow background search a moment to actually start before switching files.
+            SystemClock.sleep(200L);
+
+            Uri fileB = StreamingTestContentProvider.uri("slowpipe", "switch-b.bin", size);
+            scenario.onActivity(activity -> activity.getLauncherOpen().processFileOpen(
+                    new FileData(activity, fileB, false), null, false));
+            waitForWindowContaining(scenario, 0L, 45_000L);
+            scenario.onActivity(activity -> assertEquals(
+                    "File B must be the active file right after opening it", fileB,
+                    activity.getFileData().getUri()));
+
+            // File A's slow search (~size/8KB milliseconds) has plenty of time to finish here.
+            long deadline = SystemClock.elapsedRealtime() + 15_000L;
+            while (SystemClock.elapsedRealtime() < deadline) {
+                scenario.onActivity(activity -> {
+                    assertEquals("A stale search from the previous file must not switch files back",
+                            fileB, activity.getFileData().getUri());
+                    assertEquals("A stale search from the previous file must not move the window",
+                            0L, activity.getFileData().getStartOffset());
+                });
+                SystemClock.sleep(200L);
+            }
+        }
+    }
+
     private static ActivityScenario<ActMain> open(File file, long size) {
         ActivityScenario<ActMain> scenario = ActivityScenario.launch(ActMain.class);
         scenario.onActivity(activity -> activity.getLauncherOpen().processFileOpen(

@@ -37,6 +37,7 @@ public class FileData {
     private boolean mIsSizeUnknown;
     private int mShiftOffset;
     private boolean mStreaming;
+    private byte[] mStreamingWindowOriginal;
 
     public FileData(final Context ctx,
                     final Uri uri,
@@ -238,6 +239,25 @@ public class FileData {
         }
         mStreaming = true;
         setOffsets(startOffset, endOffset, true);
+        // The resident window changed; any previously captured snapshot no longer applies.
+        mStreamingWindowOriginal = null;
+    }
+
+    /**
+     * Captures the on-disk bytes of the currently resident streaming window at load time, so a
+     * later save can detect external changes made at any point during the edit session rather
+     * than only in the instant right before the save copy starts.
+     */
+    public void setStreamingWindowOriginal(byte[] original) {
+        mStreamingWindowOriginal = original == null ? null : original.clone();
+    }
+
+    /**
+     * Returns the snapshot captured by {@link #setStreamingWindowOriginal(byte[])}, or {@code null}
+     * if none was captured for the current window.
+     */
+    public byte[] getStreamingWindowOriginal() {
+        return mStreamingWindowOriginal == null ? null : mStreamingWindowOriginal.clone();
     }
 
     /**

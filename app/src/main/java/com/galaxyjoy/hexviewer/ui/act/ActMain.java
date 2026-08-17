@@ -974,6 +974,9 @@ public class ActMain extends ActAbstractBaseMain implements AdapterView.OnItemCl
      * @param fd FileData
      */
     public void setFileData(FileData fd) {
+        // Invalidate any in-flight streaming search bound to the previous file so a
+        // stale hit can't land on an offset in the newly opened file.
+        mStreamingSearchGeneration.incrementAndGet();
         mFileData = fd;
     }
 

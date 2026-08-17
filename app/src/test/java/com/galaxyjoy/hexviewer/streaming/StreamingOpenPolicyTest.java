@@ -24,4 +24,16 @@ public class StreamingOpenPolicyTest {
     public void rejectsNegativeThreshold() {
         new StreamingOpenPolicy(-1);
     }
+
+    /**
+     * Regression test: DEFAULT_FULL_OPEN_LIMIT used to hardcode its own "30L * 1024 * 1024"
+     * literal instead of referencing AppConstants.MAX_NORMAL_FILE_SIZE (the threshold the real
+     * open path in TaskOpen actually uses), so the two could silently drift apart. Now
+     * DEFAULT_FULL_OPEN_LIMIT is defined in terms of AppConstants.MAX_NORMAL_FILE_SIZE.
+     */
+    @Test
+    public void defaultLimitMatchesAppConstantsSharedThreshold() {
+        assertEquals(com.galaxyjoy.hexviewer.constants.AppConstants.MAX_NORMAL_FILE_SIZE,
+                StreamingOpenPolicy.DEFAULT_FULL_OPEN_LIMIT);
+    }
 }

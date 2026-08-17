@@ -63,6 +63,77 @@ public class FileDataTest {
     }
 
     /**
+     * Boundary test: setResolvedRealSize() applies the same 30 MiB threshold as
+     * StreamingOpenPolicy (independently hardcoded as AppConstants.MAX_NORMAL_FILE_SIZE).
+     * At exactly the threshold, the file must resolve to non-streaming (FULL open).
+     */
+    @Test
+    public void should_ResolveAtExactlyThirtyMiBAsNonStreaming() {
+        FileData fileData = FileData.restoreStreaming(context, testUri, false);
+
+        fileData.setResolvedRealSize(30L * 1024L * 1024L);
+
+        assertFalse("Exactly 30 MiB must not be streaming (matches StreamingOpenPolicy's <=)",
+                fileData.isStreaming());
+        assertEquals(30L * 1024L * 1024L, fileData.getRealSize());
+    }
+
+    @Test
+    public void should_ResolveOneByteUnderThirtyMiBAsNonStreaming() {
+        FileData fileData = FileData.restoreStreaming(context, testUri, false);
+
+        fileData.setResolvedRealSize(30L * 1024L * 1024L - 1L);
+
+        assertFalse(fileData.isStreaming());
+    }
+
+    @Test
+    public void should_ResolveOneByteOverThirtyMiBAsStreaming() {
+        FileData fileData = FileData.restoreStreaming(context, testUri, false);
+
+        fileData.setResolvedRealSize(30L * 1024L * 1024L + 1L);
+
+        assertTrue(fileData.isStreaming());
+    }
+
+    /**
+     * Regression test for an empty (0-byte) unknown-size streaming source: e.g. a
+     * non-seekable content:// pipe that resolves to 0 bytes after spooling. After
+     * setStreamingWindow(0, 0), the file must remain streaming with an empty,
+     * non-sequential resident window (start == end == 0) rather than becoming
+     * inconsistent between isStreaming()/isSequential().
+     */
+    @Test
+    public void should_KeepEmptyStreamingWindowConsistent_When_ResolvedSizeIsZero() {
+        FileData fileData = FileData.restoreStreaming(context, testUri, false);
+
+        fileData.setResolvedRealSize(0L);
+        fileData.setStreamingWindow(0L, 0L);
+
+        assertTrue("setStreamingWindow must force streaming mode even for a 0-byte window",
+                fileData.isStreaming());
+        assertFalse("A [0,0) window is not sequential; Save must detect this and refuse "
+                + "in-place save with a clear error rather than silently no-op saving",
+                fileData.isSequential());
+        assertEquals(0L, fileData.getSize());
+        assertEquals(0L, fileData.getRealSize());
+    }
+
+    @Test
+    public void should_ForceStreamingTrue_When_SetStreamingWindowCalledRegardlessOfSize() {
+        // setStreamingWindow() unconditionally forces mStreaming = true, even if a prior
+        // setResolvedRealSize() call had just turned it false because the resolved size
+        // was small. This is what keeps windowed scrolling working for originally
+        // unknown-size sources that turn out to be small.
+        FileData fileData = FileData.restoreStreaming(context, testUri, false);
+
+        fileData.setResolvedRealSize(10L); // turns mStreaming false internally
+        fileData.setStreamingWindow(0L, 10L);
+
+        assertTrue(fileData.isStreaming());
+    }
+
+    /**
      * Test FileData creation with offset parameters.
      */
     @Test
@@ -351,5 +422,79 @@ public class FileDataTest {
         // Both values are valid depending on the test environment
         assertTrue("Both flags should be boolean", notFound || !notFound);
         assertTrue("Both flags should be boolean", accessError || !accessError);
+    }
+
+    /**
+     * The window-load snapshot is what widens TaskSave's conflict detection to the whole edit
+     * session instead of only the instant right before the save copy starts (see TaskSave
+     * #saveStreamingCopy). getStreamingWindowOriginal() must return exactly what was captured.
+     */
+    @Test
+    public void should_ReturnCapturedSnapshot_When_StreamingWindowOriginalSet() {
+        FileData fileData = FileData.restoreStreaming(context, testUri, false);
+        fileData.setResolvedRealSize(1024L * 1024L);
+        fileData.setStreamingWindow(0L, 512L);
+        byte[] captured = {1, 2, 3, 4, 5};
+
+        fileData.setStreamingWindowOriginal(captured);
+
+        assertArrayEquals(captured, fileData.getStreamingWindowOriginal());
+    }
+
+    /** getStreamingWindowOriginal() must defensively copy so callers can't corrupt SDK state. */
+    @Test
+    public void should_ReturnDefensiveCopy_When_StreamingWindowOriginalRead() {
+        FileData fileData = FileData.restoreStreaming(context, testUri, false);
+        fileData.setResolvedRealSize(1024L * 1024L);
+        fileData.setStreamingWindow(0L, 512L);
+        fileData.setStreamingWindowOriginal(new byte[]{1, 2, 3});
+
+        byte[] first = fileData.getStreamingWindowOriginal();
+        first[0] = (byte) 99;
+
+        assertEquals("Mutating a returned snapshot must not affect the stored copy",
+                1, fileData.getStreamingWindowOriginal()[0]);
+    }
+
+    /** setStreamingWindowOriginal() must clone its input too, not alias the caller's array. */
+    @Test
+    public void should_NotAliasCallerArray_When_StreamingWindowOriginalSet() {
+        FileData fileData = FileData.restoreStreaming(context, testUri, false);
+        fileData.setResolvedRealSize(1024L * 1024L);
+        fileData.setStreamingWindow(0L, 512L);
+        byte[] source = {1, 2, 3};
+
+        fileData.setStreamingWindowOriginal(source);
+        source[0] = (byte) 99;
+
+        assertEquals("Mutating the caller's array after the call must not affect the stored copy",
+                1, fileData.getStreamingWindowOriginal()[0]);
+    }
+
+    @Test
+    public void should_ReturnNull_When_StreamingWindowOriginalNeverSet() {
+        FileData fileData = FileData.restoreStreaming(context, testUri, false);
+        fileData.setResolvedRealSize(1024L * 1024L);
+        fileData.setStreamingWindow(0L, 512L);
+
+        assertNull(fileData.getStreamingWindowOriginal());
+    }
+
+    /**
+     * Regression test for the fix: re-selecting the streaming window (e.g. the user scrolls to a
+     * different part of a large file) must drop the stale snapshot so a later save can't compare
+     * the new window's bytes against a snapshot that was captured for a different byte range.
+     */
+    @Test
+    public void should_ClearSnapshot_When_StreamingWindowChangesAgain() {
+        FileData fileData = FileData.restoreStreaming(context, testUri, false);
+        fileData.setResolvedRealSize(1024L * 1024L);
+        fileData.setStreamingWindow(0L, 512L);
+        fileData.setStreamingWindowOriginal(new byte[]{1, 2, 3});
+
+        fileData.setStreamingWindow(512L, 1024L);
+
+        assertNull("Moving the window must invalidate the previous window's snapshot",
+                fileData.getStreamingWindowOriginal());
     }
 }

@@ -1,8 +1,10 @@
 package com.galaxyjoy.hexviewer.streaming;
 
+import com.galaxyjoy.hexviewer.constants.AppConstants;
+
 /** Chooses a bounded-memory open mode from source metadata. */
 public final class StreamingOpenPolicy {
-    public static final long DEFAULT_FULL_OPEN_LIMIT = 30L * 1024L * 1024L;
+    public static final long DEFAULT_FULL_OPEN_LIMIT = AppConstants.MAX_NORMAL_FILE_SIZE;
 
     public enum Mode {
         FULL,
