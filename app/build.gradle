@@ -37,8 +37,8 @@ android {
         //noinspection EditedTargetSdkVersion
         targetSdk 36
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        versionCode 20260816
-        versionName '2026.08.16'
+        versionCode 20260817
+        versionName '2026.08.17'
         vectorDrawables {
             useSupportLibrary true
         }
